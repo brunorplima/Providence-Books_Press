@@ -43,7 +43,6 @@ export interface User {
 
 export interface Product {
    _id: string,
-   _categoryId: string,
    name: string,
    description: string,
    price: number
@@ -59,6 +58,10 @@ export interface Product {
 export interface Book extends Product {
    _publisherId: string,
    _authorIds: string[] | string,
+   _categoryId: string,
+   publisher: string,
+   category: string,
+   author: string,
    subtitle?: string,
    isbn: string,
    publicationYear: number
