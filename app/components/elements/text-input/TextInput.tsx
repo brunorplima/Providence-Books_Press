@@ -15,7 +15,7 @@ const TextInput: React.FC<Props> = ({ type, name, value, placeholder, changeHand
          name={name}
          value={value}
          placeholder={placeholder}
-         onChange={e => changeHandler(e)}
+         onChange={e => changeHandler(e.currentTarget.value)}
       />
    )
 }
