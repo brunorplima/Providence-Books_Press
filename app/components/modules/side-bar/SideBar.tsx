@@ -2,14 +2,20 @@ import React, { Component } from 'react'
 import SearchField from '../../elements/search-field/SearchField'
 import FilterBox from '../../elements/filter-box/FilterBox'
 import Frame from '../../layouts/Frame';
+import styles from '../../../styles/side-bar/side-bar.module.css'
 
 interface Props {
+   search: string,
+   setSearch: (value: string) => void,
    categories: string[],
    checkedCategories: string[],
+   setCheckedCategories: (categories: string[]) => void,
    authors: string[],
    checkedAuthors: string[],
-   publishers: string[]
-   checkedPublishers: string[]
+   setCheckedAuthors: (author: string[]) => void,
+   publishers: string[],
+   checkedPublishers: string[],
+   setCheckedPublishers: (publisher: string[]) => void
 }
 
 export class Sidebar extends Component<Props> {
@@ -20,12 +26,17 @@ export class Sidebar extends Component<Props> {
 
    render() {
       const {
+         search,
+         setSearch,
          categories,
          checkedCategories,
+         setCheckedCategories,
          authors,
          checkedAuthors,
+         setCheckedAuthors,
          publishers,
-         checkedPublishers
+         checkedPublishers,
+         setCheckedPublishers
       } = this.props;
 
       const frameStyle = {
@@ -33,12 +44,27 @@ export class Sidebar extends Component<Props> {
       }
 
       return (
-         <div className='search-bar'>
+         <div className={styles.sideBar}>
             <Frame style={frameStyle}>
-               <SearchField value='' placeholder='' changeHandler={() => { }} isGlobalSearch={false}/>
-               <FilterBox boxTitle='CATEGORY' optionsList={categories} optionsChecked={checkedCategories} />
-               <FilterBox boxTitle='AUTHOR' optionsList={authors} optionsChecked={checkedAuthors} />
-               <FilterBox boxTitle='PUBLISHER' optionsList={publishers} optionsChecked={checkedPublishers} />
+               <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false}/>
+               <FilterBox 
+                  boxTitle='CATEGORY'
+                  optionsList={categories}
+                  optionsChecked={checkedCategories}
+                  setCheckedList={setCheckedCategories}
+               />
+               <FilterBox
+                  boxTitle='AUTHOR'
+                  optionsList={authors}
+                  optionsChecked={checkedAuthors}
+                  setCheckedList={setCheckedAuthors}
+               />
+               <FilterBox
+                  boxTitle='PUBLISHER'
+                  optionsList={publishers}
+                  optionsChecked={checkedPublishers}
+                  setCheckedList={setCheckedPublishers}
+               />
             </Frame>
          </div>
       )
