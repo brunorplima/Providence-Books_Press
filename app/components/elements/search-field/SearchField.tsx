@@ -3,7 +3,7 @@ import TextInput from '../text-input/TextInput'
 
 interface Props {
    value: string,
-   placeholder: string,
+   placeholder?: string,
    changeHandler: Function,
    isGlobalSearch: boolean
 }
@@ -19,9 +19,9 @@ const SearchField: React.FC<Props> = ({ value, placeholder, changeHandler, isGlo
             type='text'
             name='search-field-input'
             value={value}
-            placeholder={isGlobalSearch ? placeholder : 'SEARCH'}
+            placeholder={isGlobalSearch ? (placeholder ? placeholder : '') : 'SEARCH'}
             changeHandler={changeHandler}
-            />
+         />
       </div>
    )
 }
