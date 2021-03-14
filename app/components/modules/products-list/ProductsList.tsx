@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
-import Pagination from '../../elements/pagination/Pagination'
+import Product from '../../../interfaces-objects/Product';
+import Book from '../../../interfaces-objects/Book';
 import ProductItem from '../../elements/product-item/ProductItem'
 import Frame from '../../layouts/Frame'
-import data from './data.json'
 
-// interface Props {
-//    data: any
-// }
+interface Props {
+   products: Product[]
+}
 
-export class ProductsList extends Component {
+export class ProductsList extends Component<Props> {
 
 
    render() {
-      const innerFrame = {
+      const { products } = this.props;
+
+      const frameStyle = {
          padding: 10,
          display: 'flex',
          flexWrap: 'wrap'
@@ -23,23 +25,22 @@ export class ProductsList extends Component {
       }
       return (
          <Frame style={{}}>
-            <Frame style={innerFrame}>
+            <Frame style={frameStyle}>
                {
-                  data.map((val, i) => {
-                     if (i >= 15) return null;
-                     return <ProductItem
-                        key={val.productId}
-                        productId={val.productId}
-                        author={val.author}
-                        name={val.name}
-                        price={val.price}
-                        addToBookshelf={() => { }}
-                     />
+                  products.map((product, i) => {
+                     return (
+                        <ProductItem
+                           key={product._id}
+                           productId={product._id}
+                           images={product.images}
+                           authors={(product as Book).authors}
+                           name={product.name}
+                           price={product.price}
+                           addToBookshelf={() => { }}
+                        />
+                     )
                   })
                }
-            </Frame>
-            <Frame style={{...innerFrame, justifyContent: 'end'}}>
-               <Pagination />
             </Frame>
          </Frame>
       )
