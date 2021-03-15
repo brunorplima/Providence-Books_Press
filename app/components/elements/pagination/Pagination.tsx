@@ -1,13 +1,27 @@
 import React from 'react'
 
-const Pagination = () => {
+interface Props {
+   pagination: number,
+   options: number[],
+   setPagination: (pageNumber: number) => void
+}
+
+const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => {
    return (
-      <div style={{display: 'flex'}}>
-         <div>1</div>
-         <div>2</div>
-         <div>3</div>
-         <div>...</div>
-         <div>8</div>
+      <div style={{ display: 'flex' }}>
+         {
+            options.map((option, idx) => {
+               return (
+                  <div 
+                     key={option + idx}
+                     onClick={() => setPagination(option)}
+                     style={pagination === option ? {textDecoration: 'underline'} : {}}
+                  >
+                     {option}
+                  </div>
+               )
+            })
+         }
       </div>
    )
 }
