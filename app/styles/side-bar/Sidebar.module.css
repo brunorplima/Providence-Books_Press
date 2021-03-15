@@ -1,0 +1,10 @@
+.sideBar {
+   color: rgb(62, 62, 62);
+   display: none;
+}
+
+@media screen and (min-width: 768px) {
+   .sideBar {
+      display: block;
+   }
+}

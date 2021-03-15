@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import SearchField from '../../elements/search-field/SearchField'
 import FilterBox from '../../elements/filter-box/FilterBox'
 import Frame from '../../layouts/Frame';
-import styles from '../../../styles/side-bar/side-bar.module.css'
+import styles from '../../../styles/side-bar/Sidebar.module.css'
 
 interface Props {
    search: string,
