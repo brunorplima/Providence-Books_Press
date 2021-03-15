@@ -32,7 +32,6 @@ const CheckboxInput: React.FC<Props> = ({ id, option, optionsChecked, setChecked
       <input
          type='checkbox'
          id={id}
-         defaultChecked={checked}
          onChange={() => setChecked(!checked)}
          checked={checked}
       />
