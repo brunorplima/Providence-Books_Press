@@ -1,6 +1,7 @@
 import React from 'react'
 
 interface Props {
+   className: string,
    type: string,
    name: string,
    value: string,
@@ -8,9 +9,10 @@ interface Props {
    changeHandler: Function
 }
 
-const TextInput: React.FC<Props> = ({ type, name, value, placeholder, changeHandler }) => {
+const TextInput: React.FC<Props> = ({ className, type, name, value, placeholder, changeHandler }) => {
    return (
       <input
+         className={className}
          type={type}
          name={name}
          value={value}
