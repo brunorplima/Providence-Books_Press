@@ -3,6 +3,7 @@ import SearchField from '../../elements/search-field/SearchField'
 import FilterBox from '../../elements/filter-box/FilterBox'
 import Frame from '../../layouts/Frame';
 import styles from '../../../styles/side-bar/Sidebar.module.css'
+import globalStyles from '../../../styles/globals.module.css'
 
 interface Props {
    search: string,
@@ -40,13 +41,14 @@ export class Sidebar extends Component<Props> {
       } = this.props;
 
       const frameStyle = {
-         
+         paddingLeft: '1rem'
       }
 
       return (
-         <div className={styles.sideBar}>
+         <div className={`${styles.sideBar} ${globalStyles.yellowFont}`}>
             <Frame style={frameStyle}>
                <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false}/>
+            </Frame>
                <FilterBox 
                   boxTitle='CATEGORY'
                   optionsList={categories}
@@ -65,7 +67,6 @@ export class Sidebar extends Component<Props> {
                   optionsChecked={checkedPublishers}
                   setCheckedList={setCheckedPublishers}
                />
-            </Frame>
          </div>
       )
    }
