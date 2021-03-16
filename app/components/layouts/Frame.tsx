@@ -1,12 +1,13 @@
 import React from 'react'
 
 interface Props {
-   style: Object,
+   style?: Object,
+   className?: string
 }
 
-const Frame: React.FC<Props> = ({ style, children }) => {
+const Frame: React.FC<Props> = ({ style, className, children }) => {
    return (
-      <div style={style}>
+      <div className={className} style={style}>
          {children}
       </div>
    )
