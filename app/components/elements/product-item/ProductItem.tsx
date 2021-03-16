@@ -24,20 +24,27 @@ const ProductItem: React.FC<Props> = ({
 
    return (
       <div className={styles.container}>
-         <div style={{}}>
+         <div className={styles.linkContainer}>
             <Link href='#'>
-               <a>
+               <a className={styles.infoContainer}>
                   {/* {price > 40 && price < 70 && <ProductItemFlag flag='NEW' />} */}
-                  <img 
-                     src={images[0]}
-                     style={{maxWidth: '165px'}}
+                  <div>
+                     <img
+                        src={images[0]}
+                        style={{ maxWidth: '165px' }}
                      />
-                  <p>{authors}</p>
-                  <h2>{name}</h2>
+                     <div className={styles.author}>{authors.toUpperCase()}</div>
+                  </div>
+                  <h2>{name.toUpperCase()}</h2>
+
+                  <div style={{ flex: 1 }}></div>
+                  
                   <p>$ {price.toFixed(2)}</p>
                </a>
             </Link>
          </div>
+
+         <div style={{ flex: 1 }}></div>
 
          <div>
             <AddToBookshelfButton clickHandler={() => addToBookshelf(productId)} />
