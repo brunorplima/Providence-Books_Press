@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../../../styles/elements/Pagination.module.css'
 
 interface Props {
    pagination: number,
@@ -12,10 +13,11 @@ const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => 
          {
             options.map((option, idx) => {
                return (
-                  <div 
-                     key={option + idx}
+                  <div
+                     key={`${option}-${idx}`}
+                     className={idx !== 3 ? styles.paginationNumber : styles.paginationNumber + ' ' + styles.paginationNumberLast}
                      onClick={() => setPagination(option)}
-                     style={pagination === option ? {textDecoration: 'underline'} : {}}
+                     style={pagination === option ? { backgroundColor: 'white', color: '#D7B263' } : {}}
                   >
                      {option}
                   </div>

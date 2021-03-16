@@ -1,0 +1,37 @@
+
+
+.paginationNumber {
+   width: 30px;
+   height: 30px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 100%;
+   border: 1px solid var(--mainYellow);
+   background-color: var(--mainYellow);
+   color: white;
+   margin-left: .3rem;
+   cursor: pointer;
+   user-select: none;
+   position: relative;
+}
+
+.paginationNumberLast {
+   margin-left: 2rem;
+}
+
+.paginationNumberLast:before {
+   content: '....';
+   color: var(--mainYellow);
+   position: absolute;
+   left: -2rem;
+   bottom: -.2rem;
+   font-size: 20pt;
+}
+
+.dots {
+   color: var(--mainYellow);
+   display: flex;
+   align-items: flex-end;
+   transform: translateX(.15rem);
+}
