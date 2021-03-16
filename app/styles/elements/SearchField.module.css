@@ -1,0 +1,10 @@
+.inputGeneric {
+   font-size: 11pt;
+}
+
+.inputSpecific {
+   font-size: 9pt;
+   padding: .3rem;
+   border: 2px solid #D7B263;
+   color: #D7B263;
+}
