@@ -281,7 +281,7 @@ export class Bookstore extends Component<Props, State> {
       return (
          <>
             <Head>
-               <title>Bookstore</title>
+               <title>Bookstore - Providence Books &amp; Press</title>
             </Head>
 
             <Frame style={outerFrameStyle}>
