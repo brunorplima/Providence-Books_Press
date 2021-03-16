@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../../../styles/elements/Button.module.css'
 
 interface Props {
    label: string,
@@ -7,7 +8,7 @@ interface Props {
 
 const Button: React.FC<Props> = ({ label, clickHandler }) => {
    return (
-      <button onClick={e => clickHandler(e)}>
+      <button className={styles.container} onClick={e => clickHandler(e)}>
          {label}
       </button>
    )
