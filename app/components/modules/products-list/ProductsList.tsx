@@ -1,32 +1,24 @@
 import React from 'react'
 import Product from '../../../interfaces-objects/Product';
 import HorizontalProductsList from './HorizontalProductsList'
-import Frame from '../../layouts/Frame'
 import useScreenWidth from '../../../util/useScreenWidth'
+import styles from '../../../styles/products-list/ProductsList.module.css'
 
 interface Props {
-   products: Product[],
-   nonPaginatedListLength: number
+   products: Product[]
 }
 
-const ProductsList: React.FC<Props> = ({ products, nonPaginatedListLength }) => {
+const ProductsList: React.FC<Props> = ({ products }) => {
 
    const screenWidth = useScreenWidth();
-
-   const frameStyle = {
-      padding: 10,
-      display: 'flex',
-      flexWrap: 'wrap'
-   }
 
    function numberItemsHorizontalList() {
       if (screenWidth <= 450) return 1;
       if (screenWidth <= 650) return 2;
-      if (screenWidth <= 768) return 3;
+      if (screenWidth <= 767) return 3;
       if (screenWidth <= 850) return 2;
       if (screenWidth <= 1050) return 3;
-      if (screenWidth <= 1180) return 4;
-      return 5;
+      return 4;
    }
 
    function getHorizontalLists() {
@@ -49,12 +41,9 @@ const ProductsList: React.FC<Props> = ({ products, nonPaginatedListLength }) => 
 
    return (
       <div className='products-list'>
-         <Frame style={frameStyle}>
-            <div>Showing {products.length} out of {nonPaginatedListLength}</div>
-         </Frame>
-         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+         <div className={styles.listContainer}>
             {
-               horizontalLists.map(list => <HorizontalProductsList productItems={list} />)
+               horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} />)
             }
          </div>
       </div>
