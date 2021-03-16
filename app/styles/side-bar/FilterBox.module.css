@@ -1,0 +1,16 @@
+.boxTitle {
+   text-align: center;
+   border-bottom: 10px solid #D7B263;
+   margin-bottom: .5rem;
+}
+
+.option {
+   display: flex;
+   margin-bottom: .3rem;
+}
+
+.label {
+   margin-left: .5rem;
+   font-size: 10pt;
+   transform: translateY(.1rem);
+}
