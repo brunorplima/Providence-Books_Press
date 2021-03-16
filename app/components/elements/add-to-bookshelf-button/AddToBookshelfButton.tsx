@@ -9,7 +9,7 @@ interface Props {
 const AddToBookshelfButton: React.FC<Props> = ({ clickHandler }) => {
 
    const frameStyle = {
-      padding: '.5rem',
+      padding: '.5rem 0',
       display: 'flex',
       justifyContent: 'center'
    }

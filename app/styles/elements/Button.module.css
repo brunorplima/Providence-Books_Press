@@ -1,0 +1,8 @@
+.container {
+   border: 2px solid var(--mainYellow);
+   color: var(--mainYellow);
+   padding: .3rem .7rem;
+   background-color: white;
+   user-select: none;
+   cursor: pointer;
+}
