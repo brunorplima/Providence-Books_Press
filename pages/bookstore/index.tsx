@@ -9,6 +9,7 @@ import Product from '../../app/interfaces-objects/Product'
 import Book from '../../app/interfaces-objects/Book'
 import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
+import ListInfo from '../../app/components/elements/list-info/ListInfo'
 
 interface Props {
 
@@ -34,7 +35,7 @@ export class Bookstore extends Component<Props, State> {
          checkedAuthors: [],
          checkedPublishers: [],
          pagination: 1,
-         numberPaginationView: 15
+         numberPaginationView: 16
       }
 
       this.setCheckedCategories = this.setCheckedCategories.bind(this);
@@ -208,7 +209,7 @@ export class Bookstore extends Component<Props, State> {
     * @param list 
     * @returns 
     */
-   getPaginationOptions(list: Product[]): number[] {
+   getPaginationOptions(): number[] {
       const { pagination } = this.state;
       const maxPage = this.getMaxPage();
 
@@ -223,6 +224,7 @@ export class Bookstore extends Component<Props, State> {
          }
       } else {
          const options: number[] = [];
+         
          for (let i = 1; i <= maxPage; i++) {
             options.push(i);
          }
@@ -248,22 +250,19 @@ export class Bookstore extends Component<Props, State> {
     */
    ensurePaginationIsWithinBounds() {
       const { pagination } = this.state;
-      if (pagination < 1 || pagination > this.getMaxPage()) {
-         if (pagination > this.getMaxPage()) {
+      
+      if (pagination > this.getMaxPage()) {
+         if (this.getMaxPage() > 0)
             this.setPagination(this.getMaxPage());
-
-         }
-         else {
+         else 
             this.setPagination(1);
-
-         }
       }
    }
 
 
    render() {
       const outerFrameStyle = {
-         padding: '1rem 1rem 1rem 0',
+         padding: '1rem 0',
          display: 'flex'
       };
 
@@ -299,16 +298,23 @@ export class Bookstore extends Component<Props, State> {
                   setCheckedAuthors={this.setCheckedAuthors}
                   setCheckedPublishers={this.setCheckedPublishers}
                />
-               <Frame style={{}}>
+               <Frame>
+                  <ListInfo 
+                     paginatedListLength={paginatedSearchedFilteredList.length}
+                     nonPaginatedListLength={searchedFilteredList.length}
+                     pagination={this.state.pagination}
+                     options={this.getPaginationOptions()}
+                     setPagination={this.setPagination}
+                  />
+
                   <ProductsList 
                      products={paginatedSearchedFilteredList}
-                     nonPaginatedListLength={searchedFilteredList.length}
                   />
 
                   <Frame style={{ ...paginationFrame, justifyContent: 'end' }}>
                      <Pagination
                         pagination={this.state.pagination}
-                        options={this.getPaginationOptions(searchedFilteredList)}
+                        options={this.getPaginationOptions()}
                         setPagination={this.setPagination}
                      />
                   </Frame>
