@@ -1,3 +1,8 @@
 .container {
    display: flex;
+   width: 95%;
+   justify-content: space-evenly;
+   padding-bottom: 2rem;
+   border-bottom: 1px solid #D7B263;
+   margin-bottom: 3rem;
 }
