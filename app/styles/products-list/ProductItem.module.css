@@ -1,31 +1,29 @@
 .container {
    display: flex;
    flex-direction: column;
+   justify-content: space-between;
+   align-content: stretch;
    padding: .2rem;
    margin: 5px;
    width: 200px;
 }
 
-/* .linkContainer {
-   
+.linkContainer {
+   display: flex;
+   flex: 1;
 }
-
-.linkContainer :hover {
-   
-} */
 
 .infoContainer {
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
    flex: 1;
+   position: relative;
 }
-.infoContainer :hover {
-   background-color: none;
+.infoContainer:hover > h2 {
+   color: var(--mainYellow);
 }
 .infoContainer p {
-   font-weight: bold;
    font-size: 11pt;
    font-style: italic;
 }
@@ -38,4 +36,41 @@
 .author {
    font-size: 10pt;
    color: #666;
+}
+
+
+
+
+
+.flag {
+   position: absolute;
+   top: -.6rem;
+   right: -.4rem;
+   background-color: rgba(255, 0, 0, .5);
+   width: 60px;
+   height: 25.5px;
+   color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.triangleTopLeft {
+   position: absolute;
+   top: 0;
+   right: -13px;
+   width: 0;
+   height: 0;
+   border-top: 13px solid rgba(255, 0, 0, .5);
+   border-right: 13px solid transparent;
+}
+
+.triangleBottomLeft {
+   position: absolute;
+   bottom: 0;
+   right: -13px;
+   width: 0;
+   height: 0;
+   border-bottom: 13px solid rgba(255, 0, 0, .5);
+   border-right: 13px solid transparent;
 }
