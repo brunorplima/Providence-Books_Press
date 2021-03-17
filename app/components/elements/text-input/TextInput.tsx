@@ -17,6 +17,7 @@ const TextInput: React.FC<Props> = ({ className, type, name, value, placeholder,
          name={name}
          value={value}
          placeholder={placeholder}
+         style={value ? {color: 'black'} : {}}
          onChange={e => changeHandler(e.currentTarget.value)}
       />
    )
