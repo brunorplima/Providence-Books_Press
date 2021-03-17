@@ -23,6 +23,7 @@ const HorizontalProductsList: React.FC<Props> = ({ productItems }) => {
                      authors={(product as Book | EBook | AudioBook).authors}
                      name={product.name}
                      price={product.price}
+                     flag={product.flag}
                      addToBookshelf={() => { }}
                   />
                )
