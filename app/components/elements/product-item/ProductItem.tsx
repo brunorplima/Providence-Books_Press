@@ -10,6 +10,7 @@ interface Props {
    authors: string | null,
    name: string,
    price: number,
+   flag: string,
    addToBookshelf: Function
 }
 
@@ -19,6 +20,7 @@ const ProductItem: React.FC<Props> = ({
    authors,
    name,
    price,
+   flag,
    addToBookshelf
 }) => {
 
@@ -27,7 +29,7 @@ const ProductItem: React.FC<Props> = ({
          <div className={styles.linkContainer}>
             <Link href='#'>
                <a className={styles.infoContainer}>
-                  {/* {price > 40 && price < 70 && <ProductItemFlag flag='NEW' />} */}
+                  <ProductItemFlag flag={flag.toUpperCase()} />
                   <div>
                      <img
                         src={images[0]}
@@ -43,8 +45,6 @@ const ProductItem: React.FC<Props> = ({
                </a>
             </Link>
          </div>
-
-         <div style={{ flex: 1 }}></div>
 
          <div>
             <AddToBookshelfButton clickHandler={() => addToBookshelf(productId)} />
