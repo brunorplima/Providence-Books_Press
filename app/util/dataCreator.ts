@@ -14,7 +14,7 @@ for (let i = 0; i < 215; i++) {
       type: faker.random.arrayElement(['Book', 'E-book', 'Audio book']),
       weight: faker.random.float({ min: 0.050, max: 2 }).toFixed(3),
       tags: faker.lorem.words(3).split(' '),
-      flag: faker.random.arrayElement(['new', '']),
+      flag: faker.random.arrayElement(['new', '', '', '', '', '']),
       stock: faker.random.number(500),
       providenceReview: faker.lorem.paragraph(Math.ceil(Math.random() * 2)),
       subtitle: faker.lorem.words(Math.ceil(Math.random() * 5)),
