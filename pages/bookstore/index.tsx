@@ -4,15 +4,15 @@ import Frame from '../../app/components/layouts/Frame'
 import Sidebar from '../../app/components/modules/side-bar/SideBar'
 import ProductsList from '../../app/components/modules/products-list/ProductsList'
 import Pagination from '../../app/components/elements/pagination/Pagination'
-import books from '../../app/util/dataCreator'
 import Product from '../../app/interfaces-objects/Product'
 import Book from '../../app/interfaces-objects/Book'
 import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
 import ListInfo from '../../app/components/elements/list-info/ListInfo'
+import { GetServerSideProps } from 'next'
 
 interface Props {
-
+   products: Product[]
 }
 
 interface State {
@@ -110,14 +110,15 @@ export class Bookstore extends Component<Props, State> {
     * @returns Filters for category, author and publisher
     */
    getFilters() {
-      const products = books;
+      const { products } = this.props;
       const categories: string[] = [];
       const authors: string[] = [];
       const publishers: string[] = [];
       products.forEach(product => {
-         if (!categories.includes(product.category)) categories.push(product.category);
-         if (!authors.includes(product.authors)) authors.push(product.authors);
-         if (!publishers.includes(product.publisher)) publishers.push(product.publisher);
+         const prod = product as Book | EBook | AudioBook;
+         if (!categories.includes(prod.category)) categories.push(prod.category);
+         if (!authors.includes(prod.authors)) authors.push(prod.authors);
+         if (!publishers.includes(prod.publisher)) publishers.push(prod.publisher);
       })
       return { categories, authors, publishers };
    }
@@ -181,8 +182,8 @@ export class Bookstore extends Component<Props, State> {
     * @param paginated 
     * @returns 
     */
-   populateProcessedList(list: Product[], paginated: boolean): Product[] {
-      const filteredList = this.applyFilterToList(books)
+   populateProcessedList(paginated: boolean): Product[] {
+      const filteredList = this.applyFilterToList(this.props.products)
       const searchedFilteredList = this.applySearchToList(filteredList);
 
       if (!paginated) return searchedFilteredList;
@@ -200,7 +201,7 @@ export class Bookstore extends Component<Props, State> {
     */
    getMaxPage() {
       const { numberPaginationView } = this.state;
-      return Math.ceil(this.populateProcessedList(books, false).length / numberPaginationView);
+      return Math.ceil(this.populateProcessedList(false).length / numberPaginationView);
    }
 
 
@@ -224,7 +225,7 @@ export class Bookstore extends Component<Props, State> {
          }
       } else {
          const options: number[] = [];
-         
+
          for (let i = 1; i <= maxPage; i++) {
             options.push(i);
          }
@@ -250,11 +251,11 @@ export class Bookstore extends Component<Props, State> {
     */
    ensurePaginationIsWithinBounds() {
       const { pagination } = this.state;
-      
+
       if (pagination > this.getMaxPage()) {
          if (this.getMaxPage() > 0)
             this.setPagination(this.getMaxPage());
-         else 
+         else
             this.setPagination(1);
       }
    }
@@ -272,9 +273,9 @@ export class Bookstore extends Component<Props, State> {
          flexWrap: 'wrap'
       }
 
-      const searchedFilteredList = this.populateProcessedList(books, false);
+      const searchedFilteredList = this.populateProcessedList(false);
 
-      const paginatedSearchedFilteredList = this.populateProcessedList(books, true);
+      const paginatedSearchedFilteredList = this.populateProcessedList(true);
 
       const { categories, authors, publishers } = this.getFilters();
 
@@ -299,7 +300,7 @@ export class Bookstore extends Component<Props, State> {
                   setCheckedPublishers={this.setCheckedPublishers}
                />
                <Frame>
-                  <ListInfo 
+                  <ListInfo
                      paginatedListLength={paginatedSearchedFilteredList.length}
                      nonPaginatedListLength={searchedFilteredList.length}
                      pagination={this.state.pagination}
@@ -307,7 +308,7 @@ export class Bookstore extends Component<Props, State> {
                      setPagination={this.setPagination}
                   />
 
-                  <ProductsList 
+                  <ProductsList
                      products={paginatedSearchedFilteredList}
                   />
 
@@ -323,6 +324,18 @@ export class Bookstore extends Component<Props, State> {
 
          </>
       )
+   }
+}
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+   const res = await fetch('http://localhost:3000/api/products');
+   const products = await res.json() as Product[];
+
+   return {
+      props: {
+         products
+      }
    }
 }
 
