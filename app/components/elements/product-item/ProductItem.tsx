@@ -11,7 +11,8 @@ interface Props {
    name: string,
    price: number,
    flag: string,
-   addToBookshelf: Function
+   addToBookshelf: Function,
+   subtitle?: string
 }
 
 const ProductItem: React.FC<Props> = ({
@@ -21,13 +22,14 @@ const ProductItem: React.FC<Props> = ({
    name,
    price,
    flag,
-   addToBookshelf
+   addToBookshelf,
+   subtitle
 }) => {
 
    return (
       <div className={styles.container}>
          <div className={styles.linkContainer}>
-            <Link href='#'>
+            <Link href={'/product/' + productId}>
                <a className={styles.infoContainer}>
                   <ProductItemFlag flag={flag.toUpperCase()} />
                   <div>
@@ -38,6 +40,10 @@ const ProductItem: React.FC<Props> = ({
                      <div className={styles.author}>{authors.toUpperCase()}</div>
                   </div>
                   <h2>{name.toUpperCase()}</h2>
+
+                  {
+                     subtitle && <div className={styles.subtitle}>{subtitle.toUpperCase()}</div>
+                  }
 
                   <div style={{ flex: 1 }}></div>
                   
