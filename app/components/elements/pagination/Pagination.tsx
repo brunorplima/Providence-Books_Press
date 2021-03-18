@@ -8,6 +8,12 @@ interface Props {
 }
 
 const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => {
+
+   function handleClick(option: number) {
+      setPagination(option);
+      window.scroll(0,0)
+   }
+
    return (
       <div style={{ display: 'flex' }}>
          {
@@ -16,7 +22,7 @@ const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => 
                   <div
                      key={`${option}-${idx}`}
                      className={idx !== 3 ? styles.paginationNumber : styles.paginationNumber + ' ' + styles.paginationNumberLast}
-                     onClick={() => setPagination(option)}
+                     onClick={() => handleClick(option)}
                      style={pagination === option ? { backgroundColor: 'white', color: '#D7B263' } : {}}
                   >
                      {option}
