@@ -10,9 +10,10 @@ import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
 import ListInfo from '../../app/components/elements/list-info/ListInfo'
 import { GetServerSideProps } from 'next'
+import productsJSON from './products.json'
 
 interface Props {
-   products: Product[]
+   // products: Product[]
 }
 
 interface State {
@@ -110,7 +111,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns Filters for category, author and publisher
     */
    getFilters() {
-      const { products } = this.props;
+      const products = productsJSON as Product[];
       const categories: string[] = [];
       const authors: string[] = [];
       const publishers: string[] = [];
@@ -183,7 +184,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns 
     */
    populateProcessedList(paginated: boolean): Product[] {
-      const filteredList = this.applyFilterToList(this.props.products)
+      const filteredList = this.applyFilterToList(productsJSON as Product[])
       const searchedFilteredList = this.applySearchToList(filteredList);
 
       if (!paginated) return searchedFilteredList;
@@ -328,15 +329,15 @@ export class Bookstore extends Component<Props, State> {
 }
 
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-   const res = await fetch('http://localhost:3000/api/products');
-   const products = await res.json() as Product[];
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//    const res = await fetch('http://localhost:3000/api/products');
+//    const products = await res.json() as Product[];
 
-   return {
-      props: {
-         products
-      }
-   }
-}
+//    return {
+//       props: {
+//          products
+//       }
+//    }
+// }
 
 export default Bookstore
