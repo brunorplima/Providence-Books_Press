@@ -13,4 +13,6 @@
    margin-left: .5rem;
    font-size: 10pt;
    transform: translateY(.1rem);
+   cursor: pointer;
+   user-select: none;
 }
