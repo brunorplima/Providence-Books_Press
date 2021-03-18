@@ -5,4 +5,10 @@
    background-color: white;
    user-select: none;
    cursor: pointer;
+   transition: .25s;
+}
+
+.container:hover {
+   background-color: var(--mainYellow);
+   color: white;
 }
