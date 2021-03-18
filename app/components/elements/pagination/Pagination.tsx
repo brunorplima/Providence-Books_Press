@@ -23,7 +23,7 @@ const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => 
                      key={`${option}-${idx}`}
                      className={idx !== 3 ? styles.paginationNumber : styles.paginationNumber + ' ' + styles.paginationNumberLast}
                      onClick={() => handleClick(option)}
-                     style={pagination === option ? { backgroundColor: 'white', color: '#D7B263' } : {}}
+                     style={pagination === option ? { backgroundColor: 'white', color: '#D7B263', cursor: 'default' } : {}}
                   >
                      {option}
                   </div>
