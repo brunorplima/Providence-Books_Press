@@ -2,13 +2,15 @@ import React from 'react'
 import Product from '../../../interfaces-objects/Product';
 import HorizontalProductsList from './HorizontalProductsList'
 import useScreenWidth from '../../../util/useScreenWidth'
+import { BiSearchAlt } from 'react-icons/bi'
 import styles from '../../../styles/products-list/ProductsList.module.css'
 
 interface Props {
-   products: Product[]
+   products: Product[],
+   setModalOpen: (value: boolean) => void
 }
 
-const ProductsList: React.FC<Props> = ({ products }) => {
+const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
 
    const screenWidth = useScreenWidth();
 
@@ -42,6 +44,8 @@ const ProductsList: React.FC<Props> = ({ products }) => {
    return (
       <div className='products-list'>
          <div className={styles.listContainer}>
+            <div className={styles.openPortal} onClick={() => setModalOpen(true)}><BiSearchAlt /></div>
+
             {
                horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} />)
             }
