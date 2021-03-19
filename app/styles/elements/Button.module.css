@@ -8,7 +8,11 @@
    transition: .25s;
 }
 
-.container:hover {
-   background-color: var(--mainYellow);
-   color: white;
+
+@media screen and (min-width: 768px) {
+
+   .container:hover {
+      background-color: var(--mainYellow);
+      color: white;
+   }
 }
