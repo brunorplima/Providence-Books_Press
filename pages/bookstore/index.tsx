@@ -11,6 +11,7 @@ import AudioBook from '../../app/interfaces-objects/AudioBook'
 import ListInfo from '../../app/components/elements/list-info/ListInfo'
 import { GetServerSideProps } from 'next'
 import productsJSON from './products.json'
+import SideBarModal from '../../app/components/modules/side-bar/SideBarModal'
 
 interface Props {
    // products: Product[]
@@ -22,7 +23,8 @@ interface State {
    checkedAuthors: string[],
    checkedPublishers: string[],
    pagination: number,
-   numberPaginationView: number
+   numberPaginationView: number,
+   modalOpen: boolean
 }
 
 export class Bookstore extends Component<Props, State> {
@@ -36,7 +38,8 @@ export class Bookstore extends Component<Props, State> {
          checkedAuthors: [],
          checkedPublishers: [],
          pagination: 1,
-         numberPaginationView: 16
+         numberPaginationView: 16,
+         modalOpen: false
       }
 
       this.setCheckedCategories = this.setCheckedCategories.bind(this);
@@ -45,6 +48,7 @@ export class Bookstore extends Component<Props, State> {
       this.setSearch = this.setSearch.bind(this);
 
       this.setPagination = this.setPagination.bind(this);
+      this.setModalOpen = this.setModalOpen.bind(this);
    }
 
    componentDidMount() {
@@ -262,6 +266,11 @@ export class Bookstore extends Component<Props, State> {
    }
 
 
+   setModalOpen(value: boolean) {
+      this.setState({ modalOpen: value });
+   }
+
+
    render() {
       const outerFrameStyle = {
          padding: '1rem 0',
@@ -285,6 +294,28 @@ export class Bookstore extends Component<Props, State> {
             <Head>
                <title>Bookstore - Providence Books &amp; Press</title>
             </Head>
+
+            <SideBarModal
+               portal={{
+                  isOpen: this.state.modalOpen,
+                  setModalOpen: this.setModalOpen
+               }}
+            >
+               <Sidebar
+                  search={this.state.search}
+                  setSearch={this.setSearch}
+                  categories={categories}
+                  authors={authors}
+                  publishers={publishers}
+                  checkedCategories={this.state.checkedCategories}
+                  checkedAuthors={this.state.checkedAuthors}
+                  checkedPublishers={this.state.checkedPublishers}
+                  setCheckedCategories={this.setCheckedCategories}
+                  setCheckedAuthors={this.setCheckedAuthors}
+                  setCheckedPublishers={this.setCheckedPublishers}
+                  isPortal={true}
+               />
+            </SideBarModal>
 
             <Frame style={outerFrameStyle}>
                <Sidebar
@@ -311,6 +342,7 @@ export class Bookstore extends Component<Props, State> {
 
                   <ProductsList
                      products={paginatedSearchedFilteredList}
+                     setModalOpen={this.setModalOpen}
                   />
 
                   <Frame style={{ ...paginationFrame, justifyContent: 'end' }}>
