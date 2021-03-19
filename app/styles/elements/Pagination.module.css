@@ -17,11 +17,6 @@
    transition: .2s;
 }
 
-.paginationNumber:hover {
-   background-color: white;
-   color: var(--mainYellow);
-}
-
 .paginationNumberLast {
    margin-left: 2rem;
 }
@@ -40,4 +35,13 @@
    display: flex;
    align-items: flex-end;
    transform: translateX(.15rem);
+}
+
+
+@media screen and (min-width: 768px) {
+   
+   .paginationNumber:hover {
+      background-color: white;
+      color: var(--mainYellow);
+   }
 }
