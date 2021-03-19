@@ -3,8 +3,80 @@
    display: none;
 }
 
+.sideBarModalContainer {
+   position: fixed;
+   z-index: 3;
+   background-color: rgba(0, 0, 0, .4);
+   width: 100%;
+   transform: translateX(-100%);
+   overflow: scroll;
+}
+
+.sideBarModalContainerOpen {
+   transform: translateX(0);
+   animation: slide-in .2s ease-in;
+}
+
+.sideBarModalContainerClose {
+   transform: translateX(-100%);
+   animation: slide-out .2s ease-in;
+}
+
+.displayNone {
+   display: none;
+}
+
+@keyframes slide-in {
+   from {
+      transform: translateX(-100%);
+   }
+   to {
+      transform: translateX(0);
+   }
+}
+
+@keyframes slide-out {
+   from {
+      transform: translateX(0);
+   }
+   to {
+      transform: translateX(-100%);
+   }
+}
+
+.sideBarModal {
+   display: flex;
+   flex-direction: column;
+   background-color: white;
+   width: fit-content;
+   padding: 3rem 1rem 1rem 0;
+}
+
+.closeModal {
+   padding: .3rem;
+   background-color: var(--mainYellow);
+   color: white;
+   font-size: 16pt;
+   position: absolute;
+   top: .4rem;
+   left: .4rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+
+
 @media screen and (min-width: 768px) {
    .sideBar {
       display: block;
+   }
+
+   .sideBarModal {
+      display: none;
+   }
+
+   .sideBarModalContainer {
+      display: none;
    }
 }
