@@ -3,6 +3,24 @@
    flex-wrap: wrap;
    justify-content: center;
    padding: 0 1rem;
+   position: relative;
+}
+
+.openPortal {
+   width: 2.5rem;
+   height: 2rem;
+   background-color: var(--mainYellow);
+   color: white;
+   position: fixed;
+   left: 0;
+   font-size: 18pt;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-top-right-radius: 1rem;
+   border-bottom-right-radius: 1rem;
+   z-index: 2;
+   /* cursor: pointer; */
 }
 
 
@@ -10,5 +28,9 @@
    .listContainer {
       margin-left: 2rem;
       justify-content: flex-end;
+   }
+
+   .openPortal {
+      display: none;
    }
 }
