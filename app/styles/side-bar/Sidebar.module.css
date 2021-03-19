@@ -1,6 +1,7 @@
 .sideBar {
    min-width: 220px;
    display: none;
+   overflow-y: scroll;
 }
 
 .sideBarModalContainer {
@@ -9,7 +10,6 @@
    background-color: rgba(0, 0, 0, .4);
    width: 100%;
    transform: translateX(-100%);
-   overflow: scroll;
 }
 
 .sideBarModalContainerOpen {
@@ -50,6 +50,8 @@
    background-color: white;
    width: fit-content;
    padding: 3rem 1rem 1rem 0;
+   max-height: 100vh;
+   overflow-y: auto;
 }
 
 .closeModal {

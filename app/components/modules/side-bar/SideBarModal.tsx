@@ -1,4 +1,4 @@
-import React, { createRef, RefObject, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IoMdClose } from 'react-icons/io'
 import styles from '../../../styles/side-bar/Sidebar.module.css'
@@ -16,25 +16,44 @@ const SideBarModal: React.FC<Props> = ({
    children,
    portal
 }) => {
-   
+
    const [mounted, setMounted] = useState<boolean>(false);
-   const ref = createRef<HTMLDivElement>();
+   const [justClickedClose, setJustClickedClose] = useState(false);
 
    useEffect(() => {
       setMounted(true);
-      if (ref.current)
-         ref.current.focus();
    }, [])
 
+   useEffect(() => {
+      setTimeout(() => {
+         if (!portal.isOpen) setJustClickedClose(false)
+      }, 200);
+   }, [portal.isOpen])
+
+
+   function handleBackgroundClick(e: React.MouseEvent) {
+      if (e.currentTarget === e.target) {
+         setJustClickedClose(true);
+         portal.setModalOpen(false);
+      }
+   }
+
+
+   function handleCloseButtonClick() {
+      setJustClickedClose(true);
+      portal.setModalOpen(false);
+   }
+   
+
    return mounted ? createPortal(
-      <div 
-         ref={ref}
+      <div
          className={`
             ${styles.sideBarModalContainer} 
-            ${portal.isOpen ? styles.sideBarModalContainerOpen : ''}
+            ${portal.isOpen ? styles.sideBarModalContainerOpen : justClickedClose ? styles.sideBarModalContainerClose : ''}
          `}
+         onClick={e => handleBackgroundClick(e)}
       >
-         <div className={styles.closeModal} onClick={() => portal.setModalOpen(false)}><IoMdClose /></div>
+         <div className={styles.closeModal} onClick={handleCloseButtonClick}><IoMdClose /></div>
          {children}
       </div>,
       document.querySelector('#sidebar-modal')) : null
