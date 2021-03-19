@@ -16,7 +16,8 @@ interface Props {
    setCheckedAuthors: (author: string[]) => void,
    publishers: string[],
    checkedPublishers: string[],
-   setCheckedPublishers: (publisher: string[]) => void
+   setCheckedPublishers: (publisher: string[]) => void,
+   isPortal?: boolean
 }
 
 export class Sidebar extends Component<Props> {
@@ -37,7 +38,8 @@ export class Sidebar extends Component<Props> {
          setCheckedAuthors,
          publishers,
          checkedPublishers,
-         setCheckedPublishers
+         setCheckedPublishers,
+         isPortal
       } = this.props;
 
       const frameStyle = {
@@ -45,7 +47,7 @@ export class Sidebar extends Component<Props> {
       }
 
       return (
-         <div className={`${styles.sideBar} ${globalStyles.yellowFont}`}>
+         <div className={`${styles.sideBar} ${globalStyles.yellowFont} ${isPortal ? styles.sideBarModal : ''}`}>
             <Frame style={frameStyle}>
                <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false}/>
             </Frame>
