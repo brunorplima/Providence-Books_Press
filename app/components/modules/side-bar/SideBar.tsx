@@ -49,26 +49,29 @@ export class Sidebar extends Component<Props> {
       return (
          <div className={`${styles.sideBar} ${globalStyles.yellowFont} ${isPortal ? styles.sideBarModal : ''}`}>
             <Frame style={frameStyle}>
-               <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false}/>
+               <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false} />
             </Frame>
-               <FilterBox 
-                  boxTitle='CATEGORY'
-                  optionsList={categories}
-                  optionsChecked={checkedCategories}
-                  setCheckedList={setCheckedCategories}
-               />
-               <FilterBox
-                  boxTitle='AUTHOR'
-                  optionsList={authors}
-                  optionsChecked={checkedAuthors}
-                  setCheckedList={setCheckedAuthors}
-               />
-               <FilterBox
-                  boxTitle='PUBLISHER'
-                  optionsList={publishers}
-                  optionsChecked={checkedPublishers}
-                  setCheckedList={setCheckedPublishers}
-               />
+            <FilterBox
+               idIncrement={isPortal ? 'portal' : 'regular'}
+               boxTitle='CATEGORY'
+               optionsList={categories}
+               optionsChecked={checkedCategories}
+               setCheckedList={setCheckedCategories}
+            />
+            <FilterBox
+               idIncrement={isPortal ? 'portal' : 'regular'}
+               boxTitle='AUTHOR'
+               optionsList={authors}
+               optionsChecked={checkedAuthors}
+               setCheckedList={setCheckedAuthors}
+            />
+            <FilterBox
+               idIncrement={isPortal ? 'portal' : 'regular'}
+               boxTitle='PUBLISHER'
+               optionsList={publishers}
+               optionsChecked={checkedPublishers}
+               setCheckedList={setCheckedPublishers}
+            />
          </div>
       )
    }
