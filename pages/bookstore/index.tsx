@@ -14,7 +14,7 @@ import productsJSON from './products.json'
 import SideBarModal from '../../app/components/modules/side-bar/SideBarModal'
 
 interface Props {
-   // products: Product[]
+   products: Product[]
 }
 
 interface State {
@@ -115,7 +115,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns Filters for category, author and publisher
     */
    getFilters() {
-      const products = productsJSON as Product[];
+      const products = this.props.products as Product[];
       const categories: string[] = [];
       const authors: string[] = [];
       const publishers: string[] = [];
@@ -188,7 +188,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns 
     */
    populateProcessedList(paginated: boolean): Product[] {
-      const filteredList = this.applyFilterToList(productsJSON as Product[])
+      const filteredList = this.applyFilterToList(this.props.products as Product[])
       const searchedFilteredList = this.applySearchToList(filteredList);
 
       if (!paginated) return searchedFilteredList;
@@ -361,15 +361,15 @@ export class Bookstore extends Component<Props, State> {
 }
 
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//    const res = await fetch('http://localhost:3000/api/products');
-//    const products = await res.json() as Product[];
+export const getServerSideProps: GetServerSideProps = async (context) => {
+   const res = await fetch('http://localhost:3000/api/products');
+   const products = await res.json() as Product[];
 
-//    return {
-//       props: {
-//          products
-//       }
-//    }
-// }
+   return {
+      props: {
+         products: productsJSON
+      }
+   }
+}
 
 export default Bookstore
