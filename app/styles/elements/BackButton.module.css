@@ -1,0 +1,21 @@
+.backButtonContainer {
+   display: flex;
+   align-items: center;
+   color: var(--mainYellow);
+   padding: 0 1rem;
+   cursor: pointer;
+}
+
+.backButtonContainer:hover {
+   color: var(--darkYellow);
+}
+
+.backIcons {
+   font-size: 22pt;
+   margin-right: .7rem;
+   transform: translateY(.2rem);
+}
+
+.backText {
+   font-size: 10pt;
+}
