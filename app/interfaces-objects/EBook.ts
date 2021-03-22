@@ -7,14 +7,13 @@ class EBook extends Product {
       description: string,
       price: number,
       images: string[],
-      public _categoryId: string,
+      _categoryId: string,
       public _authorIds: string[],
       public _publisherId: string, 
-      public category: string,
+      category: string,
       public authors: string,
       public publisher: string,
       public isbn: string,
-      public publicationYear: number,
       public fileExtensions: string[],
       tags?: string[],
       flag?: string,
@@ -25,7 +24,7 @@ class EBook extends Product {
       public age?: string
    ) {
       super(_id, name, description, price, 'E-book', 
-         images, subtitle, tags, flag, providenceReview
+         images, _categoryId, category, subtitle, tags, flag, providenceReview   
       );
       
    }

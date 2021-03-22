@@ -8,14 +8,13 @@ class Book extends Product {
       description: string,
       price: number,
       images: string[],
-      public _categoryId: string,
+      _categoryId: string,
+      category: string,
       public _authorIds: string[],
       public _publisherId: string, 
-      public category: string,
       public authors: string,
       public publisher: string,
       public isbn: string,
-      public publicationYear: number,
       public weight: string,
       public stock: number,
       tags?: string[],
@@ -29,7 +28,7 @@ class Book extends Product {
    ) {
       super(
          _id, name, description, price,
-         'Book', images,
+         'Book', images, _categoryId, category,
          subtitle, tags, flag, providenceReview
       );
    }
