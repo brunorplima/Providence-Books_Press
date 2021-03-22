@@ -10,7 +10,7 @@ import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
 import ListInfo from '../../app/components/elements/list-info/ListInfo'
 import { GetServerSideProps } from 'next'
-import productsJSON from './products.json'
+import productsJSON from '../api/products/products.json'
 import SideBarModal from '../../app/components/modules/side-bar/SideBarModal'
 
 interface Props {
@@ -279,8 +279,7 @@ export class Bookstore extends Component<Props, State> {
 
       const paginationFrame = {
          padding: 10,
-         display: 'flex',
-         flexWrap: 'wrap'
+         display: 'flex'
       }
 
       const searchedFilteredList = this.populateProcessedList(false);
@@ -362,12 +361,12 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const res = await fetch('http://localhost:3000/api/products');
+   const res = await fetch('https://providencebp.vercel.app/api/products');
    const products = await res.json() as Product[];
 
    return {
       props: {
-         products: productsJSON
+         products
       }
    }
 }
