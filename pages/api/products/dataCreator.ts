@@ -19,40 +19,39 @@ for (let i = 0; i < 215; i++) {
    const productType = faker.random.arrayElement(['Book', 'Book', 'Book', 'Book', 'E-book', 'E-book', 'Audio book']);
 
    if (productType === 'Book') {
-      product = {
-         _id: String(faker.random.number({ min: 1000, max: 9999 })),
-         name: faker.commerce.productName(),//faker.lorem.words(Math.ceil(Math.random() * 5)),
-         images: [faker.image.imageUrl(165, 264, 'Book', true, true)],
-         description: faker.commerce.productDescription(),
-         price: faker.random.float({ min: 5.90, max: 126.99 }),
-         weight: faker.random.float({ min: 0.050, max: 2 }).toFixed(3),
-         tags: faker.lorem.words(3).split(' '),
-         flag: faker.random.arrayElement(['new', '', '', '', '', '']),
-         stock: faker.random.number(500),
-         providenceReview: faker.random.arrayElement([faker.lorem.paragraph(Math.ceil(Math.random() * 2)), '', '', '']),
-         subtitle: faker.random.arrayElement([faker.lorem.words(Math.ceil(Math.random() * 5)), '', '', '', '']),
-         isbn: faker.internet.ip(),
-         authors: faker.random.arrayElement(exampleAuthors),
-         subject: faker.lorem.word(),
-         numberPages: faker.random.arrayElement([faker.random.number(648), faker.random.number(312), faker.random.number(210), faker.random.number(120)]),
-         age: faker.random.number({ min: 3, max: 19 }) + ' - 99',
-         coverType: faker.random.arrayElement(['Hardcover', 'Paperback', 'Paperback', 'Paperback']),
-         _publisherId: faker.random.uuid(),
-         _categoryId: faker.random.uuid(),
-         _authorIds: [faker.random.uuid()],
-         publisher: faker.random.arrayElement(publishers),
-         publicationYear: faker.random.number({ min: 1955, max: 2021 }),
-         category: faker.random.arrayElement(categories)
-      } as Book;
+      product = new Book(
+         String(faker.random.number({ min: 10000, max: 99999 })),
+         faker.commerce.productName(),
+         faker.lorem.paragraphs(5, '\n'),
+         faker.random.float({ min: 5.90, max: 126.99 }),
+         ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
+         faker.random.uuid(),
+         faker.random.arrayElement(categories),
+         [faker.random.uuid()],
+         faker.random.uuid(),
+         faker.random.arrayElement(exampleAuthors),
+         faker.random.arrayElement(publishers),
+         faker.internet.ip(),
+         faker.random.float({ min: 0.050, max: 2 }).toFixed(3),
+         faker.random.number(500),
+         faker.lorem.words(3).split(' '),
+         faker.random.arrayElement(['new', '', '', '', '', '']),
+         faker.random.arrayElement([faker.lorem.paragraph(Math.ceil(Math.random() * 2)), '', '', '']),
+         faker.random.arrayElement([faker.lorem.words(Math.ceil(Math.random() * 5)), '', '', '', '']),
+         faker.random.arrayElement([faker.random.number(648), faker.random.number(312), faker.random.number(210), faker.random.number(120)]),
+         faker.random.arrayElement([faker.lorem.word(), undefined]),
+         faker.random.number({ min: 3, max: 19 }) + '+',
+         faker.random.arrayElement(['Hardcover', 'Paperback', 'Paperback', 'Paperback'])
+      )
    }
 
    else if (productType === 'E-book') {
       product = new EBook(
-         String(faker.random.number({ min: 1000, max: 9999 })),
+         String(faker.random.number({ min: 10000, max: 99999 })),
          faker.commerce.productName(),//faker.lorem.words(Math.ceil(Math.random() * 5)),
-         faker.commerce.productDescription(),
+         faker.lorem.paragraphs(5, '\n'),
          faker.random.float({ min: 5.90, max: 126.99 }),
-         [faker.image.imageUrl(165, 264, 'Book', true, true)],
+         ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
          faker.random.uuid(),
          [faker.random.uuid()],
          faker.random.uuid(),
@@ -60,25 +59,24 @@ for (let i = 0; i < 215; i++) {
          faker.random.arrayElement(exampleAuthors),
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
-         faker.random.number({ min: 1955, max: 2021 }),
          faker.random.arrayElements<string>(['PDF', 'RTF', 'EPUB', 'MOBI']),
          faker.lorem.words(3).split(' '),
          faker.random.arrayElement(['new', '', '', '', '', '']),
          faker.random.arrayElement([faker.lorem.paragraph(Math.ceil(Math.random() * 2)), '', '', '']),
          faker.random.arrayElement([faker.lorem.words(Math.ceil(Math.random() * 5)), '', '', '', '']),
          faker.random.arrayElement([faker.random.number(648), faker.random.number(312), faker.random.number(210), faker.random.number(120)]),
-         faker.lorem.word(),
-         faker.random.number({ min: 3, max: 19 }) + ' - 99'
+         faker.random.arrayElement([faker.lorem.word(), undefined]),
+         faker.random.number({ min: 3, max: 19 }) + '+'
       );
    }
 
    else {
       product = new AudioBook(
-         String(faker.random.number({ min: 1000, max: 9999 })),
+         String(faker.random.number({ min: 10000, max: 99999 })),
          faker.commerce.productName(),
-         faker.commerce.productDescription(),
+         faker.lorem.paragraphs(5, '\n'),
          faker.random.float({ min: 5.90, max: 126.99 }),
-         [faker.image.imageUrl(165, 264, 'Book', true, true)],
+         ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
          faker.random.uuid(),
          [faker.random.uuid()],
          faker.random.uuid(),
@@ -86,14 +84,15 @@ for (let i = 0; i < 215; i++) {
          faker.random.arrayElement(exampleAuthors),
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
-         faker.random.number({ min: 1955, max: 2021 }),
          faker.name.lastName() + ', ' + faker.name.firstName(),
          faker.lorem.words(3).split(' '),
          faker.random.arrayElement(['new', '', '', '', '', '']),
          faker.random.arrayElement([faker.lorem.paragraph(Math.ceil(Math.random() * 2)), '', '', '']),
          faker.random.arrayElement([faker.lorem.words(Math.ceil(Math.random() * 5)), '', '', '', '']),
-         faker.random.arrayElements<string>(['PDF', 'RTF', 'EPUB', 'MOBI']),
-         new Date(0, 0, 0, faker.random.number(7), faker.random.number(59), faker.random.number(59))
+         faker.random.arrayElements<string>(['MP3']),
+         new Date(0, 0, 0, faker.random.number(7), faker.random.number(59), faker.random.number(59)),
+         faker.random.arrayElement([faker.lorem.word(), undefined]),
+         faker.random.number({ min: 3, max: 19 }) + '+'
       )
    }
 
