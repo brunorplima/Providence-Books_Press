@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import Frame from '../../layouts/Frame'
 import Button from '../button/Button'
 
 interface Props {
-   clickHandler: Function
+   clickHandler: Function,
+   style?: CSSProperties
 }
 
-const AddToBookshelfButton: React.FC<Props> = ({ clickHandler }) => {
+const AddToBookshelfButton: React.FC<Props> = ({ clickHandler, style }) => {
 
    const frameStyle = {
       padding: '.5rem 0',
@@ -16,7 +17,7 @@ const AddToBookshelfButton: React.FC<Props> = ({ clickHandler }) => {
 
    return (
       <Frame style={frameStyle}>
-         <Button label='ADD TO BOOKSHELF' clickHandler={clickHandler} />
+         <Button label='ADD TO BOOKSHELF' clickHandler={clickHandler} style={style} />
       </Frame>
    )
 }

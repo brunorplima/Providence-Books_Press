@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import styles from '../../../styles/elements/Button.module.css'
 
 interface Props {
    label: string,
-   clickHandler: Function
+   clickHandler: Function,
+   style?: CSSProperties
 }
 
-const Button: React.FC<Props> = ({ label, clickHandler }) => {
+const Button: React.FC<Props> = ({ label, clickHandler, style }) => {
    return (
-      <button className={styles.container} onClick={e => clickHandler(e)}>
+      <button
+         className={styles.container} onClick={e => clickHandler(e)}
+         style={{ ...style }}
+      >
          {label}
       </button>
    )
