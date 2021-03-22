@@ -49,34 +49,55 @@
 
 
 .flag {
-   position: absolute;
-   top: -.6rem;
-   right: -.4rem;
    background-color: rgba(255, 0, 0, .5);
-   width: 60px;
-   height: 25.5px;
-   color: white;
    display: flex;
    justify-content: center;
    align-items: center;
+   width: 60px;
+   color: white;
 }
 
-.triangleTopLeft {
+.defaultFlag {
+   position: absolute;
+   top: -.6rem;
+   right: -.4rem;
+   height: 25.5px;
+}
+
+.biggerFlag {
+   position: relative;
+   height: 100%;
+   margin-left: 1rem;
+}
+
+.triangleTopLeftDefault {
    position: absolute;
    top: 0;
-   right: -12.799px;
+   left: 100%;
    width: 0;
    height: 0;
    border-top: 13px solid rgba(255, 0, 0, .5);
    border-right: 13px solid transparent;
 }
 
-.triangleBottomLeft {
+.triangleBottomLeftDefault {
    position: absolute;
    bottom: 0;
-   right: -12.799px;
+   left: 100%;
    width: 0;
    height: 0;
    border-bottom: 13px solid rgba(255, 0, 0, .5);
    border-right: 13px solid transparent;
+}
+
+.triangleTopLeft {
+   left: 100%;
+   border-top: 18px solid rgba(255, 0, 0, .5);
+   border-right: 18px solid transparent;
+}
+
+.triangleBottomLeft {
+   left: 100%;
+   border-bottom: 18px solid rgba(255, 0, 0, .5);
+   border-right: 18px solid transparent;
 }
