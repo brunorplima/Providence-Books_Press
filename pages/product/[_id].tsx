@@ -7,7 +7,7 @@ import UserReviews from '../../app/components/modules/product-details/UserReview
 import ProductDetailsText from '../../app/components/modules/product-details/ProductDetailsText'
 import ProductDetailsVisual from '../../app/components/modules/product-details/ProductDetailsVisual'
 import ProvidenceReview from '../../app/components/modules/product-details/ProvidenceReview'
-import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
+// import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
 import { Review } from '../../app/interfaces-objects/interfaces'
 import Product from '../../app/interfaces-objects/Product'
 import styles from  '../../app/styles/product-details/ProductDetails.module.css'
