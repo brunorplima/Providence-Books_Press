@@ -1,0 +1,47 @@
+.container {
+   max-width: 900px;
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+   padding: 0 1rem;
+}
+
+.container h3 {
+   color: var(--mainYellow);
+   font-size: 18pt;
+}
+
+.backBar {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   margin: 1rem 0;
+}
+
+.productDetailsMain {
+   width: 100%;
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+}
+
+.border {
+   width: 85%;
+   border: 1px solid var(--mainYellow);
+   margin: 2rem 0;
+}
+
+
+
+@media screen and (min-width: 500px) {
+   .container {
+      padding: 0 2.5rem;
+   }
+}
+
+@media screen and (min-width: 768px) {
+   .productDetailsMain {
+      flex-flow: row;
+      align-items: flex-start;
+   }
+}
