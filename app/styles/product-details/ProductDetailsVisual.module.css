@@ -1,0 +1,24 @@
+.image {
+   max-width: 250px;
+}
+
+.detailsVisual {
+   order: 1;
+}
+
+.detailsVisualPrice {
+   color: white;
+   padding: .6rem .7rem;
+   background-color: var(--mainYellow);
+   display: flex;
+   justify-content: center;
+   margin-top: 2rem;
+   margin-bottom: .3rem;
+   font-weight: bold;
+}
+
+@media screen and (min-width: 768px) {
+   .detailsVisual {
+      order: 2;
+   }
+}
