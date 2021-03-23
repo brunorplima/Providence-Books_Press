@@ -40,48 +40,6 @@ export interface User {
    isCustomer: boolean
 }
 
-
-// export interface Product {
-//    _id: string,
-//    name: string,
-//    description: string,
-//    price: number
-//    type: string,
-//    weight: string,
-//    tags: string[],
-//    stock: number
-//    flag?: string,
-//    image?: string,
-//    providenceReview?: string,
-// }
-
-// export interface Book extends Product {
-//    _publisherId: string,
-//    _authorIds: string[] | string,
-//    _categoryId: string,
-//    publisher: string,
-//    category: string,
-//    author: string,
-//    subtitle?: string,
-//    isbn: string,
-//    publicationYear: number
-//    subject?: string,
-//    numberPages?: number,
-//    age?: string,
-//    coverType?: string,
-// }
-
-// export interface AudioBook extends Product {
-//    _publisherId: string,
-//    _authorIds: string[] | string,
-//    subtitle?: string,
-//    isbn: string,
-//    publicationYear: number
-//    subject?: string,
-//    duration?: number,
-//    age?: string
-// }
-
 export interface Order {
    _userId: string,
    dateTime: Date,
@@ -99,7 +57,7 @@ export interface Review {
    _productId: string
    score: number,
    userName: string,
-   dateTime: Date,
+   dateTime: Date | string,
    heading: string,
    text: string,
 }
