@@ -1,0 +1,138 @@
+.container {
+   width: 100%;
+}
+
+.container h3{
+   text-align: center;
+}
+
+.userReviewPLositioner {
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+}
+
+.reviewContainer {
+   width: 100%;
+}
+
+.reviewContainer h4 {
+   color: #686867;
+}
+
+.star {
+   color: var(--mainYellow);
+   font-size: 18pt;
+}
+
+.reviewUserScore {
+   display: flex;
+}
+
+.reviewUserName {
+   font-weight: bold;
+   margin-left: 1rem;
+   transform: translateY(.1rem);
+}
+
+.reviewText {
+   margin: .3rem 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+.star {
+margin: 50px 0;
+position: relative;
+display: block;
+color: var(--mainYellow);
+width: 0px;
+height: 0px;
+border-right: 100px solid transparent;
+border-bottom: 70px solid red;
+border-left: 100px solid transparent;
+transform: rotate(35deg);
+   float: left;
+   shape-outside: polygon(0 0, 0 300px, 200px 300px);
+   shape-outside: url('../../../public/star.png');
+   clip-path: url('../../../public/star.png');
+   background: linear-gradient(to right, var(--mainYellow), var(--mainYellow) 20%, white 20%);
+   background: var(--mainYellow);
+   height: 50px;
+   width: 20px;
+   margin-right: 1rem;
+}
+.star:before {
+border-bottom: 80px solid blue;
+border-left: 30px solid transparent;
+border-right: 30px solid transparent;
+position: absolute;
+height: 0;
+width: 0;
+top: -45px;
+left: -65px;
+display: block;
+content: '';
+transform: rotate(-35deg);
+}
+.star:after {
+position: absolute;
+display: block;
+color: var(--mainYellow);
+top: 3px;
+left: -105px;
+width: 0px;
+height: 0px;
+border-right: 40px solid transparent;
+border-bottom: 30px solid var(--mainYellow);
+border-left: 40px solid transparent;
+transform: rotate(-70deg);
+content: '';
+} */
