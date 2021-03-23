@@ -1,0 +1,122 @@
+.container {
+   width: 100%;
+   background-color: violet;
+}
+
+.categoryFlag {
+   display: flex;
+   margin-bottom: .5rem;
+}
+
+.category {
+   padding: .5rem;
+   background-color: var(--mainYellow);
+   color: white;
+}
+
+.detailsTextMain {
+   font-size: 11pt;
+}
+
+.detailsText {
+   order: 2;
+   margin-top: 2rem;
+}
+
+.productFullTitle {
+   font-weight: bold;
+   color: #686867;
+}
+
+.productName {
+   font-size: 18pt;
+}
+
+.productSubtitle {
+   font-size: 14pt;
+}
+
+.productDescription {
+   margin: 1rem 0;
+   font-style: italic;
+   text-align: center;
+   text-align: justify;
+   padding: 0 2rem;
+   text-indent: 2rem;
+}
+
+.tagsContainer {
+   display: flex;
+   align-items: center;
+   flex-flow: column;
+}
+
+.tag {
+   background-color: var(--mainYellow);
+   color: white;
+   padding: .3rem;
+   position: relative;
+   margin: .5rem 0;
+}
+
+.tagTriangle {
+   position: absolute;
+   top: 0;
+   left: 100%;
+   height: 100%;
+   border-top: 13px solid transparent;
+   border-left: 20px solid var(--mainYellow);
+   border-bottom: 13px solid transparent;
+}
+
+.tagHole {
+   width: 4px;
+   height: 4px;
+   position: absolute;
+   background-color: white;
+   border-radius: 100%;
+   right: .3rem;
+   top: calc(50% - 2px);
+}
+
+.type {
+   padding: .3rem;
+   background-color: var(--mainYellow);
+   color: white;
+   width: fit-content;
+   font-size: 11pt;
+   margin-top: .3rem;
+   margin-bottom: 1rem;
+   display: flex;
+   align-items: center;
+}
+
+.type div {
+   margin-left: .5rem;
+   font-size: 14pt;
+   transform: translateY(.1rem);
+}
+
+
+
+.boldFont {
+   font-weight: bold;
+}
+
+
+
+@media screen and (min-width: 768px) {
+   .detailsText {
+      order: 1;
+      margin-top: 0;
+      margin-right: 4rem;
+   }
+
+   .productName {
+      font-size: 20pt;
+   }
+   
+   .productSubtitle {
+      font-size: 16pt;
+   }
+}
