@@ -29,8 +29,8 @@ const ProductDetailsVisual: React.FC<Props> = ({ name, images, price, subtitle, 
             reviews.length &&
             <div className={styles.scoreContainer}>
                <div className={styles.star}><AiFillStar /></div>
-               <div className={styles.score}>{getAverageScore()}</div>
-               <div>(out of 5 - {reviews.length} reviews)</div>
+               <div className={styles.score}>{getAverageScore()} / 5</div>
+               <div>({reviews.length} reviews)</div>
             </div>
          }
          <div className={styles.detailsVisualPrice}>PRICE: ${price.toFixed(2)}</div>
