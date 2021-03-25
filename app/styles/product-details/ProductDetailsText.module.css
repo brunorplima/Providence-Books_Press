@@ -79,24 +79,6 @@
    top: calc(50% - 2px);
 }
 
-.type {
-   padding: .3rem;
-   background-color: var(--mainYellow);
-   color: white;
-   width: fit-content;
-   font-size: 11pt;
-   margin-top: .3rem;
-   margin-bottom: 1rem;
-   display: flex;
-   align-items: center;
-}
-
-.type div {
-   margin-left: .5rem;
-   font-size: 14pt;
-   transform: translateY(.1rem);
-}
-
 
 
 .boldFont {

@@ -6,6 +6,7 @@ import Product from '../../../interfaces-objects/Product'
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri'
 import styles from '../../../styles/product-details/ProductDetailsText.module.css'
 import ProductItemFlag from '../../elements/product-item/ProductItemFlag'
+import ProductType from '../../elements/product-type/ProductType'
 import { FaRegFileAudio } from 'react-icons/fa'
 import { AiOutlineFileText, AiOutlineBook } from 'react-icons/ai'
 
@@ -54,7 +55,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                }
             </div>
 
-            <div className={styles.type}>{product.type} <div>{getTypeIcons()}</div></div>
+            <ProductType type={product.type}  margin={'.3rem 0 1rem 0'}/>
 
             {
                product.type &&
