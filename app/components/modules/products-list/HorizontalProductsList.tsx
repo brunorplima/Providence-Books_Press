@@ -24,6 +24,7 @@ const HorizontalProductsList: React.FC<Props> = ({ productItems }) => {
                      name={product.name}
                      price={product.price}
                      flag={product.flag}
+                     type={product.type}
                      addToBookshelf={() => { }}
                      subtitle={product.subtitle ? product.subtitle : ''}
                   />

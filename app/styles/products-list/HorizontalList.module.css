@@ -1,6 +1,6 @@
 .container {
    display: flex;
-   width: 95%;
+   width: 100%;
    justify-content: space-evenly;
    padding-bottom: 2rem;
    border-bottom: 1px solid #D7B263;
