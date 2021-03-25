@@ -13,7 +13,7 @@ for (const product of products) {
          _userId: faker.random.uuid(),
          userName: faker.name.firstName() + ' ' + faker.name.lastName(),
          dateTime: faker.date.past(),
-         score: faker.random.number(4) + 1,
+         score: faker.random.arrayElement([5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 2, 1]),
          heading: faker.random.words(faker.random.number(4)),
          text: faker.random.arrayElement([faker.lorem.paragraphs(faker.random.number(3)), faker.lorem.lines(faker.random.number(3)), faker.lorem.lines(faker.random.number(3)), faker.lorem.lines(faker.random.number(3))])
       }
