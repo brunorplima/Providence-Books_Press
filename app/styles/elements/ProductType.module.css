@@ -1,0 +1,15 @@
+.type {
+   padding: .3rem;
+   background-color: var(--mainYellow);
+   color: white;
+   width: fit-content;
+   font-size: 11pt;
+   display: flex;
+   align-items: center;
+}
+
+.icon {
+   margin-left: .5rem;
+   font-size: 14pt;
+   transform: translateY(.1rem);
+}
