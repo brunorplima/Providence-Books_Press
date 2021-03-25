@@ -15,12 +15,15 @@ const UserReviews: React.FC<Props> = ({ reviews }) => {
 
          <div>
             {
+               reviews.length ?
                reviews.map((review: Review) => {
                   return <div key={review._id} className={styles.userReviewPLositioner}>
                      <UserReview review={review} />
                      <div className={generalStyles.border}></div>
                   </div>
                })
+               :
+               <p style={{textAlign: 'center'}}>There are no reviews for this product yet.</p>
             }
          </div>
       </div>
