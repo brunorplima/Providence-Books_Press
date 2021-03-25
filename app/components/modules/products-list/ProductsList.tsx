@@ -47,7 +47,7 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
             <div className={styles.openPortal} onClick={() => setModalOpen(true)}><BiSearchAlt /></div>
 
             {
-               horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} slides={false} />)
+               horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} />)
             }
          </div>
       </div>
