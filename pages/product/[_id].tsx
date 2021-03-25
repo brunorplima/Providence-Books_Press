@@ -10,12 +10,15 @@ import ProvidenceReview from '../../app/components/modules/product-details/Provi
 // import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
 import { Review } from '../../app/interfaces-objects/interfaces'
 import Product from '../../app/interfaces-objects/Product'
-import styles from  '../../app/styles/product-details/ProductDetails.module.css'
+import styles from '../../app/styles/product-details/ProductDetails.module.css'
 import reviewsJSON from '../api/reviews/dataCreator'
 import Head from 'next/head'
+import Book from '../../app/interfaces-objects/Book'
+import EBook from '../../app/interfaces-objects/EBook'
+import AudioBook from '../../app/interfaces-objects/AudioBook'
 
 interface Props {
-   products: Product[]
+   relatedProducts: Product[]
    product: Product,
    reviews: Review[],
    addToCartHandler: () => void
@@ -28,15 +31,15 @@ interface State {
 export class ProductDetails extends Component<Props, State> {
 
    componentDidMount() {
-      
+
    }
 
    render() {
 
-      const { product, addToCartHandler, products, reviews } = this.props;
+      const { product, addToCartHandler, relatedProducts, reviews } = this.props;
 
       return (
-         <Frame style={{display: 'flex', justifyContent: 'center'}}>
+         <Frame style={{ display: 'flex', justifyContent: 'center' }}>
             <Head>
                <title>{product.name}{product.subtitle ? ' - ' + product.subtitle : ''} - {product.type}</title>
             </Head>
@@ -55,6 +58,7 @@ export class ProductDetails extends Component<Props, State> {
                      name={product.name}
                      subtitle={product.subtitle ? product.subtitle : undefined}
                      clickHandler={addToCartHandler}
+                     reviews={reviews.length && reviews}
                   />
                </Frame>
 
@@ -66,7 +70,7 @@ export class ProductDetails extends Component<Props, State> {
 
                <UserReviews reviews={reviews} />
 
-               {/* <RelatedProducts products={products} /> */}
+               {/* <RelatedProducts products={relatedProducts} /> */}
             </Frame>
 
          </Frame>
@@ -78,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
    const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
    const products = await productsRes.json();
-   const product = products.find((prod: Product) => prod._id === _id);
+   const product: Product = products.find((prod: Product) => prod._id === _id);
 
    const reviewsRes = await fetch('https://providencebp.vercel.app/api/reviews/');
    const allReviews = await reviewsRes.json();
@@ -87,12 +91,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return rev;
    })
 
-   
-   const list = [16, 94, 123, 179].map(el => products[el])
+
+   const list: Product[] = products.filter((prod: Product) => {
+      const sameAuthor = (product as Book | EBook | AudioBook).authors.match((prod as Book | EBook | AudioBook).authors);
+      const sameCategory = product.category === prod.category;
+      return sameAuthor && sameCategory;
+   })
+
+   const relatedProducts = list.slice(0, 4);
 
    return {
       props: {
-         products: list,
+         relatedProducts,
          product,
          reviews
       }
