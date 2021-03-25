@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import AddToBookshelfButton from '../add-to-bookshelf-button/AddToBookshelfButton'
 import ProductItemFlag from './ProductItemFlag'
+import ProductType from '../product-type/ProductType'
 import styles from '../../../styles/products-list/ProductItem.module.css'
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
    name: string,
    price: number,
    flag: string,
+   type: string,
    addToBookshelf: Function,
    subtitle?: string
 }
@@ -22,6 +24,7 @@ const ProductItem: React.FC<Props> = ({
    name,
    price,
    flag,
+   type,
    addToBookshelf,
    subtitle
 }) => {
@@ -38,6 +41,7 @@ const ProductItem: React.FC<Props> = ({
                         style={{ maxWidth: '165px' }}
                      />
                      <div className={styles.author}>{authors.toUpperCase()}</div>
+                     <ProductType type={type}  fontSize={'9pt'} padding={'.0 .2rem'} margin={'.1rem 0 0 0'}/>
                   </div>
                   <h2>{name.toUpperCase()}</h2>
 
