@@ -16,10 +16,10 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
 
    function numberItemsHorizontalList() {
       if (screenWidth <= 450) return 1;
-      if (screenWidth <= 650) return 2;
+      if (screenWidth <= 670) return 2;
       if (screenWidth <= 767) return 3;
-      if (screenWidth <= 850) return 2;
-      if (screenWidth <= 1050) return 3;
+      if (screenWidth <= 950) return 2;
+      if (screenWidth <= 1150) return 3;
       return 4;
    }
 
@@ -47,7 +47,7 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
             <div className={styles.openPortal} onClick={() => setModalOpen(true)}><BiSearchAlt /></div>
 
             {
-               horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} />)
+               horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} slides={false} />)
             }
          </div>
       </div>
