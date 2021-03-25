@@ -6,13 +6,31 @@
    order: 1;
 }
 
+.scoreContainer {
+   display: flex;
+   align-items: center;
+   margin-top: 1rem;
+}
+
+.star {
+   margin-right: .5rem;
+   font-size: 22pt;
+   transform: translateY(.15rem);
+   color: var(--mainYellow);
+}
+
+.score {
+   font-size: 20pt;
+   margin-right: .5rem;
+}
+
 .detailsVisualPrice {
    color: white;
    padding: .6rem .7rem;
    background-color: var(--mainYellow);
    display: flex;
    justify-content: center;
-   margin-top: 2rem;
+   margin-top: 1rem;
    margin-bottom: .3rem;
    font-weight: bold;
 }
