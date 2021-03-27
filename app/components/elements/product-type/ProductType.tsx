@@ -25,10 +25,13 @@ const ProductType: React.FC<Props> = ({ type, padding, fontSize, margin, fontWei
    function getTypeIcons() {
       switch (type) {
          case 'Book':
+         case 'BOOK':
             return <AiOutlineBook />;
          case 'E-book':
+         case 'E-BOOK':
             return <AiOutlineFileText />
          case 'Audio book':
+         case 'AUDIO BOOK':
             return <FaRegFileAudio />
          default:
             return null
