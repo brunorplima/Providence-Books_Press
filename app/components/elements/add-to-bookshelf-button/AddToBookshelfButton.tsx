@@ -3,7 +3,7 @@ import Frame from '../../layouts/Frame'
 import Button from '../button/Button'
 
 interface Props {
-   clickHandler: Function,
+   clickHandler: () => void,
    style?: CSSProperties
 }
 
