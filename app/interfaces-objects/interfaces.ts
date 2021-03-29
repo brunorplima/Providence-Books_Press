@@ -26,6 +26,9 @@ type ArticleAuthor = {
 /** --------------------------------- */
 
 
+/**
+ * INTERFACES USED FOR DATA COMING FROM DATABASE
+ */
 export interface User {
    _id: string,
    firstName: string,
@@ -102,4 +105,25 @@ export interface Author {
    dateOfBirth: Date,
    credentials: string,
    introduction: string,
+}
+
+
+
+
+/**
+ * INTERFACES USED FOR APP-LEVEL DATA
+ */
+ export interface BookshelfItem {
+   id: string,
+   isChecked: boolean,
+   quantity: number,
+   image: string,
+   name: string,
+   type: string,
+   price: number,
+   weight?: number,
+   authors?: string,
+   subtitle?: string,
+   coverType?: string
+   fileExtensions?: string[],
 }
