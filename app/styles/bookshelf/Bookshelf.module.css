@@ -1,0 +1,33 @@
+.container {
+   max-width: 1200px;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 2rem;
+}
+
+.h1 {
+   color: var(--mainYellow);
+   text-align: center;
+}
+
+.listOutterContainer {
+   display: flex;
+   flex-flow: column;
+   justify-content: center;
+}
+
+.thankMessage {
+   text-align: center;
+   color: var(--mainYellow);
+   margin: 3rem 0;
+}
+
+
+
+
+@media screen and (min-width: 900px) {
+   
+   .listOutterContainer {
+      flex-flow: row;
+   }
+}
