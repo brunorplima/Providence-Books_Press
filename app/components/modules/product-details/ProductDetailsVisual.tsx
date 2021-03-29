@@ -10,7 +10,7 @@ interface Props {
    images: string[],
    price: number,
    subtitle?: string,
-   clickHandler: Function,
+   clickHandler: () => void,
    reviews?: Review[]
 }
 
