@@ -27,7 +27,7 @@ const ListInfo: React.FC<Props> = ({
 
    return (
       <Frame style={frameStyle}>
-         <div>Showing {paginatedListLength} out of {nonPaginatedListLength}</div>
+         <div>Showing {nonPaginatedListLength} products</div>
 
          <Pagination options={options} pagination={pagination} setPagination={setPagination} />
       </Frame>
