@@ -3,14 +3,14 @@ import styles from '../../../styles/elements/Button.module.css'
 
 interface Props {
    label: string,
-   clickHandler: Function,
+   clickHandler: () => void,
    style?: CSSProperties
 }
 
 const Button: React.FC<Props> = ({ label, clickHandler, style }) => {
    return (
       <button
-         className={styles.container} onClick={e => clickHandler(e)}
+         className={styles.container} onClick={clickHandler}
          style={{ ...style }}
       >
          {label}
