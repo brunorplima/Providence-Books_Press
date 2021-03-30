@@ -15,7 +15,7 @@ class Book extends Product {
       public authors: string,
       public publisher: string,
       public isbn: string,
-      public weight: string,
+      public weight: number,
       public stock: number,
       tags?: string[],
       flag?: string,
