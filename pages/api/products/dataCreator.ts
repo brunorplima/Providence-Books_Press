@@ -32,7 +32,7 @@ for (let i = 0; i < 215; i++) {
          faker.random.arrayElement(exampleAuthors),
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
-         faker.random.float({ min: 0.050, max: 2 }).toFixed(3),
+         Number(faker.random.float({ min: 0.050, max: 2 }).toFixed(3)),
          faker.random.number(500),
          faker.lorem.words(3).split(' '),
          faker.random.arrayElement(['new', '', '', '', '', '']),
