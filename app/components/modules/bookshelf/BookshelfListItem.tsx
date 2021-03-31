@@ -36,14 +36,14 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, setItemQuantit
                <ProductType type={item.type} fontSize={'8pt'} padding={'0 .5rem'} />
                <Link href={`/product/${item.id}`}>
                   <a>
-                     <h3 className={styles.title}>{item.name}</h3>
-                     <div className={styles.subtitle}>{item.subtitle}</div>
+                     <h3 className={styles.title}>{item.name.toUpperCase()}</h3>
+                     {item.subtitle && <div className={styles.subtitle}>{item.subtitle.toUpperCase()}</div>}
                   </a>
                </Link>
-               {item.authors && <div><span className={styles.bold}>BY:</span> {item.authors}</div>}
+               {item.authors && <div><span className={styles.bold}>BY:</span> {item.authors.toUpperCase()}</div>}
                <div></div>
-               {item.coverType && <div>{item.coverType}</div>}
-               {item.fileExtensions && <div>{item.fileExtensions.join(', ')}</div>}
+               {item.coverType && <div>{item.coverType.toUpperCase()}</div>}
+               {item.fileExtensions && <div>{item.fileExtensions.join(', ').toUpperCase()}</div>}
             </div>
          </div>
 
