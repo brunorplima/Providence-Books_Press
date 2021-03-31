@@ -6,13 +6,11 @@ import styles from '../../../styles/bookshelf/BookshelfList.module.css'
 
 interface Props {
    items: BookshelfItem[],
-   removeItems: () => void,
-   emptyShelf: () => void,
    setItemCheck: (isChecked: boolean) => void,
    setItemQuantity: (quantity: number) => void,
 }
 
-const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity, removeItems, emptyShelf }) => {
+const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity }) => {
    return (
       <div className={styles.container}>
          {
@@ -35,7 +33,7 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity, 
                   </div>
 
                   <div>
-                     <BookshelfControllers emptyShelf={emptyShelf} removeItems={removeItems} />
+                     <BookshelfControllers bookshelfList={items} />
                   </div>
                </div>
                :
