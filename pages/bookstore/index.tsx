@@ -274,8 +274,8 @@ export class Bookstore extends Component<Props, State> {
 
 
    render() {
-      const outerFrameStyle = {
-         padding: '1rem 0',
+      const sidebarContainer = {
+         padding: '0 0 1.5rem 0',
          display: 'flex'
       };
 
@@ -318,7 +318,7 @@ export class Bookstore extends Component<Props, State> {
                />
             </SideBarModal>
 
-            <Frame style={outerFrameStyle}>
+            <Frame style={sidebarContainer}>
                <Sidebar
                   search={this.state.search}
                   setSearch={this.setSearch}
@@ -332,7 +332,7 @@ export class Bookstore extends Component<Props, State> {
                   setCheckedAuthors={this.setCheckedAuthors}
                   setCheckedPublishers={this.setCheckedPublishers}
                />
-               <Frame>
+               <Frame style={{ width: '100%', paddingTop: '2rem' }}>
                   <ListInfo
                      nonPaginatedListLength={searchedFilteredList.length}
                      pagination={this.props.pagination}
