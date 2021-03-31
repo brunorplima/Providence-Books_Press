@@ -1,0 +1,46 @@
+.container {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   z-index: 20;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: rgba(215, 178, 99, .6);
+   user-select: none;
+   text-align: center;
+}
+
+.message {
+   padding: 1rem;
+   max-width: 300px;
+   background-color: white;
+   display: flex;
+   flex-flow: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.container div img {
+   max-width: 200px;
+   margin-top: 3rem;
+}
+
+
+
+@media screen and (min-width: 768px) {
+   .container {
+      font-size: 20pt;
+   }
+   
+   .message {
+      padding: 2rem;
+      min-width: fit-content;
+   }
+   
+   .container div img {
+      max-width: 400px;
+   }
+}
