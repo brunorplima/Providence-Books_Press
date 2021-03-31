@@ -1,38 +1,35 @@
 import React from 'react'
 import Link from 'next/link'
-import AddToBookshelfButton from '../add-to-bookshelf-button/AddToBookshelfButton'
+import AddToBookshelfButton from '../../modules/add-to-bookshelf-button/AddToBookshelfButton'
 import ProductItemFlag from './ProductItemFlag'
 import ProductType from '../product-type/ProductType'
 import styles from '../../../styles/products-list/ProductItem.module.css'
+import Product from '../../../interfaces-objects/Product'
+import EBook from '../../../interfaces-objects/EBook'
+import AudioBook from '../../../interfaces-objects/AudioBook'
+import Book from '../../../interfaces-objects/Book'
 
 interface Props {
-   productId: string,
-   images?: string[],
-   authors: string | null,
-   name: string,
-   price: number,
-   flag: string,
-   type: string,
-   addToBookshelf: Function,
-   subtitle?: string
+   product: Product
 }
 
-const ProductItem: React.FC<Props> = ({
-   productId,
-   images,
-   authors,
-   name,
-   price,
-   flag,
-   type,
-   addToBookshelf,
-   subtitle
-}) => {
+const ProductItem: React.FC<Props> = ({ product }) => {
+
+   const {
+      _id,
+      images,
+      authors,
+      name,
+      price,
+      flag,
+      type,
+      subtitle
+   } = (product as Book | EBook | AudioBook);
 
    return (
       <div className={styles.container}>
          <div className={styles.linkContainer}>
-            <Link href={'/product/' + productId}>
+            <Link href={'/product/' + _id}>
                <a className={styles.infoContainer}>
                   <ProductItemFlag flag={flag.toUpperCase()} />
                   <div>
@@ -57,7 +54,7 @@ const ProductItem: React.FC<Props> = ({
          </div>
 
          <div>
-            <AddToBookshelfButton clickHandler={() => addToBookshelf(productId)} />
+            <AddToBookshelfButton product={product}/>
          </div>
       </div>
    )

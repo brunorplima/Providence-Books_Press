@@ -1,20 +1,18 @@
 import React from 'react'
 import Product from '../../../interfaces-objects/Product'
-import AddToBookshelfButton from '../../elements/add-to-bookshelf-button/AddToBookshelfButton'
+import AddToBookshelfButton from '../add-to-bookshelf-button/AddToBookshelfButton'
 import styles from '../../../styles/product-details/ProductDetailsVisual.module.css'
 import { Review } from '../../../interfaces-objects/interfaces'
 import { AiFillStar } from 'react-icons/ai'
 
 interface Props {
-   name: string,
-   images: string[],
-   price: number,
-   subtitle?: string,
-   clickHandler: () => void,
+   product: Product,
    reviews?: Review[]
 }
 
-const ProductDetailsVisual: React.FC<Props> = ({ name, images, price, subtitle, clickHandler, reviews }) => {
+const ProductDetailsVisual: React.FC<Props> = ({ product, reviews }) => {
+
+   const { name, images, price, subtitle } = product;
 
    function getAverageScore() {
       const scores = reviews.map((review: Review) => review.score);
@@ -34,7 +32,7 @@ const ProductDetailsVisual: React.FC<Props> = ({ name, images, price, subtitle, 
             </div>
          }
          <div className={styles.detailsVisualPrice}>PRICE: ${price.toFixed(2)}</div>
-         <AddToBookshelfButton clickHandler={clickHandler} style={{ width: '100%', paddingTop: '.6rem', paddingBottom: '.6rem' }} />
+         <AddToBookshelfButton product={product} style={{ width: '100%', paddingTop: '.6rem', paddingBottom: '.6rem' }} />
       </div>
    )
 }
