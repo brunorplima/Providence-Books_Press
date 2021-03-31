@@ -42,7 +42,7 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
    const horizontalLists = getHorizontalLists();
 
    return (
-      <div className='products-list'>
+      <div>
          <div className={styles.listContainer}>
             <div className={styles.openPortal} onClick={() => setModalOpen(true)}><BiSearchAlt /></div>
 
