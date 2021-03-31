@@ -10,11 +10,14 @@ import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
 import ListInfo from '../../app/components/elements/list-info/ListInfo'
 import { GetServerSideProps } from 'next'
-import productsJSON from '../api/products/products.json'
 import SideBarModal from '../../app/components/modules/side-bar/SideBarModal'
+import { connect } from 'react-redux'
+import { store } from '../../app/redux/store/store'
+import { createChangeListPageAction } from '../../app/redux/actions/listPageActions'
 
 interface Props {
-   products: Product[]
+   products: Product[],
+   pagination: number
 }
 
 interface State {
@@ -22,12 +25,11 @@ interface State {
    checkedCategories: string[],
    checkedAuthors: string[],
    checkedPublishers: string[],
-   pagination: number,
-   numberPaginationView: number,
    modalOpen: boolean
 }
 
 export class Bookstore extends Component<Props, State> {
+   numberPaginationView: number
 
    constructor(props) {
       super(props);
@@ -37,10 +39,10 @@ export class Bookstore extends Component<Props, State> {
          checkedCategories: [],
          checkedAuthors: [],
          checkedPublishers: [],
-         pagination: 1,
-         numberPaginationView: 16,
          modalOpen: false
       }
+
+      this.numberPaginationView = 16;
 
       this.setCheckedCategories = this.setCheckedCategories.bind(this);
       this.setCheckedAuthors = this.setCheckedAuthors.bind(this);
@@ -173,8 +175,8 @@ export class Bookstore extends Component<Props, State> {
     */
    applyPaginationToList(list: Product[]): Product[] {
       let viewList = list.filter((prod, idx) => {
-         const max = this.state.pagination * this.state.numberPaginationView - 1;
-         const min = max - this.state.numberPaginationView + 1;
+         const max = this.props.pagination * this.numberPaginationView - 1;
+         const min = max - this.numberPaginationView + 1;
          if (idx >= min && idx <= max) return true;
          return false;
       })
@@ -205,8 +207,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns 
     */
    getMaxPage() {
-      const { numberPaginationView } = this.state;
-      return Math.ceil(this.populateProcessedList(false).length / numberPaginationView);
+      return Math.ceil(this.populateProcessedList(false).length / this.numberPaginationView);
    }
 
 
@@ -216,7 +217,7 @@ export class Bookstore extends Component<Props, State> {
     * @returns 
     */
    getPaginationOptions(): number[] {
-      const { pagination } = this.state;
+      const { pagination } = this.props;
       const maxPage = this.getMaxPage();
 
       if (maxPage >= 4) {
@@ -244,10 +245,11 @@ export class Bookstore extends Component<Props, State> {
     * @param pageNumber 
     */
    setPagination(pageNumber: number) {
-      const { pagination } = this.state
+      const { pagination } = this.props
 
-      if (pageNumber !== pagination)
-         this.setState({ pagination: pageNumber });
+      if (pageNumber !== pagination) {
+         store.dispatch(createChangeListPageAction(pageNumber));
+      }
    }
 
 
@@ -255,7 +257,7 @@ export class Bookstore extends Component<Props, State> {
     * 
     */
    ensurePaginationIsWithinBounds() {
-      const { pagination } = this.state;
+      const { pagination } = this.props;
 
       if (pagination > this.getMaxPage()) {
          if (this.getMaxPage() > 0)
@@ -332,9 +334,8 @@ export class Bookstore extends Component<Props, State> {
                />
                <Frame>
                   <ListInfo
-                     paginatedListLength={paginatedSearchedFilteredList.length}
                      nonPaginatedListLength={searchedFilteredList.length}
-                     pagination={this.state.pagination}
+                     pagination={this.props.pagination}
                      options={this.getPaginationOptions()}
                      setPagination={this.setPagination}
                   />
@@ -346,7 +347,7 @@ export class Bookstore extends Component<Props, State> {
 
                   <Frame style={{ ...paginationFrame, justifyContent: 'end' }}>
                      <Pagination
-                        pagination={this.state.pagination}
+                        pagination={this.props.pagination}
                         options={this.getPaginationOptions()}
                         setPagination={this.setPagination}
                      />
@@ -371,4 +372,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    }
 }
 
-export default Bookstore
+const mapStateToProps = (state) => {
+   return {
+      pagination: state.listPage
+   }
+}
+
+export default connect(mapStateToProps)(Bookstore)
