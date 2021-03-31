@@ -20,11 +20,7 @@ class AddToBookshelfButton extends React.Component<Props>  {
 
    addToBookshelf() {
       const { product } = this.props
-      console.log(product);
       store.dispatch(createAddToBookshelfAction(product))
-      setTimeout(() => {
-         console.log(store.getState().bookshelf)
-      }, 2000);
    }
 
 
