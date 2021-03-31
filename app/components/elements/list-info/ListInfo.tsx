@@ -3,15 +3,13 @@ import Frame from '../../layouts/Frame'
 import Pagination from '../pagination/Pagination'
 
 interface Props {
-   paginatedListLength: number,
    nonPaginatedListLength: number,
    options: number[],
    pagination: number,
    setPagination: (pageNumber: number) => void
 }
 
-const ListInfo: React.FC<Props> = ({ 
-   paginatedListLength,
+const ListInfo: React.FC<Props> = ({
    nonPaginatedListLength,
    options,
    pagination,
