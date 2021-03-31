@@ -1,38 +1,20 @@
 import React, { Component } from 'react'
 import BookshelfList from '../../app/components/modules/bookshelf/BookshelfList';
 import OrderSummary from '../../app/components/modules/bookshelf/OrderSummary';
-import { BookshelfItem } from '../../app/interfaces-objects/interfaces';
 import styles from '../../app/styles/bookshelf/Bookshelf.module.css'
+import { connect } from 'react-redux'
+import { BookshelfItem } from '../../app/interfaces-objects/interfaces';
 
 interface Props {
-
+   bookshelf: BookshelfItem[]
 }
 
-const img = 'https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'
-const items: BookshelfItem[] = [
-   {id:'15685' ,isChecked: true, authors: 'ALCOCK, DEBORAH', image: img, name: 'AWESOME PLASTIC CHEESE', subtitle: 'DOLORUM MAGNI ILLUM', price: 89.76, quantity: 3, type: 'BOOK', weight: 0.560, coverType: 'PAPERBACK'},
-   {id:'80358' ,isChecked: false, authors: 'VAN DER JAGT, A.', image: img, name: 'HANDCRAFTED SOFT TOWELS', subtitle: 'FACILIS CORRUPTI DESERUNT ISTE', price: 126.75, quantity: 1, type: 'E-BOOK', fileExtensions: ['MOBI']},
-   {id:'28178' ,isChecked: true, authors: 'SCHOUTEN, ANDREW', image: img, name: 'UNBRANDED STEEL CHAIR', price: 118.08, quantity: 1, type: 'BOOK', weight: 0.330, coverType: 'HARDCOVER'},
-]
-
-export class Bookshelf extends Component {
+export class Bookshelf extends Component<Props> {
 
    constructor(props) {
       super(props);
-
-      this.removeItems = this.removeItems.bind(this);
-      this.emptyShelf = this.emptyShelf.bind(this);
       this.setItemCheck = this.setItemCheck.bind(this);
       this.setItemQuantity = this.setItemQuantity.bind(this);
-   }
-
-   
-   removeItems() {
-
-   }
-
-   emptyShelf() {
-
    }
 
 
@@ -54,9 +36,7 @@ export class Bookshelf extends Component {
 
             <div className={styles.listOutterContainer}>
                <BookshelfList
-                  items={items} 
-                  removeItems={this.removeItems}
-                  emptyShelf={this.emptyShelf}
+                  items={this.props.bookshelf}
                   setItemCheck={this.setItemCheck}
                   setItemQuantity={this.setItemQuantity} 
                />
@@ -72,4 +52,11 @@ export class Bookshelf extends Component {
    }
 }
 
-export default Bookshelf
+const mapStateToProps = (state: { bookshelf: any; }) => {
+   return {
+      bookshelf: state.bookshelf
+   }
+}
+
+
+export default connect(mapStateToProps)(Bookshelf)
