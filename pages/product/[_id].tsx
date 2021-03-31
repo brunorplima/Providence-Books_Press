@@ -20,8 +20,7 @@ import AudioBook from '../../app/interfaces-objects/AudioBook'
 interface Props {
    relatedProducts: Product[]
    product: Product,
-   reviews: Review[],
-   addToCartHandler: () => void
+   reviews: Review[]
 }
 
 interface State {
@@ -36,7 +35,7 @@ export class ProductDetails extends Component<Props, State> {
 
    render() {
 
-      const { product, addToCartHandler, relatedProducts, reviews } = this.props;
+      const { product, relatedProducts, reviews } = this.props;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -53,11 +52,7 @@ export class ProductDetails extends Component<Props, State> {
                <Frame className={styles.productDetailsMain}>
                   <ProductDetailsText product={product} />
                   <ProductDetailsVisual
-                     images={product.images}
-                     price={product.price}
-                     name={product.name}
-                     subtitle={product.subtitle ? product.subtitle : undefined}
-                     clickHandler={addToCartHandler}
+                     product={product}
                      reviews={reviews.length && reviews}
                   />
                </Frame>
