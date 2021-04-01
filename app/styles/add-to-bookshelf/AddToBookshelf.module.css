@@ -1,0 +1,27 @@
+.link {
+   border: 2px solid var(--mainYellow);
+   background-color: var(--mainYellow);
+   width: 170px;
+   height: 30px;
+   color: white;
+   user-select: none;
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+}
+
+.link > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.link > div:first-child {
+   flex: 1;
+   border-right: 1px solid white;
+}
+
+.link > div:last-child {
+   flex: 4;
+   font-size: 10pt;
+}
