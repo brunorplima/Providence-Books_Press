@@ -8,6 +8,7 @@
 .h1 {
    color: var(--mainYellow);
    text-align: center;
+   margin-bottom: 5rem;
 }
 
 .listOutterContainer {
