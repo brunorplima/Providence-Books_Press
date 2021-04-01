@@ -1,4 +1,9 @@
 .container {
    width: 100%;
    text-align: center;
+   padding-bottom: 10rem;
+   background: url('../../../public//product-details//full-logo-opacity-min.png');
+   background-size: 45%;
+   background-repeat: no-repeat;
+   background-position: 50% 100%;
 }
