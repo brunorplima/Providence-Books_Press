@@ -7,11 +7,12 @@ import Link from 'next/link'
 
 interface Props {
    items: BookshelfItem[],
-   setItemCheck: (isChecked: boolean) => void,
-   setItemQuantity: (quantity: number) => void,
+   setItemCheck: (id: string) => void,
+   increaseQuantity: (id: string) => void,
+   decreaseQuantity: (id: string) => void,
 }
 
-const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity }) => {
+const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity, decreaseQuantity }) => {
    return (
       <div className={styles.container}>
          {
@@ -25,7 +26,8 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity }
                                  key={item.id}
                                  item={item}
                                  setItemCheck={setItemCheck}
-                                 setItemQuantity={setItemQuantity}
+                                 increaseQuantity={increaseQuantity}
+                                 decreaseQuantity={decreaseQuantity}
                                  evenItem={(idx + 1) % 2 === 0 ? true : undefined}
                               />
                            )

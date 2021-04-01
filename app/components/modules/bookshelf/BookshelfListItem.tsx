@@ -7,12 +7,13 @@ import Link from 'next/link'
 
 interface Props {
    item: BookshelfItem,
-   setItemCheck: (isChecked: boolean) => void,
-   setItemQuantity: (quantity: number) => void,
+   setItemCheck: (id: string) => void,
+   increaseQuantity: (id: string) => void,
+   decreaseQuantity: (id: string) => void,
    evenItem?: boolean
 }
 
-const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, setItemQuantity, evenItem }) => {
+const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuantity, decreaseQuantity, evenItem }) => {
    return (
       <div className={`${styles.container} ${evenItem && styles.colouredBackground}`}>
          <div className={styles.productInfo}>
@@ -20,7 +21,7 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, setItemQuantit
                <input
                   type='checkbox'
                   checked={item.isChecked}
-                  onChange={() => setItemCheck(!item.isChecked)}
+                  onChange={() => setItemCheck(item.id)}
                />
             </div>
 
@@ -53,7 +54,13 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, setItemQuantit
             </div>
 
             <div className={styles.quantity}>
-               <BookshelfItemQuantity quantity={item.quantity} setQuantity={setItemQuantity} evenItem={evenItem} />
+               <BookshelfItemQuantity
+                  itemId={item.id}
+                  quantity={item.quantity}
+                  increaseQuantity={increaseQuantity}
+                  decreaseQuantity={decreaseQuantity}
+                  evenItem={evenItem}
+               />
             </div>
 
             <div className={`${styles.subtotal} ${evenItem && styles.lightColor}`}>
