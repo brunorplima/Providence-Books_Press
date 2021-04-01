@@ -34,6 +34,22 @@ export class Bookshelf extends Component<Props> {
       store.dispatch(createDecreaseQuantityAction(id));
    }
 
+   getItemsSubtotal() {
+      const bookshelfList: BookshelfItem[] = store.getState().bookshelf;
+      const subtotal = bookshelfList.reduce((a, b) => a + (b.price * b.quantity), 0);
+      return subtotal;
+   }
+
+   getShippingFee() {
+      return this.props.bookshelf.length ? 12 : 0;
+   }
+
+   getGST() {
+      const subtotal = this.getItemsSubtotal() + this.getShippingFee();
+      const gst = subtotal * 0.05;
+      return gst;
+   }
+
 
    render() {
       return (
@@ -50,7 +66,11 @@ export class Bookshelf extends Component<Props> {
                   decreaseQuantity={this.decreaseQuantity} 
                />
 
-               <OrderSummary />
+               <OrderSummary
+                  subtotal={this.getItemsSubtotal()}
+                  shippingFee={this.getShippingFee()}
+                  gst={this.getGST()}
+               />
             </div>
 
             <div className={styles.thankMessage}>
