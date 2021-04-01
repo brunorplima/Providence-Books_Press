@@ -3,6 +3,7 @@ import { BookshelfItem } from '../../../interfaces-objects/interfaces'
 import BookshelfControllers from './BookshelfControllers'
 import BookshelfListItem from './BookshelfListItem'
 import styles from '../../../styles/bookshelf/BookshelfList.module.css'
+import Link from 'next/link'
 
 interface Props {
    items: BookshelfItem[],
@@ -37,8 +38,14 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, setItemQuantity }
                   </div>
                </div>
                :
-               <div>
-                  The bookshelf is empty!
+               <div className={styles.emptyBookshelf}>
+                  <div><img src='/bookshelf/empty-bookshelf-256px.png' alt='Empty bookshelf'/></div>
+                  <div className={styles.text}>You bookshelf is empty</div>
+                  <div>
+                     <Link href='/bookstore'>
+                        <a className={styles.link}>VISIT OUR BOOKSTORE</a>
+                     </Link>
+                  </div>
                </div>
          }
       </div>

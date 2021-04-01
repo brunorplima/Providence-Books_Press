@@ -12,3 +12,23 @@
    margin-bottom: 1.5rem;
    width: 100%;
 }
+
+.emptyBookshelf {
+   display: flex;
+   flex-flow: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.text {
+   margin: 2rem 0;
+   font-size: 18pt;
+}
+
+.link {
+   margin: .5rem 0;
+   display: block;
+   padding: .7rem;
+   color: white;
+   background-color: var(--mainYellow);
+}
