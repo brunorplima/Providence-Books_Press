@@ -8,7 +8,8 @@
 
 .container h3 {
    color: var(--mainYellow);
-   font-size: 18pt;
+   font-family: 'Nikkyou';
+   font-size: 30pt;
    text-align: center;
 }
 

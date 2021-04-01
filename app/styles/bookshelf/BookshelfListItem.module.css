@@ -20,6 +20,8 @@
 
 .productPriceQuantity {
    flex: 2;
+   color: var(--mainYellow);
+   font-family: 'Nikkyou';
 }
 
 .checkbox {
