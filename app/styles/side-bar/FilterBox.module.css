@@ -1,6 +1,6 @@
 .boxTitle {
    text-align: center;
-   border-bottom: 10px solid #D7B263;
+   border-bottom: 10px solid var(--mainYellow);
    margin-bottom: .5rem;
 }
 
@@ -15,4 +15,8 @@
    transform: translateY(.1rem);
    cursor: pointer;
    user-select: none;
+}
+
+.label:hover {
+   color: black;
 }
