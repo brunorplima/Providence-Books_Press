@@ -61,7 +61,7 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
             {
                wasAdded ?
                   <Link href='/bookshelf'>
-                     <a className={styles.link}>
+                     <a className={styles.link} style={style ? style : {}}>
                         <div><GiCheckMark /></div>
                         <div>OPEN BOOKSHELF</div>
                      </a>

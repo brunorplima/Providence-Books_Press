@@ -32,7 +32,7 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews }) => {
             </div>
          }
          <div className={styles.detailsVisualPrice}>PRICE: ${price.toFixed(2)}</div>
-         <AddToBookshelfButton product={product} style={{ width: '100%', paddingTop: '.6rem', paddingBottom: '.6rem' }} />
+         <AddToBookshelfButton product={product} style={{ width: '100%', height: '37px' }} />
       </div>
    )
 }
