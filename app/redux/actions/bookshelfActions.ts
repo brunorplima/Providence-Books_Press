@@ -22,8 +22,8 @@ export const createAddToBookshelfAction = (product: Product): Action => {
          quantity: 1,
          type: product.type,
          authors: (product as Book | EBook | AudioBook).authors,
-         coverType: product instanceof Book ? (product as Book).coverType : undefined,
-         fileExtensions: product instanceof EBook || product instanceof AudioBook ? (product as EBook | AudioBook).fileExtensions : undefined,
+         coverType: (product as Book).coverType ? (product as Book).coverType : undefined,
+         fileExtensions: (product as EBook | AudioBook).fileExtensions ? (product as EBook | AudioBook).fileExtensions : undefined,
          subtitle: product.subtitle,
          weight: product instanceof Book ? (product as Book).weight : undefined
       }
