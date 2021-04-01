@@ -4,6 +4,9 @@ import OrderSummary from '../../app/components/modules/bookshelf/OrderSummary';
 import styles from '../../app/styles/bookshelf/Bookshelf.module.css'
 import { connect } from 'react-redux'
 import { BookshelfItem } from '../../app/interfaces-objects/interfaces';
+import { store } from '../../app/redux/store/store';
+import { createChangeCheckAction, createDecreaseQuantityAction, createIncreaseQuantityAction } from '../../app/redux/actions/bookshelfItemActions';
+
 
 interface Props {
    bookshelf: BookshelfItem[]
@@ -14,16 +17,21 @@ export class Bookshelf extends Component<Props> {
    constructor(props) {
       super(props);
       this.setItemCheck = this.setItemCheck.bind(this);
-      this.setItemQuantity = this.setItemQuantity.bind(this);
+      this.increaseQuantity = this.increaseQuantity.bind(this);
+      this.decreaseQuantity = this.decreaseQuantity.bind(this);
    }
 
 
-   setItemCheck(isChecked: boolean) {
-
+   setItemCheck(id: string) {
+      store.dispatch(createChangeCheckAction(id));
    }
 
-   setItemQuantity(quantity: number) {
+   increaseQuantity(id: string) {
+      store.dispatch(createIncreaseQuantityAction(id));
+   }
 
+   decreaseQuantity(id: string) {
+      store.dispatch(createDecreaseQuantityAction(id));
    }
 
 
@@ -38,7 +46,8 @@ export class Bookshelf extends Component<Props> {
                <BookshelfList
                   items={this.props.bookshelf}
                   setItemCheck={this.setItemCheck}
-                  setItemQuantity={this.setItemQuantity} 
+                  increaseQuantity={this.increaseQuantity}
+                  decreaseQuantity={this.decreaseQuantity} 
                />
 
                <OrderSummary />
