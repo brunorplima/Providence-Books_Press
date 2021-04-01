@@ -9,7 +9,7 @@
 .container h3 {
    color: var(--mainYellow);
    font-family: 'Nikkyou';
-   font-size: 30pt;
+   font-size: 22pt;
    text-align: center;
 }
 
@@ -38,6 +38,10 @@
 @media screen and (min-width: 500px) {
    .container {
       padding: 0 2.5rem;
+   }
+
+   .container h3 {
+      font-size: 30pt;
    }
 }
 

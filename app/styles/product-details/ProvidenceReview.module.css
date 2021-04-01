@@ -1,9 +1,29 @@
 .container {
    width: 100%;
    text-align: center;
-   padding-bottom: 10rem;
+   padding-bottom: 4rem;
    background: url('../../../public//product-details//full-logo-opacity-min.png');
-   background-size: 45%;
    background-repeat: no-repeat;
+   background-size: 70%;
    background-position: 50% 100%;
+}
+
+
+@media screen and (min-width: 768px) {
+   .container {
+      background-size: 45%;
+      background-position: 50% 100%;
+   }
+}
+
+@media screen and (min-width: 550px) {
+   .container {
+      padding-bottom: 7rem;
+   }
+}
+
+@media screen and (min-width: 450px) {
+   .container {
+      padding-bottom: 10rem;
+   }
 }
