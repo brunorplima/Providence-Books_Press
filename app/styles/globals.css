@@ -4,6 +4,12 @@
   --mainGray: #686867;
 }
 
+@font-face {
+  src: url('../../public/fonts/Nikkyou-Sans.ttf');
+  font-family: 'Nikkyou';
+  font-style: normal;
+}
+
 html,
 body {
   padding: 0;
