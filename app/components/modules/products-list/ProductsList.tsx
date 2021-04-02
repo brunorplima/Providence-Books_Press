@@ -1,7 +1,7 @@
 import React from 'react'
 import Product from '../../../interfaces-objects/Product';
 import HorizontalProductsList from './HorizontalProductsList'
-import useScreenWidth from '../../../util/useScreenWidth'
+import useScreenWidth, { numberItemsHorizontalList } from '../../../util/useScreenWidth'
 import { BiSearchAlt } from 'react-icons/bi'
 import styles from '../../../styles/products-list/ProductsList.module.css'
 
@@ -14,17 +14,8 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
 
    const screenWidth = useScreenWidth();
 
-   function numberItemsHorizontalList() {
-      if (screenWidth <= 450) return 1;
-      if (screenWidth <= 670) return 2;
-      if (screenWidth <= 767) return 3;
-      if (screenWidth <= 950) return 2;
-      if (screenWidth <= 1150) return 3;
-      return 4;
-   }
-
    function getHorizontalLists() {
-      const eachLength = numberItemsHorizontalList();
+      const eachLength = numberItemsHorizontalList(screenWidth);
       const splitted: Product[][] = []
       let idx = 0;
       while (idx < products.length) {
