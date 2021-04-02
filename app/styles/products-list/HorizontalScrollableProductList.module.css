@@ -4,8 +4,12 @@
    width: 100%;
 }
 
-.arrowLeft, .arrowRight {
+.container:hover >  .arrowRight, .container:hover > .arrowLeft {
    color: var(--mainYellow);
+}
+
+.arrowLeft, .arrowRight {
+   color: var(--faintYellow);
    position: absolute;
    top: 200px;
    font-size: 34pt;
@@ -14,7 +18,7 @@
 }
 
 .arrowLeft:hover, .arrowRight:hover {
-   color: var(--darkYellow);
+   color: var(--darkYellow) !important;
 }
 
 .arrowLeft {
