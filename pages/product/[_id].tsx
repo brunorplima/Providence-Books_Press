@@ -16,10 +16,11 @@ import Head from 'next/head'
 import Book from '../../app/interfaces-objects/Book'
 import EBook from '../../app/interfaces-objects/EBook'
 import AudioBook from '../../app/interfaces-objects/AudioBook'
+import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
 
 interface Props {
-   relatedProducts: Product[]
    product: Product,
+   relatedProducts: Product[],
    reviews: Review[]
 }
 
@@ -33,9 +34,29 @@ export class ProductDetails extends Component<Props, State> {
 
    }
 
+   getSortedRelatedProductsList():  Product[] {
+      const { product, relatedProducts } = this.props;
+      const sameAuthorList: Product[] = []; 
+      const differentAuthorList: Product[] = []; 
+      
+      relatedProducts.forEach(prod => {
+         const specProd = (prod as Book | EBook | AudioBook);
+         const bools: Boolean[] = specProd._authorIds.map(id => (product as Book | EBook | AudioBook)._authorIds.includes(id));
+         if(bools.includes(true)) {
+            sameAuthorList.push(specProd);
+            return;
+         } else {
+            differentAuthorList.push(specProd);
+            return;
+         }
+      })
+      
+      return [...sameAuthorList, ...differentAuthorList]
+   }
+
    render() {
 
-      const { product, relatedProducts, reviews } = this.props;
+      const { product, reviews } = this.props;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -65,7 +86,7 @@ export class ProductDetails extends Component<Props, State> {
 
                <UserReviews reviews={reviews} />
 
-               {/* <RelatedProducts products={relatedProducts} /> */}
+               <RelatedProducts products={this.getSortedRelatedProductsList()} />
             </Frame>
 
          </Frame>
@@ -87,18 +108,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    })
 
 
-   const list: Product[] = products.filter((prod: Product) => {
-      const sameAuthor = (product as Book | EBook | AudioBook).authors.match((prod as Book | EBook | AudioBook).authors);
-      const sameCategory = product.category === prod.category;
-      return sameAuthor && sameCategory;
-   })
-
-   const relatedProducts = list.slice(0, 4);
+   const relatedProducts: Product[] = products.filter((prod: Product) => (product.category === prod.category) && (product._id !== prod._id))
 
    return {
       props: {
-         relatedProducts,
          product,
+         relatedProducts,
          reviews
       }
    }
