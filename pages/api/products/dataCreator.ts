@@ -9,7 +9,40 @@ const products: Product[] = [];
 
 let product: Book | EBook | AudioBook;
 
-const exampleAuthors = ['Wegener, G.S.', 'Van Der Jagt, A.', 'De Vries, Anne', 'Calvin, John', 'Schouten, Andrew', 'Beeke, Joel', 'Van Der Waal, C.', 'Alcock, Deborah']
+const exampleAuthors = [
+   {
+      name: 'Wegener, G.S.',
+      id:'283-0948-1132'
+   },
+   {
+      name: 'Van Der Jagt, A.',
+      id:'039-1889-4713'
+   },
+   {
+      name: 'De Vries, Anne',
+      id:'618-1186-0295'
+   },
+   {
+      name: 'Calvin, John',
+      id:'937-39556-034'
+   },
+   {
+      name: 'Schouten, Andrew',
+      id:'039-92594-22'
+   },
+   {
+      name: 'Beeke, Joel',
+      id:'1-85893-99'
+   },
+   {
+      name: 'Van Der Waal, C.',
+      id:'132-069-2222'
+   },
+   {
+      name: 'Alcock, Deborah',
+      id:'77-99-154832'
+   }
+]
 
 const publishers = ['PROVIDENCE PRESS', 'HRB', 'CROSSWAY', 'INHERITANCE PUBLICATIONS', 'RR']
 
@@ -17,6 +50,7 @@ const categories = ['DOCTRINE', 'CHURCH & CULTURE', 'SERMONS', 'COMMENTARIES', '
 
 for (let i = 0; i < 215; i++) {
    const productType = faker.random.arrayElement(['Book', 'Book', 'Book', 'Book', 'E-book', 'E-book', 'Audio book']);
+   const author = faker.random.arrayElement(exampleAuthors);
 
    if (productType === 'Book') {
       product = new Book(
@@ -27,9 +61,9 @@ for (let i = 0; i < 215; i++) {
          ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
          faker.random.uuid(),
          faker.random.arrayElement(categories),
-         [faker.random.uuid()],
+         [author.id],
          faker.random.uuid(),
-         faker.random.arrayElement(exampleAuthors),
+         author.name,
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
          Number(faker.random.float({ min: 0.050, max: 2 }).toFixed(3)),
@@ -53,10 +87,10 @@ for (let i = 0; i < 215; i++) {
          faker.random.float({ min: 5.90, max: 126.99 }),
          ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
          faker.random.uuid(),
-         [faker.random.uuid()],
+         [author.id],
          faker.random.uuid(),
          faker.random.arrayElement(categories),
-         faker.random.arrayElement(exampleAuthors),
+         author.name,
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
          faker.random.arrayElements<string>(['PDF', 'RTF', 'EPUB', 'MOBI']),
@@ -78,10 +112,10 @@ for (let i = 0; i < 215; i++) {
          faker.random.float({ min: 5.90, max: 126.99 }),
          ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
          faker.random.uuid(),
-         [faker.random.uuid()],
+         [author.id],
          faker.random.uuid(),
          faker.random.arrayElement(categories),
-         faker.random.arrayElement(exampleAuthors),
+         author.name,
          faker.random.arrayElement(publishers),
          faker.internet.ip(),
          faker.name.lastName() + ', ' + faker.name.firstName(),
