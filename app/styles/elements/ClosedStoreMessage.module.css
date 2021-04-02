@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
 .container {
    position: fixed;
    top: 0;
@@ -16,16 +18,97 @@
 .message {
    padding: 1rem;
    max-width: 300px;
-   background-color: white;
+   background-color: linear;
    display: flex;
    flex-flow: column;
    justify-content: center;
    align-items: center;
+   background: rgb(255,255,255);
+   background: -moz-linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
+   background: -webkit-linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
+   background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#083d77",GradientType=1); 
 }
 
 .container div img {
    max-width: 200px;
    margin-top: 3rem;
+}
+
+
+
+
+.closedSignContainer {
+   padding-top: 2rem;
+   position: relative;
+   transform: rotate(-7deg);
+   margin-bottom: 1.5rem;
+}
+
+.pin, .leftCord, .rightCord {
+   position: absolute;
+   background-color: white;
+}
+
+.pin {
+   width: 6px;
+   height: 6px;
+   border-radius: 100%;
+   left: calc(50% - 3px);
+   top: 0;
+}
+
+.leftCord, .rightCord {
+   width: 2px;
+   height: 3rem;
+   top: -7px;
+}
+
+.leftCord {
+   transform: rotate(50deg);
+   left: calc(50% - 18px);
+}
+
+.rightCord {
+   transform: rotate(-50deg);
+   left: calc(50% + 16px);
+}
+
+.closedSign {
+   padding: .4rem;
+   background-color: #F6F1ED;
+   border-radius: .2rem;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.closedSign > div {
+   border: 3px solid black;
+   border-radius: .2rem;
+   padding: .6rem;
+   position: relative;
+}
+
+.closedSign > div div:first-child {
+   display: flex;
+}
+
+.sorry {
+   font-style: italic;
+   font-family: 'Dancing Script', cursive;
+   transform: rotate(-25deg);
+   position: absolute;
+   top: 0;
+}
+
+.were {
+   font-size: 15pt;
+   text-align: end;
+}
+
+.closed {
+   font-size: 26pt;
+   color: red;
+   font-weight: b;
 }
 
 
