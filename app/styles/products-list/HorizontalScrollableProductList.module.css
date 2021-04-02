@@ -1,0 +1,26 @@
+.container {
+   padding: 0 2.5rem;
+   position: relative;
+   width: 100%;
+}
+
+.arrowLeft, .arrowRight {
+   color: var(--mainYellow);
+   position: absolute;
+   top: 200px;
+   font-size: 34pt;
+   transition: .4s;
+   cursor: pointer;
+}
+
+.arrowLeft:hover, .arrowRight:hover {
+   color: var(--darkYellow);
+}
+
+.arrowLeft {
+   left: 0;
+}
+
+.arrowRight {
+   right: 0;
+}
