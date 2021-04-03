@@ -134,9 +134,10 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
+    * Applies all filters the user selected to the full list of products.
     * 
-    * @param list 
-    * @returns 
+    * @param list The full list of products
+    * @returns    Thr list of products filtered by the user
     */
    applyFilterToList(list: Product[]): Product[] {
       let productsList = [...list];
@@ -158,9 +159,10 @@ export class Bookstore extends Component<Props, State> {
    }
 
    /**
+    * Applies the search text to the full list or a filtered list of product.
     * 
-    * @param list 
-    * @returns 
+    * @param list A filtered or full list of products
+    * @returns    A list of products matching the search text
     */
    applySearchToList(list: Product[]): Product[] {
       const regex = new RegExp(`${this.state.search}`, 'i');
@@ -169,9 +171,11 @@ export class Bookstore extends Component<Props, State> {
    }
 
    /**
+    * Applies pagination to the processed list (filtered by filters or search or both).
+    * It provides a section of the processed list which will be rendered.
     * 
-    * @param list 
-    * @returns 
+    * @param list The processed list
+    * @returns    The paginated section 
     */
    applyPaginationToList(list: Product[]): Product[] {
       let viewList = list.filter((prod, idx) => {
@@ -184,10 +188,13 @@ export class Bookstore extends Component<Props, State> {
    }
 
    /**
+    * Populates a final list of products that will be rendered to the user.
+    * In case it is needed information about the full processed list the paramater passed should be false
+    * then it returns the full processed list instead of a paginated version of the full processed list.
     * 
-    * @param list 
-    * @param paginated 
-    * @returns 
+    * @param list       Full list of products
+    * @param paginated  Whether it should return a pagination or non-paginated version of processed list
+    * @returns          Either full or paginated version of the processed list
     */
    populateProcessedList(paginated: boolean): Product[] {
       const filteredList = this.applyFilterToList(this.props.products as Product[])
@@ -203,8 +210,9 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
+    * Returns the biggest pagination number
     * 
-    * @returns 
+    * @returns Max page number
     */
    getMaxPage() {
       return Math.ceil(this.populateProcessedList(false).length / this.numberPaginationView);
@@ -212,9 +220,9 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
+    * Provides the option numbers for the pagination controllers
     * 
-    * @param list 
-    * @returns 
+    * @returns An array with the numbers
     */
    getPaginationOptions(): number[] {
       const { pagination } = this.props;
@@ -241,8 +249,9 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
+    * Sets the value for pagination state.
     * 
-    * @param pageNumber 
+    * @param pageNumber New value to set
     */
    setPagination(pageNumber: number) {
       const { pagination } = this.props
@@ -254,7 +263,8 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
-    * 
+    * Ensures the pagination state is not lower than 1 nor greater than the
+    * biggest possible number of pages based on processed list length
     */
    ensurePaginationIsWithinBounds() {
       const { pagination } = this.props;
@@ -268,6 +278,12 @@ export class Bookstore extends Component<Props, State> {
    }
 
 
+   /**
+    * Set modalOpen state to the passed in value. It shows/hide the sidebar portal.
+    * Only effective on smaller devices
+    * 
+    * @param value The value to set
+    */
    setModalOpen(value: boolean) {
       this.setState({ modalOpen: value });
    }
@@ -354,7 +370,6 @@ export class Bookstore extends Component<Props, State> {
                   </Frame>
                </Frame>
             </Frame>
-
          </>
       )
    }
