@@ -15,19 +15,23 @@
    text-align: center;
 }
 
+.messageContainer {
+   margin: 0 1rem;
+   padding: .5rem;
+   background-color: white;
+   min-width: 300px;
+}
+
 .message {
+   border: 3px solid var(--mainYellow);
+   border-radius: .8rem;
    padding: 1rem;
-   max-width: 300px;
    background-color: linear;
    display: flex;
    flex-flow: column;
    justify-content: center;
    align-items: center;
-   background: rgb(255,255,255);
-   background: -moz-linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
-   background: -webkit-linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
-   background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(83,125,171,1) 85%, rgba(8,61,119,1) 100%);
-   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#083d77",GradientType=1); 
+   background-color: white;
 }
 
 .container div img {
@@ -47,7 +51,7 @@
 
 .pin, .leftCord, .rightCord {
    position: absolute;
-   background-color: white;
+   background-color: black;
 }
 
 .pin {
@@ -76,7 +80,7 @@
 
 .closedSign {
    padding: .4rem;
-   background-color: #F6F1ED;
+   background-color: #f5e4d6;
    border-radius: .2rem;
    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
