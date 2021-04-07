@@ -17,12 +17,6 @@ type ProductItem = {
    subtotal: number
    type?: string,
 }
-
-type ArticleAuthor = {
-   name: string,
-   credential: string,
-   about?: string
-}
 /** --------------------------------- */
 
 
@@ -74,9 +68,16 @@ export interface Comment {
    body: string
 }
 
+
+
+
+export type ArticleAuthor = {
+   name: string,
+   credential: string,
+   about?: string
+}
 export interface Article {
    _id: string,
-   _categoryId: string,
    image: string,
    title: string,
    subtitle: string,
