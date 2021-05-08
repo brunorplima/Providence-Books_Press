@@ -34,3 +34,11 @@ export const numberItemsHorizontalScrollablelList = (screenWidth: number) => {
    if (screenWidth <= 1000) return 3;
    return 4;
 }
+
+export const numberItemsArticlesList = (screenWidth: number) => {
+   if (screenWidth <= 450) return 1;
+   if (screenWidth <= 650) return 2;
+   if (screenWidth <= 820) return 3;
+   if (screenWidth <= 1000) return 4;
+   return 5;
+}
