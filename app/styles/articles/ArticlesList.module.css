@@ -1,0 +1,23 @@
+.container {
+   margin: 0 1.5rem;
+   margin-bottom: 2.5rem;
+   padding-bottom: 2.5rem;
+   border-bottom: 1px solid var(--mainYellow);
+}
+
+.container > h3 {
+   text-transform: uppercase;
+   font-family: 'Nikkyou';
+   color: var(--mainYellow);
+   font-size: 18pt;
+}
+
+.list {
+   display: flex;
+}
+
+.pagination {
+   display: flex;
+   justify-content: flex-end;
+}
+
