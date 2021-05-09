@@ -4,18 +4,37 @@ import styles from '../../app/styles/articles/Articles.module.css'
 import ArticlesList from '../../app/components/modules/articles/ArticlesList';
 import { Article } from '../../app/interfaces-objects/interfaces'
 import ArticleBanner from '../../app/components/modules/articles/ArticleBanner'
+import Button from '../../app/components/elements/button/Button';
 
 interface Props {
    articles: Article[],
    categories: string[]
 }
 
-export class index extends Component<Props> {
+interface State {
+   showCategories: boolean
+}
+
+export class index extends Component<Props, State> {
+
+   constructor(props) {
+      super(props);
+
+      this.state = {
+         showCategories: false
+      }
+
+      this.setShowCategories = this.setShowCategories.bind(this);
+   }
 
    getSortedArticles(): Article[] {
       const { articles } = this.props;
       let sorted = articles.sort((a, b) => new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime())
       return sorted;
+   }
+
+   setShowCategories() {
+      this.setState({ showCategories: !this.state.showCategories })
    }
 
    render() {
@@ -25,7 +44,7 @@ export class index extends Component<Props> {
 
       return (
          <div className={styles.container}>
-            <ArticleBanner article={firstArticle}/>
+            <ArticleBanner article={firstArticle} />
 
             <div className={styles.lists}>
                <ArticlesList
@@ -35,6 +54,14 @@ export class index extends Component<Props> {
                />
 
                {
+                  !this.state.showCategories &&
+                  <div style={{ marginBottom: '5rem' }}>
+                     <Button clickHandler={this.setShowCategories} label='Show by categories' />
+                  </div>
+               }
+
+               {
+                  this.state.showCategories &&
                   categories.map(category => {
                      return (
                         <ArticlesList
@@ -64,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       if (!categories.includes(article.category))
          categories.push(article.category);
    }
-   
+
    articles.forEach(populateCategories);
 
    return {
