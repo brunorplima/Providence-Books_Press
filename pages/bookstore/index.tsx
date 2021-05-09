@@ -14,6 +14,7 @@ import SideBarModal from '../../app/components/modules/side-bar/SideBarModal'
 import { connect } from 'react-redux'
 import { store } from '../../app/redux/store/store'
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions'
+import getPaginationOptions from '../../app/util/paginationService'
 
 interface Props {
    products: Product[],
@@ -220,35 +221,6 @@ export class Bookstore extends Component<Props, State> {
 
 
    /**
-    * Provides the option numbers for the pagination controllers
-    * 
-    * @returns An array with the numbers
-    */
-   getPaginationOptions(): number[] {
-      const { pagination } = this.props;
-      const maxPage = this.getMaxPage();
-
-      if (maxPage >= 4) {
-         if (pagination > 1 && pagination < maxPage - 1) {
-            return [pagination - 1, pagination, pagination + 1, maxPage];
-         }
-         else if (pagination === 1) {
-            return [1, 2, 3, maxPage];
-         } else if (pagination >= maxPage - 1) {
-            return [maxPage - 2, maxPage - 1, maxPage];
-         }
-      } else {
-         const options: number[] = [];
-
-         for (let i = 1; i <= maxPage; i++) {
-            options.push(i);
-         }
-         return options;
-      }
-   }
-
-
-   /**
     * Sets the value for pagination state.
     * 
     * @param pageNumber New value to set
@@ -352,7 +324,7 @@ export class Bookstore extends Component<Props, State> {
                   <ListInfo
                      nonPaginatedListLength={searchedFilteredList.length}
                      pagination={this.props.pagination}
-                     options={this.getPaginationOptions()}
+                     options={getPaginationOptions(this.props.pagination, this.getMaxPage())}
                      setPagination={this.setPagination}
                   />
 
@@ -364,7 +336,7 @@ export class Bookstore extends Component<Props, State> {
                   <Frame style={{ ...paginationFrame, justifyContent: 'end' }}>
                      <Pagination
                         pagination={this.props.pagination}
-                        options={this.getPaginationOptions()}
+                        options={getPaginationOptions(this.props.pagination, this.getMaxPage())}
                         setPagination={this.setPagination}
                      />
                   </Frame>
