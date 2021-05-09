@@ -2,11 +2,9 @@ import React from 'react'
 import { Article } from '../../../interfaces-objects/interfaces'
 import styles from '../../../styles/articles/ArticlesList.module.css'
 import getPaginationOptions from '../../../util/paginationService'
-import ArticleCard from '../../elements/article-card/ArticleCard'
 import Pagination from '../../elements/pagination/Pagination'
 import useScreenWidth, { numberItemsArticlesList } from '../../../util/useScreenWidth'
 import ArticleCardRow from './ArticleCardRow'
-import articles from '../../../../pages/api/articles'
 
 interface WarpperProps {
    readonly articles: Article[],
