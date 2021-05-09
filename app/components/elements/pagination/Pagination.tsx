@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../../../styles/elements/Pagination.module.css'
 
 interface Props {
    pagination: number,
    options: number[],
-   setPagination: (pageNumber: number) => void
+   setPagination: (pageNumber: number) => void,
+   noScroll?: boolean
 }
 
-const Pagination: React.FC<Props> = ({ pagination, options, setPagination }) => {
+const Pagination: React.FC<Props> = ({ pagination, options, setPagination, noScroll }) => {
 
    function handleClick(option: number) {
       setPagination(option);
-      window.scroll(0,0)
    }
+
+   useEffect(() => {
+      if (!noScroll)
+         window.scroll(0,0);
+
+   }, [pagination])
 
    return (
       <div style={{ display: 'flex' }}>
