@@ -1,0 +1,70 @@
+.banner {
+   width: 100%;
+   height: 350px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-size: cover !important;
+   background-position: center !important;
+   background-repeat: no-repeat;
+   margin-top: 3rem;
+   position: relative;
+}
+
+.articleTag {
+   padding: .2rem .4rem;
+   border-radius: .3rem;
+   background-color: rgba(0, 0, 0, .4);
+   color: var(--lightGray);
+   position: absolute;
+   left: .5rem;
+   top: .5rem;
+}
+
+.innerBanner {
+   width: 90%;
+   display: flex;
+   flex-flow: column;
+   background-color: rgba(0, 0, 0, .4);
+}
+
+.innerBanner > h2, .innerBanner > h3 {
+   color: var(--lightGray);
+   text-align: center;
+}
+
+.innerBanner > h2 {
+   font-size: 22pt;
+   font-family: 'Nikkyou';
+   margin: 0;
+}
+
+.bannerInfo {
+   padding: 1rem;
+   border: 1px solid var(--mainGray);
+   border-top-width: 0;
+   background-color: var(--almostWhite);
+   display: flex;
+   justify-content: space-between;
+}
+
+.bannerAuthor {
+   display: flex;
+   align-items: center;
+   margin-bottom: .5rem;
+}
+
+.bannerAuthor > div:first-child {
+   font-size: x-large;
+   margin-right: 1rem;
+}
+
+.bannerAuthor > div:last-child {
+   transform: translateY(-.1rem);
+}
+
+@media screen and (min-width: 768px) {
+   .innerBanner > h2 {
+      font-size: 40pt;
+   }
+}
