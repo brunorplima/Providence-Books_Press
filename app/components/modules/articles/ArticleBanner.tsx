@@ -16,7 +16,7 @@ const ArticleBanner: React.FC<Props> = ({ article }) => {
    return (
       <Link href={`articles/${_id}`}>
          <a>
-            <div className={styles.banner}>
+            <div className={styles.banner} style={{ background: `url(${image})` }}>
                <div className={styles.articleTag}>
                   Article
                </div>
