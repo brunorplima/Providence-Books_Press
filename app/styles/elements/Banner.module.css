@@ -1,0 +1,33 @@
+.container {
+   max-width: 1200px;
+   height: 500px;
+   background-position: center !important;
+   background-repeat: no-repeat !important;
+   background-size: cover !important;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.title {
+   background-color: rgba(0, 0, 0, .5);
+   color: var(--lightGray);
+   padding: 1rem;
+   font-size: 28pt;
+   font-family: Nikkyou;
+   text-align: center;
+}
+
+.subtitle {
+   font-size: 14pt;
+}
+
+@media screen and (min-width: 768px) {
+   .title {
+      font-size: 40pt;
+   }
+
+   .subtitle {
+      font-size: 20pt;
+   }
+}
