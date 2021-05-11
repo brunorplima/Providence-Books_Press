@@ -5,7 +5,7 @@ import products from '../products/products.json'
 let reviews: Review[] = []
 
 for (const product of products) {
-   const count = faker.random.number(5)
+   const count = faker.random.number(8)
    for (let i = 1; i <= count; i++) {
       const review: Review = {
          _id: faker.random.uuid(),
