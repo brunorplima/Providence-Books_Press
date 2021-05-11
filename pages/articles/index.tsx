@@ -5,6 +5,7 @@ import ArticlesList from '../../app/components/modules/articles/ArticlesList';
 import { Article } from '../../app/interfaces-objects/interfaces'
 import ArticleBanner from '../../app/components/modules/articles/ArticleBanner'
 import Button from '../../app/components/elements/button/Button';
+import articlesJSON from '../api/articles/articles.json'
 
 interface Props {
    articles: Article[],
@@ -80,10 +81,10 @@ export class index extends Component<Props, State> {
    }
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 
-   const fetchedData = await fetch('http://localhost:3000/api/articles');
-   const articles: Article[] = await fetchedData.json();
+   // const fetchedData = await fetch('http://localhost:3000/api/articles');
+   const articles: Article[] = articlesJSON as unknown as Article[]//await fetchedData.json();
 
    const categories: string[] = [];
 
