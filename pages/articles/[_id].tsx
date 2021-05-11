@@ -30,7 +30,7 @@ class ArticlePage extends React.Component<Props> {
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
 
-   const articleRes = await fetch(`http://localhost:3000/api/articles/${_id}`);
+   const articleRes = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
    const article = await articleRes.json();
 
    return {
