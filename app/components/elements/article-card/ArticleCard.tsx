@@ -17,9 +17,9 @@ const ArticleCard: React.FC<Props> = ({ id, image, title, author, subtitle }) =>
       <div className={styles.container}>
          <Link href={'/articles/' + id}>
             <a>
-               <div className={styles.image} style={{backgroundImage: `url(${image})`}}>
-                  {/* <img className={styles.img} src={image} alt={title} /> */}
-               </div>
+               {/* <div className={styles.image} style={{backgroundImage: `url(${image})`}}>
+                  
+               </div> */}
 
                <div className={styles.info}>
                   <h2 className={styles.title}>{title.toUpperCase()}</h2>
