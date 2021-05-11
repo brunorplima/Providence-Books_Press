@@ -83,8 +83,8 @@ export class index extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-   // const fetchedData = await fetch('http://localhost:3000/api/articles');
-   const articles: Article[] = articlesJSON as unknown as Article[]//await fetchedData.json();
+   const fetchedData = await fetch('https://providencebp.vercel.app/api/articles');
+   const articles: Article[] = await fetchedData.json();
 
    const categories: string[] = [];
 
