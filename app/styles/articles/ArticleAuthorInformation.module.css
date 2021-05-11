@@ -1,0 +1,16 @@
+.container {
+   max-width: 300px;
+   margin-right: auto;
+   margin-left: auto;
+}
+
+.initials {
+   float: left;
+   margin-right: 1rem;
+   margin-bottom: .5rem;
+}
+
+.authorName {
+   margin-bottom: 1rem;
+   font-size: 14pt;
+}

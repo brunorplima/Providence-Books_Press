@@ -1,0 +1,31 @@
+.container {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   padding: 1rem;
+}
+
+.authorInfo {
+   display: flex;
+}
+
+.authorInfo > div:last-child {
+   display: flex;
+   align-items: center;
+   font-size: 9pt;
+   margin-left: 1rem;
+   margin-right: 1rem;
+}
+
+.date {
+   display: flex;
+   align-items: center;
+   font-size: 11pt;
+}
+
+
+@media screen and (min-width: 768px) {
+   .container {
+      padding: 1rem 2rem;
+   }
+}

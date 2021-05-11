@@ -5,6 +5,8 @@
   --mainGray: #686867;
   --lightGray: #CCCBCB;
   --almostWhite: #F0F0F0;
+
+  --maxPageWidth: 1200px;
 }
 
 @font-face {
