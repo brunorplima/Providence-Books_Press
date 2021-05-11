@@ -1,11 +1,10 @@
 import { GetServerSideProps } from 'next'
 import React, { Component } from 'react'
 import styles from '../../app/styles/articles/Articles.module.css'
-import ArticlesList from '../../app/components/modules/articles/ArticlesList';
+import ArticlesList from '../../app/components/modules/articles/ArticlesList'
 import { Article } from '../../app/interfaces-objects/interfaces'
 import ArticleBanner from '../../app/components/modules/articles/ArticleBanner'
-import Button from '../../app/components/elements/button/Button';
-import articlesJSON from '../api/articles/articles.json'
+import Button from '../../app/components/elements/button/Button'
 
 interface Props {
    articles: Article[],
