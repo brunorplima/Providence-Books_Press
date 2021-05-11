@@ -24,7 +24,7 @@ const ArticleCard: React.FC<Props> = ({ id, image, title, author, subtitle }) =>
                <div className={styles.info}>
                   <h2 className={styles.title}>{title.toUpperCase()}</h2>
                   {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
-                  {/* <div style={{flex: 1}}></div> */}
+                  
                   <div className={styles.author}>AUTHOR: {author.name.toUpperCase()}</div>
                </div>
             </a>
