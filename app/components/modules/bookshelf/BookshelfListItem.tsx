@@ -50,7 +50,7 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
 
          <div className={styles.productPriceQuantity}>
             <div className={`${styles.price} ${evenItem && styles.lightColor}`}>
-               $ {item.price}
+               $ {item.price.toFixed(2)}
             </div>
 
             <div className={styles.quantity}>
