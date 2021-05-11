@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 import { Article } from '../../../interfaces-objects/interfaces'
 import styles from '../../../styles/articles/ArticlesBanner.module.css'
-import { IoPersonCircle } from 'react-icons/io5'
 import faker from 'faker'
+import NameInitials from '../../elements/name-initials/NameInitials'
 
 interface Props {
    article: Article
@@ -30,7 +30,7 @@ const ArticleBanner: React.FC<Props> = ({ article }) => {
             <div className={styles.bannerInfo}>
                <div>
                   <div className={styles.bannerAuthor}>
-                     <div style={{ color: faker.random.arrayElement(['#104C56', '#001986', '#035C00', '#450000']) }}><IoPersonCircle /></div>
+                     <div><NameInitials name={author.name} /></div>
                      <div>{author.credential} {author.name}</div>
                   </div>
 
