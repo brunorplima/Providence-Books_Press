@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import styles from '../../../styles/elements/Banner.module.css'
+import useScrollPosition from '../../../util/useScrollPosition';
 
 interface Props {
    readonly image: string,
@@ -8,7 +9,6 @@ interface Props {
 }
 
 const Banner: React.FC<Props> = ({ image, title, subtitle }) => {
-   console.log(subtitle);
    return (
       <div className={styles.container} style={image ? { background: `url(${image})`, backgroundRepeat: 'no-repeat' } : {}}>
          {
