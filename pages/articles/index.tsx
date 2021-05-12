@@ -56,7 +56,7 @@ export class index extends Component<Props, State> {
                {
                   !this.state.showCategories &&
                   <div style={{ marginBottom: '5rem', display: 'flex', justifyContent: 'center' }}>
-                     <Button clickHandler={this.setShowCategories} label='Show by categories' style={{ fontSize: '12pt' }} />
+                     <Button clickHandler={this.setShowCategories} label='Show by categories' style={{ fontSize: '12pt', width: 200 }} />
                   </div>
                }
 
