@@ -12,6 +12,8 @@ const useScreenWidth = () => {
          setWidth(window.innerWidth)
       }
       window.addEventListener('resize', assignWidth, { once: true })
+
+      return () => window.removeEventListener('resize', assignWidth)
    }, [width])
 
    return width;
