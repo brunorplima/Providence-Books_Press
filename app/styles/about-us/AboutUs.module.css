@@ -1,0 +1,36 @@
+.bannerContainer {
+   padding: .8rem;
+   max-width: 1200px;
+   margin-right: auto;
+   margin-left: auto;
+}
+
+.separator {
+   width: 70%;
+   height: 1px;
+   background-color: var(--mainYellow);
+   margin-top: 3rem;
+   margin-bottom: 3rem;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.aboutusContainer {
+   width: 80%;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+}
+
+.biblicalPassage, .aboutusContainer > h1 {
+   font-family: Nikkyou;
+   color: var(--mainYellow);
+}
+
+.aboutusContainer > p {
+   margin-bottom: 3rem;
+}
+
+.biblicalPassage {
+   margin-bottom: 4rem;
+}
