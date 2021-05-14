@@ -1,0 +1,136 @@
+.container {
+   display: flex;
+   flex-flow: column;
+}
+
+.textContainer > h2, .formContainer > h3 {
+   font-family: Nikkyou;
+   margin-top: 0;
+}
+
+.textContainer, .formContainer {
+   background-color: var(--mainYellow);
+   color: white;
+   padding: 2rem 1rem 1rem 1rem;
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+   text-align: center;
+}
+
+.textContainer {
+   order: 2;
+}
+
+.textContainer > p {
+   margin-top: 0;
+}
+
+.formContainer {
+   order: 1;
+}
+
+.logoContainer {
+   width: 280px;
+   height: 160px;
+   background-color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.form {
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+   padding: .5rem;
+   position: relative;
+}
+
+.input, .textarea {
+   padding: .4rem;
+   min-width: 260px;
+   border: none;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 11pt;
+   margin-bottom: .5rem;
+}
+
+.textarea {
+   height: 140px;
+}
+
+.submit {
+   background-color: white;
+   color: var(--mainYellow);
+   border: none;
+   font-weight: bold;
+   height: 30px;
+   width: 80px;
+   cursor: pointer;
+}
+
+
+@keyframes fadeIn {
+   from {
+      opacity: 0;
+   }
+   to {
+      opacity: 1;
+   }
+}
+
+.confirmation {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, .5);
+   display: flex;
+   flex-flow: column;
+   justify-content: center;
+   align-items: center;
+   animation: fadeIn 1s ease-in;
+}
+
+.closeIcon {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   font-size: 18pt;
+   cursor: pointer;
+}
+
+.errorMessage {
+   width: 100%;
+   text-align: left;
+   margin-bottom: .5rem;
+   display: flex;
+   color: rgb(186, 0, 0);
+}
+
+.errorMessage > div {
+   margin-right: .5rem;
+   transform: translateY(.1rem);
+}
+
+
+@media screen and (min-width: 768px) {
+   .container {
+      flex-flow: row;
+      justify-content: space-between;
+   }
+
+   .textContainer, .formContainer {
+      flex-basis: 49.8%;
+   }
+
+   .textContainer > h2 {
+      font-size: 26pt;
+   }
+
+   .textContainer {
+      order: 1;
+   }
+}
