@@ -1,0 +1,333 @@
+/* .container {
+   position: relative;
+   margin-left: auto;
+   margin-right: auto;
+} */
+@keyframes growPlaceholder {
+   from {
+      height: 0px;
+   }
+   to {
+      height: 60%;
+   }
+}
+
+@keyframes shrinkPlaceholder {
+   from {
+      height: 0px;
+   }
+   to {
+      height: 60%;
+   }
+}
+
+@keyframes slideInNavbar {
+   0% {
+      left: 120%;
+   }
+   100% {
+      left: 0;
+   }
+}
+.slideInNavbar {
+   animation: slideInNavbar .4s ease-out;
+}
+
+@keyframes slideOutNavbar {
+   from {
+      left: 0;
+   }
+   to {
+      left: 120%;
+   }
+}
+.slideOutNavbar {
+   animation: slideOutNavbar .4s ease-out;
+}
+
+
+.placeholder {
+   width: 100%;
+   height: 60px;
+}
+
+.navbar {
+   width: 100%;
+   position: fixed;
+   top: 0;
+   height: 60px;
+   display: flex;
+   justify-content: center;
+   z-index: 5;
+   font-weight: bold;
+}
+
+
+
+.navbarOptions {
+   width: 100%;
+   padding: 0 1rem;
+   display: flex;
+   flex-direction: column;
+   position: fixed;
+   top: 0;
+   /* left: 120%; */
+}
+
+.navbarOption {
+   list-style: none;
+   font-size: 10pt;
+   display: flex;
+   align-items: center;
+}
+
+.anchor {
+   display: flex;
+   padding: .3rem 0;
+   transition: .3s;
+}
+
+.navbarOptions > li:first-child a {
+   border: 2px solid transparent;
+   padding: .3rem 1rem;
+}
+
+.navbarSearch {
+   display: flex;
+}
+
+.navbarSearch label {
+   margin-right: .5rem;
+   transform: translateY(.25rem);
+}
+
+.navbarSearch input {
+   border: none;
+   background-color: transparent;
+   border-bottom: 2px solid transparent;
+   transform: translateY(-.1rem);
+   width: 160px;
+   padding-right: 24px;
+}
+
+.submit {
+   font-size: 13pt;
+   padding: .2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+   transition: .3s;
+   margin-left: .5rem;
+}
+
+.logoArea {
+   display: flex;
+   padding-left: 2rem;
+   font-size: 18pt;
+   font-family: Nikkyou;
+   align-items: center;
+   flex: 1;
+}
+
+.menuButton {
+   display: flex;
+   justify-content: flex-end;
+   padding-right: 1.5rem;
+   align-items: center;
+   width: 5rem !important;
+   font-size: 30pt;
+}
+
+.menuButton > svg {
+   padding: .3rem;
+   cursor: pointer;
+   transition: .3s;
+}
+
+.closeMenuButton {
+   font-size: 24pt;
+   position: absolute;
+   top: 1.7rem;
+   right: 1.7rem;
+   color: var(--mainYellow);
+   cursor: pointer;
+}
+
+.closeMenuButton > svg {
+   background-color: white;
+}
+
+
+
+
+/***************************************************
+   Mobile style
+*/
+.mobileNavbarOptions {
+   background-color: rgba(215, 178, 99, .9);
+   top: 0;
+   bottom: 0;
+   align-items: center;
+   color: white;
+}
+
+.firstMNO {
+   margin-top: 5rem;
+}
+
+.mobileNavbarOption{
+   font-size: 14pt;
+   margin-bottom: 1rem;
+}
+
+.mobileNavbarSearch {
+   flex-direction: column;
+   align-items: center;
+   background-color: white;
+   color: var(--mainYellow);
+   padding: .5rem;
+}
+
+.mobileNavbarSearch > input {
+   border: 1px solid var(--mainYellow) !important;
+   width: 180px;
+   margin-top: .5rem;
+   padding: .2rem .1rem;
+   color: black !important;
+}
+
+.mobileNavbarSearch > div {
+   color: white;
+   background-color: var(--mainYellow);
+   width: 100%;
+   margin-left: 0;
+   margin-top: .5rem;
+}
+
+
+
+
+/***************************************************
+   Primary style
+*/
+.primaryNavbar {
+   background-color: white;
+   border-bottom: 3px solid var(--mainYellow);
+   -webkit-box-shadow: 0px 1px 15px 0px #000000; 
+   box-shadow: 0px 1px 8px 0px #555;
+   color: var(--mainYellow);
+}
+
+.primaryNavbarSearch input {
+   border-bottom-color: var(--mainYellow);
+   color: var(--mainYellow);
+}
+
+.primaryNavbarOptions > li:first-child a {
+   border-color: var(--mainYellow);
+}
+
+.primaryAnchor:hover {
+   color: var(--darkYellow);
+}
+
+.primarySubmit {
+   color: white;
+   background-color: var(--mainYellow);
+}
+
+.primarySubmit:hover {
+   color: var(--mainYellow);
+   background-color: white;
+}
+
+.primaryMenuButton > svg:hover {
+   color: white;
+   background-color: var(--mainYellow);
+}
+
+
+
+
+/******************************************************
+   Secondary style
+*/
+.secondaryNavbar {
+   margin-top: .8rem;
+   color: white;
+}
+
+.secondaryNavbarSearch input {
+   border-bottom-color: white;
+   color: white;
+}
+
+.secondaryNavbarOptions > li:first-child a {
+   border-color: white;
+}
+
+.secondaryAnchor:hover {
+   color: var(--lightGray);
+}
+
+.secondarySubmit:hover {
+   color: var(--lightGray);
+}
+
+.secondaryMenuButton > svg:hover {
+   color: var(--lightGray);
+   border: 1px solid var(--lightGray);
+}
+
+
+
+
+
+
+
+/* @media screen and (max-width: 650px) {
+   .menuButton {
+      flex-basis: 20%;
+   }
+} */
+
+@media screen and (min-width: 900px) {
+   .navbarOptions {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      max-width: 1200px;
+      /* left: 0; */
+      position: relative;
+      animation: none;
+   }
+
+   .logoArea {
+      display: none;
+   }
+
+   .menuButton {
+      display: none;
+   }
+
+   .secondaryMenuButton > svg {
+      background-color: rgba(var(--lightGray), .5);
+      background-color: var(--lightGray);
+      
+   }
+}
+
+
+@media screen and (max-width: 300px) {
+   .mobileNavbarOption {
+      font-size: 12pt;
+      margin-bottom: 0;
+   }
+
+   .firstMNO {
+      margin-top: 2rem;
+   }
+}
+
+
