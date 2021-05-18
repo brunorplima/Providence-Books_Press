@@ -4,6 +4,7 @@ import { Article } from '../../../interfaces-objects/interfaces'
 import styles from '../../../styles/articles/ArticlesBanner.module.css'
 import faker from 'faker'
 import NameInitials from '../../elements/name-initials/NameInitials'
+import months from '../../../util/months'
 
 interface Props {
    article: Article
@@ -38,7 +39,7 @@ const ArticleBanner: React.FC<Props> = ({ article }) => {
                </div>
 
                <div>
-                  <div>{date.toDateString()}</div>
+                  <div>{months[date.getMonth()].toUpperCase()}.{date.getDate()}.{date.getFullYear()}</div>
                </div>
             </div>
          </a>
