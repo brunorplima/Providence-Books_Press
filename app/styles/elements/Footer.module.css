@@ -1,0 +1,36 @@
+.container {
+   width: 100%;
+   margin-top: 3rem;
+   color: var(--mainYellow);
+   text-align: center;
+}
+
+.container > h2 {
+   font-family: Nikkyou;
+   font-size: 24pt;
+}
+
+.info {
+   display: flex;
+   flex-direction: column;
+   padding: 1rem 3rem;
+   border-top: 1px solid var(--mainYellow);
+}
+
+.info > div:not(:last-child) {
+   margin-bottom: .3rem;
+}
+
+
+
+@media screen and (min-width: 1100px) {
+   .info {
+      flex-direction: row;
+      justify-content: space-between;
+   }
+
+   .info > div:first-child {
+      width: 392px;
+      text-align: left;
+   }
+}
