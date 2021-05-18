@@ -30,9 +30,14 @@ interface Props {
    readonly router: NextRouter;
 }
 
+export type MenuHidden = {
+   isIt: boolean;
+   useAnimation: boolean;
+}
+
 interface State {
    searchField: string;
-   isMenuHidden: boolean | null;
+   menuHidden: MenuHidden | null;
 }
 
 class NavbarWrapper extends Component<Props, State> {
@@ -41,27 +46,33 @@ class NavbarWrapper extends Component<Props, State> {
       super(props);
       this.state = {
          searchField: '',
-         isMenuHidden: null
+         menuHidden: null
       }
 
       this.setSearch = this.setSearch.bind(this);
-      this.setIsMenuHidden = this.setIsMenuHidden.bind(this);
+      this.setMenuHidden = this.setMenuHidden.bind(this);
       this.search = this.search.bind(this);
    }
 
    componentDidMount() {
       const { screenWidth } = this.props;
       if (screenWidth <= 900) {
-         this.setState({ isMenuHidden: true });
+         this.setState({ menuHidden: {
+            isIt: true,
+            useAnimation: false
+         } });
       }
    }
 
    componentDidUpdate() {
       const { screenWidth } = this.props;
-      if (screenWidth > 900 && this.state.isMenuHidden !== null) {
-         this.setState({ isMenuHidden: null });
-      } else if (screenWidth <= 900 && this.state.isMenuHidden === null) {
-         this.setState({ isMenuHidden: true });
+      if (screenWidth > 900 && this.state.menuHidden !== null) {
+         this.setState({ menuHidden: null });
+      } else if (screenWidth <= 900 && this.state.menuHidden === null) {
+         this.setState({ menuHidden: {
+            isIt: true,
+            useAnimation: false
+         } });
       }
    }
 
@@ -72,8 +83,11 @@ class NavbarWrapper extends Component<Props, State> {
       })
    }
 
-   setIsMenuHidden() {
-      this.setState({ isMenuHidden: !this.state.isMenuHidden });
+   setMenuHidden() {
+      this.setState({ menuHidden: {
+         isIt: !this.state.menuHidden.isIt,
+         useAnimation: true
+      } });
    }
 
    search(value: string) {
@@ -101,8 +115,8 @@ class NavbarWrapper extends Component<Props, State> {
             search={this.search}
             primary={this.isPrimaryNavbar()}
             secondaryStyleOwnPage={this.isSecondaryStyleOwnPage()}
-            isMenuHidden={this.state.isMenuHidden}
-            setIsMenuHidden={this.setIsMenuHidden}
+            menuHidden={this.state.menuHidden}
+            setMenuHidden={this.setMenuHidden}
          />
       )
    }

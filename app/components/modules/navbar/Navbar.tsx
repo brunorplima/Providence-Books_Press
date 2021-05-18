@@ -4,6 +4,7 @@ import styles from '../../../styles/navbar/Navbar.module.css';
 import { IoMenu, IoClose } from 'react-icons/io5'
 import NavbarItem from './NavbarItem';
 import NavbarSearch from './NavbarSearch';
+import { MenuHidden } from './NavbarContainer';
 
 interface Props {
    readonly searchField: string;
@@ -11,8 +12,8 @@ interface Props {
    readonly search: (value: string) => void;
    readonly primary: boolean;
    readonly secondaryStyleOwnPage: boolean;
-   readonly isMenuHidden: boolean | null;
-   readonly setIsMenuHidden: () => void;
+   readonly menuHidden: MenuHidden | null;
+   readonly setMenuHidden: () => void;
 }
 
 const Navbar: React.FC<Props> = ({
@@ -21,9 +22,17 @@ const Navbar: React.FC<Props> = ({
    search,
    primary,
    secondaryStyleOwnPage,
-   isMenuHidden,
-   setIsMenuHidden
+   menuHidden,
+   setMenuHidden
 }) => {
+
+   function getAnimationClass() {
+      const hiddenWithAnimation = menuHidden?.isIt && menuHidden?.useAnimation;
+      const shownWithAnimation = !menuHidden?.isIt && menuHidden?.useAnimation
+      if (hiddenWithAnimation) return styles.slideOutNavbar;
+      if (shownWithAnimation) return styles.slideInNavbar;
+      return '';
+   }
 
    const navbarOptions = [
       { label: 'HOME', href: '/' },
@@ -34,8 +43,8 @@ const Navbar: React.FC<Props> = ({
    ]
 
    const hiddenStyle: CSSProperties = { left: '120%' }
-
    const shownStyle: CSSProperties = { left: 0 }
+
 
    return (
       <>
@@ -49,16 +58,16 @@ const Navbar: React.FC<Props> = ({
                className={`
                   ${styles.navbarOptions}
                   ${primary ? styles.primaryNavbarOptions : styles.secondaryNavbarOptions}
-                  ${isMenuHidden !== null ? styles.mobileNavbarOptions : ''}
-                  ${isMenuHidden !== null ? isMenuHidden ? styles.slideOutNavbar : styles.slideInNavbar : ''}
+                  ${menuHidden !== null ? styles.mobileNavbarOptions : ''}
+                  ${getAnimationClass()}
                `}
-               style={isMenuHidden === null ? shownStyle : isMenuHidden ? hiddenStyle : shownStyle}
+               style={menuHidden === null ? shownStyle : menuHidden?.isIt ? hiddenStyle : shownStyle}
             >
                {
-                  isMenuHidden !== null &&
+                  menuHidden !== null &&
                   <div
                      className={styles.closeMenuButton}
-                     onClick={setIsMenuHidden}
+                     onClick={setMenuHidden}
                   >
                      <IoClose />
                   </div>
@@ -72,8 +81,8 @@ const Navbar: React.FC<Props> = ({
                            label={opt.label}
                            href={opt.href}
                            primary={primary}
-                           isMenuHidden={isMenuHidden}
-                           setIsMenuHidden={setIsMenuHidden}
+                           menuHidden={menuHidden}
+                           setMenuHidden={setMenuHidden}
                            isFirstItem={!idx ? true : false}
                         />
                      )
@@ -82,7 +91,7 @@ const Navbar: React.FC<Props> = ({
 
                <NavbarSearch
                   primary={primary}
-                  isMenuHidden={isMenuHidden}
+                  menuHidden={menuHidden}
                   searchField={searchField}
                   setSearch={setSearch}
                   search={search}
@@ -92,8 +101,8 @@ const Navbar: React.FC<Props> = ({
                   label='SIGN IN'
                   href='/sign-in'
                   primary={primary}
-                  isMenuHidden={isMenuHidden}
-                  setIsMenuHidden={setIsMenuHidden}
+                  menuHidden={menuHidden}
+                  setMenuHidden={setMenuHidden}
                   isFirstItem={false}
                />
             </div>
@@ -103,7 +112,7 @@ const Navbar: React.FC<Props> = ({
             </div>
             <div
                className={`${styles.menuButton} ${primary ? styles.primaryMenuButton : styles.secondaryMenuButton}`}
-               onClick={setIsMenuHidden}
+               onClick={setMenuHidden}
             >
                <IoMenu />
             </div>
