@@ -1,0 +1,141 @@
+.container {
+   width: 100vw;
+   height: calc(100vh - var(--navbarHeight));
+   display: flex;
+   flex-direction: column;
+}
+
+.left, .right {
+   width: 100%;
+   flex: 1;
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.left {
+   background-color: white;
+   order: 2;
+}
+
+.right {
+   background-color: var(--mainYellow);
+   order: 1;
+}
+
+.backButtonLeft , .backButtonRight {
+   position: absolute;
+}
+
+.backButtonLeft {
+   display: none;
+   top: 1rem;
+   left: 1rem;
+}
+
+.backButtonRight {
+   display: flex;
+   top: .5rem;
+   left: 0;
+}
+
+.providenceLogo > img {
+   max-width: 300px;
+}
+
+.form {
+   flex-basis: 70%;
+   color: white;
+   padding: 1rem;
+   max-width: 300px;
+}
+
+.form > div:not(:last-child) {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 1rem;
+}
+
+.form > div:last-child {
+   display: flex;
+   justify-content: center;
+}
+
+.input {
+   background-color: transparent;
+   border: none;
+   border-bottom: .1px solid rgba(255, 255, 255, .5);
+}
+
+.signInButton, .signUpButton {
+   border: 1px solid transparent;
+   padding: .4rem 1rem;
+   border-radius: .1rem;
+   cursor: pointer;
+}
+
+.signInButton {
+   background-color: #ECDCB8;
+   color: var(--mainYellow);
+   margin-right: .4rem;
+}
+
+.signInButton:hover {
+   background-color: #DCCCA8;
+}
+
+.signUpButton {
+   background-color: transparent;
+   border: 1px solid #F9DB9D;
+   color: white;
+}
+
+.signUpButton:hover {
+   background-color: rgba(255, 255, 255, .2);
+}
+
+
+
+
+@media screen and (min-width: 800px) {
+   .container {
+      flex-direction: row;
+   }
+
+   .left {
+      order: 1;
+   }
+
+   .right {
+      order: 2;
+   }
+
+   .backButtonLeft {
+      display: flex;
+   }
+   
+   .backButtonRight {
+      display: none;
+   }
+
+   .providenceLogo > img {
+      max-width: 360px;
+   }
+
+   .form > div:not(:last-child) {
+      margin-bottom: 2.4rem;
+   }
+
+   .form > div:last-child {
+      margin-top: 3rem;
+   }
+}
+
+
+
+@media screen and (min-width: 1000px) {
+   .providenceLogo > img {
+      max-width: 430px;
+   }
+}

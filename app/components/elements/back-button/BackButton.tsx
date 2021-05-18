@@ -3,7 +3,11 @@ import { FaLongArrowAltLeft } from 'react-icons/fa'
 import styles from '../../../styles/elements/BackButton.module.css'
 import { useRouter } from 'next/router'
 
-const BackButton = () => {
+interface Props {
+   readonly secondary?: boolean;
+}
+
+const BackButton: React.FC<Props> = ({ secondary }) => {
 
    const router = useRouter();
 
@@ -12,7 +16,13 @@ const BackButton = () => {
    }
 
    return (
-      <div className={styles.backButtonContainer} onClick={handleClick}>
+      <div
+         className={`
+            ${styles.backButtonContainer}
+            ${secondary ? styles.secondaryColor : styles.primaryColor}
+         `}
+         onClick={handleClick}
+      >
          <div className={styles.backIcons}><FaLongArrowAltLeft /></div>
          <div className={styles.backText}>Back</div>
       </div>
