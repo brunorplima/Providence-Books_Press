@@ -1,5 +1,6 @@
 import React from 'react'
 import ClosedStoreMessage from '../elements/closed-store/ClosedStoreMessage'
+import Footer from '../elements/footer/Footer'
 import NavbarContainer from '../modules/navbar/NavbarContainer'
 
 const Layout: React.FC = ({ children }) => {
@@ -8,6 +9,7 @@ const Layout: React.FC = ({ children }) => {
          <NavbarContainer />
          {children}
          <ClosedStoreMessage />
+         <Footer />
       </div>
    )
 }
