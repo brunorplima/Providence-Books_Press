@@ -10,6 +10,16 @@
    position: relative;
 }
 
+.banner::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background-color: rgba(0, 0, 0, .4);
+}
+
 .articleTag {
    padding: .2rem .4rem;
    border-radius: .3rem;
@@ -24,7 +34,7 @@
    width: 90%;
    display: flex;
    flex-flow: column;
-   background-color: rgba(0, 0, 0, .4);
+   z-index: 2;
 }
 
 .innerBanner > h2, .innerBanner > h3 {
@@ -47,10 +57,15 @@
    justify-content: space-between;
 }
 
+.bannerInfo > div:last-child > div {
+   transform: translateY(.4rem);
+}
+
 .bannerAuthor {
    display: flex;
    align-items: center;
    margin-bottom: .5rem;
+   margin-right: .5rem;
 }
 
 .bannerAuthor > div:first-child {
