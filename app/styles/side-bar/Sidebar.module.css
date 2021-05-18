@@ -2,6 +2,7 @@
    min-width: 230px;
    display: none;
    padding-top: 2rem;
+   overflow-y: scroll;
 }
 
 .sideBarModalContainer {
@@ -10,6 +11,7 @@
    background-color: rgba(0, 0, 0, .4);
    width: 100%;
    transform: translateX(-100%);
+   top: var(--navbarHeight);
 }
 
 .sideBarModalContainerOpen {
@@ -49,7 +51,7 @@
    flex-direction: column;
    background-color: white;
    width: fit-content;
-   padding: 3rem 1rem 1rem 0;
+   padding: 3.7rem 1rem 1rem 0;
    max-height: 100vh;
 }
 
@@ -59,8 +61,8 @@
    color: white;
    font-size: 16pt;
    position: absolute;
-   top: .4rem;
-   left: .4rem;
+   top: .8rem;
+   left: 1rem;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -71,6 +73,7 @@
 @media screen and (min-width: 768px) {
    .sideBar {
       display: block;
+      overflow-y: hidden;
    }
 
    .sideBarModal {
