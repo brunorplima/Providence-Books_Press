@@ -1,13 +1,9 @@
 .backButtonContainer {
    display: flex;
    align-items: center;
-   color: var(--mainYellow);
    padding: 0 1rem;
    cursor: pointer;
-}
-
-.backButtonContainer:hover {
-   color: var(--darkYellow);
+   transition: .3s;
 }
 
 .backIcons {
@@ -18,4 +14,20 @@
 
 .backText {
    font-size: 10pt;
+}
+
+.primaryColor {
+   color: var(--mainYellow);
+}
+
+.primaryColor:hover {
+   color: var(--darkYellow);
+}
+
+.secondaryColor {
+   color: white;
+}
+
+.secondaryColor:hover {
+   color: var(--almostWhite);
 }
