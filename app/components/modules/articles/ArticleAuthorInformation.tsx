@@ -18,6 +18,7 @@ const ArticleAuthorInformation: React.FC<Props> = ({ author }) => {
                <div>{author.about}</div>
             }
          </div>
+         <div style={{clear: 'both'}}></div>
       </div>
    )
 }
