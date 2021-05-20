@@ -1,0 +1,21 @@
+.container, .carousel {
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.container {
+   max-width: 1200px;
+}
+
+.banner {
+   padding: .8rem;
+   margin-bottom: 7rem;
+}
+
+.carousel {
+   width: 85%;
+   border-top: 1px solid var(--mainYellow);
+   border-bottom: 1px solid var(--mainYellow);
+   padding: 2.5rem .8rem;
+   padding-bottom: .8rem;
+}
