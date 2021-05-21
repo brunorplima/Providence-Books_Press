@@ -2,13 +2,13 @@ import { GetServerSideProps } from 'next';
 import React, { Component } from 'react';
 import Carousel from './Carousel';
 import styles from '../../../styles/home/Carousel.module.css';
-import SlideSelectors from './SlideSelectors';
+import SlideSelectors from '../../elements/slide-selectors/SlideSelectors';
 
 interface State {
    index: number;
 }
 
-const paths = ['/carousel/1.jpeg', '/carousel/2.jpeg', '/carousel/3.jpg', '/carousel/4.jpg', '/carousel/5.jpg', '/carousel/6.jpg'];
+const paths = ['/carousel/1.jpeg', '/carousel/2.jpeg', '/carousel/3.jpg', '/carousel/4.jpg', '/carousel/5.png', '/carousel/6.jpg'];
 const INTERVAL_TIME = 6000;
 
 export class CarouselContainer extends Component<{}, State> {
@@ -80,7 +80,7 @@ export class CarouselContainer extends Component<{}, State> {
                index={index}
             />
             <SlideSelectors
-               paths={paths}
+               values={paths}
                index={index}
                goToChosenImg={this.goToChosenImg}
             />
