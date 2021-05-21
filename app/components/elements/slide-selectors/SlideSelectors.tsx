@@ -2,16 +2,16 @@ import React from 'react';
 import styles from '../../../styles/home/SlideSelectors.module.css';
 
 interface Props {
-   readonly paths: string[];
+   readonly values: string[];
    readonly index: number;
    readonly goToChosenImg: (index: number) => void;
 }
 
-const SlideSelectors: React.FC<Props> = ({ paths, index, goToChosenImg }) => {
+const SlideSelectors: React.FC<Props> = ({ values, index, goToChosenImg }) => {
    return (
       <div className={styles.container}>
          {
-            paths.map((path, idx) => {
+            values.map((path, idx) => {
                if (idx === index) {
                   return (
                      <div
@@ -34,4 +34,4 @@ const SlideSelectors: React.FC<Props> = ({ paths, index, goToChosenImg }) => {
    )
 }
 
-export default SlideSelectors
+export default SlideSelectors;
