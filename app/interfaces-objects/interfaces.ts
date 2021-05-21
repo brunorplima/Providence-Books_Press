@@ -80,7 +80,7 @@ export interface Article {
    _id: string,
    image: string,
    title: string,
-   subtitle: string,
+   subtitle?: string,
    author: ArticleAuthor,
    category: string
    body: string,
