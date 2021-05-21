@@ -88,10 +88,10 @@ const getBannerContent = () => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const fetchArticles = await fetch('http://localhost:3000/api/articles?limit=3&sorted=y');
+   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
    const articles = await fetchArticles.json();
 
-   const fetchFeaturedProducts = await fetch('http://localhost:3000/api/products/featured');
+   const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
    const featuredProducts = await fetchFeaturedProducts.json();
    return {
       props: {
