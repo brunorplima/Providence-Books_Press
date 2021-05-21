@@ -1,15 +1,16 @@
-import React from 'react'
-import Product from '../../../interfaces-objects/Product'
-import ProductItem from '../../elements/product-item/ProductItem'
-import styles from '../../../styles/products-list/HorizontalList.module.css'
+import React, { CSSProperties } from 'react';
+import Product from '../../../interfaces-objects/Product';
+import ProductItem from '../../elements/product-item/ProductItem';
+import styles from '../../../styles/products-list/HorizontalList.module.css';
 
 interface Props {
-   productItems: Product[]
+   readonly productItems: Product[];
+   readonly style?: CSSProperties;
 }
 
-const HorizontalProductsList: React.FC<Props> = ({ productItems }) => {
+const HorizontalProductsList: React.FC<Props> = ({ productItems, style }) => {
    return (
-      <div className={styles.container}>
+      <div className={styles.container} style={style}>
          {
             productItems.map((product) => {
                return (
@@ -24,4 +25,4 @@ const HorizontalProductsList: React.FC<Props> = ({ productItems }) => {
    )
 }
 
-export default HorizontalProductsList
+export default HorizontalProductsList;

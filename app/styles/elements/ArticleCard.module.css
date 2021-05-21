@@ -3,6 +3,7 @@
    min-height: 300px;
    border: 1px solid #888;
    display: flex;
+   margin: .8rem;
 }
 
 .container:hover .title, .container:hover .subtitle {

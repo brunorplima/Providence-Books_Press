@@ -1,0 +1,19 @@
+.container {
+   padding-bottom: 2rem;
+   border-bottom: 1px solid var(--mainYellow);
+   margin-bottom: 5rem;
+}
+
+.container > h2 {
+   text-align: center;
+   font-size: 24pt;
+   font-family: Nikkyou;
+   color: var(--mainYellow);
+   margin-top: 4rem;
+}
+
+.button {
+   padding-bottom: 2rem;
+   display: grid;
+   place-items: center;
+}
