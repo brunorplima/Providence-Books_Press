@@ -58,6 +58,13 @@
    color: var(--mainYellow);
 }
 
+.whiteHover {
+   color: var(--mainGray);
+}
+.mainInfo a:hover > .whiteHover {
+   color: white;
+}
+
 .price {
    flex: 3;
    text-align: center;

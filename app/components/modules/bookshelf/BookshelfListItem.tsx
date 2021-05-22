@@ -37,8 +37,13 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
                <ProductType type={item.type} fontSize={'8pt'} padding={'0 .5rem'} />
                <Link href={`/product/${item.id}`}>
                   <a>
-                     <h3 className={styles.title}>{item.name.toUpperCase()}</h3>
-                     {item.subtitle && <div className={styles.subtitle}>{item.subtitle.toUpperCase()}</div>}
+                     <h3 className={`${styles.title} ${evenItem && styles.whiteHover}`}>{item.name.toUpperCase()}</h3>
+                     {
+                        item.subtitle && 
+                        <div className={`${styles.subtitle} ${evenItem && styles.whiteHover}`}>
+                           {item.subtitle.toUpperCase()}
+                        </div>
+                     }
                   </a>
                </Link>
                {item.authors && <div><span className={styles.bold}>BY:</span> {item.authors.toUpperCase()}</div>}
