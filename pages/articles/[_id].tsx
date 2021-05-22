@@ -18,7 +18,9 @@ class ArticlePage extends React.Component<Props> {
 
       return (
          <div className={styles.container}>
-            <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null}/>
+            <div style={{ padding: '.8rem' }}>
+               <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
+            </div>
             <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
             <ArticleBodyText body={article.body} />
             <ArticleAuthorInformation author={article.author} />

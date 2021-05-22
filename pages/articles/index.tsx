@@ -43,7 +43,9 @@ export class ArticlesPage extends Component<Props, State> {
 
       return (
          <div className={styles.container}>
-            <ArticleBanner article={firstArticle} />
+            <div style={{ padding: '.8rem' }}>
+               <ArticleBanner article={firstArticle} />
+            </div>
 
             <div className={styles.lists}>
                <ArticlesList
