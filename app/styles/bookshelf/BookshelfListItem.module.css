@@ -1,6 +1,5 @@
 .container {
    padding: .7rem;
-   /* max-width: 800px; */
    display: flex;
    flex-flow: column;
    align-items: center;
@@ -53,6 +52,10 @@
 .subtitle {
    margin-bottom: .7rem;
    font-size: 10pt;
+}
+
+.mainInfo a:hover, .mainInfo a:hover > .title {
+   color: var(--mainYellow);
 }
 
 .price {
