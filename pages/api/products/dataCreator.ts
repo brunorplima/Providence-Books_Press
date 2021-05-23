@@ -48,6 +48,14 @@ const publishers = ['PROVIDENCE PRESS', 'HRB', 'CROSSWAY', 'INHERITANCE PUBLICAT
 
 const categories = ['DOCTRINE', 'CHURCH & CULTURE', 'SERMONS', 'COMMENTARIES', 'BIBLES', 'THEOLOGY', 'KIDS BOOKS', 'CIVIL GOVERNMENT', 'WORLD VIEW']
 
+const images = [
+   "https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg",
+   "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png",
+   "https://lh3.googleusercontent.com/proxy/xzWDNXf5bqN9myVfB3vWXglNCfFDnxS3kk--3zlO6HMVicQ2g2d4rlMPPOcF7Xwif8yxMfwn1h2U2ShJFH3VU5F13GkAhB-N-J-TCVYnDQ83HIgo4ybv0lsfapQ",
+   "https://www.koganpage.com/images/book-placeholder.png",
+   "https://thegogiver.com/wp-content/uploads/2016/03/Go-Giver-Leader-3d-placeholder.png"
+]
+
 for (let i = 0; i < 215; i++) {
    const productType = faker.random.arrayElement(['Book', 'Book', 'Book', 'Book', 'E-book', 'E-book', 'Audio book']);
    const author = faker.random.arrayElement(exampleAuthors);
@@ -58,7 +66,7 @@ for (let i = 0; i < 215; i++) {
          faker.commerce.productName(),
          faker.lorem.paragraphs(5, '\n'),
          faker.random.float({ min: 5.90, max: 126.99 }),
-         ['https://www.bhacademic.com/wp-content/themes/useful-group/assets/svgs/placeholder-book.svg'],
+         faker.random.arrayElements(images),
          faker.random.uuid(),
          faker.random.arrayElement(categories),
          [author.id],
