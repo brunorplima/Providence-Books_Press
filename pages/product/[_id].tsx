@@ -111,11 +111,11 @@ export class ProductDetails extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   const productsRes = await fetch('https://providence-books-press-lnw44spca-brunorplima.vercel.app/api/products/');
+   const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
    const products = await productsRes.json();
    const product: Product = products.find((prod: Product) => prod._id === _id);
 
-   const reviewsRes = await fetch('https://providence-books-press-lnw44spca-brunorplima.vercel.app/api/reviews/');
+   const reviewsRes = await fetch('https://providencebp.vercel.app/api/reviews/');
    const allReviews = await reviewsRes.json();
    const reviews = allReviews.filter((review: Review) => review._productId === product._id).map((rev: Review) => {
       rev.dateTime = rev.dateTime.toString()
