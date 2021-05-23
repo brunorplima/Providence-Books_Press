@@ -6,12 +6,14 @@
 }
 
 .sideBarModalContainer {
+   height: calc(100vh - var(--navbarHeight));
    position: fixed;
    z-index: 3;
    background-color: rgba(0, 0, 0, .4);
    width: 100%;
    transform: translateX(-100%);
    top: var(--navbarHeight);
+   display: flex;
 }
 
 .sideBarModalContainerOpen {
