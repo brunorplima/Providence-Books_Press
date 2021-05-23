@@ -19,30 +19,35 @@ import AudioBook from '../../app/interfaces-objects/AudioBook'
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
 
 interface Props {
-   product: Product,
-   relatedProducts: Product[],
-   reviews: Review[]
+   readonly product: Product,
+   readonly relatedProducts: Product[],
+   readonly reviews: Review[]
 }
 
 interface State {
-
+   selectedImage: number;
 }
 
 export class ProductDetails extends Component<Props, State> {
 
-   componentDidMount() {
+   constructor(props) {
+      super(props);
+      this.state = {
+         selectedImage: 0
+      }
 
+      this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
-   getSortedRelatedProductsList():  Product[] {
+   getSortedRelatedProductsList(): Product[] {
       const { product, relatedProducts } = this.props;
-      const sameAuthorList: Product[] = []; 
-      const differentAuthorList: Product[] = []; 
-      
+      const sameAuthorList: Product[] = [];
+      const differentAuthorList: Product[] = [];
+
       relatedProducts.forEach(prod => {
          const specProd = (prod as Book | EBook | AudioBook);
          const bools: Boolean[] = specProd._authorIds.map(id => (product as Book | EBook | AudioBook)._authorIds.includes(id));
-         if(bools.includes(true)) {
+         if (bools.includes(true)) {
             sameAuthorList.push(specProd);
             return;
          } else {
@@ -50,13 +55,21 @@ export class ProductDetails extends Component<Props, State> {
             return;
          }
       })
-      
+
       return [...sameAuthorList, ...differentAuthorList]
+   }
+
+   setSelectedImage(index: number) {
+      const { selectedImage } = this.state;
+      if (selectedImage !== index) {
+         this.setState({ selectedImage: index });
+      }
    }
 
    render() {
 
       const { product, reviews } = this.props;
+      const { selectedImage } = this.state;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -75,6 +88,8 @@ export class ProductDetails extends Component<Props, State> {
                   <ProductDetailsVisual
                      product={product}
                      reviews={reviews.length && reviews}
+                     selectedImage={selectedImage}
+                     setSelectedImage={this.setSelectedImage}
                   />
                </Frame>
 
