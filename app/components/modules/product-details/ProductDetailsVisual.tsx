@@ -6,11 +6,13 @@ import { Review } from '../../../interfaces-objects/interfaces'
 import { AiFillStar } from 'react-icons/ai'
 
 interface Props {
-   product: Product,
-   reviews?: Review[]
+   readonly product: Product;
+   readonly reviews?: Review[];
+   readonly selectedImage: number;
+   readonly setSelectedImage: (index: number) => void;
 }
 
-const ProductDetailsVisual: React.FC<Props> = ({ product, reviews }) => {
+const ProductDetailsVisual: React.FC<Props> = ({ product, reviews, selectedImage, setSelectedImage }) => {
 
    const { name, images, price, subtitle } = product;
 
@@ -22,7 +24,28 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews }) => {
 
    return (
       <div className={styles.detailsVisual}>
-         <div><img className={styles.image} src={images[0]} alt={name + subtitle ? ' - ' + subtitle : ''} /></div>
+         <div>
+            <img className={styles.image} src={images[selectedImage]} alt={name + subtitle ? ' - ' + subtitle : ''} />
+         </div>
+         {
+            images.length > 1 &&
+            <div className={styles.selectImages}>
+               {
+                  images.map((img: string, idx: number) => {
+                     return (
+                        <div
+                           key={img}
+                           className={styles.imageOptionContainer}
+                           onClick={() => setSelectedImage(idx)}
+                           style={selectedImage === idx ? { borderColor: 'black' } : {}}
+                        >
+                           <img className={styles.imageOption} src={img} alt={'Option #' + idx + 1} />
+                        </div>
+                     )
+                  })
+               }
+            </div>
+         }
          {
             reviews.length &&
             <div className={styles.scoreContainer}>
