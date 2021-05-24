@@ -1,12 +1,16 @@
-import React from 'react'
-import styles from '../../../styles/elements/CirclesUI.module.css'
+import React, { CSSProperties } from 'react';
+import styles from '../../../styles/elements/CirclesUI.module.css';
 
-const CirclesUI = () => {
+interface Props {
+   readonly style?: CSSProperties;
+}
+
+const CirclesUI:React.FC<Props> = ({ style }) => {
    return (
       <div className={styles.container}>
-         <div className={styles.circle}></div>
-         <div className={styles.circle}></div>
-         <div className={styles.circle + ' ' + styles.lastCircle}></div>
+         <div className={styles.circle} style={style ? style : {}}></div>
+         <div className={styles.circle} style={style ? style : {}}></div>
+         <div className={`${styles.circle} ${styles.lastCircle}`} style={style ? style : {}}></div>
       </div>
    )
 }
