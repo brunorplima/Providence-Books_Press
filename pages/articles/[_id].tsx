@@ -1,20 +1,22 @@
-import { GetServerSideProps } from 'next'
-import React from 'react'
-import Banner from '../../app/components/elements/banner/Banner'
-import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation'
-import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText'
-import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo'
-import { Article } from '../../app/interfaces-objects/interfaces'
-import styles from '../../app/styles/articles/ArticlePage.module.css'
+import { GetServerSideProps } from 'next';
+import React from 'react';
+import Banner from '../../app/components/elements/banner/Banner';
+import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
+import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText';
+import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
+import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
+import { Article, Comment } from '../../app/interfaces-objects/interfaces';
+import styles from '../../app/styles/articles/ArticlePage.module.css';
 
 interface Props {
-   article: Article
+   readonly article: Article;
+   readonly comments: Comment[];
 }
 
 class ArticlePage extends React.Component<Props> {
 
    render() {
-      const { article } = this.props;
+      const { article, comments } = this.props;
 
       return (
          <div className={styles.container}>
@@ -24,6 +26,7 @@ class ArticlePage extends React.Component<Props> {
             <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
             <ArticleBodyText body={article.body} />
             <ArticleAuthorInformation author={article.author} />
+            <CommentsContainer comments={comments}/>
          </div>
       )
    }
@@ -33,13 +36,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
 
    const articleRes = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
-   const article = await articleRes.json();
+   const article: Article = await articleRes.json();
+
+   const commentsRes = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
+   const comments: Comment[] = await commentsRes.json();
 
    return {
       props: {
-         article
+         article,
+         comments
       }
    }
 }
 
-export default ArticlePage
+export default ArticlePage;
