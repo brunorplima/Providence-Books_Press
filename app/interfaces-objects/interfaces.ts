@@ -1,14 +1,14 @@
 /** Types */
 type Address = {
    main: string,
-   secondary: string,
+   secondary?: string,
    city: string,
    stateProvince: string,
    country: string,
    zipCode: string
 }
 
-type Gender = 'Male' | 'Female'
+export type Gender = 'Male' | 'Female'
 
 type ProductItem = {
    name: string,
