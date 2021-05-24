@@ -1,0 +1,31 @@
+.container {
+   border: 1px solid var(--lightGray);
+   margin-top: 1rem;
+}
+
+.nameDate{
+   padding: .7rem 2rem;
+   display: flex;
+   justify-content: space-between;
+   background-color: var(--almostWhite);
+   border-bottom: 1px solid var(--lightGray);
+   position: relative;
+}
+
+.nameDate > div:first-child {
+   color: var(--darkYellow);
+}
+
+.nameInitials {
+   position: absolute;
+   left: -27px;
+   top: -7px;
+}
+
+.comment {
+   padding: 1rem;
+}
+
+.comment p {
+   margin-top: 0;
+}
