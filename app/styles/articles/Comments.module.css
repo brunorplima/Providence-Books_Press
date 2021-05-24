@@ -1,0 +1,72 @@
+.container {
+   margin: 4rem auto;
+   width: 90%;
+}
+
+.header {
+   display: flex;
+   color: var(--mainYellow);
+   font-family: Nikkyou;
+   align-items: center;
+}
+
+.header > h3 {
+   margin: 0;
+   margin-right: 1rem;
+   font-size: 22pt;
+}
+
+.header > div:last-child {
+   flex: 1;
+   height: 2px;
+   background-color: var(--mainYellow);
+   margin-left: 2rem;
+}
+
+.form {
+   display: flex;
+   flex-direction: column;
+   margin-top: 3rem;
+   margin-bottom: 1rem;
+   align-items: center;
+}
+
+.textarea {
+   font-family: Arial, Helvetica, sans-serif;
+   padding: .5rem;
+   height: 8rem;
+   margin-bottom: 1rem;
+   width: 100%;
+}
+
+.submit {
+   border: none;
+   border: 2px solid var(--mainYellow);
+   background-color: white;
+   padding: .4rem 0;
+   width: 130px;
+   cursor: pointer;
+   color: var(--mainYellow);
+   transition: .2s;
+   font-weight: bold;
+}
+
+.submit:hover {
+   color: white;
+   background-color: var(--mainYellow);
+}
+
+
+
+@media screen and (min-width: 900px) {
+   .container {
+      width: 70%;
+   }
+}
+
+
+@media screen and (min-width: 500px) {
+   .form {
+      align-items: flex-start;
+   }
+}
