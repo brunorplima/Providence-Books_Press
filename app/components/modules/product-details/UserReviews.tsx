@@ -46,7 +46,7 @@ const UserReviews: React.FC<Props> = ({ reviews }) => {
                reviews.length > 3 &&
                <div style={{ marginRight: '1rem' }}>
                   <Button
-                     label='SEE MORE REVIEWS'
+                     label='SEE ALL REVIEWS'
                      clickHandler={() => setShowModal(true)}
                      style={{width: 145}}
                   />
