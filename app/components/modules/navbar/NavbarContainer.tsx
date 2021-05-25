@@ -11,7 +11,7 @@ const NavbarContainer: React.FC = () => {
 
    return (
       <NavbarWrapper
-         scrollPosition={scrollPosition}
+         scrollPosition={specialNavbarPathnames.includes(router.pathname) ? scrollPosition : null}
          screenWidth={screenWidth}
          router={router}
       />
@@ -25,7 +25,7 @@ const specialNavbarPathnames = [
 ]
 
 interface Props {
-   readonly scrollPosition: number;
+   readonly scrollPosition?: number;
    readonly screenWidth: number;
    readonly router: NextRouter;
 }
@@ -57,10 +57,12 @@ class NavbarWrapper extends Component<Props, State> {
    componentDidMount() {
       const { screenWidth } = this.props;
       if (screenWidth <= 900) {
-         this.setState({ menuHidden: {
-            isIt: true,
-            useAnimation: false
-         } });
+         this.setState({
+            menuHidden: {
+               isIt: true,
+               useAnimation: false
+            }
+         });
       }
    }
 
@@ -69,10 +71,12 @@ class NavbarWrapper extends Component<Props, State> {
       if (screenWidth > 900 && this.state.menuHidden !== null) {
          this.setState({ menuHidden: null });
       } else if (screenWidth <= 900 && this.state.menuHidden === null) {
-         this.setState({ menuHidden: {
-            isIt: true,
-            useAnimation: false
-         } });
+         this.setState({
+            menuHidden: {
+               isIt: true,
+               useAnimation: false
+            }
+         });
       }
    }
 
@@ -84,10 +88,12 @@ class NavbarWrapper extends Component<Props, State> {
    }
 
    setMenuHidden() {
-      this.setState({ menuHidden: {
-         isIt: !this.state.menuHidden.isIt,
-         useAnimation: true
-      } });
+      this.setState({
+         menuHidden: {
+            isIt: !this.state.menuHidden.isIt,
+            useAnimation: true
+         }
+      });
    }
 
    search(value: string) {
@@ -98,7 +104,6 @@ class NavbarWrapper extends Component<Props, State> {
       const { scrollPosition, router } = this.props;
       const isNotInPathnames = !specialNavbarPathnames.includes(router.pathname);
       const isScrolled = scrollPosition >= 440;
-      
       return isNotInPathnames || isScrolled;
    }
 
@@ -108,6 +113,8 @@ class NavbarWrapper extends Component<Props, State> {
    }
 
    render() {
+      const { scrollPosition } = this.props;
+      console.log(scrollPosition);
       return (
          <Navbar
             searchField={this.state.searchField}
