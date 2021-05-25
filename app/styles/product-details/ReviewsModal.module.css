@@ -1,0 +1,107 @@
+.container {
+   background-color: rgba(0, 0, 0, .6);
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   z-index: 6;
+   display: grid;
+   place-items: center;
+}
+
+.reviews {
+   width: 90%;
+   height: 95%;
+   background-color: white;
+   overflow-y: scroll;
+   padding: 1rem;
+}
+
+.reviews h3 {
+   font-family: Nikkyou;
+   color: var(--mainYellow);
+   text-align: center;
+   font-size: 22pt;
+   margin-top: 0;
+}
+
+.averageScore {
+   font-size: 24pt;
+}
+
+.score {
+   display: flex;
+   align-items: center;
+}
+
+.score > div:first-child {
+   color: var(--mainYellow);
+   margin-right: 1rem;
+   transform: translateY(.2rem);
+}
+
+.reviewsList {
+   margin-top: 3rem;
+}
+
+.reviewItem {
+   margin-bottom: 3rem;
+   border-bottom: 1px solid var(--mainYellow);
+   padding-bottom: 1rem;
+}
+
+.buttons {
+   display: flex;
+   justify-content: center;
+   margin-bottom: 3rem;
+}
+
+.buttons > button:first-child {
+   margin-right: 1rem;
+}
+
+.closeIcon {
+   display: grid;
+   place-items: end;
+}
+
+.icon {
+   display: grid;
+   place-items: center;
+   font-size: 20pt;
+   padding: .1rem;
+   background-color: var(--mainYellow);
+   color: white;
+   cursor: pointer;
+   transition: .3s;
+}
+
+.icon:hover {
+   background-color: white;
+   color: var(--mainYellow);
+}
+
+@media screen and (min-width: 500px) {
+   .reviews {
+      padding: 1rem 2rem;
+      width: 80%;
+      height: 85%;
+   }
+}
+
+
+
+@media screen and (min-width: 768px) {
+   .reviews {
+      padding: 1rem 2rem;
+      width: 65%;
+      height: 80%;
+   }
+}
+
+@media screen and (max-width: 350px) {
+   .buttons > button {
+      font-size: 9pt;
+   }
+}
