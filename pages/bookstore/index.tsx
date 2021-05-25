@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { store } from '../../app/redux/store/store'
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions'
 import getPaginationOptions from '../../app/util/paginationService'
+import createLoadingAction from '../../app/redux/actions/loadingAction'
 
 interface Props {
    products: Product[],
@@ -56,10 +57,14 @@ export class Bookstore extends Component<Props, State> {
 
    componentDidMount() {
       this.ensurePaginationIsWithinBounds();
+      store.dispatch(createLoadingAction(false));
    }
 
    componentDidUpdate() {
       this.ensurePaginationIsWithinBounds();
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
    }
 
    /**

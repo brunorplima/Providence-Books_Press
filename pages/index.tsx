@@ -1,7 +1,9 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
+import { useStore } from 'react-redux';
+import { AnyAction, Store } from 'redux';
 import Banner from '../app/components/elements/banner/Banner';
 import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
@@ -9,6 +11,7 @@ import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
+import createLoadingAction from '../app/redux/actions/loadingAction';
 import styles from '../app/styles/home/Home.module.css';
 import useScreenWidth from '../app/util/useScreenWidth';
 
@@ -18,6 +21,15 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
+
+   const store = useStore();
+
+   useEffect(() => {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
+   })
+
    return (
       <>
          <Head>
@@ -28,7 +40,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
             <div className={styles.banner}>
                <Banner
                   image='/banner/Church.JPG'
-                  content={getBannerContent()}
+                  content={getBannerContent(store)}
                />
             </div>
 
@@ -50,7 +62,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
    )
 }
 
-const getBannerContent = () => {
+const getBannerContent = (store: Store<any, AnyAction>) => {
    const router = useRouter();
    const screenWidth = useScreenWidth();
    const container: CSSProperties = {
@@ -77,6 +89,7 @@ const getBannerContent = () => {
          <Button
             label='ABOUT US'
             clickHandler={() => {
+               store.dispatch(createLoadingAction(true));
                router.push('/about-us');
             }}
             style={button}

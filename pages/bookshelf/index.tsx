@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { BookshelfItem } from '../../app/interfaces-objects/interfaces';
 import { store } from '../../app/redux/store/store';
 import { createChangeCheckAction, createDecreaseQuantityAction, createIncreaseQuantityAction } from '../../app/redux/actions/bookshelfItemActions';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
 
 
 interface Props {
@@ -19,6 +20,16 @@ export class Bookshelf extends Component<Props> {
       this.setItemCheck = this.setItemCheck.bind(this);
       this.increaseQuantity = this.increaseQuantity.bind(this);
       this.decreaseQuantity = this.decreaseQuantity.bind(this);
+   }
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
    }
 
 
