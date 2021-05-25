@@ -1,5 +1,7 @@
 import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
+import createSearchAction from '../../../redux/actions/searchAction';
+import { store } from '../../../redux/store/store';
 import useScreenWidth from '../../../util/useScreenWidth';
 import useScrollPosition from '../../../util/useScrollPosition';
 import Navbar from './Navbar';
@@ -97,7 +99,7 @@ class NavbarWrapper extends Component<Props, State> {
    }
 
    search(value: string) {
-      // Not yet implemented!!!
+      store.dispatch(createSearchAction(value));
    }
 
    isPrimaryNavbar() {

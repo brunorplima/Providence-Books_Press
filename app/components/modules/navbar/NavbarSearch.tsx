@@ -2,6 +2,9 @@ import React from 'react';
 import styles from '../../../styles/navbar/Navbar.module.css';
 import { BiSend } from 'react-icons/bi';
 import { MenuHidden } from './NavbarContainer';
+import { useDispatch } from 'react-redux';
+import createLoadingAction from '../../../redux/actions/loadingAction';
+import { useRouter } from 'next/router';
 
 interface Props {
    readonly primary: boolean;
@@ -18,6 +21,9 @@ const NavbarSearch: React.FC<Props> = ({
    setSearch,
    search
 }) => {
+   const dispatch = useDispatch();
+   const router = useRouter();
+
    return (
       <li className={`
             ${styles.navbarOption}
@@ -42,7 +48,11 @@ const NavbarSearch: React.FC<Props> = ({
             <div
                id='search-button'
                className={`${styles.submit} ${primary ? styles.primarySubmit : styles.secondarySubmit}`}
-               onClick={() => search(searchField)}
+               onClick={() => {
+                  dispatch(createLoadingAction(true));
+                  search(searchField);
+                  router.push('/search-results');
+               }}
             >
                <BiSend />
             </div>
