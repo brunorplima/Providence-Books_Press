@@ -12,6 +12,7 @@ class MyDocument extends Document {
         <Head />
         <body>
           <div id='sidebar-modal'></div>
+          <div id='dialog-modal'></div>
           <Main />
           <NextScript />
         </body>
