@@ -113,8 +113,6 @@ class NavbarWrapper extends Component<Props, State> {
    }
 
    render() {
-      const { scrollPosition } = this.props;
-      console.log(scrollPosition);
       return (
          <Navbar
             searchField={this.state.searchField}
