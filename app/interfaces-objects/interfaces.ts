@@ -55,7 +55,7 @@ export interface Review {
    score: number,
    userName: string,
    dateTime: Date | string,
-   heading: string,
+   heading?: string,
    text: string,
 }
 
