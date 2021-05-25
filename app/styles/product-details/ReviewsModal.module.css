@@ -3,16 +3,16 @@
    position: fixed;
    top: 0;
    left: 0;
-   right: 0;
-   bottom: 0;
+   width: 100vw;
+   height: 100vh;
    z-index: 6;
    display: grid;
    place-items: center;
 }
 
 .reviews {
-   width: 90%;
-   height: 95%;
+   width: 90vw;
+   height: 95vh;
    background-color: white;
    overflow-y: scroll;
    padding: 1rem;
@@ -85,8 +85,8 @@
 @media screen and (min-width: 500px) {
    .reviews {
       padding: 1rem 2rem;
-      width: 80%;
-      height: 85%;
+      width: 80vw;
+      height: 85vh;
    }
 }
 
@@ -95,8 +95,8 @@
 @media screen and (min-width: 768px) {
    .reviews {
       padding: 1rem 2rem;
-      width: 65%;
-      height: 80%;
+      width: 65vw;
+      height: 80vh;
    }
 }
 
