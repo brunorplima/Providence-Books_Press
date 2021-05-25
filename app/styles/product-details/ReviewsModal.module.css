@@ -3,16 +3,16 @@
    position: fixed;
    top: 0;
    left: 0;
-   width: 100vw;
-   height: 100vh;
+   right: 0;
+   bottom: 0;
    z-index: 6;
    display: grid;
    place-items: center;
 }
 
 .reviews {
-   width: 90vw;
-   height: 95vh;
+   width: 85vw;
+   height: 85vh;
    background-color: white;
    overflow-y: scroll;
    padding: 1rem;
