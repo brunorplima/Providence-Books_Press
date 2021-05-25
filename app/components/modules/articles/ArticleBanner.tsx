@@ -5,6 +5,8 @@ import styles from '../../../styles/articles/ArticlesBanner.module.css'
 import faker from 'faker'
 import NameInitials from '../../elements/name-initials/NameInitials'
 import months from '../../../util/months'
+import { useDispatch } from 'react-redux'
+import createLoadingAction from '../../../redux/actions/loadingAction'
 
 interface Props {
    article: Article
@@ -12,11 +14,12 @@ interface Props {
 
 const ArticleBanner: React.FC<Props> = ({ article }) => {
    const { _id, author, category, datePosted, image, subtitle, title } = article;
+   const dispatch = useDispatch();
 
    const date = new Date(datePosted);
    return (
       <Link href={`articles/${_id}`}>
-         <a>
+         <a onClick={() => dispatch(createLoadingAction(true))}>
             <div className={styles.banner} style={{ background: `url(${image})` }}>
                <div className={styles.articleTag}>
                   Article

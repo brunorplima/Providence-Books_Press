@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import Product from '../../../interfaces-objects/Product';
+import createLoadingAction from '../../../redux/actions/loadingAction';
 import styles from '../../../styles/home/FeaturedProducts.module.css';
 import Button from '../../elements/button/Button';
 import HorizontalScrollablelProductsList from '../products-list/HorizontalScrollableProductList';
@@ -11,6 +13,7 @@ interface Props {
 
 const FeaturedProducts: React.FC<Props> = ({ featuredProducts }) => {
    const router = useRouter();
+   const dispatch = useDispatch();
 
    return (
       <div className={styles.container}>
@@ -27,6 +30,7 @@ const FeaturedProducts: React.FC<Props> = ({ featuredProducts }) => {
             <Button
                label='MORE BOOKS'
                clickHandler={() => {
+                  dispatch(createLoadingAction(true));
                   router.push('/bookstore');
                }}
             />

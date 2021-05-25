@@ -8,6 +8,8 @@ import Product from '../../../interfaces-objects/Product'
 import EBook from '../../../interfaces-objects/EBook'
 import AudioBook from '../../../interfaces-objects/AudioBook'
 import Book from '../../../interfaces-objects/Book'
+import { useDispatch } from 'react-redux'
+import createLoadingAction from '../../../redux/actions/loadingAction'
 
 interface Props {
    product: Product
@@ -25,12 +27,13 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       type,
       subtitle
    } = (product as Book | EBook | AudioBook);
+   const dispatch = useDispatch();
 
    return (
       <div className={styles.container}>
          <div className={styles.linkContainer}>
             <Link href={'/product/' + _id}>
-               <a className={styles.infoContainer}>
+               <a className={styles.infoContainer} onClick={() => dispatch(createLoadingAction(true))}>
                   <ProductItemFlag flag={flag.toUpperCase()} />
                   <div>
                      <img
