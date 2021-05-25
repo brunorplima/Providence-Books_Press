@@ -48,12 +48,14 @@ const UserReviews: React.FC<Props> = ({ reviews }) => {
                   <Button
                      label='SEE MORE REVIEWS'
                      clickHandler={() => setShowModal(true)}
+                     style={{width: 145}}
                   />
                </div>
             }
             <Button
                label='ADD YOUR VOICE'
                clickHandler={() => { }}
+               style={{width: 145}}
             />
          </div>
 
