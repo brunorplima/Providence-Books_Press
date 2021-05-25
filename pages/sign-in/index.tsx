@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import SignIn from '../../app/components/modules/sign-in/SignIn';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
+import { store } from '../../app/redux/store/store';
 
 interface State {
    isSignIn: boolean;
@@ -25,6 +27,16 @@ export class index extends Component<any, State> {
       this.setPasswordConfirm = this.setPasswordConfirm.bind(this);
       this.signIn = this.signIn.bind(this);
       this.signUp = this.signUp.bind(this);
+   }
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
    }
 
 

@@ -5,6 +5,8 @@ import ArticlesList from '../../app/components/modules/articles/ArticlesList';
 import { Article } from '../../app/interfaces-objects/interfaces';
 import ArticleBanner from '../../app/components/modules/articles/ArticleBanner';
 import Button from '../../app/components/elements/button/Button';
+import { store } from '../../app/redux/store/store';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
 
 interface Props {
    readonly articles: Article[],
@@ -25,6 +27,16 @@ export class ArticlesPage extends Component<Props, State> {
       }
 
       this.setShowCategories = this.setShowCategories.bind(this);
+   }
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
    }
 
    getSortedArticles(articles: Article[]): Article[] {

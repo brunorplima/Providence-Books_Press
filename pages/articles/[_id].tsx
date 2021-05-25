@@ -6,6 +6,8 @@ import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyTe
 import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
 import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
 import { Article, Comment } from '../../app/interfaces-objects/interfaces';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
+import { store } from '../../app/redux/store/store';
 import styles from '../../app/styles/articles/ArticlePage.module.css';
 
 interface Props {
@@ -14,6 +16,16 @@ interface Props {
 }
 
 class ArticlePage extends React.Component<Props> {
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
+   }
 
    render() {
       const { article, comments } = this.props;

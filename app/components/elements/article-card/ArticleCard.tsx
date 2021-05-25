@@ -2,6 +2,8 @@ import React from 'react'
 import styles from '../../../styles/elements/ArticleCard.module.css'
 import Link from 'next/link'
 import { ArticleAuthor } from '../../../interfaces-objects/interfaces'
+import { useDispatch } from 'react-redux'
+import createLoadingAction from '../../../redux/actions/loadingAction'
 
 interface Props {
    id: string
@@ -12,11 +14,12 @@ interface Props {
 }
 
 const ArticleCard: React.FC<Props> = ({ id, image, title, author, subtitle }) => {
+   const dispatch = useDispatch();
    
    return (
       <div className={styles.container}>
          <Link href={'/articles/' + id}>
-            <a>
+            <a onClick={() => dispatch(createLoadingAction(true))}>
                <div className={styles.image} style={{backgroundImage: `url(${image})`}}>
                   
                </div>

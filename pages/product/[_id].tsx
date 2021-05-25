@@ -1,32 +1,34 @@
-import { GetServerSideProps, NextApiRequest } from 'next'
-import React, { Component } from 'react'
-import BackButton from '../../app/components/elements/back-button/BackButton'
-import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI'
-import Frame from '../../app/components/layouts/Frame'
-import UserReviews from '../../app/components/modules/product-details/UserReviews'
-import ProductDetailsText from '../../app/components/modules/product-details/ProductDetailsText'
-import ProductDetailsVisual from '../../app/components/modules/product-details/ProductDetailsVisual'
-import ProvidenceReview from '../../app/components/modules/product-details/ProvidenceReview'
-import { Review } from '../../app/interfaces-objects/interfaces'
-import Product from '../../app/interfaces-objects/Product'
-import styles from '../../app/styles/product-details/ProductDetails.module.css'
-import Head from 'next/head'
-import Book from '../../app/interfaces-objects/Book'
-import EBook from '../../app/interfaces-objects/EBook'
-import AudioBook from '../../app/interfaces-objects/AudioBook'
-import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts'
+import { GetServerSideProps } from 'next';
+import React, { Component } from 'react';
+import BackButton from '../../app/components/elements/back-button/BackButton';
+import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
+import Frame from '../../app/components/layouts/Frame';
+import UserReviews from '../../app/components/modules/product-details/UserReviews';
+import ProductDetailsText from '../../app/components/modules/product-details/ProductDetailsText';
+import ProductDetailsVisual from '../../app/components/modules/product-details/ProductDetailsVisual';
+import ProvidenceReview from '../../app/components/modules/product-details/ProvidenceReview';
+import { Review } from '../../app/interfaces-objects/interfaces';
+import Product from '../../app/interfaces-objects/Product';
+import styles from '../../app/styles/product-details/ProductDetails.module.css';
+import Head from 'next/head';
+import Book from '../../app/interfaces-objects/Book';
+import EBook from '../../app/interfaces-objects/EBook';
+import AudioBook from '../../app/interfaces-objects/AudioBook';
+import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
+import { store } from '../../app/redux/store/store';
 
 interface Props {
-   readonly product: Product,
-   readonly relatedProducts: Product[],
-   readonly reviews: Review[]
+   readonly product: Product;
+   readonly relatedProducts: Product[];
+   readonly reviews: Review[];
 }
 
 interface State {
    selectedImage: number;
 }
 
-export class ProductDetails extends Component<Props, State> {
+class ProductDetails extends Component<Props, State> {
 
    constructor(props) {
       super(props);
@@ -35,6 +37,14 @@ export class ProductDetails extends Component<Props, State> {
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
+   }
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      store.dispatch(createLoadingAction(false));
    }
 
    getSortedRelatedProductsList(): Product[] {
@@ -132,4 +142,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    }
 }
 
-export default ProductDetails
+export default ProductDetails;

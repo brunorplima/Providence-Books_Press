@@ -1,17 +1,18 @@
-import React, { CSSProperties } from 'react'
-import Product from '../../../interfaces-objects/Product'
-import Frame from '../../layouts/Frame'
-import Button from '../../elements/button/Button'
-import { store } from '../../../redux/store/store'
-import { createAddToBookshelfAction } from '../../../redux/actions/bookshelfActions'
-import Link from 'next/link'
-import styles from '../../../styles/add-to-bookshelf/AddToBookshelf.module.css'
-import { GiCheckMark } from 'react-icons/gi'
-import { BookshelfItem } from '../../../interfaces-objects/interfaces'
+import React, { CSSProperties } from 'react';
+import Product from '../../../interfaces-objects/Product';
+import Frame from '../../layouts/Frame';
+import Button from '../../elements/button/Button';
+import { store } from '../../../redux/store/store';
+import { createAddToBookshelfAction } from '../../../redux/actions/bookshelfActions';
+import Link from 'next/link';
+import styles from '../../../styles/add-to-bookshelf/AddToBookshelf.module.css';
+import { GiCheckMark } from 'react-icons/gi';
+import { BookshelfItem } from '../../../interfaces-objects/interfaces';
+import createLoadingAction from '../../../redux/actions/loadingAction';
 
 interface Props {
-   product: Product,
-   style?: CSSProperties
+   readonly product: Product;
+   readonly style?: CSSProperties;
 }
 
 interface State {
@@ -61,7 +62,11 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
             {
                wasAdded ?
                   <Link href='/bookshelf'>
-                     <a className={styles.link} style={style ? style : {}}>
+                     <a 
+                        className={styles.link}
+                        style={style ? style : {}}
+                        onClick={() => store.dispatch(createLoadingAction(true))}   
+                     >
                         <div><GiCheckMark /></div>
                         <div>OPEN BOOKSHELF</div>
                      </a>
@@ -73,4 +78,4 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
    }
 }
 
-export default AddToBookshelfButton
+export default AddToBookshelfButton;

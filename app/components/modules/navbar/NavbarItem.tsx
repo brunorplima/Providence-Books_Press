@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import createLoadingAction from '../../../redux/actions/loadingAction';
 import styles from '../../../styles/navbar/Navbar.module.css';
 import { MenuHidden } from './NavbarContainer';
 
@@ -20,6 +22,8 @@ const NavbarItem: React.FC<Props> = ({
    setMenuHidden,
    isFirstItem
 }) => {
+   const dispatch = useDispatch();
+
    return (
       <li
          className={`
@@ -31,7 +35,10 @@ const NavbarItem: React.FC<Props> = ({
          onClick={menuHidden !== null ? setMenuHidden : null}
       >
          <Link href={href}>
-            <a className={`${styles.anchor} ${primary ? styles.primaryAnchor : styles.secondaryAnchor}`}>
+            <a 
+               className={`${styles.anchor} ${primary ? styles.primaryAnchor : styles.secondaryAnchor}`}
+               onClick={() => dispatch(createLoadingAction(true))}
+            >
                {label}
             </a>
          </Link>

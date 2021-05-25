@@ -4,6 +4,8 @@ import { Article } from '../../../interfaces-objects/interfaces';
 import styles from '../../../styles/home/LatestArticle.module.css';
 import Button from '../../elements/button/Button';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import createLoadingAction from '../../../redux/actions/loadingAction';
 
 interface Props {
    readonly articles?: Article[];
@@ -11,6 +13,7 @@ interface Props {
 
 const LatestArticles: React.FC<Props> = ({ articles }) => {
    const router = useRouter();
+   const dispatch = useDispatch();
 
    return (
       <div className={styles.container}>
@@ -29,6 +32,7 @@ const LatestArticles: React.FC<Props> = ({ articles }) => {
             <Button
                label='MORE ARTICLES'
                clickHandler={() => {
+                  dispatch(createLoadingAction(true));
                   router.push('/articles');
                }}
             />

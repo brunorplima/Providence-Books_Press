@@ -5,6 +5,8 @@ import Image from 'next/image'
 import useScreenWidth from '../../app/util/useScreenWidth';
 import AboutUs from '../../app/components/modules/about-us/AboutUs';
 import AboutUsFooter from '../../app/components/modules/about-us/AboutUsFooter';
+import { store } from '../../app/redux/store/store';
+import createLoadingAction from '../../app/redux/actions/loadingAction';
 
 export type Error = {
    emptyField: boolean;
@@ -50,6 +52,16 @@ class Index extends Component<Props, State> {
       this.handleMessageChange = this.handleMessageChange.bind(this);
       this.handleSendMessage = this.handleSendMessage.bind(this);
       this.setShowConfirmation = this.setShowConfirmation.bind(this);
+   }
+
+   componentDidMount() {
+      store.dispatch(createLoadingAction(false));
+   }
+
+   componentDidUpdate() {
+      if (store.getState().isLoading) {
+         store.dispatch(createLoadingAction(false));
+      }
    }
 
    /**

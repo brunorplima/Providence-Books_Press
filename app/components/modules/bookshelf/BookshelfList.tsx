@@ -4,6 +4,8 @@ import BookshelfControllers from './BookshelfControllers'
 import BookshelfListItem from './BookshelfListItem'
 import styles from '../../../styles/bookshelf/BookshelfList.module.css'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import createLoadingAction from '../../../redux/actions/loadingAction'
 
 interface Props {
    items: BookshelfItem[],
@@ -13,6 +15,8 @@ interface Props {
 }
 
 const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity, decreaseQuantity }) => {
+   const dispatch = useDispatch();
+
    return (
       <div className={styles.container}>
          {
@@ -45,7 +49,12 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity,
                   <div className={styles.text}>You bookshelf is empty</div>
                   <div>
                      <Link href='/bookstore'>
-                        <a className={styles.link}>VISIT OUR BOOKSTORE</a>
+                        <a 
+                           className={styles.link}
+                           onClick={() => dispatch(createLoadingAction(true))}
+                        >
+                           VISIT OUR BOOKSTORE
+                        </a>
                      </Link>
                   </div>
                </div>
