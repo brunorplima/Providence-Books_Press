@@ -1,16 +1,18 @@
-import React, { CSSProperties } from 'react'
-import styles from '../../../styles/elements/Button.module.css'
+import React, { CSSProperties } from 'react';
+import styles from '../../../styles/elements/Button.module.css';
 
-interface Props {
-   label: string,
-   clickHandler: () => void,
-   style?: CSSProperties
+export interface ButtonProps {
+   readonly label: string;
+   readonly clickHandler: () => void;
+   readonly style?: CSSProperties;
+   readonly secondaryStyle?: boolean;
 }
 
-const Button: React.FC<Props> = ({ label, clickHandler, style }) => {
+const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle }) => {
    return (
       <button
-         className={styles.container} onClick={clickHandler}
+         className={`${styles.container} ${secondaryStyle && styles.secondaryStyle}`}
+         onClick={clickHandler}
          style={{ ...style }}
       >
          {label}
@@ -18,4 +20,4 @@ const Button: React.FC<Props> = ({ label, clickHandler, style }) => {
    )
 }
 
-export default Button
+export default Button;
