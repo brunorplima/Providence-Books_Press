@@ -1,26 +1,3 @@
-/* .container {
-   position: relative;
-   margin-left: auto;
-   margin-right: auto;
-} */
-@keyframes growPlaceholder {
-   from {
-      height: 0px;
-   }
-   to {
-      height: 60%;
-   }
-}
-
-@keyframes shrinkPlaceholder {
-   from {
-      height: 0px;
-   }
-   to {
-      height: 60%;
-   }
-}
-
 @keyframes slideInNavbar {
    0% {
       left: 120%;
@@ -71,7 +48,6 @@
    flex-direction: column;
    position: fixed;
    top: 0;
-   /* left: 120%; */
 }
 
 .navbarOption {
@@ -79,12 +55,6 @@
    font-size: 10pt;
    display: flex;
    align-items: center;
-}
-
-.anchor {
-   display: flex;
-   padding: .3rem 0;
-   transition: .3s;
 }
 
 .navbarOptions > li:first-child a {
@@ -172,15 +142,6 @@
    color: white;
 }
 
-.firstMNO {
-   margin-top: 5rem;
-}
-
-.mobileNavbarOption{
-   font-size: 14pt;
-   margin-bottom: 1rem;
-}
-
 .mobileNavbarSearch {
    flex-direction: column;
    align-items: center;
@@ -228,10 +189,6 @@
    border-color: var(--mainYellow);
 }
 
-.primaryAnchor:hover {
-   color: var(--darkYellow);
-}
-
 .primarySubmit {
    color: white;
    background-color: var(--mainYellow);
@@ -267,10 +224,6 @@
    border-color: white;
 }
 
-.secondaryAnchor:hover {
-   color: var(--lightGray);
-}
-
 .secondarySubmit:hover {
    color: var(--lightGray);
 }
@@ -284,21 +237,12 @@
 
 
 
-
-
-/* @media screen and (max-width: 650px) {
-   .menuButton {
-      flex-basis: 20%;
-   }
-} */
-
 @media screen and (min-width: 900px) {
    .navbarOptions {
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
       max-width: 1200px;
-      /* left: 0; */
       position: relative;
       animation: none;
    }
@@ -315,18 +259,6 @@
       background-color: rgba(var(--lightGray), .5);
       background-color: var(--lightGray);
       
-   }
-}
-
-
-@media screen and (max-width: 300px) {
-   .mobileNavbarOption {
-      font-size: 12pt;
-      margin-bottom: 0;
-   }
-
-   .firstMNO {
-      margin-top: 2rem;
    }
 }
 

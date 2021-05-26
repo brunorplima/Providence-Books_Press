@@ -1,0 +1,62 @@
+.navbarOption {
+   list-style: none;
+   font-size: 10pt;
+   display: flex;
+   align-items: center;
+}
+
+.anchor {
+   display: flex;
+   padding: .3rem 0;
+   transition: .3s;
+   position: relative;
+}
+
+.bookshelfTotal {
+   position: absolute;
+   left: 24px;
+   top: 0;
+}
+
+
+/***************************************************
+   Mobile style
+*/
+.firstMNO {
+   margin-top: 5rem;
+}
+
+.mobileNavbarOption{
+   font-size: 14pt;
+   margin-bottom: 1rem;
+}
+
+
+/***************************************************
+   Primary style
+*/
+.primaryAnchor:hover {
+   color: var(--darkYellow);
+}
+
+
+/******************************************************
+   Secondary style
+*/
+.secondaryAnchor:hover {
+   color: var(--lightGray);
+}
+
+
+
+
+@media screen and (max-width: 300px) {
+   .mobileNavbarOption {
+      font-size: 12pt;
+      margin-bottom: 0;
+   }
+
+   .firstMNO {
+      margin-top: 2rem;
+   }
+}
