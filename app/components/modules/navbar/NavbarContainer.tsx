@@ -1,5 +1,6 @@
 import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
+import { Unsubscribe } from 'redux';
 import createSearchAction from '../../../redux/actions/searchAction';
 import { store } from '../../../redux/store/store';
 import useScreenWidth from '../../../util/useScreenWidth';
@@ -38,17 +39,21 @@ export type MenuHidden = {
 }
 
 interface State {
-   searchField: string;
-   menuHidden: MenuHidden | null;
+   readonly searchField: string;
+   readonly menuHidden: MenuHidden | null;
+   readonly totalBookshelfItems: number;
 }
 
 class NavbarWrapper extends Component<Props, State> {
+
+   unsubscriber: Unsubscribe;
 
    constructor(props) {
       super(props);
       this.state = {
          searchField: '',
-         menuHidden: null
+         menuHidden: null,
+         totalBookshelfItems: 0
       }
 
       this.setSearch = this.setSearch.bind(this);
@@ -66,6 +71,12 @@ class NavbarWrapper extends Component<Props, State> {
             }
          });
       }
+      this.unsubscriber = store.subscribe(() => {
+         const total = store.getState().bookshelf.length;
+         if (this.state.totalBookshelfItems !== total) {
+            this.setState({ totalBookshelfItems: total });
+         }
+      });
    }
 
    componentDidUpdate() {
@@ -81,6 +92,11 @@ class NavbarWrapper extends Component<Props, State> {
          });
       }
    }
+
+   componentWillUnmount() {
+      this.unsubscriber();
+   }
+
 
    setSearch(e: React.ChangeEvent<HTMLInputElement>) {
       e.preventDefault();
@@ -124,6 +140,7 @@ class NavbarWrapper extends Component<Props, State> {
             secondaryStyleOwnPage={this.isSecondaryStyleOwnPage()}
             menuHidden={this.state.menuHidden}
             setMenuHidden={this.setMenuHidden}
+            totalBookshelfItems={this.state.totalBookshelfItems}
          />
       )
    }
