@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import React, { CSSProperties } from 'react';
 import styles from '../../../styles/navbar/Navbar.module.css';
-import { IoMenu, IoClose } from 'react-icons/io5'
+import { IoMenu, IoClose } from 'react-icons/io5';
+import { GiBookshelf } from 'react-icons/gi';
 import NavbarItem from './NavbarItem';
 import NavbarSearch from './NavbarSearch';
 import { MenuHidden } from './NavbarContainer';
@@ -14,6 +15,7 @@ interface Props {
    readonly secondaryStyleOwnPage: boolean;
    readonly menuHidden: MenuHidden | null;
    readonly setMenuHidden: () => void;
+   readonly totalBookshelfItems: number;
 }
 
 const Navbar: React.FC<Props> = ({
@@ -23,7 +25,8 @@ const Navbar: React.FC<Props> = ({
    primary,
    secondaryStyleOwnPage,
    menuHidden,
-   setMenuHidden
+   setMenuHidden,
+   totalBookshelfItems
 }) => {
 
    function getAnimationClass() {
@@ -104,6 +107,16 @@ const Navbar: React.FC<Props> = ({
                   menuHidden={menuHidden}
                   setMenuHidden={setMenuHidden}
                   isFirstItem={false}
+               />
+
+               <NavbarItem
+                  Icon={GiBookshelf}
+                  href='/bookshelf'
+                  primary={primary}
+                  menuHidden={menuHidden}
+                  setMenuHidden={setMenuHidden}
+                  isFirstItem={false}
+                  totalBookshelfItems={totalBookshelfItems}
                />
             </div>
 
