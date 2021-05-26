@@ -1,0 +1,85 @@
+.container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   background-color: rgba(0, 0, 0, .6);
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   z-index: 7;
+}
+
+@keyframes slideIn {
+   0% {
+      transform: translateX(120vw);
+   }
+   90% {
+      transform: translateX(-5vw);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}
+
+.dialog {
+   width: 80%;
+   max-width: 450px;
+   background-color: white;
+   padding: 1rem;
+   padding-top: .5rem;
+   animation: slideIn .4s ease-out;
+}
+
+.closeIcon {
+   display: flex;
+   justify-content: flex-end;
+}
+.closeIcon > svg {
+   color: white;
+   cursor: pointer;
+   background-color: var(--mainYellow);
+   transition: .25s;
+}
+.closeIcon > svg:hover {
+   background-color: white;
+   color: var(--mainYellow);
+}
+
+.body {
+   margin-top: 1rem;
+   display: flex;
+   align-items: center;
+}
+
+.dialogType {
+   color: var(--mainYellow);
+   margin-right: 1rem;
+}
+
+.buttons {
+   padding-top: 1rem;
+   margin-top: 1.5rem;
+   border-top: 1px solid var(--mainYellow);
+   display: flex;
+   justify-content: flex-end;
+}
+
+.buttons > button:first-child {
+   margin-right: 1rem;
+}
+
+
+
+@media screen and (min-width: 768px) {
+   .dialog {
+      width: 60%;
+   }
+}
+
+@media screen and (min-width: 1000px) {
+   .dialog {
+      width: 40%;
+   }
+}
