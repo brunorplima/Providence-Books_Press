@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 import styles from '../../../styles/navbar/Navbar.module.css';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { GiBookshelf } from 'react-icons/gi';
@@ -7,6 +6,9 @@ import NavbarItem from './NavbarItem';
 import NavbarSearch from './NavbarSearch';
 import { MenuHidden } from './NavbarContainer';
 import LinkLoading from '../../elements/link-loading/LinkLoading';
+import { useRouter } from 'next/router';
+import { store } from '../../../redux/store/store';
+import createLoadingAction from '../../../redux/actions/loadingAction';
 
 interface Props {
    readonly searchField: string;
@@ -29,6 +31,15 @@ const Navbar: React.FC<Props> = ({
    setMenuHidden,
    totalBookshelfItems
 }) => {
+   const router = useRouter();
+   useEffect(() => {
+      router.events.on('routeChangeStart', activateLoading);
+      router.events.on('routeChangeComplete', deactivateLoading);
+      return () => {
+         router.events.off('routeChangeStart', activateLoading);
+         router.events.off('routeChangeComplete', deactivateLoading);
+      }
+   }, []);
 
    function getAnimationClass() {
       const hiddenWithAnimation = menuHidden?.isIt && menuHidden?.useAnimation;
@@ -135,4 +146,12 @@ const Navbar: React.FC<Props> = ({
    )
 }
 
-export default Navbar
+const activateLoading = (url, { shallow }) => {
+   store.dispatch(createLoadingAction(true));
+}
+
+const deactivateLoading = (url, { shallow }) => {
+   store.dispatch(createLoadingAction(false));
+}
+
+export default Navbar;
