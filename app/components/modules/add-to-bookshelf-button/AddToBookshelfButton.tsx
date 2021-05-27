@@ -4,11 +4,10 @@ import Frame from '../../layouts/Frame';
 import Button from '../../elements/button/Button';
 import { store } from '../../../redux/store/store';
 import { createAddToBookshelfAction } from '../../../redux/actions/bookshelfActions';
-import Link from 'next/link';
 import styles from '../../../styles/add-to-bookshelf/AddToBookshelf.module.css';
 import { GiCheckMark } from 'react-icons/gi';
 import { BookshelfItem } from '../../../interfaces-objects/interfaces';
-import createLoadingAction from '../../../redux/actions/loadingAction';
+import LinkLoading from '../../elements/link-loading/LinkLoading';
 
 interface Props {
    readonly product: Product;
@@ -61,16 +60,14 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
          <Frame style={frameStyle}>
             {
                wasAdded ?
-                  <Link href='/bookshelf'>
-                     <a 
-                        className={styles.link}
-                        style={style ? style : {}}
-                        onClick={() => store.dispatch(createLoadingAction(true))}   
-                     >
-                        <div><GiCheckMark /></div>
-                        <div>OPEN BOOKSHELF</div>
-                     </a>
-                  </Link> :
+                  <LinkLoading
+                     href='/bookshelf'
+                     className={styles.link}
+                     style={style ? style : {}}
+                  >
+                     <div><GiCheckMark /></div>
+                     <div>OPEN BOOKSHELF</div>
+                  </LinkLoading> :
                   <Button label='ADD TO BOOKSHELF' clickHandler={this.addToBookshelf} style={style} />
             }
          </Frame>

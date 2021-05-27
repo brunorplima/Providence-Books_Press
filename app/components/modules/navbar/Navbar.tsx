@@ -6,6 +6,7 @@ import { GiBookshelf } from 'react-icons/gi';
 import NavbarItem from './NavbarItem';
 import NavbarSearch from './NavbarSearch';
 import { MenuHidden } from './NavbarContainer';
+import LinkLoading from '../../elements/link-loading/LinkLoading';
 
 interface Props {
    readonly searchField: string;
@@ -121,7 +122,7 @@ const Navbar: React.FC<Props> = ({
             </div>
 
             <div className={styles.logoArea}>
-               <Link href='/'><a>Providence</a></Link>
+               <LinkLoading href='/'>Providence</LinkLoading>
             </div>
             <div
                className={`${styles.menuButton} ${primary ? styles.primaryMenuButton : styles.secondaryMenuButton}`}

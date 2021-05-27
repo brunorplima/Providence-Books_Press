@@ -1,17 +1,16 @@
-import React from 'react'
-import { BookshelfItem } from '../../../interfaces-objects/interfaces'
-import BookshelfControllers from './BookshelfControllers'
-import BookshelfListItem from './BookshelfListItem'
-import styles from '../../../styles/bookshelf/BookshelfList.module.css'
-import Link from 'next/link'
-import { useDispatch } from 'react-redux'
-import createLoadingAction from '../../../redux/actions/loadingAction'
+import React from 'react';
+import { BookshelfItem } from '../../../interfaces-objects/interfaces';
+import BookshelfControllers from './BookshelfControllers';
+import BookshelfListItem from './BookshelfListItem';
+import styles from '../../../styles/bookshelf/BookshelfList.module.css';
+import { useDispatch } from 'react-redux';
+import LinkLoading from '../../elements/link-loading/LinkLoading';
 
 interface Props {
-   items: BookshelfItem[],
-   setItemCheck: (id: string) => void,
-   increaseQuantity: (id: string) => void,
-   decreaseQuantity: (id: string) => void,
+   readonly items: BookshelfItem[];
+   readonly setItemCheck: (id: string) => void;
+   readonly increaseQuantity: (id: string) => void;
+   readonly decreaseQuantity: (id: string) => void;
 }
 
 const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity, decreaseQuantity }) => {
@@ -48,14 +47,9 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity,
                   <div><img src='/bookshelf/empty-bookshelf-256px.png' alt='Empty bookshelf'/></div>
                   <div className={styles.text}>You bookshelf is empty</div>
                   <div>
-                     <Link href='/bookstore'>
-                        <a 
-                           className={styles.link}
-                           onClick={() => dispatch(createLoadingAction(true))}
-                        >
-                           VISIT OUR BOOKSTORE
-                        </a>
-                     </Link>
+                     <LinkLoading href='/bookstore' className={styles.link}>
+                        VISIT OUR BOOKSTORE
+                     </LinkLoading>
                   </div>
                </div>
          }
@@ -63,4 +57,4 @@ const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity,
    )
 }
 
-export default BookshelfList
+export default BookshelfList;

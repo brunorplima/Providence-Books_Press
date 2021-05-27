@@ -1,9 +1,7 @@
-import Link from 'next/link';
 import React from 'react';
 import { IconType } from 'react-icons';
-import { useDispatch } from 'react-redux';
-import createLoadingAction from '../../../redux/actions/loadingAction';
 import styles from '../../../styles/navbar/NavbarItem.module.css';
+import LinkLoading from '../../elements/link-loading/LinkLoading';
 import { MenuHidden } from './NavbarContainer';
 
 interface Props {
@@ -29,8 +27,6 @@ const NavbarItem: React.FC<Props> = ({
 }) => {
    if (label && Icon) throw new Error('Props label and icon cannot exist simultaneously!');
 
-   const dispatch = useDispatch();
-
    return (
       <li
          className={`
@@ -41,25 +37,23 @@ const NavbarItem: React.FC<Props> = ({
          `}
          onClick={menuHidden !== null ? setMenuHidden : null}
       >
-         <Link href={href}>
-            <a 
-               className={`${styles.anchor} ${primary ? styles.primaryAnchor : styles.secondaryAnchor}`}
-               onClick={() => dispatch(createLoadingAction(true))}
-            >
-               {
-                  label && label
-               }
-               {
-                  Icon && <Icon fontSize={30}/>
-               }
-               {
-                  Icon && totalBookshelfItems &&
-                  <div className={styles.bookshelfTotal}>
-                     {totalBookshelfItems}
-                  </div>
-               }
-            </a>
-         </Link>
+         <LinkLoading
+            href={href}
+            className={`${styles.anchor} ${primary ? styles.primaryAnchor : styles.secondaryAnchor}`}
+         >
+            {
+               label && label
+            }
+            {
+               Icon && <Icon fontSize={30} />
+            }
+            {
+               Icon && totalBookshelfItems &&
+               <div className={styles.bookshelfTotal}>
+                  {totalBookshelfItems}
+               </div>
+            }
+         </LinkLoading>
       </li>
    )
 }

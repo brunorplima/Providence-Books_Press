@@ -4,6 +4,7 @@ import BookshelfItemQuantity from '../../elements/bookshelf-item-qty/BookshelfIt
 import ProductType from '../../elements/product-type/ProductType'
 import styles from '../../../styles/bookshelf/BookshelfListItem.module.css'
 import Link from 'next/link'
+import LinkLoading from '../../elements/link-loading/LinkLoading'
 
 interface Props {
    item: BookshelfItem,
@@ -26,26 +27,22 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
             </div>
 
             <div className={styles.image}>
-               <Link href={`/product/${item.id}`}>
-                  <a>
-                     <img className={styles.img} src={item.image} alt={`Bookshelf item | ${item.name} ${item.subtitle}`} />
-                  </a>
-               </Link>
+               <LinkLoading href={`/product/${item.id}`}>
+                  <img className={styles.img} src={item.image} alt={`Bookshelf item | ${item.name} ${item.subtitle}`} />
+               </LinkLoading>
             </div>
 
             <div className={`${styles.mainInfo} ${evenItem && styles.lightColor}`}>
                <ProductType type={item.type} fontSize={'8pt'} padding={'0 .5rem'} />
-               <Link href={`/product/${item.id}`}>
-                  <a>
-                     <h3 className={`${styles.title} ${evenItem && styles.whiteHover}`}>{item.name.toUpperCase()}</h3>
-                     {
-                        item.subtitle && 
-                        <div className={`${styles.subtitle} ${evenItem && styles.whiteHover}`}>
-                           {item.subtitle.toUpperCase()}
-                        </div>
-                     }
-                  </a>
-               </Link>
+               <LinkLoading href={`/product/${item.id}`}>
+                  <h3 className={`${styles.title} ${evenItem && styles.whiteHover}`}>{item.name.toUpperCase()}</h3>
+                  {
+                     item.subtitle && 
+                     <div className={`${styles.subtitle} ${evenItem && styles.whiteHover}`}>
+                        {item.subtitle.toUpperCase()}
+                     </div>
+                  }
+               </LinkLoading>
                {item.authors && <div><span className={styles.bold}>BY:</span> {item.authors.toUpperCase()}</div>}
                <div></div>
                {item.coverType && <div>{item.coverType.toUpperCase()}</div>}
