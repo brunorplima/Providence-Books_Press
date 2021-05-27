@@ -3,7 +3,7 @@ import styles from '../../../styles/elements/Button.module.css';
 
 export interface ButtonProps {
    readonly label: string;
-   readonly clickHandler: () => void;
+   readonly clickHandler?: () => void;
    readonly style?: CSSProperties;
    readonly secondaryStyle?: boolean;
 }
@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondarySt
    return (
       <button
          className={`${styles.container} ${secondaryStyle && styles.secondaryStyle}`}
-         onClick={clickHandler}
+         onClick={clickHandler && clickHandler}
          style={{ ...style }}
       >
          {label}
