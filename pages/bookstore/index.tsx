@@ -57,14 +57,10 @@ export class Bookstore extends Component<Props, State> {
 
    componentDidMount() {
       this.ensurePaginationIsWithinBounds();
-      store.dispatch(createLoadingAction(false));
    }
 
    componentDidUpdate() {
       this.ensurePaginationIsWithinBounds();
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
    }
 
    /**

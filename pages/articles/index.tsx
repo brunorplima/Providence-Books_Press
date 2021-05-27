@@ -29,16 +29,6 @@ export class ArticlesPage extends Component<Props, State> {
       this.setShowCategories = this.setShowCategories.bind(this);
    }
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   }
-
    getSortedArticles(articles: Article[]): Article[] {
       let sorted = articles.sort((a, b) => new Date(b.datePosted).getTime() - new Date(a.datePosted).getTime())
       return sorted;

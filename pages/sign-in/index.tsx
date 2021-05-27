@@ -29,16 +29,6 @@ export class index extends Component<any, State> {
       this.signUp = this.signUp.bind(this);
    }
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   }
-
 
    setUsername(e: React.ChangeEvent<HTMLInputElement>) {
       this.setState({ username: e.target.value });

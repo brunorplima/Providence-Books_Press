@@ -22,16 +22,6 @@ export class Bookshelf extends Component<Props> {
       this.decreaseQuantity = this.decreaseQuantity.bind(this);
    }
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   }
-
 
    setItemCheck(id: string) {
       store.dispatch(createChangeCheckAction(id));

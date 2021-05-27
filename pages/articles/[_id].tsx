@@ -17,16 +17,6 @@ interface Props {
 
 class ArticlePage extends React.Component<Props> {
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   }
-
    render() {
       const { article, comments } = this.props;
 

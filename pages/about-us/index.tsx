@@ -54,15 +54,6 @@ class Index extends Component<Props, State> {
       this.setShowConfirmation = this.setShowConfirmation.bind(this);
    }
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   }
 
    /**
     * It sets the name state according with user input.

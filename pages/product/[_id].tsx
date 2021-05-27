@@ -39,14 +39,6 @@ class ProductDetails extends Component<Props, State> {
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
-   componentDidMount() {
-      store.dispatch(createLoadingAction(false));
-   }
-
-   componentDidUpdate() {
-      store.dispatch(createLoadingAction(false));
-   }
-
    getSortedRelatedProductsList(): Product[] {
       const { product, relatedProducts } = this.props;
       const sameAuthorList: Product[] = [];

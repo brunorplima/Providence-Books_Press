@@ -24,12 +24,6 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
 
    const store = useStore();
 
-   useEffect(() => {
-      if (store.getState().isLoading) {
-         store.dispatch(createLoadingAction(false));
-      }
-   })
-
    return (
       <>
          <Head>
