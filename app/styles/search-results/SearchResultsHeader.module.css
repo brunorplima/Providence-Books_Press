@@ -1,0 +1,71 @@
+.container {
+   padding: .8rem .8rem 0 .8rem;
+   background-color: var(--almostWhite);
+   margin: .8rem;
+}
+
+.search {
+   display: flex;
+   align-items: center;
+   padding: 0 .4rem;
+   border-bottom: 3px solid var(--lightGray);
+}
+
+.search > div:first-child {
+   margin-right: 1rem;
+   font-size: 20pt;
+   color: var(--lightGray);
+}
+
+.selectors {
+   margin-top: 1rem;
+   display: flex;
+   justify-content: flex-end;
+}
+
+
+
+.selector {
+   padding: .35rem .6rem;
+   cursor: pointer;
+}
+
+.selectorInView {
+   border-bottom: 5px solid var(--mainYellow);
+}
+
+
+
+@media screen and (min-width: 768px) {
+   .container {
+      padding: 1.5rem;
+      padding-bottom: 0;
+   }
+
+   .search > div:first-child {
+      margin-right: 1rem;
+      font-size: 30pt;
+   }
+
+   .search > div:last-child {
+      font-size: 16pt;
+   }
+
+   .selectors > div:not(:last-child) {
+      margin-right: 1rem;
+   }
+
+   .selector {
+      padding: .5rem .8rem;
+      font-size: 14pt;
+   }
+}
+
+@media screen and (min-width: 1000px) {
+   .selector {
+      padding: .6rem 1rem;
+      font-size: 16pt;
+   }
+}
+
+
