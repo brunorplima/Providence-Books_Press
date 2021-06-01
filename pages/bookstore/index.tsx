@@ -247,7 +247,7 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const res = await fetch('http://localhost:3000/api/products');
+   const res = await fetch('https://providencebp.vercel.app/api/products');
    const products = await res.json() as Product[];
 
    return {
