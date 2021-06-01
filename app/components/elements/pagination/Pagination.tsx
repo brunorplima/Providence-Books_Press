@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react'
+import { AnyAction } from 'redux';
+import { store } from '../../../redux/store/store';
 import styles from '../../../styles/elements/Pagination.module.css'
 
 interface Props {
    pagination: number,
    options: number[],
-   setPagination: (pageNumber: number) => void,
+   setPagination: (pageNumber: number) => AnyAction,
    noScroll?: boolean
 }
 
 const Pagination: React.FC<Props> = ({ pagination, options, setPagination, noScroll }) => {
 
    function handleClick(option: number) {
-      setPagination(option);
+      store.dispatch(setPagination(option));
    }
 
    useEffect(() => {
