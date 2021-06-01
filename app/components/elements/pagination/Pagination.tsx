@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
-import { AnyAction } from 'redux';
 import { store } from '../../../redux/store/store';
 import styles from '../../../styles/elements/Pagination.module.css'
 
 interface Props {
    pagination: number,
    options: number[],
-   setPagination: (pageNumber: number) => AnyAction,
+   setPagination: (pageNumber: number) => any,
    noScroll?: boolean
 }
 
