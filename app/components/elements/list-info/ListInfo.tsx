@@ -1,4 +1,5 @@
 import React from 'react'
+import { AnyAction } from 'redux'
 import Frame from '../../layouts/Frame'
 import Pagination from '../pagination/Pagination'
 
@@ -6,7 +7,7 @@ interface Props {
    nonPaginatedListLength: number,
    options: number[],
    pagination: number,
-   setPagination: (pageNumber: number) => void
+   setPagination: (pageNumber: number) => AnyAction
 }
 
 const ListInfo: React.FC<Props> = ({

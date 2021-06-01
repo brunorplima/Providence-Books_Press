@@ -91,7 +91,7 @@
          "039-1889-4713"
       ],
       "_publisherId": "678bdb53-f3e1-4ad9-bbf6-1f7b3b8cb9b4",
-      "authors": "Van Der Jagt, A.",
+      "authors": "Van Der Jagt, A. & Lima, Bruno",
       "publisher": "HRB",
       "isbn": "223.20.10.126",
       "readBy": "Gorczany, Tiana",
@@ -328,7 +328,7 @@
          "937-39556-034"
       ],
       "_publisherId": "f7aff373-e9b8-4c3c-856d-5aaf7b8c1e29",
-      "authors": "Calvin, John",
+      "authors": "Calvin, John & Frank A. James III",
       "publisher": "RR",
       "isbn": "166.78.106.207",
       "readBy": "Leannon, Jeanette",
@@ -535,7 +535,7 @@
          "039-92594-22"
       ],
       "_publisherId": "c282404c-a3d2-4e16-a56b-55f2271b1432",
-      "authors": "Schouten, Andrew",
+      "authors": "Schouten, Andrew & Lima, Bruno",
       "publisher": "HRB",
       "isbn": "219.157.233.58",
       "weight": 1.57,
@@ -702,7 +702,7 @@
          "618-1186-0295"
       ],
       "_publisherId": "910cfc4b-3025-4f16-83af-e56933d31139",
-      "authors": "De Vries, Anne",
+      "authors": "De Vries, Anne & Lima, Bruno",
       "publisher": "HRB",
       "isbn": "241.64.117.24",
       "weight": 1.53,
@@ -946,7 +946,7 @@
          "039-92594-22"
       ],
       "_publisherId": "bb858027-92b9-4095-96a0-c32d364074db",
-      "authors": "Schouten, Andrew",
+      "authors": "Schouten, Andrew & Lima, Bruno",
       "publisher": "PROVIDENCE PRESS",
       "isbn": "124.8.132.189",
       "fileExtensions": [
@@ -1876,7 +1876,7 @@
          "937-39556-034"
       ],
       "_publisherId": "c501a569-d11f-4f72-9d27-0712ce1126f2",
-      "authors": "Calvin, John",
+      "authors": "Calvin, John & Lima, Bruno",
       "publisher": "HRB",
       "isbn": "129.47.124.157",
       "readBy": "Rath, Arjun",
@@ -2931,7 +2931,7 @@
          "283-0948-1132"
       ],
       "_publisherId": "acaeac33-7850-42e9-8f53-a7a8bdecc3e6",
-      "authors": "Wegener, G.S.",
+      "authors": "Wegener, G.S. & Richard Muller",
       "publisher": "HRB",
       "isbn": "117.45.92.76",
       "weight": 0.96,
@@ -3300,7 +3300,7 @@
          "132-069-2222"
       ],
       "_publisherId": "ac253fd5-4f1b-4c51-86a0-305ef13a0fd5",
-      "authors": "Van Der Waal, C.",
+      "authors": "Van Der Waal, C. & Richard Muller",
       "publisher": "RR",
       "isbn": "12.220.156.172",
       "weight": 0.27,
@@ -3642,7 +3642,7 @@
          "77-99-154832"
       ],
       "_publisherId": "88ac8722-579e-4312-a99e-a3c5920cbaba",
-      "authors": "Alcock, Deborah",
+      "authors": "Alcock, Deborah & Richard Mouw",
       "publisher": "HRB",
       "isbn": "31.253.153.156",
       "weight": 0.13,
@@ -3980,7 +3980,7 @@
          "937-39556-034"
       ],
       "_publisherId": "c0ff350f-07bf-42f7-a3fb-1764357008d1",
-      "authors": "Calvin, John",
+      "authors": "Calvin, John & B. B. Warfield",
       "publisher": "PROVIDENCE PRESS",
       "isbn": "12.65.108.195",
       "fileExtensions": [
@@ -4289,7 +4289,7 @@
          "937-39556-034"
       ],
       "_publisherId": "7e69631a-3f18-44d1-b88a-bfba58e7a34a",
-      "authors": "Calvin, John",
+      "authors": "B. B. Warfield",
       "publisher": "RR",
       "isbn": "250.235.58.38",
       "weight": 1.41,
@@ -4688,7 +4688,7 @@
          "77-99-154832"
       ],
       "_publisherId": "c08b7181-1cdf-4c0a-bf67-f130cb16f320",
-      "authors": "Alcock, Deborah",
+      "authors": "Alcock, Deborah & B. B. Warfield",
       "publisher": "PROVIDENCE PRESS",
       "isbn": "15.148.22.147",
       "readBy": "Gleichner, Cornelius",
@@ -4924,7 +4924,7 @@
          "039-1889-4713"
       ],
       "_publisherId": "a9569301-a3a0-411e-93af-2ef44e1e5c86",
-      "authors": "Van Der Jagt, A.",
+      "authors": "Van Der Jagt, A. & Jonathan Edwards",
       "publisher": "RR",
       "isbn": "142.244.2.117",
       "fileExtensions": [
@@ -4961,7 +4961,7 @@
          "039-1889-4713"
       ],
       "_publisherId": "e1257ce3-0a16-484e-b67e-a004ef4034f0",
-      "authors": "Van Der Jagt, A.",
+      "authors": "Jonathan Edwards",
       "publisher": "RR",
       "isbn": "117.11.164.106",
       "weight": 1,
@@ -4994,7 +4994,7 @@
          "039-92594-22"
       ],
       "_publisherId": "6422f103-ad11-4ae2-9b2a-5b81f6dd4e9f",
-      "authors": "Schouten, Andrew",
+      "authors": "Schouten, Andrew & Jonathan Edwards",
       "publisher": "PROVIDENCE PRESS",
       "isbn": "94.114.20.218",
       "fileExtensions": [
@@ -5936,7 +5936,7 @@
          "618-1186-0295"
       ],
       "_publisherId": "36813db1-b170-48de-bf14-f288239c9782",
-      "authors": "De Vries, Anne",
+      "authors": "Jonathan Edwards",
       "publisher": "INHERITANCE PUBLICATIONS",
       "isbn": "246.240.194.181",
       "fileExtensions": [

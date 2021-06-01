@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 import Product from '../../../interfaces-objects/Product';
-import HorizontalProductsList from './HorizontalProductsList'
-import useScreenWidth, { numberItemsHorizontalList } from '../../../util/useScreenWidth'
-import { BiSearchAlt } from 'react-icons/bi'
-import styles from '../../../styles/products-list/ProductsList.module.css'
+import HorizontalProductsList from './HorizontalProductsList';
+import useScreenWidth, { numberItemsHorizontalList } from '../../../util/useScreenWidth';
+import styles from '../../../styles/products-list/ProductsList.module.css';
+import OpenSearchFilterButton from '../../elements/open-search-filter-button/OpenSearchFilterButton';
 
 interface Props {
-   products: Product[],
-   setModalOpen: (value: boolean) => void
+   readonly products: Product[],
+   readonly setModalOpen: (value: boolean) => void
 }
 
 const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
@@ -35,7 +35,7 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
    return (
       <div>
          <div className={styles.listContainer}>
-            <div className={styles.openPortal} onClick={() => setModalOpen(true)}><BiSearchAlt /></div>
+            <OpenSearchFilterButton setModalOpen={setModalOpen} />
 
             {
                horizontalLists.map(list => <HorizontalProductsList key={JSON.stringify(list)} productItems={list} />)
@@ -45,4 +45,4 @@ const ProductsList: React.FC<Props> = ({ products, setModalOpen }) => {
    )
 }
 
-export default ProductsList
+export default ProductsList;

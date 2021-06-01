@@ -1,26 +1,26 @@
-import React, { Component } from 'react'
-import SearchField from '../../elements/search-field/SearchField'
-import FilterBox from '../../elements/filter-box/FilterBox'
+import React, { Component } from 'react';
+import SearchField from '../../elements/search-field/SearchField';
+import FilterBox from '../../elements/filter-box/FilterBox';
 import Frame from '../../layouts/Frame';
-import styles from '../../../styles/side-bar/Sidebar.module.css'
-import globalStyles from '../../../styles/globals.module.css'
+import styles from '../../../styles/side-bar/Sidebar.module.css';
+import globalStyles from '../../../styles/globals.module.css';
 
-interface Props {
-   search: string,
-   setSearch: (value: string) => void,
-   categories: string[],
-   checkedCategories: string[],
-   setCheckedCategories: (categories: string[]) => void,
-   authors: string[],
-   checkedAuthors: string[],
-   setCheckedAuthors: (author: string[]) => void,
-   publishers: string[],
-   checkedPublishers: string[],
-   setCheckedPublishers: (publisher: string[]) => void,
-   isPortal?: boolean
+export interface SidebarProps {
+   readonly checkedCategories: string[];
+   readonly setCheckedCategories: (categories: string[]) => void;
+   readonly checkedAuthors: string[];
+   readonly setCheckedAuthors: (author: string[]) => void;
+   readonly checkedPublishers: string[];
+   readonly setCheckedPublishers: (publisher: string[]) => void;
+   readonly search?: string;
+   readonly setSearch?: (value: string) => void;
+   readonly categories?: string[];
+   readonly authors?: string[];
+   readonly publishers?: string[];
+   readonly isPortal?: boolean;
 }
 
-export class Sidebar extends Component<Props> {
+export class Sidebar extends Component<SidebarProps> {
 
    constructor(props) {
       super(props);
@@ -28,50 +28,64 @@ export class Sidebar extends Component<Props> {
 
    render() {
       const {
+         checkedCategories,
+         setCheckedCategories,
+         checkedAuthors,
+         setCheckedAuthors,
+         checkedPublishers,
+         setCheckedPublishers,
          search,
          setSearch,
          categories,
-         checkedCategories,
-         setCheckedCategories,
          authors,
-         checkedAuthors,
-         setCheckedAuthors,
          publishers,
-         checkedPublishers,
-         setCheckedPublishers,
          isPortal
       } = this.props;
 
       const frameStyle = {
          paddingLeft: '1rem'
       }
-
+      
       return (
          <div className={`${styles.sideBar} ${globalStyles.yellowFont} ${isPortal ? styles.sideBarModal : ''}`}>
             <Frame style={frameStyle}>
-               <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false} />
+               {
+                  search !== undefined &&
+                  <SearchField value={search} changeHandler={setSearch} isGlobalSearch={false} />
+               }
             </Frame>
-            <FilterBox
-               idIncrement={isPortal ? 'portal' : 'regular'}
-               boxTitle='CATEGORY'
-               optionsList={categories}
-               optionsChecked={checkedCategories}
-               setCheckedList={setCheckedCategories}
-            />
-            <FilterBox
-               idIncrement={isPortal ? 'portal' : 'regular'}
-               boxTitle='AUTHOR'
-               optionsList={authors}
-               optionsChecked={checkedAuthors}
-               setCheckedList={setCheckedAuthors}
-            />
-            <FilterBox
-               idIncrement={isPortal ? 'portal' : 'regular'}
-               boxTitle='PUBLISHER'
-               optionsList={publishers}
-               optionsChecked={checkedPublishers}
-               setCheckedList={setCheckedPublishers}
-            />
+            {
+               categories?.length ?
+               <FilterBox
+                  idIncrement={isPortal ? 'portal' : 'regular'}
+                  boxTitle='CATEGORY'
+                  optionsList={categories}
+                  optionsChecked={checkedCategories}
+                  setCheckedList={setCheckedCategories}
+               /> : null
+            }
+
+            {
+               authors?.length ?
+               <FilterBox
+                  idIncrement={isPortal ? 'portal' : 'regular'}
+                  boxTitle='AUTHOR'
+                  optionsList={authors}
+                  optionsChecked={checkedAuthors}
+                  setCheckedList={setCheckedAuthors}
+               /> : null
+            }
+
+            {
+               publishers?.length ?
+               <FilterBox
+                  idIncrement={isPortal ? 'portal' : 'regular'}
+                  boxTitle='PUBLISHER'
+                  optionsList={publishers}
+                  optionsChecked={checkedPublishers}
+                  setCheckedList={setCheckedPublishers}
+               /> : null
+            }
          </div>
       )
    }
