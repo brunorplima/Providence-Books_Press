@@ -362,7 +362,7 @@ class SearchResultsPage extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { search } = context.query;
-   const fetchResults = await fetch('http://localhost:3000/api/search?search=' + (search as string));
+   const fetchResults = await fetch('https://providencebp.vercel.app/api/search?search=' + (search as string));
    const results = await fetchResults.json();
    return {
       props: {
