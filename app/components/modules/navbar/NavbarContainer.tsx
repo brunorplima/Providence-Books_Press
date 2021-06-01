@@ -1,5 +1,6 @@
 import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Unsubscribe } from 'redux';
 import createSearchAction from '../../../redux/actions/searchAction';
 import { store } from '../../../redux/store/store';
@@ -7,7 +8,11 @@ import useScreenWidth from '../../../util/useScreenWidth';
 import useScrollPosition from '../../../util/useScrollPosition';
 import Navbar from './Navbar';
 
-const NavbarContainer: React.FC = () => {
+interface WrapperProps {
+   readonly totalBookshelfItems: number;
+}
+
+const NavbarContainer: React.FC<WrapperProps> = ({ totalBookshelfItems }) => {
    const scrollPosition = useScrollPosition();
    const screenWidth = useScreenWidth();
    const router = useRouter();
@@ -17,6 +22,7 @@ const NavbarContainer: React.FC = () => {
          scrollPosition={specialNavbarPathnames.includes(router.pathname) ? scrollPosition : null}
          screenWidth={screenWidth}
          router={router}
+         totalBookshelfItems={totalBookshelfItems}
       />
    )
 }
@@ -31,6 +37,7 @@ interface Props {
    readonly scrollPosition?: number;
    readonly screenWidth: number;
    readonly router: NextRouter;
+   readonly totalBookshelfItems: number;
 }
 
 export type MenuHidden = {
@@ -41,7 +48,6 @@ export type MenuHidden = {
 interface State {
    readonly searchField: string;
    readonly menuHidden: MenuHidden | null;
-   readonly totalBookshelfItems: number;
 }
 
 class NavbarWrapper extends Component<Props, State> {
@@ -52,8 +58,7 @@ class NavbarWrapper extends Component<Props, State> {
       super(props);
       this.state = {
          searchField: '',
-         menuHidden: null,
-         totalBookshelfItems: 0
+         menuHidden: null
       }
 
       this.setSearch = this.setSearch.bind(this);
@@ -71,12 +76,6 @@ class NavbarWrapper extends Component<Props, State> {
             }
          });
       }
-      this.unsubscriber = store.subscribe(() => {
-         const total = store.getState().bookshelf.length;
-         if (this.state.totalBookshelfItems !== total) {
-            this.setState({ totalBookshelfItems: total });
-         }
-      });
    }
 
    componentDidUpdate() {
@@ -91,10 +90,6 @@ class NavbarWrapper extends Component<Props, State> {
             }
          });
       }
-   }
-
-   componentWillUnmount() {
-      this.unsubscriber();
    }
 
 
@@ -140,10 +135,16 @@ class NavbarWrapper extends Component<Props, State> {
             secondaryStyleOwnPage={this.isSecondaryStyleOwnPage()}
             menuHidden={this.state.menuHidden}
             setMenuHidden={this.setMenuHidden}
-            totalBookshelfItems={this.state.totalBookshelfItems}
+            totalBookshelfItems={this.props.totalBookshelfItems}
          />
       )
    }
 }
 
-export default NavbarContainer;
+const mapStateToProps = (state) => {
+   return {
+      totalBookshelfItems: state.bookshelf.length
+   }
+}
+
+export default connect(mapStateToProps)(NavbarContainer);
