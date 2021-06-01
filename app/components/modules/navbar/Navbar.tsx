@@ -60,7 +60,7 @@ const Navbar: React.FC<Props> = ({
    const hiddenStyle: CSSProperties = { left: '120%' }
    const shownStyle: CSSProperties = { left: 0 }
 
-
+   
    return (
       <>
          {
@@ -107,6 +107,7 @@ const Navbar: React.FC<Props> = ({
                <NavbarSearch
                   primary={primary}
                   menuHidden={menuHidden}
+                  setMenuHidden={setMenuHidden}
                   searchField={searchField}
                   setSearch={setSearch}
                   search={search}

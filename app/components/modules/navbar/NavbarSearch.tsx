@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 interface Props {
    readonly primary: boolean;
    readonly menuHidden: MenuHidden | null;
+   readonly setMenuHidden: () => void;
    readonly searchField: string;
    readonly setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
    readonly search: (value: string) => void;
@@ -15,6 +16,7 @@ interface Props {
 const NavbarSearch: React.FC<Props> = ({
    primary,
    menuHidden,
+   setMenuHidden,
    searchField,
    setSearch,
    search
@@ -46,6 +48,7 @@ const NavbarSearch: React.FC<Props> = ({
                id='search-button'
                className={`${styles.submit} ${primary ? styles.primarySubmit : styles.secondarySubmit}`}
                onClick={() => {
+                  if (menuHidden) setMenuHidden();
                   search(searchField);
                   router.push('/search-results?search=' + searchField);
                }}
