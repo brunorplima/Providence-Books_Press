@@ -33,7 +33,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
          <div className={styles.linkContainer}>
             <LinkLoading href={'/product/' + _id} className={styles.infoContainer}>
                <ProductItemFlag flag={flag.toUpperCase()} />
-               <div>
+               <div className={styles.imgAuthorType}>
                   <img
                      src={images[0]}
                      style={{ maxWidth: '165px' }}

@@ -34,6 +34,18 @@
    margin-bottom: .4rem;
 }
 
+.imgAuthorType {
+   max-width: 170px;
+   display: flex;
+   flex-direction: column;
+}
+
+.imgAuthorType > img {
+   margin-left: auto;
+   margin-right: auto;
+   margin-bottom: .3rem;
+}
+
 .author {
    font-size: 10pt;
    color: #666;
