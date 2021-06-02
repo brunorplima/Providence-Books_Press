@@ -3,15 +3,20 @@ import { store } from '../../../redux/store/store';
 import styles from '../../../styles/elements/Pagination.module.css'
 
 interface Props {
-   pagination: number,
-   options: number[],
-   setPagination: (pageNumber: number) => any,
-   noScroll?: boolean
+   readonly pagination: number;
+   readonly options: number[];
+   readonly setPagination: (pageNumber: number) => any;
+   readonly noScroll?: boolean;
+   readonly isLocalState?: boolean;
 }
 
-const Pagination: React.FC<Props> = ({ pagination, options, setPagination, noScroll }) => {
+const Pagination: React.FC<Props> = ({ pagination, options, setPagination, noScroll, isLocalState }) => {
 
    function handleClick(option: number) {
+      if (isLocalState) {
+         setPagination(option);
+         return;
+      }
       store.dispatch(setPagination(option));
    }
 
