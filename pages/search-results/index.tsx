@@ -318,7 +318,7 @@ class SearchResultsPage extends Component<Props, State> {
 
                {
                   view === ARTICLES &&
-                  <Frame style={{width: '100%'}}>
+                  <Frame style={{ width: '100%', padding: '32px 0 0 0' }}>
                      <Frame style={{ padding: 10, display: 'flex', justifyContent: 'end' }}>
                         <Pagination
                            pagination={this.props.pagination}
@@ -327,7 +327,7 @@ class SearchResultsPage extends Component<Props, State> {
                         />
                      </Frame>
 
-                     <div style={{ display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap', margin: '4rem 0' }}>
+                     <div style={{ display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
                         <OpenSearchFilterButton setModalOpen={this.setModalOpen} />
                         {
                            paginatedArticlesList.map(art => {
