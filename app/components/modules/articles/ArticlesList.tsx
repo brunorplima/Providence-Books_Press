@@ -110,6 +110,7 @@ class ArticlesList extends React.Component<Props, State> {
                   options={getPaginationOptions(this.state.pagination, this.getMaxPageNumber())}
                   setPagination={this.setPagination}
                   noScroll
+                  isLocalState
                />
             </div>
          </div>
