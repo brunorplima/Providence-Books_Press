@@ -19,8 +19,8 @@ const ArticleBanner: React.FC<Props> = ({ article }) => {
       <LinkLoading href={`articles/${_id}`}>
          <div className={styles.banner} style={{ background: `url(${image})` }}>
             <div className={styles.articleTag}>
-               Article
-               </div>
+               Latest article
+            </div>
 
             <div className={styles.innerBanner}>
                <h2>{title}</h2>
