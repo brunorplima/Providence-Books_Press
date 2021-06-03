@@ -13,6 +13,7 @@ import getPaginationOptions from '../../app/util/paginationService';
 import { ensurePaginationIsWithinBounds, getFilters, getMaxPage, populateProcessedList } from '../../app/util/listManipulation';
 import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
+import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 
 interface Props {
    readonly products: Product[];
@@ -230,6 +231,11 @@ export class Bookstore extends Component<Props, State> {
                      products={paginatedSearchedFilteredList}
                      setModalOpen={this.setModalOpen}
                   />
+
+                  {
+                     !paginatedSearchedFilteredList.length &&
+                     <EmptyResult image='empty folder' />
+                  }
 
                   <Frame style={{ padding: 10, display: 'flex', justifyContent: 'end' }}>
                      <Pagination
