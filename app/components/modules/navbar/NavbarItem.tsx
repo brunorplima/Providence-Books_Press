@@ -36,7 +36,7 @@ const NavbarItem: React.FC<Props> = ({
             ${primary ? styles.primaryNavbarOption : styles.secondaryNavbarOption}
             ${menuHidden !== null ? styles.mobileNavbarOption : ''}
             ${isFirstItem && menuHidden !== null ? styles.firstMNO : ''}
-            ${isLandscape ? `${styles.firstMNOLandscape} ${styles.mobileNavbarOptionLandscape}` : ''}
+            ${isLandscape && menuHidden !== null ? `${styles.firstMNOLandscape} ${styles.mobileNavbarOptionLandscape}` : ''}
          `}
          onClick={menuHidden !== null ? setMenuHidden : null}
       >

@@ -31,7 +31,7 @@ const NavbarSearch: React.FC<Props> = ({
             ${primary ? styles.primaryNavbarOption : styles.secondaryNavbarOption}
             ${menuHidden !== null ? styles.mobileNavbarOption : ''}
          `}
-         style={isLandscape ? { margin: '.7rem 0' } : { marginBottom: '.7rem' }}
+         style={menuHidden !== null ? isLandscape ? { margin: '.7rem 0' } : { marginBottom: '.7rem' } : {}}
       >
          <form
             className={`
