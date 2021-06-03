@@ -79,12 +79,12 @@ const SignIn: React.FC<Props> = ({
                }
 
                <div>
-                  <input
+                  <button
                      className={styles.signInButton}
-                     type='submit'
-                     value='SIGN IN'
                      onClick={e => signIn(e)}
-                  />
+                  >
+                     SIGN IN
+                  </button>
 
                   <button
                      className={styles.signUpButton}
