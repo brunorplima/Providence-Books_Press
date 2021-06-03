@@ -90,12 +90,12 @@ const AboutUsFooter: React.FC<Props> = ({
                   value={message}
                   onChange={e => handleMessageChange(e)}
                />
-               <input
+               <button
                   className={styles.submit}
-                  type='submit'
                   onClick={handleSendMessage}
-                  value='SEND'
-               />
+               >
+                  SEND
+               </button>
             </form>
          </div>
       </div>
