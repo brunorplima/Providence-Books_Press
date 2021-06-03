@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import styles from '../../../styles/navbar/Navbar.module.css';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { GiBookshelf } from 'react-icons/gi';
@@ -9,6 +9,8 @@ import LinkLoading from '../../elements/link-loading/LinkLoading';
 import { useRouter } from 'next/router';
 import { store } from '../../../redux/store/store';
 import createLoadingAction from '../../../redux/actions/loadingAction';
+import useScreenWidth from '../../../util/useScreenWidth';
+import useScreenHeight from '../../../util/useScreenHeight';
 
 interface Props {
    readonly searchField: string;
@@ -32,6 +34,10 @@ const Navbar: React.FC<Props> = ({
    totalBookshelfItems
 }) => {
    const router = useRouter();
+   const screenWidth = useScreenWidth();
+   const screenHeight = useScreenHeight();
+   const [isLandscape, setIsLandscape] = useState<boolean>(false);
+
    useEffect(() => {
       router.events.on('routeChangeStart', activateLoading);
       router.events.on('routeChangeComplete', deactivateLoading);
@@ -40,6 +46,15 @@ const Navbar: React.FC<Props> = ({
          router.events.off('routeChangeComplete', deactivateLoading);
       }
    }, []);
+   
+   useEffect(() => {
+      if (screenHeight < screenWidth) {
+         setIsLandscape(true);
+      }
+      else {
+         setIsLandscape(false);
+      }
+   }, [screenWidth, screenHeight]);
 
    function getAnimationClass() {
       const hiddenWithAnimation = menuHidden?.isIt && menuHidden?.useAnimation;
@@ -98,6 +113,7 @@ const Navbar: React.FC<Props> = ({
                            primary={primary}
                            menuHidden={menuHidden}
                            setMenuHidden={setMenuHidden}
+                           isLandscape={isLandscape}
                            isFirstItem={!idx ? true : false}
                         />
                      )
@@ -111,6 +127,7 @@ const Navbar: React.FC<Props> = ({
                   searchField={searchField}
                   setSearch={setSearch}
                   search={search}
+                  isLandscape={isLandscape}
                />
 
                <NavbarItem
@@ -120,6 +137,7 @@ const Navbar: React.FC<Props> = ({
                   menuHidden={menuHidden}
                   setMenuHidden={setMenuHidden}
                   isFirstItem={false}
+                  isLandscape={isLandscape}
                />
 
                <NavbarItem
@@ -129,6 +147,7 @@ const Navbar: React.FC<Props> = ({
                   menuHidden={menuHidden}
                   setMenuHidden={setMenuHidden}
                   isFirstItem={false}
+                  isLandscape={isLandscape}
                   totalBookshelfItems={totalBookshelfItems}
                />
             </div>
