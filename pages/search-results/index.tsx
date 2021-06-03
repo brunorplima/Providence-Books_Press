@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { createSearchResultsListPageAction } from '../../app/redux/actions/listPageActions';
 import ArticleCard from '../../app/components/elements/article-card/ArticleCard';
 import OpenSearchFilterButton from '../../app/components/elements/open-search-filter-button/OpenSearchFilterButton';
+import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 
 type ListTypes = typeof BOOKS | typeof ARTICLES
 
@@ -208,16 +209,22 @@ class SearchResultsPage extends Component<Props, State> {
    }
 
 
-   getResultSelectors() {
+   getTotalResults() {
       const { results } = this.props;
-      const resultSelectors: ResultSelector[] = [];
       const resultTypes: ResultItem<any>[] = Object.values(results);
+      const total = resultTypes.reduce((a, b) => {
+         return a + b.itemList.length
+      }, 0);
+      return { total, resultTypes };
+   }
+
+   getResultSelectors() {
+      const resultSelectors: ResultSelector[] = [];
+      const { total, resultTypes } = this.getTotalResults();
 
       resultSelectors.push({
          name: ALL,
-         amount: resultTypes.reduce((a, b) => {
-            return a + b.itemList.length
-         }, 0)
+         amount: total
       });
       resultTypes.forEach(type => {
          resultSelectors.push({
@@ -268,41 +275,109 @@ class SearchResultsPage extends Component<Props, State> {
             </div>
 
             <div className={styles.results}>
-               <SearchResultsAside
-                  view={view}
-                  categories={categories}
-                  authors={authors}
-                  publishers={view === BOOKS && publishers}
-                  checkedCategories={this.state.checkedCategories}
-                  checkedAuthors={this.state.checkedAuthors}
-                  checkedPublishers={view === BOOKS && this.state.checkedPublishers}
-                  setCheckedCategories={this.setCheckedCategories}
-                  setCheckedAuthors={this.setCheckedAuthors}
-                  setCheckedPublishers={view === BOOKS ? this.setCheckedPublishers : undefined}
-                  modalOpen={modalOpen}
-                  setModalOpen={this.setModalOpen}
-               />
 
                {
                   view === ALL &&
-                  <div>{/* Yet to be implemented */}</div>
+                     results.products.itemList.length + results.articles.itemList.length ?
+                     <SearchResultsAside
+                        view={view}
+                        categories={categories}
+                        authors={authors}
+                        publishers={[]}
+                        checkedCategories={this.state.checkedCategories}
+                        checkedAuthors={this.state.checkedAuthors}
+                        checkedPublishers={[]}
+                        setCheckedCategories={this.setCheckedCategories}
+                        setCheckedAuthors={this.setCheckedAuthors}
+                        setCheckedPublishers={undefined}
+                        modalOpen={modalOpen}
+                        setModalOpen={this.setModalOpen}
+                     />
+                     : null
+
+               }
+               {
+                  view === BOOKS &&
+                     results.products.itemList.length ?
+                     <SearchResultsAside
+                        view={view}
+                        categories={categories}
+                        authors={authors}
+                        publishers={view === BOOKS && publishers}
+                        checkedCategories={this.state.checkedCategories}
+                        checkedAuthors={this.state.checkedAuthors}
+                        checkedPublishers={view === BOOKS && this.state.checkedPublishers}
+                        setCheckedCategories={this.setCheckedCategories}
+                        setCheckedAuthors={this.setCheckedAuthors}
+                        setCheckedPublishers={this.setCheckedPublishers}
+                        modalOpen={modalOpen}
+                        setModalOpen={this.setModalOpen}
+                     />
+                     : null
+               }
+
+               {
+                  view === ARTICLES &&
+                     results.articles.itemList.length ?
+                     <SearchResultsAside
+                        view={view}
+                        categories={categories}
+                        authors={authors}
+                        publishers={[]}
+                        checkedCategories={this.state.checkedCategories}
+                        checkedAuthors={this.state.checkedAuthors}
+                        checkedPublishers={[]}
+                        setCheckedCategories={this.setCheckedCategories}
+                        setCheckedAuthors={this.setCheckedAuthors}
+                        setCheckedPublishers={undefined}
+                        modalOpen={modalOpen}
+                        setModalOpen={this.setModalOpen}
+                     />
+                     : null
+               }
+
+
+               {
+                  view === ALL &&
+                  // style and <div> are to be removed after right side of screen development
+                  <Frame style={{width: '100%'}}>
+                     {
+                        !this.getTotalResults().total ?
+                           <EmptyResult image='search field' />
+                           : <div></div>
+                     }
+                  </Frame>
                }
 
                {
                   view === BOOKS &&
                   <Frame style={{ width: '100%', paddingTop: '2rem' }}>
-                     <ListInfo
-                        nonPaginatedListLength={view === BOOKS ? processedProducts.length : processedArticles.length}
-                        pagination={this.props.pagination}
-                        options={getPaginationOptions(this.props.pagination, maxPage)}
-                        setPagination={createSearchResultsListPageAction}
-                     />
+                     {
+                        results.products.itemList.length ?
+                           <ListInfo
+                              nonPaginatedListLength={view === BOOKS ? processedProducts.length : processedArticles.length}
+                              pagination={this.props.pagination}
+                              options={getPaginationOptions(this.props.pagination, maxPage)}
+                              setPagination={createSearchResultsListPageAction}
+                           />
+                           : null
+                     }
 
                      <Frame style={{ width: '100%' }}>
-                        <ProductsList
-                           products={paginatedProductsList}
-                           setModalOpen={this.setModalOpen}
-                        />
+                        {
+                           results.products.itemList.length ?
+                              <ProductsList
+                                 products={paginatedProductsList}
+                                 setModalOpen={this.setModalOpen}
+                              />
+                              : null
+                        }
+
+                        {
+                           !processedProducts.length ?
+                              <EmptyResult image='empty folder' />
+                              : null
+                        }
                      </Frame>
 
 
@@ -319,29 +394,45 @@ class SearchResultsPage extends Component<Props, State> {
                {
                   view === ARTICLES &&
                   <Frame style={{ width: '100%', padding: '32px 0 0 0' }}>
-                     <Frame style={{ padding: 10, display: 'flex', justifyContent: 'end' }}>
-                        <Pagination
-                           pagination={this.props.pagination}
-                           options={getPaginationOptions(this.props.pagination, maxPage)}
-                           setPagination={createSearchResultsListPageAction}
-                        />
-                     </Frame>
+                     {
+                        results.products.itemList.length ?
+                           <Frame style={{ padding: 10, display: 'flex', justifyContent: 'end' }}>
+                              <Pagination
+                                 pagination={this.props.pagination}
+                                 options={getPaginationOptions(this.props.pagination, maxPage)}
+                                 setPagination={createSearchResultsListPageAction}
+                              />
+                           </Frame>
+                           : null
+                     }
 
                      <div style={{ display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
-                        <OpenSearchFilterButton setModalOpen={this.setModalOpen} />
                         {
-                           paginatedArticlesList.map(art => {
-                              return (
-                                 <ArticleCard
-                                    key={art._id}
-                                    id={art._id}
-                                    author={art.author}
-                                    image={art.image}
-                                    title={art.title}
-                                    subtitle={art.subtitle}
-                                 />
-                              )
-                           })
+                           results.products.itemList.length ?
+                              <>
+                                 <OpenSearchFilterButton setModalOpen={this.setModalOpen} />
+                                 {
+                                    paginatedArticlesList.map(art => {
+                                       return (
+                                          <ArticleCard
+                                             key={art._id}
+                                             id={art._id}
+                                             author={art.author}
+                                             image={art.image}
+                                             title={art.title}
+                                             subtitle={art.subtitle}
+                                          />
+                                       )
+                                    })
+                                 }
+                              </>
+                              : null
+                        }
+
+                        {
+                           !processedArticles.length ?
+                              <EmptyResult image='empty folder' />
+                              : null
                         }
                      </div>
 
