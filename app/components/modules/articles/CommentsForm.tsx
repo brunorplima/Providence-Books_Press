@@ -16,12 +16,12 @@ const CommentsForm: React.FC<Props> = ({ text, setText, submit }) => {
             value={text}
             onChange={e => setText(e)}
          />
-         <input
+         <button
             className={styles.submit}
-            type='submit'
             onClick={submit}
-            value='SUBMIT'
-         />
+         >
+            SUBMIT
+         </button>
       </form>
    )
 }
