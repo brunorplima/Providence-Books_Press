@@ -1,7 +1,13 @@
+
 .boxTitle {
    text-align: center;
    border-bottom: 10px solid var(--mainYellow);
    margin-bottom: .5rem;
+}
+
+.options {
+   max-height: 450px;
+   overflow-y: scroll;
 }
 
 .option {
