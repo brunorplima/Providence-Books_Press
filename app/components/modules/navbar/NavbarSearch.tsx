@@ -11,6 +11,7 @@ interface Props {
    readonly searchField: string;
    readonly setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
    readonly search: (value: string) => void;
+   readonly isLandscape: boolean;
 }
 
 const NavbarSearch: React.FC<Props> = ({
@@ -19,7 +20,8 @@ const NavbarSearch: React.FC<Props> = ({
    setMenuHidden,
    searchField,
    setSearch,
-   search
+   search,
+   isLandscape
 }) => {
    const router = useRouter();
 
@@ -28,7 +30,9 @@ const NavbarSearch: React.FC<Props> = ({
             ${styles.navbarOption}
             ${primary ? styles.primaryNavbarOption : styles.secondaryNavbarOption}
             ${menuHidden !== null ? styles.mobileNavbarOption : ''}
-         `}>
+         `}
+         style={isLandscape ? { marginTop: '.7rem' } : { marginBottom: '.7rem' }}
+      >
          <form
             className={`
                ${styles.navbarSearch}

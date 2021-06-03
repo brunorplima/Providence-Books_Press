@@ -12,6 +12,7 @@ interface Props {
    readonly menuHidden: MenuHidden | null;
    readonly setMenuHidden: () => void;
    readonly isFirstItem: boolean;
+   readonly isLandscape: boolean;
    readonly totalBookshelfItems?: number;
 }
 
@@ -23,6 +24,7 @@ const NavbarItem: React.FC<Props> = ({
    menuHidden,
    setMenuHidden,
    isFirstItem,
+   isLandscape,
    totalBookshelfItems
 }) => {
    if (label && Icon) throw new Error('Props label and icon cannot exist simultaneously!');
@@ -34,6 +36,7 @@ const NavbarItem: React.FC<Props> = ({
             ${primary ? styles.primaryNavbarOption : styles.secondaryNavbarOption}
             ${menuHidden !== null ? styles.mobileNavbarOption : ''}
             ${isFirstItem && menuHidden !== null ? styles.firstMNO : ''}
+            ${isLandscape ? `${styles.firstMNOLandscape} ${styles.mobileNavbarOptionLandscape}` : ''}
          `}
          onClick={menuHidden !== null ? setMenuHidden : null}
       >

@@ -23,12 +23,21 @@
    Mobile style
 */
 .firstMNO {
-   margin-top: 5rem;
+   margin-top: 3rem;
 }
 
 .mobileNavbarOption{
    font-size: 14pt;
    margin-bottom: 1rem;
+}
+
+.firstMNOLandscape {
+   margin-top: .7rem;
+}
+
+.mobileNavbarOptionLandscape {
+   font-size: 11pt;
+   margin-bottom: -.3rem;
 }
 
 
