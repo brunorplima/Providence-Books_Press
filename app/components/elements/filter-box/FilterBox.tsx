@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import CheckboxInput from '../checkbox-input/CheckboxInput';
 import styles from '../../../styles/elements/FilterBox.module.css';
 
@@ -11,11 +11,19 @@ interface Props {
 }
 
 const FilterBox: React.FC<Props> = ({ idIncrement, boxTitle, optionsList, optionsChecked, setCheckedList }) => {
+   const [needsScroll, setNeedsScroll] = useState(false);
+   const optionsBox = createRef<HTMLDivElement>();
+
+   useEffect(() => {
+      if (optionsBox.current.clientHeight === 450) {
+         setNeedsScroll(true);
+      }
+   }, []);
 
    return (
       <div>
          <h4 className={styles.boxTitle}>{boxTitle}</h4>
-         <div className={styles.options}>
+         <div ref={optionsBox} className={styles.options} style={needsScroll ? { overflowY: 'scroll' } : {}}>
             {
                optionsList.map(((option, idx) => {
                   return (
