@@ -29,7 +29,7 @@ const Pagination: React.FC<Props> = ({ pagination, options, setPagination, noScr
    return (
       <div style={{ display: 'flex' }}>
          {
-            options.map((option, idx) => {
+            options?.map((option, idx) => {
                return (
                   <div
                      key={`${option}-${idx}`}
