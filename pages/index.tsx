@@ -29,6 +29,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
          <Head>
             <title>Providence B&amp;P</title>
             <link rel="icon" href="/favicon.ico" />
+            <meta name="google-site-verification" content="IxilHgh9SqGbEK4oEHxkBTW63SP2-aEZZz_WptAoly4" />
          </Head>
          <div className={styles.container}>
             <div className={styles.banner}>
