@@ -122,6 +122,7 @@ export const populateProcessedList = <T extends ProductAndArticle>(
    numberPaginationView: number,
    search?: string
 ): T[] => {
+   if (!list.length) return [];
 
    let processedList = applyFilterToList<T>(
       list,
