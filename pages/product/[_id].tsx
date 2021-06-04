@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -109,11 +109,15 @@ class ProductDetails extends Component<Props, State> {
    }
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
    const { _id } = context.params;
    const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
    const products = await productsRes.json();
    const product: Product = products.find((prod: Product) => prod._id === _id);
+
+   if (!product) return {
+      notFound: true
+   }
 
    const reviewsRes = await fetch('https://providencebp.vercel.app/api/reviews/');
    const allReviews = await reviewsRes.json();
@@ -131,6 +135,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
          relatedProducts,
          reviews
       }
+   }
+}
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+   const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
+   const products: Product[] = await productsRes.json();
+   const paths = products.map(prod => ({ params: { _id: prod._id } }));
+   return {
+      paths,
+      fallback: 'blocking'
    }
 }
 

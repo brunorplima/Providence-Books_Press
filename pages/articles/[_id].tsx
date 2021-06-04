@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
@@ -34,11 +34,19 @@ class ArticlePage extends React.Component<Props> {
    }
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
    const { _id } = context.params;
 
    const articleRes = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
-   const article: Article = await articleRes.json();
+   let article: Article;
+   try {
+      article = await articleRes.json();
+      if (!article) throw new Error('Article received from server is not valid');
+   } catch (e) {
+      return {
+         notFound: true
+      }
+   }
 
    const commentsRes = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
    const comments: Comment[] = await commentsRes.json();
@@ -48,6 +56,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
          article,
          comments
       }
+   }
+}
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles');
+   const articles: Article[] = await fetchArticles.json();
+   const paths = articles.map(article => ({ params: { _id: article._id }}));
+   return {
+      paths,
+      fallback: 'blocking'
    }
 }
 
