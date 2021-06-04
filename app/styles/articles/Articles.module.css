@@ -3,3 +3,14 @@
    margin-left: auto;
    margin-right: auto;
 }
+
+.search {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 .8rem
+}
+
+.searchMessage {
+   padding-right: 1rem;
+}
