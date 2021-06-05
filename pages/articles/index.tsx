@@ -7,10 +7,10 @@ import ArticleBanner from '../../app/components/modules/articles/ArticleBanner';
 import Button from '../../app/components/elements/button/Button';
 import SearchField from '../../app/components/elements/search-field/SearchField';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
+import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
 
 interface Props {
-   readonly articles: Article[],
-   readonly categories: string[]
+   readonly articles: Article[]
 }
 
 interface State {
@@ -58,18 +58,28 @@ export class ArticlesPage extends Component<Props, State> {
       this.setState({ showCategories: !this.state.showCategories })
    }
 
+   getCategories(articles: Article[]) {
+      const categories: string[] = [];
+      articles.forEach(art => {
+         if (!categories.includes(art.category)) categories.push(art.category);
+      })
+      return categories;
+   }
+
    render() {
-      const { articles, categories } = this.props;
+      const { articles } = this.props;
       const { search } = this.state;
 
       const firstArticle = this.getSortedArticles(articles)[0];
       const articlesWithSearch = this.getArticlesWithSearch(articles);
+      const finalListLength = articlesWithSearch.length;
+      const categories = this.getCategories(articlesWithSearch);
       const searchMessage = articlesWithSearch.length ?
-         `${articlesWithSearch.length} articles ${articlesWithSearch.length > 1 ? 'match' : 'matches'} your search`
+         `${finalListLength} ${finalListLength > 1 ? 'articles match' : 'article matches'} your search`
          : 'There are no matches for your search'
 
       return (
-         <div className={styles.container}>
+         <div className={styles.container} style={{scrollBehavior: 'smooth'}}>
             <div style={{ padding: '.8rem' }}>
                <ArticleBanner article={firstArticle} />
             </div>
@@ -108,16 +118,22 @@ export class ArticlesPage extends Component<Props, State> {
 
                         {
                            this.state.showCategories &&
-                           categories.map(category => {
-                              return (
-                                 <ArticlesList
-                                    key={category}
-                                    articles={this.getArticlesWithSearch(articles.filter(article => article.category === category))}
-                                    category={category}
-                                    showFirst={true}
-                                 />
-                              )
-                           })
+                           <>
+                              <CategoriesIndex categories={categories} />
+                              {
+                                 categories.map(category => {
+                                    return (
+                                       <div key={category} id={category}>
+                                          <ArticlesList
+                                             articles={this.getArticlesWithSearch(articles.filter(article => article.category === category))}
+                                             category={category}
+                                             showFirst={true}
+                                          />
+                                       </div>
+                                    )
+                                 })
+                              }
+                           </>
                         }
                      </>
                      : null
@@ -141,19 +157,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const fetchedData = await fetch('https://providencebp.vercel.app/api/articles');
    const articles: Article[] = await fetchedData.json();
 
-   const categories: string[] = [];
-
-   const populateCategories = article => {
-      if (!categories.includes(article.category))
-         categories.push(article.category);
-   }
-
-   articles.forEach(populateCategories);
-
    return {
       props: {
-         articles,
-         categories
+         articles
       }
    }
 }
