@@ -1,11 +1,13 @@
+import { useRouter } from 'next/router';
 import React from 'react'
 import styles from '../../../styles/elements/ClosedStoreMessage.module.css'
 
 const ClosedStoreMessage = () => {
-
+   const router = useRouter();
    const date = new Date(Date.now());
+   const excludedRoutes = ['/articles', '/articles/[_id]'];
 
-   if (date.getDay() !== 0) return null;
+   if (date.getDay() !== 0 || excludedRoutes.includes(router.pathname)) return null;
 
    return (
       <div className={styles.container}>
