@@ -90,9 +90,7 @@ class ArticlesList extends React.Component<Props, State> {
    }
 
    render() {
-      const { category, articles } = this.props;
-
-      if (!articles.length) return null;
+      const { category } = this.props;
 
       return (
          <div className={styles.container}>
