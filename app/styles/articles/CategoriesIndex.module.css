@@ -1,0 +1,36 @@
+.container {
+   background-color: var(--almostWhite);
+   border: 1px solid var(--mainGray);
+   padding: 1.5rem 1rem;
+}
+
+.heading {
+   display: flex;
+   color: var(--mainGray);
+}
+
+.heading h4 {
+   margin-top: 0;
+   margin-left: .6rem;
+}
+
+.links {
+   margin: 0;
+}
+
+.item {
+   list-style: square;
+}
+
+.item:not(:last-child) {
+   margin-bottom: .6rem;
+}
+
+.anchor {
+   color: var(--mainGray);
+   text-decoration: underline;
+}
+
+.anchor:hover {
+   color: var(--mainYellow);
+}
