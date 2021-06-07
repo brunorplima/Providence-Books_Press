@@ -1,43 +1,19 @@
-import React from 'react'
-import AudioBook from '../../../interfaces-objects/AudioBook'
-import Book from '../../../interfaces-objects/Book'
-import EBook from '../../../interfaces-objects/EBook'
-import Product from '../../../interfaces-objects/Product'
-import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri'
-import styles from '../../../styles/product-details/ProductDetailsText.module.css'
-import ProductItemFlag from '../../elements/product-item/ProductItemFlag'
-import ProductType from '../../elements/product-type/ProductType'
-import { FaRegFileAudio } from 'react-icons/fa'
-import { AiOutlineFileText, AiOutlineBook } from 'react-icons/ai'
+import React from 'react';
+import AudioBook from '../../../interfaces-objects/AudioBook';
+import Book from '../../../interfaces-objects/Book';
+import EBook from '../../../interfaces-objects/EBook';
+import Product from '../../../interfaces-objects/Product';
+import styles from '../../../styles/product-details/ProductDetailsText.module.css';
+import ProductItemFlag from '../../elements/product-item/ProductItemFlag';
+import ProductType from '../../elements/product-type/ProductType';
 
 interface Props {
-   product: Product
+   readonly product: Product;
 }
 
 const ProductDetailsText: React.FC<Props> = ({ product }) => {
 
-   const bookVariant = ['Book', 'E-book', 'Audio book']
-
-   function timeToString(time: Date): string {
-      const hours = '0' + time.getHours();
-      const minutes = time.getMinutes() >= 10 ? time.getMinutes() : '0' + time.getMinutes();
-      const seconds = time.getSeconds() >= 10 ? time.getSeconds() : '0' + time.getSeconds();
-
-      return `${hours}:${minutes}: ${seconds}`;
-   }
-
-   function getTypeIcons() {
-      switch (product.type) {
-         case 'Book':
-            return <AiOutlineBook />;
-         case 'E-book':
-            return <AiOutlineFileText />
-         case 'Audio book':
-            return <FaRegFileAudio />
-         default:
-            return null
-      }
-   }
+   const bookVariant = ['Book', 'E-book', 'Audio book'];
 
    return (
       <div className={styles.detailsText}>
@@ -101,7 +77,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
 
                {
                   (product.type === bookVariant[2] && (product as | AudioBook).duration && (product as AudioBook).duration) &&
-                  <div><span className={styles.boldFont}>DURATION:</span> {timeToString(new Date((product as AudioBook).duration))}</div>
+                  <div><span className={styles.boldFont}>DURATION:</span> {(product as AudioBook).duration}</div>
                }
 
                {
@@ -142,4 +118,4 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
    )
 }
 
-export default ProductDetailsText
+export default ProductDetailsText;
