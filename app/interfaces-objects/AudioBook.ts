@@ -20,7 +20,7 @@ class AudioBook extends Product {
       providenceReview?: string,
       subtitle?: string,
       public fileExtensions?: string[],
-      public duration?: Date,
+      public duration?: string,
       public subject?: string,
       public age?: string
 
