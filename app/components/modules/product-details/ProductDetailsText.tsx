@@ -19,7 +19,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
       <div className={styles.detailsText}>
          <div className={styles.categoryFlag}>
             <div className={styles.category}>{product.category}</div>
-            <div className={styles.flag}><ProductItemFlag flag={product.flag.toUpperCase()} isRelativePos={true} /></div>
+            <div className={styles.flag}><ProductItemFlag flag={product.flag?.toUpperCase()} isRelativePos={true} /></div>
          </div>
 
          <div className={styles.detailsTextMain}>
@@ -61,7 +61,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                }
 
                {
-                  bookVariant.includes(product.type) && (product as Book | EBook | AudioBook).isbn &&
+                  bookVariant.includes(product.type) && (product as Book | EBook | AudioBook).age &&
                   <div><span className={styles.boldFont}>AGE:</span> {(product as Book | EBook | AudioBook).age}</div>
                }
 
@@ -92,8 +92,6 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
 
             </div>
 
-
-
             <div className={styles.productDescription}>
                {
                   product.description.split('\n').map((paragraph => <p key={paragraph}>{paragraph}</p>))
@@ -101,7 +99,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
             </div>
 
             {
-               product.tags.length &&
+               product.tags?.length &&
                <div className={styles.tagsContainer}>
                   <div className={styles.tag}>
                      TAGS
