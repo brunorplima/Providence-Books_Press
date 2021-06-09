@@ -132,7 +132,7 @@ for (let i = 0; i < 215; i++) {
          faker.random.arrayElement([faker.lorem.paragraph(Math.ceil(Math.random() * 2)), '', '', '']),
          faker.random.arrayElement([faker.lorem.words(Math.ceil(Math.random() * 5)), '', '', '', '']),
          faker.random.arrayElements<string>(['MP3']),
-         new Date(0, 0, 0, faker.random.number(7), faker.random.number(59), faker.random.number(59)),
+         `${faker.random.number(7)} hours and ${faker.random.number(59)}`,
          faker.random.arrayElement([faker.lorem.word(), undefined]),
          faker.random.number({ min: 3, max: 19 }) + '+'
       )
