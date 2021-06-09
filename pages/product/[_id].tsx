@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -15,8 +15,7 @@ import Book from '../../app/interfaces-objects/Book';
 import EBook from '../../app/interfaces-objects/EBook';
 import AudioBook from '../../app/interfaces-objects/AudioBook';
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
-import createLoadingAction from '../../app/redux/actions/loadingAction';
-import { store } from '../../app/redux/store/store';
+import { firestore } from '../../app/firebase/firebase';
 
 interface Props {
    readonly product: Product;
@@ -68,7 +67,7 @@ class ProductDetails extends Component<Props, State> {
 
    render() {
 
-      const { product, reviews } = this.props;
+      const { product, reviews, relatedProducts } = this.props;
       const { selectedImage } = this.state;
 
       return (
@@ -101,7 +100,10 @@ class ProductDetails extends Component<Props, State> {
 
                <UserReviews reviews={reviews} />
 
-               <RelatedProducts products={this.getSortedRelatedProductsList()} />
+               {
+                  relatedProducts?.length > 0 &&
+                  <RelatedProducts products={this.getSortedRelatedProductsList()} />
+               }
             </Frame>
 
          </Frame>
@@ -111,23 +113,23 @@ class ProductDetails extends Component<Props, State> {
 
 export const getStaticProps: GetStaticProps = async (context) => {
    const { _id } = context.params;
-   const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
-   const products = await productsRes.json();
-   const product: Product = products.find((prod: Product) => prod._id === _id);
+
+   let product: Product;
+   const reviews: Review[] = [];
+   const productRef = await firestore.collection('products').where('_id', '==', _id).get();
+   productRef.forEach(async doc => {
+      product = doc.data() as Product;
+      const reviewsRef = await firestore.collection(`products/${doc.id}/reviews`).get();
+      reviewsRef.forEach(revDoc => reviews.push(revDoc.data() as Review));
+   });
 
    if (!product) return {
       notFound: true
    }
 
-   const reviewsRes = await fetch('https://providencebp.vercel.app/api/reviews/');
-   const allReviews = await reviewsRes.json();
-   const reviews = allReviews.filter((review: Review) => review._productId === product._id).map((rev: Review) => {
-      rev.dateTime = rev.dateTime.toString()
-      return rev;
-   })
-
-
-   const relatedProducts: Product[] = products.filter((prod: Product) => (product.category === prod.category) && (product._id !== prod._id))
+   const relatedProducts: Product[] = [];
+   const relRef = await firestore.collection('products').where('category', '==', product.category).where('_id', '!=', product._id).get();
+   relRef.forEach(doc => relatedProducts.push(doc.data() as Product));
 
    return {
       props: {
@@ -138,9 +140,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
    }
 }
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-   const productsRes = await fetch('https://providencebp.vercel.app/api/products/');
-   const products: Product[] = await productsRes.json();
+export const getStaticPaths: GetStaticPaths = async () => {
+   const products: Product[] = [];
+
+   const productsRef = await firestore.collection('products').get();
+   productsRef.forEach(doc => products.push(doc.data() as Product));
+
    const paths = products.map(prod => ({ params: { _id: prod._id } }));
    return {
       paths,
