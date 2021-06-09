@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "faker": "^5.4.0",
+    "firebase": "^8.6.5",
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-firebase-hooks": "^3.0.4",
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.3",
     "react-with-dimensions": "^1.1.0",

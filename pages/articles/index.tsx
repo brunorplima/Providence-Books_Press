@@ -8,6 +8,7 @@ import Button from '../../app/components/elements/button/Button';
 import SearchField from '../../app/components/elements/search-field/SearchField';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
+import { firestore } from '../../app/firebase/firebase';
 
 interface Props {
    readonly articles: Article[]
@@ -154,8 +155,9 @@ export class ArticlesPage extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-   const fetchedData = await fetch('https://providencebp.vercel.app/api/articles');
-   const articles: Article[] = await fetchedData.json();
+   const articles: Article[] = [];
+   const articlesRef = await firestore.collection('articles').get();
+   articlesRef.forEach(doc => articles.push(doc.data() as Article));
 
    return {
       props: {

@@ -1,13 +1,12 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
 import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText';
 import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
 import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
+import { firestore } from '../../app/firebase/firebase';
 import { Article, Comment } from '../../app/interfaces-objects/interfaces';
-import createLoadingAction from '../../app/redux/actions/loadingAction';
-import { store } from '../../app/redux/store/store';
 import styles from '../../app/styles/articles/ArticlePage.module.css';
 
 interface Props {
@@ -36,21 +35,17 @@ class ArticlePage extends React.Component<Props> {
 
 export const getStaticProps: GetStaticProps = async (context) => {
    const { _id } = context.params;
-
-   const articleRes = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
+   const comments: Comment[] = [];
    let article: Article;
-   try {
-      article = await articleRes.json();
-      if (!article) throw new Error('Article received from server is not valid');
-   } catch (e) {
-      return {
-         notFound: true
-      }
-   }
 
-   const commentsRes = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
-   const comments: Comment[] = await commentsRes.json();
+   const articleRef = await firestore.collection('articles').where('_id', '==', _id).get();
+   articleRef.forEach(async doc => {
+      article = doc.data() as Article;
+   })
 
+   const commentsRef = await firestore.collectionGroup('comments').where('_articleId', '==', article._id).get();
+   commentsRef.forEach(doc => comments.push(doc.data() as Comment));
+   
    return {
       props: {
          article,
@@ -60,9 +55,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles');
-   const articles: Article[] = await fetchArticles.json();
+   const articles: Article[] = [];
+   const articlesRef = await firestore.collection('articles').get();
+   articlesRef.forEach(doc => articles.push(doc.data() as Article));
    const paths = articles.map(article => ({ params: { _id: article._id }}));
+
    return {
       paths,
       fallback: 'blocking'

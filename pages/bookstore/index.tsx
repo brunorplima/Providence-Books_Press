@@ -14,6 +14,7 @@ import { ensurePaginationIsWithinBounds, getFilters, getMaxPage, populateProcess
 import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
+import { firestore } from '../../app/firebase/firebase';
 
 interface Props {
    readonly products: Product[];
@@ -59,7 +60,6 @@ export class Bookstore extends Component<Props, State> {
    componentDidMount() {
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
-
    }
 
    componentDidUpdate() {
@@ -165,17 +165,17 @@ export class Bookstore extends Component<Props, State> {
       const { search, checkedAuthors, checkedCategories, checkedPublishers, maxPage, processedList } = this.state;
 
       const paginatedSearchedFilteredList = populateProcessedList<Product>(
-         this.props.products,
+         products,
          true,
          this.state.checkedCategories,
          this.state.checkedAuthors,
          this.state.checkedPublishers,
-         this.props.pagination,
+         pagination,
          this.numberPaginationView,
          this.state.search,
       );
 
-      const { categories, authors, publishers } = getFilters(this.props.products, BOOKS);
+      const { categories, authors, publishers } = getFilters<Product>(products, BOOKS);
 
       return (
          <>
@@ -253,8 +253,11 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const res = await fetch('https://providencebp.vercel.app/api/products');
-   const products = await res.json() as Product[];
+   const products: Product[] = [];
+   const productsRef = await firestore.collection('products').get();
+   productsRef.forEach((doc) => {
+      products.push(doc.data() as Product);
+   })
 
    return {
       props: {
