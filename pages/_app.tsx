@@ -7,6 +7,13 @@ import { useEffect } from 'react';
 import createLoadingAction from '../app/redux/actions/loadingAction';
 
 function MyApp({ Component, pageProps }) {
+
+   useEffect(() => {
+      window.addEventListener('submit', onSubmit);
+      return () => {
+         window.removeEventListener('submit', onsubmit);
+      }
+   }, []);
    
    useEffect(() => {
       if (store.getState().isLoading) {
@@ -26,3 +33,9 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp;
+
+
+
+const onSubmit = (e: Event) => {
+   e.preventDefault();
+}
