@@ -49,7 +49,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval }
 
             <div className={styles.carousel}>
                <CarouselContainer
-                  paths={slideShowUrlPaths}
+                  paths={['/carousel/1.jpeg', '/carousel/2.jpeg']}
                   intervalTime={slideShowInterval}
                />
             </div>
