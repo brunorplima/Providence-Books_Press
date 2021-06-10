@@ -17,6 +17,7 @@ import { createSearchResultsListPageAction } from '../../app/redux/actions/listP
 import ArticleCard from '../../app/components/elements/article-card/ArticleCard';
 import OpenSearchFilterButton from '../../app/components/elements/open-search-filter-button/OpenSearchFilterButton';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
+import { firestore } from '../../app/firebase/firebase';
 
 type ListTypes = typeof BOOKS | typeof ARTICLES
 
@@ -340,7 +341,7 @@ class SearchResultsPage extends Component<Props, State> {
                {
                   view === ALL &&
                   // style and <div> are to be removed after right side of screen development
-                  <Frame style={{width: '100%'}}>
+                  <Frame style={{ width: '100%' }}>
                      {
                         !this.getTotalResults().total ?
                            <EmptyResult image='search field' />
@@ -453,8 +454,36 @@ class SearchResultsPage extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { search } = context.query;
-   const fetchResults = await fetch('https://providencebp.vercel.app/api/search?search=' + (search as string));
-   const results = await fetchResults.json();
+   const products: Product[] = [];
+   const articles: Article[] = [];
+
+   const prodsRef = await firestore.collection('products').get();
+   prodsRef.forEach(doc => products.push(doc.data() as Product));
+   const artsRef = await firestore.collection('articles').get();
+   artsRef.forEach(doc => articles.push(doc.data() as Article));
+
+   const regExp = new RegExp(search as string, 'i');
+   const results: Results = {
+      products: {
+         name: BOOKS,
+         itemList: products.filter(prod => {
+            if (prod.name.match(regExp) || prod.subtitle?.match(regExp)) {
+               return true;
+            }
+            return false;
+         })
+      },
+      articles: {
+         name: ARTICLES,
+         itemList: articles.filter(art => {
+            if (art.title.match(regExp) || art.subtitle?.match(regExp)) {
+               return true;
+            }
+            return false;
+         })
+      },
+   }
+
    return {
       props: {
          results,
