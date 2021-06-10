@@ -144,10 +144,6 @@
    text-align: left;
 }
 
-.mobileNavbarOptions > li {
-
-}
-
 .mobileNavbarSearch {
    flex-direction: column;
    align-items: center;
