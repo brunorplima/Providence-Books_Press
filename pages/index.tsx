@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { useStore } from 'react-redux';
 import { AnyAction, Store } from 'redux';
 import Banner from '../app/components/elements/banner/Banner';
@@ -9,7 +9,7 @@ import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
 import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
-import { firestore } from '../app/firebase/firebase';
+import { firestore, storage } from '../app/firebase/firebase';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
 import createLoadingAction from '../app/redux/actions/loadingAction';
@@ -19,11 +19,18 @@ import useScreenWidth from '../app/util/useScreenWidth';
 interface Props {
    readonly articles: Article[];
    readonly featuredProducts: Product[];
+   readonly slideShowInterval: number;
 }
 
-const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
-
+const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval }) => {
+   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
    const store = useStore();
+
+   useEffect(() => {
+      const pathsPromise: Promise<string[]> = getSlideShowPaths('home-slide-show');
+      pathsPromise.then(paths => setSlideShowUrlPaths(paths))
+      .catch(error => console.log(error));
+   }, [])
 
    return (
       <>
@@ -41,7 +48,10 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {
             </div>
 
             <div className={styles.carousel}>
-               <CarouselContainer />
+               <CarouselContainer
+                  paths={slideShowUrlPaths}
+                  intervalTime={slideShowInterval}
+               />
             </div>
 
             <div className={styles.featuredProducts}>
@@ -94,6 +104,16 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
    )
 }
 
+const getSlideShowPaths = async (path: string) => {
+   const paths: string[] = [];
+   const storageRefList = await storage.ref(path).listAll();
+   storageRefList.items.forEach(async item => {
+      const url = await item.getDownloadURL() as string;
+      paths.push(url);
+   })
+   return paths;
+}
+
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -105,10 +125,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const featProdsRef = await firestore.collection('featured-products').get();
    featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
 
+   const ssIntervalRef = await firestore.doc('slide-show-interval/interval').get();
+   const slideShowInterval: number = ssIntervalRef.data().interval;
+
    return {
       props: {
          articles,
-         featuredProducts
+         featuredProducts,
+         slideShowInterval
       }
    }
 }

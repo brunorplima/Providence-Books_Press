@@ -1,24 +1,25 @@
-import { GetServerSideProps } from 'next';
 import React, { Component } from 'react';
 import Carousel from './Carousel';
 import styles from '../../../styles/home/Carousel.module.css';
 import SlideSelectors from '../../elements/slide-selectors/SlideSelectors';
 
+interface Props {
+   readonly paths: string[];
+   readonly intervalTime: number;
+}
+
 interface State {
    index: number;
 }
 
-const paths = ['/carousel/1.jpeg', '/carousel/2.jpeg', '/carousel/3.jpg', '/carousel/4.jpg', '/carousel/5.png', '/carousel/6.jpg'];
-const INTERVAL_TIME = 6000;
-
-export class CarouselContainer extends Component<{}, State> {
+export class CarouselContainer extends Component<Props, State> {
 
    interval: NodeJS.Timeout;
 
    constructor(props) {
       super(props);
       this.state = {
-         index: 0
+         index: 0,
       }
 
       this.goToNextImg = this.goToNextImg.bind(this);
@@ -29,9 +30,22 @@ export class CarouselContainer extends Component<{}, State> {
     * Sets up the slide interval
     */
    componentDidMount() {
-      this.interval = setInterval(() => {
-         this.goToNextImg();
-      }, INTERVAL_TIME);
+      const { intervalTime, paths } = this.props;
+      if (paths.length) {
+         this.interval = setInterval(() => {
+            this.goToNextImg();
+         }, intervalTime);
+      }
+   }
+
+   componentDidUpdate() {
+      const { paths, intervalTime } = this.props;
+      if (paths.length) {
+         console.log('paths size: ', paths.length)
+         this.interval = setInterval(() => {
+            this.goToNextImg();
+         }, intervalTime);
+      }
    }
 
    componentWillUnmount() {
@@ -45,6 +59,7 @@ export class CarouselContainer extends Component<{}, State> {
     */
    goToNextImg() {
       const { index } = this.state;
+      const { paths } = this.props;
       if (index !== paths.length - 1) {
          this.setState({ index: index + 1 })
       }
@@ -60,17 +75,19 @@ export class CarouselContainer extends Component<{}, State> {
     * @param index The number to set index state
     */
    goToChosenImg(index: number) {
+      const { intervalTime } = this.props;
       if (index !== this.state.index) {
          clearInterval(this.interval);
          this.setState({ index });
          this.interval = setInterval(() => {
             this.goToNextImg();
-         }, INTERVAL_TIME);
+         }, intervalTime);
       }
    }
 
    render() {
       const { index } = this.state;
+      const { paths } = this.props;
 
       return (
 
