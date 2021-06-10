@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { CSSProperties, useEffect } from 'react';
+import { CSSProperties } from 'react';
 import { useStore } from 'react-redux';
 import { AnyAction, Store } from 'redux';
 import Banner from '../app/components/elements/banner/Banner';
@@ -9,6 +9,7 @@ import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
 import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
+import { firestore } from '../app/firebase/firebase';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
 import createLoadingAction from '../app/redux/actions/loadingAction';
@@ -96,11 +97,14 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
-   const articles = await fetchArticles.json();
+   const articles: Article[] = [];
+   const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
+   artRef.forEach(doc => articles.push(doc.data() as Article));
 
-   const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
-   const featuredProducts = await fetchFeaturedProducts.json();
+   const featuredProducts: Product[] = [];
+   const featProdsRef = await firestore.collection('featured-products').get();
+   featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
+
    return {
       props: {
          articles,
