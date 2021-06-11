@@ -38,11 +38,9 @@ export class CarouselContainer extends Component<Props, State> {
       }
    }
 
-   componentDidUpdate(prevProps: Props) {
-      const { paths, intervalTime } = this.props;
-      const { paths: prevPaths } = prevProps;
-      if (paths.length && JSON.stringify(paths) !== JSON.stringify(prevPaths)) {
-         console.log('paths size: ', paths.length)
+   componentDidUpdate() {
+      const { intervalTime } = this.props;
+      if (!this.interval) {
          this.interval = setInterval(() => {
             this.goToNextImg();
          }, intervalTime);

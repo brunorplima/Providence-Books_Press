@@ -11,7 +11,7 @@ const useScrollPosition = () => {
       const assignScrollPosition = () => {
          setScrollPosition(window.scrollY);
       }
-      window.addEventListener('scroll', assignScrollPosition, { once: true });
+      window.addEventListener('scroll', assignScrollPosition);
 
       return () => window.removeEventListener('scroll', assignScrollPosition);
    }, [scrollPosition])
