@@ -10,7 +10,7 @@ interface WrapperProps {
    readonly relatedProducts: Product[];
    readonly useSelectors?: boolean;
    readonly innerStyle?: CSSProperties;
-   readonly useSlide?: boolean;
+   readonly slideInterval?: number;
 }
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
    readonly relatedProducts: Product[];
    readonly useSelectors?: boolean;
    readonly innerStyle?: CSSProperties;
-   readonly useSlide?: boolean;
+   readonly slideInterval?: number;
 }
 
 interface State {
@@ -32,7 +32,7 @@ const HorizontalScrollableProductList: React.FC<WrapperProps> = ({
    relatedProducts,
    innerStyle,
    useSelectors,
-   useSlide
+   slideInterval
 }) => {
    const screenWidth = useScreenWidth();
 
@@ -42,13 +42,12 @@ const HorizontalScrollableProductList: React.FC<WrapperProps> = ({
          relatedProducts={relatedProducts}
          useSelectors={useSelectors}
          innerStyle={innerStyle ? innerStyle : {}}
-         useSlide={useSlide}
+         slideInterval={slideInterval}
       />
    )
 }
 
 
-const INTERVAL_TIME = 6000;
 
 class ScrollableProductList extends Component<Props, State> {
 
@@ -69,8 +68,8 @@ class ScrollableProductList extends Component<Props, State> {
    }
 
    componentDidMount() {
-      const { useSlide } = this.props;
-      if (useSlide) {
+      const { slideInterval } = this.props;
+      if (slideInterval) {
          this.manageInterval('start');
       }
    }
@@ -81,8 +80,8 @@ class ScrollableProductList extends Component<Props, State> {
    }
 
    componentWillUnmount() {
-      const { useSlide } = this.props;
-      if (useSlide) {
+      const { slideInterval } = this.props;
+      if (slideInterval) {
          this.manageInterval('stop');
       }
    }
@@ -103,31 +102,31 @@ class ScrollableProductList extends Component<Props, State> {
 
    private increasePagination() {
       const { listPagination } = this.state;
-      const { useSlide } = this.props;
+      const { slideInterval } = this.props;
       if (listPagination < this.getMaxPagination()) {
-         if (useSlide) this.manageInterval('stop');
+         if (slideInterval) this.manageInterval('stop');
          this.setState({ listPagination: listPagination + 1 });
-         if (useSlide) this.manageInterval('start');
+         if (slideInterval) this.manageInterval('start');
       }
    }
 
    private decreasePagination() {
       const { listPagination } = this.state;
-      const { useSlide } = this.props;
+      const { slideInterval } = this.props;
       if (listPagination > 1) {
-         if (useSlide) this.manageInterval('stop');
+         if (slideInterval) this.manageInterval('stop');
          this.setState({ listPagination: listPagination - 1 });
-         if (useSlide) this.manageInterval('start');
+         if (slideInterval) this.manageInterval('start');
       }
    }
 
    private selectPagination(pagination: number) {
       const { listPagination } = this.state;
-      const { useSlide } = this.props;
+      const { slideInterval } = this.props;
       if (this.state.listPagination !== pagination + 1) {
-         if (useSlide) this.manageInterval('stop');
+         if (slideInterval) this.manageInterval('stop');
          this.setState({ listPagination: pagination + 1 });
-         if (useSlide) this.manageInterval('start');
+         if (slideInterval) this.manageInterval('start');
       }
    }
 
@@ -141,8 +140,9 @@ class ScrollableProductList extends Component<Props, State> {
    }
 
    private manageInterval(action: 'stop' | 'start') {
+      const { slideInterval } = this.props;
       if (action === 'start')
-         this.interval = setInterval(this.runInterval, INTERVAL_TIME)
+         this.interval = setInterval(this.runInterval, slideInterval)
       else
          clearInterval(this.interval);
    }

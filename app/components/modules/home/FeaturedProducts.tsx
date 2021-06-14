@@ -9,9 +9,10 @@ import HorizontalScrollablelProductsList from '../products-list/HorizontalScroll
 
 interface Props {
    readonly featuredProducts: Product[];
+   readonly slideInterval: number;
 }
 
-const FeaturedProducts: React.FC<Props> = ({ featuredProducts }) => {
+const FeaturedProducts: React.FC<Props> = ({ featuredProducts, slideInterval }) => {
    const router = useRouter();
    const dispatch = useDispatch();
 
@@ -22,8 +23,8 @@ const FeaturedProducts: React.FC<Props> = ({ featuredProducts }) => {
          <HorizontalScrollablelProductsList
             relatedProducts={featuredProducts}
             innerStyle={{ borderBottom: 'none', paddingBottom: 0, marginBottom: 0 }}
+            slideInterval={slideInterval}
             useSelectors
-            useSlide
          />
 
          <div className={styles.button}>
