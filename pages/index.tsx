@@ -131,6 +131,11 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
+   const articles = await fetchArticles.json();
+
+   const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
+   const featuredProducts = await fetchFeaturedProducts.json();
    // const articles: Article[] = [];
    // const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
    // artRef.forEach(doc => articles.push(doc.data() as Article));
@@ -145,8 +150,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    // const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
    return {
       props: {
-         articles: [articles[10], articles[20], articles[30]],
-         featuredProducts: products.filter((prod, idx) => idx < 10),
+         articles,
+         featuredProducts,
          slideShowInterval: 6000,
          featuredProductsSlideInterval: 7000
       }
