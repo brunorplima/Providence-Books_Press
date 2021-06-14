@@ -5,16 +5,23 @@ import Image from 'next/image'
 import useScreenWidth from '../../app/util/useScreenWidth';
 import AboutUs from '../../app/components/modules/about-us/AboutUs';
 import AboutUsFooter from '../../app/components/modules/about-us/AboutUsFooter';
-import { store } from '../../app/redux/store/store';
-import createLoadingAction from '../../app/redux/actions/loadingAction';
+import { GetServerSideProps } from 'next';
+import { firestore } from '../../app/firebase/firebase';
 
 export type Error = {
    emptyField: boolean;
    invalidEmail: boolean;
 }
 
+interface WrapperProps {
+   readonly mainText: string[];
+   readonly biblicalText: string;
+}
+
 interface Props {
    readonly screenWidth: number;
+   readonly mainText: string[];
+   readonly biblicalText: string;
 }
 
 interface State {
@@ -25,11 +32,17 @@ interface State {
    error: Error;
 }
 
-const IndexWrapper: React.FC = () => {
+const IndexWrapper: React.FC<WrapperProps> = ({ mainText, biblicalText }) => {
 
    const screenWidth = useScreenWidth()
 
-   return <Index screenWidth={screenWidth} />
+   return (
+      <Index
+         screenWidth={screenWidth}
+         mainText={mainText}
+         biblicalText={biblicalText}
+      />
+   )
 }
 
 class Index extends Component<Props, State> {
@@ -262,6 +275,7 @@ class Index extends Component<Props, State> {
    }
 
    render() {
+      const { mainText, biblicalText } = this.props;
       return (
          <div className={styles.container}>
             <div className={styles.bannerContainer}>
@@ -270,7 +284,10 @@ class Index extends Component<Props, State> {
 
             <div className={styles.separator}></div>
 
-            <AboutUs />
+            <AboutUs
+               mainText={mainText}
+               biblicalText={biblicalText}
+            />
 
             <AboutUsFooter
                name={this.state.name}
@@ -288,5 +305,22 @@ class Index extends Component<Props, State> {
       )
    }
 }
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+   const pageContentRef = await firestore.doc('content/about-us').get();
+   const pageContent = pageContentRef.data();
+   const mainTextString: string = pageContent.mainText;
+   const mainText = mainTextString.split('\\n');
+   const biblicalText: string = pageContent.biblicalText;
+
+   return {
+      props: {
+         mainText,
+         biblicalText
+      }
+   }
+}
+
 
 export default IndexWrapper;
