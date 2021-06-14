@@ -1,4 +1,4 @@
-.container, .carousel {
+.container, .carousel, .carouselLoading {
    margin-left: auto;
    margin-right: auto;
 }
@@ -12,7 +12,7 @@
    margin-bottom: 7rem;
 }
 
-.carousel {
+.carousel, .carouselLoading {
    width: 85%;
    border-top: 1px solid var(--mainYellow);
    border-bottom: 1px solid var(--mainYellow);
@@ -20,6 +20,17 @@
    padding-bottom: .8rem;
 }
 
+.carouselLoading {
+   padding: 5rem 0;
+}
+
 .featuredProducts {
    padding: 0 2rem;
+}
+
+
+@media screen and (min-width: 900px) {
+   .carouselLoading {
+      padding: 12rem 0;
+   }
 }

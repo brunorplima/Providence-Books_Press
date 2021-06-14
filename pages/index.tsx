@@ -9,6 +9,7 @@ import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
 import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
+import Loading from '../app/components/modules/loading/Loading';
 import { firestore, storage } from '../app/firebase/firebase';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
@@ -20,17 +21,30 @@ interface Props {
    readonly articles: Article[];
    readonly featuredProducts: Product[];
    readonly slideShowInterval: number;
+   readonly featuredProductsSlideInterval: number;
 }
 
-const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval }) => {
+const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, featuredProductsSlideInterval }) => {
    const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
+   const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const store = useStore();
 
    useEffect(() => {
-      const pathsPromise: Promise<string[]> = getSlideShowPaths('home-slide-show');
-      pathsPromise.then(paths => setSlideShowUrlPaths(paths))
-      .catch(error => console.log(error));
+      const urls: string[] = [];
+      const storageRef = storage.ref('home-slide-show');
+      storageRef.listAll().then(async list => {
+         for (const item of list.items) {
+            urls.push(await item.getDownloadURL())
+         }
+         setSlideShowUrlPaths(urls);
+      })
    }, [])
+
+   useEffect(() => {
+      if (slideShowUrlPaths.length) {
+         setIsSlideShowLoading(false);
+      }
+   }, [slideShowUrlPaths])
 
    return (
       <>
@@ -47,16 +61,24 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval }
                />
             </div>
 
-            <div className={styles.carousel}>
-               <CarouselContainer
-                  paths={['/carousel/1.jpeg', '/carousel/2.jpeg']}
-                  intervalTime={slideShowInterval}
-               />
-            </div>
+            {
+               slideShowUrlPaths.length > 0 ?
+                  <div className={styles.carousel}>
+                     <CarouselContainer
+                        paths={slideShowUrlPaths}
+                        intervalTime={slideShowInterval}
+                     />
+                  </div>
+                  :
+                  <div className={styles.carouselLoading}>
+                     <Loading localIsLoading={isSlideShowLoading} />
+                  </div>
+            }
 
             <div className={styles.featuredProducts}>
                <FeaturedProducts
                   featuredProducts={featuredProducts}
+                  slideInterval={featuredProductsSlideInterval}
                />
             </div>
 
@@ -104,16 +126,6 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
    )
 }
 
-const getSlideShowPaths = async (path: string) => {
-   const paths: string[] = [];
-   const storageRefList = await storage.ref(path).listAll();
-   storageRefList.items.forEach(async item => {
-      const url = await item.getDownloadURL() as string;
-      paths.push(url);
-   })
-   return paths;
-}
-
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -125,14 +137,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const featProdsRef = await firestore.collection('featured-products').get();
    featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
 
-   const ssIntervalRef = await firestore.doc('slide-show-interval/interval').get();
-   const slideShowInterval: number = ssIntervalRef.data().interval;
-
+   const homeSettingsRef = await firestore.doc('settings/home').get();
+   const homeSettings = homeSettingsRef.data();
+   const slideShowInterval: number = homeSettings.slideShowInterval;
+   const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
    return {
       props: {
          articles,
          featuredProducts,
-         slideShowInterval
+         slideShowInterval,
+         featuredProductsSlideInterval
       }
    }
 }
