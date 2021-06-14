@@ -22,11 +22,11 @@ import products from './api/products/products.json'
 interface Props {
    readonly articles: Article[];
    readonly featuredProducts: Product[];
-   readonly slideShowInterval: number;
-   readonly featuredProductsSlideInterval: number;
+   // readonly slideShowInterval: number;
+   // readonly featuredProductsSlideInterval: number;
 }
 
-const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, featuredProductsSlideInterval }) => {
+const Home: React.FC<Props> = ({ articles, featuredProducts }) => {//, slideShowInterval, featuredProductsSlideInterval }) => {
    const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const store = useStore();
@@ -68,7 +68,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
                   <div className={styles.carousel}>
                      <CarouselContainer
                         paths={slideShowUrlPaths}
-                        intervalTime={slideShowInterval}
+                        intervalTime={6000}
                      />
                   </div>
                   :
@@ -80,7 +80,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
             <div className={styles.featuredProducts}>
                <FeaturedProducts
                   featuredProducts={featuredProducts}
-                  slideInterval={featuredProductsSlideInterval}
+                  slideInterval={7000}
                />
             </div>
 
@@ -152,8 +152,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
          articles,
          featuredProducts,
-         slideShowInterval: 6000,
-         featuredProductsSlideInterval: 7000
+         // slideShowInterval: 6000,
+         // featuredProductsSlideInterval: 7000
       }
    }
 }
