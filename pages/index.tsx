@@ -27,19 +27,19 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ articles, featuredProducts }) => {//, slideShowInterval, featuredProductsSlideInterval }) => {
-   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
+   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>(['https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F1.jpeg?alt=media&token=06d97b35-c4b3-4f64-8755-4e2c682b1212', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F2.jpeg?alt=media&token=928d9ac5-1f54-4b60-b121-79a4c2df28df', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F3.jpg?alt=media&token=d2cf41b9-7290-4ad7-91df-5e80db54b23f']);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const store = useStore();
 
    useEffect(() => {
-      const urls: string[] = [];
-      const storageRef = storage.ref('home-slide-show');
-      storageRef.listAll().then(async list => {
-         for (const item of list.items) {
-            urls.push(await item.getDownloadURL())
-         }
-         setSlideShowUrlPaths(urls);
-      })
+      // const urls: string[] = [];
+      // const storageRef = storage.ref('home-slide-show');
+      // storageRef.listAll().then(async list => {
+      //    for (const item of list.items) {
+      //       urls.push(await item.getDownloadURL())
+      //    }
+      //    setSlideShowUrlPaths(urls);
+      // })
    }, [])
 
    useEffect(() => {
