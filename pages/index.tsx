@@ -131,29 +131,29 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
-   const articles = await fetchArticles.json();
+   // const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
+   // const articles = await fetchArticles.json();
 
-   const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
-   const featuredProducts = await fetchFeaturedProducts.json();
-   // const articles: Article[] = [];
-   // const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
-   // artRef.forEach(doc => articles.push(doc.data() as Article));
+   // const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
+   // const featuredProducts = await fetchFeaturedProducts.json();
+   const articles: Article[] = [];
+   const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
+   artRef.forEach(doc => articles.push(doc.data() as Article));
 
-   // const featuredProducts: Product[] = [];
-   // const featProdsRef = await firestore.collection('featured-products').get();
-   // featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
+   const featuredProducts: Product[] = [];
+   const featProdsRef = await firestore.collection('featured-products').get();
+   featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
 
-   // const homeSettingsRef = await firestore.doc('settings/home').get();
-   // const homeSettings = homeSettingsRef.data();
-   // const slideShowInterval: number = homeSettings.slideShowInterval;
-   // const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
+   const homeSettingsRef = await firestore.doc('settings/home').get();
+   const homeSettings = homeSettingsRef.data();
+   const slideShowInterval: number = homeSettings.slideShowInterval;
+   const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
    return {
       props: {
          articles,
          featuredProducts,
-         // slideShowInterval: 6000,
-         // featuredProductsSlideInterval: 7000
+         slideShowInterval,
+         featuredProductsSlideInterval
       }
    }
 }
