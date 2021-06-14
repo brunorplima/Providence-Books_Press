@@ -2,12 +2,26 @@ import React from 'react';
 import styles from '../../../styles/loading/Loading.module.css';
 import { VscLoading } from 'react-icons/vsc';
 import { createPortal } from 'react-dom';
-import { connect, useStore } from 'react-redux';
+import { connect } from 'react-redux';
 
-const Loading: React.FC = () => {
-   const store = useStore();
-   const isLoading = store.getState().isLoading;
-   if (!isLoading) return null;
+interface Props {
+   readonly reduxIsLoading?: boolean;
+   readonly localIsLoading?: boolean;
+}
+
+const Loading: React.FC<Props> = ({ reduxIsLoading, localIsLoading }) => {
+   
+   if (!reduxIsLoading && !localIsLoading) return null;
+
+   if (localIsLoading) {
+      return (
+         <div className={styles.container} style={localIsLoading ? { position: 'relative' } : {}}>
+            <div className={styles.icon}>
+               <VscLoading />
+            </div>
+         </div>
+      )
+   }
 
    return createPortal(
       <div className={styles.container}>
@@ -21,7 +35,7 @@ const Loading: React.FC = () => {
 
 const mapStateToProps = (state: { isLoading: boolean }) => {
    return {
-      isLoading: state.isLoading
+      reduxIsLoading: state.isLoading
    }
 }
 
