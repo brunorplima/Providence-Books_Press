@@ -16,6 +16,8 @@ import Product from '../app/interfaces-objects/Product';
 import createLoadingAction from '../app/redux/actions/loadingAction';
 import styles from '../app/styles/home/Home.module.css';
 import useScreenWidth from '../app/util/useScreenWidth';
+import articles from './api/articles/articles.json';
+import products from './api/products/products.json'
 
 interface Props {
    readonly articles: Article[];
@@ -129,24 +131,24 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const articles: Article[] = [];
-   const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
-   artRef.forEach(doc => articles.push(doc.data() as Article));
+   // const articles: Article[] = [];
+   // const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
+   // artRef.forEach(doc => articles.push(doc.data() as Article));
 
-   const featuredProducts: Product[] = [];
-   const featProdsRef = await firestore.collection('featured-products').get();
-   featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
+   // const featuredProducts: Product[] = [];
+   // const featProdsRef = await firestore.collection('featured-products').get();
+   // featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
 
-   const homeSettingsRef = await firestore.doc('settings/home').get();
-   const homeSettings = homeSettingsRef.data();
-   const slideShowInterval: number = homeSettings.slideShowInterval;
-   const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
+   // const homeSettingsRef = await firestore.doc('settings/home').get();
+   // const homeSettings = homeSettingsRef.data();
+   // const slideShowInterval: number = homeSettings.slideShowInterval;
+   // const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
    return {
       props: {
-         articles,
-         featuredProducts,
-         slideShowInterval,
-         featuredProductsSlideInterval
+         articles: [articles[10], articles[20], articles[30]],
+         featuredProducts: products.filter((prod, idx) => idx < 10),
+         slideShowInterval: 6000,
+         featuredProductsSlideInterval: 7000
       }
    }
 }
