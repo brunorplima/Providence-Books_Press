@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
@@ -33,18 +33,24 @@ class ArticlePage extends React.Component<Props> {
    }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   const comments: Comment[] = [];
-   let article: Article;
+   // const comments: Comment[] = [];
+   // let article: Article;
 
-   const articleRef = await firestore.collection('articles').where('_id', '==', _id).get();
-   articleRef.forEach(async doc => {
-      article = doc.data() as Article;
-   })
+   const articleRef = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
+   const article: Article = await articleRef.json();
 
-   const commentsRef = await firestore.collectionGroup('comments').where('_articleId', '==', article._id).get();
-   commentsRef.forEach(doc => comments.push(doc.data() as Comment));
+   const commentsRef = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
+   const comments: Comment[] = await commentsRef.json();
+
+   // const articleRef = await firestore.collection('articles').where('_id', '==', _id).get();
+   // articleRef.forEach(async doc => {
+   //    article = doc.data() as Article;
+   // })
+
+   // const commentsRef = await firestore.collectionGroup('comments').where('_articleId', '==', article._id).get();
+   // commentsRef.forEach(doc => comments.push(doc.data() as Comment));
    
    return {
       props: {
@@ -54,16 +60,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
    }
 }
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-   const articles: Article[] = [];
-   const articlesRef = await firestore.collection('articles').get();
-   articlesRef.forEach(doc => articles.push(doc.data() as Article));
-   const paths = articles.map(article => ({ params: { _id: article._id }}));
+// export const getStaticPaths: GetStaticPaths = async (context) => {
+//    const articles: Article[] = [];
+//    const articlesRef = await firestore.collection('articles').get();
+//    articlesRef.forEach(doc => articles.push(doc.data() as Article));
+//    const paths = articles.map(article => ({ params: { _id: article._id }}));
 
-   return {
-      paths,
-      fallback: 'blocking'
-   }
-}
+//    return {
+//       paths,
+//       fallback: 'blocking'
+//    }
+// }
 
 export default ArticlePage;
