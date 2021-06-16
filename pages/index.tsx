@@ -27,13 +27,13 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, featuredProductsSlideInterval }) => {
-   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
+   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>(['https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F4.jpg?alt=media&token=a87018b8-3afd-4064-a429-bb2fc0710df1']);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const store = useStore();
 
    useEffect(() => {
       const urls: string[] = [];
-      const storageRef = storage.ref('home-slide-show');
+      // const storageRef = storage.ref('home-slide-show');
       // storageRef.list().then(async list => {
       //    for (const item of list.items) {
       //       urls.push(await item.getDownloadURL())
