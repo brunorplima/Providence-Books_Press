@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -111,25 +111,32 @@ class ProductDetails extends Component<Props, State> {
    }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
 
-   let product: Product;
-   const reviews: Review[] = [];
-   const productRef = await firestore.collection('products').where('_id', '==', _id).get();
-   productRef.forEach(async doc => {
-      product = doc.data() as Product;
-      const reviewsRef = await firestore.collection(`products/${doc.id}/reviews`).get();
-      reviewsRef.forEach(revDoc => reviews.push(revDoc.data() as Review));
-   });
+   const productsRef = await fetch('https://providencebp.vercel.app/api/products');
+   const products = await productsRef.json() as Product[];
+   const product = products.find(prod => prod._id === _id);
+   const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id);
+   const reviewsRef = await fetch(`http://localhost:3000/api/reviews/${product._id}`);
+   const reviews: Review[] = await reviewsRef.json();
+
+   // let product: Product;
+   // const reviews: Review[] = [];
+   // const productRef = await firestore.collection('products').where('_id', '==', _id).get();
+   // productRef.forEach(async doc => {
+   //    product = doc.data() as Product;
+   //    const reviewsRef = await firestore.collection(`products/${doc.id}/reviews`).get();
+   //    reviewsRef.forEach(revDoc => reviews.push(revDoc.data() as Review));
+   // });
 
    if (!product) return {
       notFound: true
    }
 
-   const relatedProducts: Product[] = [];
-   const relRef = await firestore.collection('products').where('category', '==', product.category).where('_id', '!=', product._id).get();
-   relRef.forEach(doc => relatedProducts.push(doc.data() as Product));
+   // const relatedProducts: Product[] = [];
+   // const relRef = await firestore.collection('products').where('category', '==', product.category).where('_id', '!=', product._id).get();
+   // relRef.forEach(doc => relatedProducts.push(doc.data() as Product));
 
    return {
       props: {
@@ -140,17 +147,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
    }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-   const products: Product[] = [];
+// export const getStaticPaths: GetStaticPaths = async () => {
+//    const products: Product[] = [];
 
-   const productsRef = await firestore.collection('products').get();
-   productsRef.forEach(doc => products.push(doc.data() as Product));
+//    const productsRef = await firestore.collection('products').get();
+//    productsRef.forEach(doc => products.push(doc.data() as Product));
 
-   const paths = products.map(prod => ({ params: { _id: prod._id } }));
-   return {
-      paths,
-      fallback: 'blocking'
-   }
-}
+//    const paths = products.map(prod => ({ params: { _id: prod._id } }));
+//    return {
+//       paths,
+//       fallback: 'blocking'
+//    }
+// }
 
 export default ProductDetails;
