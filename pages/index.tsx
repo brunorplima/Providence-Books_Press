@@ -32,16 +32,16 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    const store = useStore();
 
    useEffect(() => {
+      // storage.ref().child('home-slide-show/1.jpeg').getDownloadURL().then(value => setSlideShowUrlPaths([value]));
       const urls: string[] = [];
-      // const storageRef = storage.ref().child('home-slide-show');
-      storage.ref().child('home-slide-show/1.jpeg').getDownloadURL().then(value => setSlideShowUrlPaths([value]));
-      // .list().then(async list => {
-      //    for (const item of list.items) {
-      //       urls.push(await item.getDownloadURL())
-      //    }
-      //    setSlideShowUrlPaths(urls);
-      // })
-      // .catch(error => console.log(error));
+      const storageRef = storage.ref().child('home-slide-show');
+      storageRef.list().then(async list => {
+         for (const item of list.items) {
+            urls.push(await item.getDownloadURL())
+         }
+         setSlideShowUrlPaths(urls);
+      })
+      .catch(error => console.log(error));
    }, [])
 
    useEffect(() => {
