@@ -118,7 +118,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    const products = await productsRef.json() as Product[];
    const product = products.find(prod => prod._id === _id);
    const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id);
-   const reviewsRef = await fetch(`http://localhost:3000/api/reviews`);
+   const reviewsRef = await fetch(`https://providencebp.vercel.app/api/reviews`);
    const reviews: Review[] = (await reviewsRef.json() as Review[]).filter(rev => rev._productId === _id);
 
    // let product: Product;
