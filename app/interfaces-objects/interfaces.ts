@@ -10,6 +10,8 @@ type Address = {
 
 export type Gender = 'Male' | 'Female'
 
+type PaymentStatus = 'Paid' | 'Not paid'
+
 type ProductItem = {
    name: string,
    quantity: number,
@@ -45,7 +47,8 @@ export interface Order {
    shipping: number,
    orderSubtotal: number,
    gst: number,
-   orderTotal: number
+   orderTotal: number,
+   paymentStatus: PaymentStatus
 }
 
 export interface Review {
