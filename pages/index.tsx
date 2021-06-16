@@ -22,26 +22,22 @@ import products from './api/products/products.json'
 interface Props {
    readonly articles: Article[];
    readonly featuredProducts: Product[];
-   // readonly slideShowInterval: number;
-   // readonly featuredProductsSlideInterval: number;
+   readonly slideShowInterval: number;
+   readonly featuredProductsSlideInterval: number;
 }
 
-const Home: React.FC<Props> = ({ articles, featuredProducts }) => {//, slideShowInterval, featuredProductsSlideInterval }) => {
-   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>(['https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F1.jpeg?alt=media&token=06d97b35-c4b3-4f64-8755-4e2c682b1212']);
+const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, featuredProductsSlideInterval }) => {
+   const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const store = useStore();
 
    useEffect(() => {
       const urls: string[] = [];
-      console.log('folder reference start');
       const storageRef = storage.ref('home-slide-show');
-      console.log('listAll called');
       storageRef.list().then(async list => {
-         console.log('In the Promise resolve callback');
          for (const item of list.items) {
             urls.push(await item.getDownloadURL())
          }
-         console.log('End of iteration');
          setSlideShowUrlPaths(urls);
       })
    }, [])
@@ -72,7 +68,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {//, slideShow
                   <div className={styles.carousel}>
                      <CarouselContainer
                         paths={slideShowUrlPaths}
-                        intervalTime={6000}
+                        intervalTime={slideShowInterval}
                      />
                   </div>
                   :
@@ -84,7 +80,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts }) => {//, slideShow
             <div className={styles.featuredProducts}>
                <FeaturedProducts
                   featuredProducts={featuredProducts}
-                  slideInterval={7000}
+                  slideInterval={featuredProductsSlideInterval}
                />
             </div>
 
@@ -135,29 +131,29 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   // const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
-   // const articles = await fetchArticles.json();
+   const fetchArticles = await fetch('https://providencebp.vercel.app/api/articles?limit=3&sorted=y');
+   const articles = await fetchArticles.json();
 
-   // const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
-   // const featuredProducts = await fetchFeaturedProducts.json();
-   const articles: Article[] = [];
-   const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
-   artRef.forEach(doc => articles.push(doc.data() as Article));
+   const fetchFeaturedProducts = await fetch('https://providencebp.vercel.app/api/products/featured');
+   const featuredProducts = await fetchFeaturedProducts.json();
+   // const articles: Article[] = [];
+   // const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
+   // artRef.forEach(doc => articles.push(doc.data() as Article));
 
-   const featuredProducts: Product[] = [];
-   const featProdsRef = await firestore.collection('featured-products').get();
-   featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
+   // const featuredProducts: Product[] = [];
+   // const featProdsRef = await firestore.collection('featured-products').get();
+   // featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
 
-   const homeSettingsRef = await firestore.doc('settings/home').get();
-   const homeSettings = homeSettingsRef.data();
-   const slideShowInterval: number = homeSettings.slideShowInterval;
-   const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
+   // const homeSettingsRef = await firestore.doc('settings/home').get();
+   // const homeSettings = homeSettingsRef.data();
+   // const slideShowInterval: number = homeSettings.slideShowInterval;
+   // const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
    return {
       props: {
          articles,
          featuredProducts,
-         slideShowInterval,
-         featuredProductsSlideInterval
+         slideShowInterval: 6000,
+         featuredProductsSlideInterval: 7000
       }
    }
 }
