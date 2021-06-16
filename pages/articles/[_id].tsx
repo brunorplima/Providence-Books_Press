@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
@@ -33,7 +33,7 @@ class ArticlePage extends React.Component<Props> {
    }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
    const comments: Comment[] = [];
    let article: Article;
@@ -54,16 +54,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
    }
 }
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-   const articles: Article[] = [];
-   const articlesRef = await firestore.collection('articles').get();
-   articlesRef.forEach(doc => articles.push(doc.data() as Article));
-   const paths = articles.map(article => ({ params: { _id: article._id }}));
+// export const getStaticPaths: GetStaticPaths = async (context) => {
+//    const articles: Article[] = [];
+//    const articlesRef = await firestore.collection('articles').get();
+//    articlesRef.forEach(doc => articles.push(doc.data() as Article));
+//    const paths = articles.map(article => ({ params: { _id: article._id }}));
 
-   return {
-      paths,
-      fallback: 'blocking'
-   }
-}
+//    return {
+//       paths,
+//       fallback: 'blocking'
+//    }
+// }
 
 export default ArticlePage;

@@ -155,9 +155,11 @@ export class ArticlesPage extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-   const articles: Article[] = [];
-   const articlesRef = await firestore.collection('articles').get();
-   articlesRef.forEach(doc => articles.push(doc.data() as Article));
+   // const articles: Article[] = [];
+   // const articlesRef = await firestore.collection('articles').get();
+   // articlesRef.forEach(doc => articles.push(doc.data() as Article));
+   const articlesRef = await fetch('https://providencebp.vercel.app/api/articles');
+   const articles: Article[] = await articlesRef.json();
 
    return {
       props: {
