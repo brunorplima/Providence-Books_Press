@@ -33,13 +33,14 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
 
    useEffect(() => {
       const urls: string[] = [];
-      const storageRef = storage.ref('home-slide-show');
+      const storageRef = storage.ref().child('home-slide-show');
       // storageRef.list().then(async list => {
       //    for (const item of list.items) {
       //       urls.push(await item.getDownloadURL())
       //    }
       //    setSlideShowUrlPaths(urls);
       // })
+      // .catch(error => console.log(error));
    }, [])
 
    useEffect(() => {
