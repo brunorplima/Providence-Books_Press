@@ -30,14 +30,15 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    const store = useStore();
 
    useEffect(() => {
-      const urls: string[] = [];
-      const storageRef = storage.ref('home-slide-show');
-      storageRef.listAll().then(async list => {
-         for (const item of list.items) {
-            urls.push(await item.getDownloadURL())
-         }
-         setSlideShowUrlPaths(urls);
-      })
+      const urls: string[] = ['https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F1.jpeg?alt=media&token=06d97b35-c4b3-4f64-8755-4e2c682b1212', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F2.jpeg?alt=media&token=928d9ac5-1f54-4b60-b121-79a4c2df28df', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F3.jpg?alt=media&token=d2cf41b9-7290-4ad7-91df-5e80db54b23f', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F4.jpg?alt=media&token=a87018b8-3afd-4064-a429-bb2fc0710df1'];
+      // const storageRef = storage.ref('home-slide-show');
+      // storageRef.listAll().then(async list => {
+      //    for (const item of list.items) {
+      //       urls.push(await item.getDownloadURL())
+      //    }
+      //    setSlideShowUrlPaths(urls);
+      // })
+      setSlideShowUrlPaths(urls);
    }, [])
 
    useEffect(() => {
