@@ -1,0 +1,85 @@
+.LI-item {
+   display: flex;
+   max-height: 8rem;
+   height: min-content;
+   min-height: 4rem;
+   padding: .4rem 1rem;
+   border-bottom: 1px solid var(--lightGray);
+   transition: .3s;
+   cursor: pointer;
+}
+
+.LI-item > div {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   padding: 0 .2rem;
+   text-align: left;
+}
+
+.LI-item:hover {
+   background-color: var(--almostWhite);
+}
+
+
+.LI-borderTop {
+   border-top: 1px solid var(--lightGray);
+}
+
+.LI-id {
+   flex: 1;
+}
+
+.LI-image {
+   flex: 1;
+}
+
+.LI-image img {
+   max-height: 5rem;
+}
+
+.LI-link:hover {
+   color: var(--mainYellow);
+}
+
+.LI-flex1 {
+   flex: 1;
+}
+
+.LI-flex2 {
+   flex: 2;
+}
+
+.LI-flex3 {
+   flex: 3;
+}
+
+.LI-flex4 {
+   flex: 4;
+}
+
+.LI-actions {
+   flex: 1.3;
+   align-items: center;
+   flex-direction: row !important;
+   display: flex;
+   justify-content: space-between !important;
+   font-size: 16pt;
+   padding-left: .8rem !important;
+}
+
+.LI-actions > div {
+   cursor: pointer;
+   width: 30px;
+   height: 30px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 100%;
+   transition: .2s;
+}
+
+.LI-actions > div:hover {
+   background-color: var(--mainYellow);
+   color: white;
+}
