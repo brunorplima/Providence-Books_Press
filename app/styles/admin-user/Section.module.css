@@ -1,0 +1,11 @@
+.container {
+   padding: 0 2rem;
+   flex: 4;
+   background-color: var(--almostWhite);
+   overflow-y: scroll;
+}
+
+.line {
+   border-bottom: 1px solid black;
+   margin-bottom: 2rem;
+}
