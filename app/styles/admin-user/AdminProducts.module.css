@@ -1,0 +1,41 @@
+.tabs {
+   display: flex;
+   border-bottom: 1px solid black;
+   user-select: none;
+}
+
+.tab {
+   padding: .6rem 1rem;
+   cursor: pointer;
+   font-size: 13pt;
+}
+
+.tab:hover {
+   color: var(--darkYellow);
+}
+
+.actions {
+   flex: 1.3;
+   align-items: center;
+   flex-direction: row !important;
+   display: flex;
+   justify-content: space-between !important;
+   font-size: 16pt;
+   padding-left: .8rem !important;
+}
+
+.actions > div {
+   cursor: pointer;
+   width: 30px;
+   height: 30px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 100%;
+   transition: .2s;
+}
+
+.actions > div:hover {
+   background-color: var(--mainYellow);
+   color: white;
+}
