@@ -1,0 +1,70 @@
+.productsListHeader, .productsListFooter {
+   display: flex;
+   justify-content: space-between;
+   padding: 0 1rem;
+}
+
+.productsListHeader > div:first-child {
+   font-weight: 600;
+}
+
+.productsListHeader {
+   padding-top: 1rem;
+   padding-bottom: 1rem;
+}
+
+.productsListFooter {
+   color: var(--mainGray);
+}
+
+.search {
+   display: flex;
+   color: var(--mainGray);
+   justify-content: center;
+   align-items: center;
+}
+
+.search > div:first-child {
+   font-size: 22pt;
+   transform: translateY(.2rem);
+   margin-right: .7rem;
+}
+
+.search input {
+   border: none;
+   border-bottom: 2px solid var(--mainGray);
+   width: 200px;
+}
+
+.paginationControllers {
+   display: flex;
+   user-select: none;
+}
+
+.paginationControllers > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.paginationControllers > div:not(:nth-child(3)) {
+   width: 20px;
+   height: 20px;
+   transition: .3s;
+   cursor: pointer;
+   font-size: 13pt;
+}
+
+.paginationControllers > div:not(:nth-child(3)):hover {
+   color: var(--mainYellow);
+}
+
+.productsList {
+   color: var(--mainGray);
+   margin: 2rem 0;
+}
+
+.productSubtitle {
+   font-size: 11pt;
+   margin-top: .25rem;
+}
