@@ -65,27 +65,27 @@ export class AdminPage extends Component<{}, State> {
    }
 
    async listenForProducts() {
-      // this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
-      //    const prods: Product[] = [];
-      //    snapshot.forEach(doc => {
-      //       prods.push(doc.data() as Product);
-      //    })
-      //    this.setProducts(prods);
-      // }, error => {
-      //    window.alert(`${error.name} error occurred: ${error.message}`);
-      // })
+      this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
+         const prods: Product[] = [];
+         snapshot.forEach(doc => {
+            prods.push(doc.data() as Product);
+         })
+         this.setProducts(prods);
+      }, error => {
+         window.alert(`${error.name} error occurred: ${error.message}`);
+      })
    }
 
    async listenForArticles() {
-      // this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
-      //    const arts: Article[] = [];
-      //    snapshot.forEach(doc => {
-      //       arts.push(doc.data() as Article);
-      //    })
-      //    this.setArticles(arts);
-      // }, error => {
-      //    window.alert(`${error.name} error occurred: ${error.message}`);
-      // })
+      this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
+         const arts: Article[] = [];
+         snapshot.forEach(doc => {
+            arts.push(doc.data() as Article);
+         })
+         this.setArticles(arts);
+      }, error => {
+         window.alert(`${error.name} error occurred: ${error.message}`);
+      })
    }
 
    render() {
@@ -108,20 +108,20 @@ export class AdminPage extends Component<{}, State> {
             {
                currentSection === sections[1] &&
                <Section title={currentSection} tabs>
-                  <AdminProducts
+                  {/* <AdminProducts
                      list={products}
                      tabs={['Overview', 'Add', 'Update']}
-                  />
+                  /> */}
                </Section>
             }
 
             {
                currentSection === sections[2] &&
                <Section title={currentSection} tabs>
-                  <AdminArticles
+                  {/* <AdminArticles
                      list={articles}
                      tabs={['Overview', 'Add', 'Update']}
-                  />
+                  /> */}
                </Section>
             }
 
