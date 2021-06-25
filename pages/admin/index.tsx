@@ -125,20 +125,20 @@ export class AdminPage extends Component<Props, State> {
             {
                currentSection === sections[1] &&
                <Section title={currentSection} tabs>
-                  <AdminProducts
+                  {/* <AdminProducts
                      list={this.props.products}
                      tabs={['Overview', 'Add', 'Update']}
-                  />
+                  /> */}
                </Section>
             }
 
             {
                currentSection === sections[2] &&
                <Section title={currentSection} tabs>
-                  <AdminArticles
+                  {/* <AdminArticles
                      list={this.props.articles}
                      tabs={['Overview', 'Add', 'Update']}
-                  />
+                  /> */}
                </Section>
             }
 
