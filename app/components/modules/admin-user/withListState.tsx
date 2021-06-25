@@ -23,7 +23,7 @@ interface Props {
    readonly list: any[];
 }
 
-const withState = <P extends Props, T>(
+const withListState = <P extends Props, T>(
    Component: React.ComponentType<P>
 ) => class WithState extends React.Component<P, State> {
 
@@ -66,7 +66,7 @@ const withState = <P extends Props, T>(
 
       decreasePage() {
          const { pagination } = this.state;
-         if (pagination - 1 > 1) {
+         if (pagination - 1 >= 1) {
             this.setState({ pagination: pagination - 1 });
             return true;
          }
@@ -108,4 +108,4 @@ const withState = <P extends Props, T>(
       }
    }
 
-export default withState;
+export default withListState;
