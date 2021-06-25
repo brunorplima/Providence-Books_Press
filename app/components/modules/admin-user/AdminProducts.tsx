@@ -25,20 +25,20 @@ const AdminProducts: React.FC<Props> = ({
 
    return (
       <>
-         {/* <Tabs
+         <Tabs
             tabs={tabs}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
-         /> */}
+         />
 
          {
-            // currentTab === tabs[0] ?
-            //    list.length ?
-            //       <ProductsOverview
-            //          list={list}
-            //       />
-            //       : <Loading />
-            //    : null
+            currentTab === tabs[0] ?
+               list.length ?
+                  <ProductsOverview
+                     list={list}
+                  />
+                  : <Loading />
+               : null
          }
       </>
    )
