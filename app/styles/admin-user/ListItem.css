@@ -4,9 +4,6 @@
    height: min-content;
    min-height: 4rem;
    padding: .4rem 1rem;
-   border-bottom: 1px solid var(--lightGray);
-   transition: .3s;
-   cursor: pointer;
 }
 
 .LI-item > div {
@@ -17,17 +14,14 @@
    text-align: left;
 }
 
-.LI-item:hover {
-   background-color: var(--almostWhite);
-}
-
 
 .LI-borderTop {
    border-top: 1px solid var(--lightGray);
 }
 
 .LI-id {
-   flex: 1;
+   width: min-content;
+   margin-right: .6rem;
 }
 
 .LI-image {
@@ -36,6 +30,7 @@
 
 .LI-image img {
    max-height: 5rem;
+   max-width: 8rem;
 }
 
 .LI-link:hover {
