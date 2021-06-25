@@ -36,8 +36,8 @@ export class AdminPage extends Component<{}, State> {
 
    componentDidUpdate() {
       const { currentSection, products, articles } = this.state;
-      if (currentSection === sections[1] && !products.length) this.listenForProducts();
-      if (currentSection === sections[2] && !articles.length) this.listenForArticles();
+      // if (currentSection === sections[1] && !products.length) this.listenForProducts();
+      // if (currentSection === sections[2] && !articles.length) this.listenForArticles();
    }
 
    componentWillUnmount() {
