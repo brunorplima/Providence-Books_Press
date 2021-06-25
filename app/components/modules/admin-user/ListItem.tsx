@@ -40,7 +40,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, firestorePat
                {
                   label: 'Delete',
                   secondaryStyle: true,
-                  clickHandler: () => deleteAny(firestorePath, itemId)
+                  clickHandler: () => closeDialog()//deleteAny(firestorePath, itemId)
                },
                {
                   label: 'Cancel',
