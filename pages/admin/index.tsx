@@ -74,12 +74,12 @@ export class AdminPage extends Component<{}, State> {
       // }, error => {
       //    window.alert(`${error.name} error occurred: ${error.message}`);
       // })
-      const docsRef = await firestore.collection('products').orderBy('name').get();
-      const products = [];
-      for (const doc of docsRef.docs) {
-         products.push(doc.data());
-      }
-      this.setProducts(products);
+      // const docsRef = await firestore.collection('products').orderBy('name').get();
+      // const products = [];
+      // for (const doc of docsRef.docs) {
+      //    products.push(doc.data());
+      // }
+      // this.setProducts(products);
    }
 
    // async listenForArticles() {
