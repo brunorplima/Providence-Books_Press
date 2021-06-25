@@ -10,17 +10,6 @@ interface Props {
    readonly tabs: string[];
    readonly currentTab?: string;
    readonly setCurrentTab?: (tab: string) => void;
-   readonly listSearch?: Product[];
-   readonly setListSearch?: (list: Product[]) => void;
-   readonly search?: string;
-   readonly setSearch?: (search: string) => void;
-   readonly pagination?: number;
-   readonly listPageMax?: number;
-   readonly setListPageMax?: (listPageMax: number) => void;
-   readonly increasePage?: () => void;
-   readonly decreasePage?: () => void;
-   readonly toFirstPage?: () => void;
-   readonly toLastPage?: () => void;
 }
 
 const AdminProducts: React.FC<Props> = ({
@@ -36,11 +25,11 @@ const AdminProducts: React.FC<Props> = ({
 
    return (
       <>
-         <Tabs
+         {/* <Tabs
             tabs={tabs}
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
-         />
+         /> */}
 
          {
             // currentTab === tabs[0] ?
