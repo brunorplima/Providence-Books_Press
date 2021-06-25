@@ -11,21 +11,16 @@ import styles from '../../app/styles/admin-user/Admin.module.css';
 
 const sections = ['Dashboard', 'Products', 'Articles', 'Users', 'Orders', 'Content', 'Data', 'Settings'];
 
-interface Props {
-   readonly products: Product[];
-   readonly articles: Article[];
-}
-
 interface State {
    readonly currentSection: string;
    readonly products: Product[];
    readonly articles: Article[];
 }
 
-export class AdminPage extends Component<Props, State> {
+export class AdminPage extends Component<{}, State> {
 
-   productsUnsubscriber = () => { };
-   articlesUnsubscriber = () => { };
+   productsUnsubscriber = () => {};
+   articlesUnsubscriber = () => {};
 
    constructor(props) {
       super(props);
@@ -41,8 +36,8 @@ export class AdminPage extends Component<Props, State> {
 
    componentDidUpdate() {
       const { currentSection, products, articles } = this.state;
-      // if (currentSection === sections[1] && !products.length) this.listenForProducts();
-      // if (currentSection === sections[2] && !articles.length) this.listenForArticles();
+      if (currentSection === sections[1] && !products.length) this.listenForProducts();
+      if (currentSection === sections[2] && !articles.length) this.listenForArticles();
    }
 
    componentWillUnmount() {
@@ -69,41 +64,29 @@ export class AdminPage extends Component<Props, State> {
       }
    }
 
-   // async listenForProducts() {
-   //    this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
-   //       const prods: Product[] = [];
-   //       snapshot.forEach(doc => {
-   //          prods.push(doc.data() as Product);
-   //       })
-   //       this.setProducts(prods);
-   //    }, error => {
-   //       window.alert(`${error.name} error occurred: ${error.message}`);
-   //    })
-   //    // const docsRef = await firestore.collection('products').orderBy('name').get();
-   //    // const products = [];
-   //    // for (const doc of docsRef.docs) {
-   //    //    products.push(doc.data());
-   //    // }
-   //    // this.setProducts(products);
-   // }
+   async listenForProducts() {
+      this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
+         const prods: Product[] = [];
+         snapshot.forEach(doc => {
+            prods.push(doc.data() as Product);
+         })
+         this.setProducts(prods);
+      }, error => {
+         window.alert(`${error.name} error occurred: ${error.message}`);
+      })
+   }
 
-   // async listenForArticles() {
-   //    this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
-   //       const arts: Article[] = [];
-   //       snapshot.forEach(doc => {
-   //          arts.push(doc.data() as Article);
-   //       })
-   //       this.setArticles(arts);
-   //    }, error => {
-   //       window.alert(`${error.name} error occurred: ${error.message}`);
-   //    })
-   //    // const docsRef = await firestore.collection('articles').orderBy('title').get();
-   //    // const articles = [];
-   //    // for (const doc of docsRef.docs) {
-   //    //    articles.push(doc.data());
-   //    // }
-   //    // this.setArticles(articles);
-   // }
+   async listenForArticles() {
+      this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
+         const arts: Article[] = [];
+         snapshot.forEach(doc => {
+            arts.push(doc.data() as Article);
+         })
+         this.setArticles(arts);
+      }, error => {
+         window.alert(`${error.name} error occurred: ${error.message}`);
+      })
+   }
 
    render() {
       const { currentSection, products, articles } = this.state;
@@ -125,20 +108,20 @@ export class AdminPage extends Component<Props, State> {
             {
                currentSection === sections[1] &&
                <Section title={currentSection} tabs>
-                  {/* <AdminProducts
-                     list={this.props.products}
+                  <AdminProducts
+                     list={products}
                      tabs={['Overview', 'Add', 'Update']}
-                  /> */}
+                  />
                </Section>
             }
 
             {
                currentSection === sections[2] &&
                <Section title={currentSection} tabs>
-                  {/* <AdminArticles
-                     list={this.props.articles}
+                  <AdminArticles
+                     list={articles}
                      tabs={['Overview', 'Add', 'Update']}
-                  /> */}
+                  />
                </Section>
             }
 
@@ -178,28 +161,6 @@ export class AdminPage extends Component<Props, State> {
             }
          </div>
       )
-   }
-}
-
-export const getServerSideProps = async (context) => {
-   const docsRef = await firestore.collection('products').orderBy('name').get();
-   const products = [];
-   for (const doc of docsRef.docs) {
-      products.push(doc.data());
-   }
-
-   const artsRef = await firestore.collection('articles').orderBy('title').get();
-   const articles = [];
-   for (const doc of artsRef.docs) {
-      articles.push(doc.data());
-   }
-
-
-   return {
-      props: {
-         products,
-         articles
-      }
    }
 }
 
