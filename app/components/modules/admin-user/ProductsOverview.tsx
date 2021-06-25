@@ -39,7 +39,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
    return (
       <div ref={container}>
          <Box paddingVertical title='BOOKS, E-BOOKS AND AUDIOBOOKS'>
-            <div className={styles.listHeader}>
+            {/* <div className={styles.listHeader}>
                <ListSearch search={search} setSearch={setSearch} />
             </div>
 
@@ -125,7 +125,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                   toLastPage={toLastPage}
                   doesScroll
                />
-            </div>
+            </div> */}
          </Box>
       </div>
    )
