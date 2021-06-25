@@ -80,6 +80,7 @@ export class AdminPage extends Component<{}, State> {
       //    products.push(doc.data());
       // }
       // this.setProducts(products);
+      const x = firestore;
    }
 
    // async listenForArticles() {
