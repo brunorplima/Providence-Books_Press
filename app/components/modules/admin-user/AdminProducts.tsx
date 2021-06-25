@@ -31,7 +31,7 @@ const AdminProducts: React.FC<Props> = ({
             setCurrentTab={setCurrentTab}
          />
 
-         {
+         {/* {
             currentTab === tabs[0] ?
                list.length ?
                   <ProductsOverview
@@ -39,7 +39,7 @@ const AdminProducts: React.FC<Props> = ({
                   />
                   : <Loading />
                : null
-         }
+         } */}
       </>
    )
 }
