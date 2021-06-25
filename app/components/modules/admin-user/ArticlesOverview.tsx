@@ -24,15 +24,6 @@ const ArticlesOverview: React.FC<ListWithState> = ({
 
    const container = createRef<HTMLDivElement>();
 
-   function paginate(action: '+' | '-' | 'first' | 'last') {
-      let pageWasChanged: boolean;
-      if (action === '+') pageWasChanged = increasePage(Math.ceil(listToRender.length / listPageMax));
-      if (action === '-') pageWasChanged = decreasePage();
-      if (action === 'first') pageWasChanged = toFirstPage();
-      if (action === 'last') pageWasChanged = toLastPage(Math.ceil(listToRender.length / listPageMax));
-      if (pageWasChanged) container.current.scrollIntoView();
-   }
-
    let listToRender: Article[] = list;
    if (search) {
       const regexp = new RegExp(search, 'i');
