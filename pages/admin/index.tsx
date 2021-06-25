@@ -64,28 +64,40 @@ export class AdminPage extends Component<{}, State> {
       }
    }
 
-   listenForProducts() {
-      this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
-         const prods: Product[] = [];
-         snapshot.forEach(doc => {
-            prods.push(doc.data() as Product);
-         })
-         this.setProducts(prods);
-      }, error => {
-         window.alert(`${error.name} error occurred: ${error.message}`);
-      })
+   async listenForProducts() {
+      // this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
+      //    const prods: Product[] = [];
+      //    snapshot.forEach(doc => {
+      //       prods.push(doc.data() as Product);
+      //    })
+      //    this.setProducts(prods);
+      // }, error => {
+      //    window.alert(`${error.name} error occurred: ${error.message}`);
+      // })
+      const docsRef = await firestore.collection('products').orderBy('name').get();
+      const products = [];
+      for (const doc of docsRef.docs) {
+         products.push(doc.data());
+      }
+      this.setProducts(products);
    }
 
-   listenForArticles() {
-      this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
-         const arts: Article[] = [];
-         snapshot.forEach(doc => {
-            arts.push(doc.data() as Article);
-         })
-         this.setArticles(arts);
-      }, error => {
-         window.alert(`${error.name} error occurred: ${error.message}`);
-      })
+   async listenForArticles() {
+      // this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
+      //    const arts: Article[] = [];
+      //    snapshot.forEach(doc => {
+      //       arts.push(doc.data() as Article);
+      //    })
+      //    this.setArticles(arts);
+      // }, error => {
+      //    window.alert(`${error.name} error occurred: ${error.message}`);
+      // })
+      const docsRef = await firestore.collection('articles').orderBy('title').get();
+      const articles = [];
+      for (const doc of docsRef.docs) {
+         articles.push(doc.data());
+      }
+      this.setArticles(articles);
    }
 
    render() {
