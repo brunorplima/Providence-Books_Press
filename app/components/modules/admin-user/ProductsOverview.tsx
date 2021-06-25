@@ -39,7 +39,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
    return (
       <div ref={container}>
          <Box paddingVertical title='BOOKS, E-BOOKS AND AUDIOBOOKS'>
-            {/* <div className={styles.listHeader}>
+            <div className={styles.listHeader}>
                <ListSearch search={search} setSearch={setSearch} />
             </div>
 
@@ -57,7 +57,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
             </div>
 
             <div className={styles.list}>
-               {
+               {/* {
                   splitListInPages<Product>(listToRender, pagination, listPageMax)
                      .map((prod, idx) => {
                         const product = (prod as Book | EBook | AudioBook);
@@ -109,7 +109,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                            </ListItem>
                         )
                      })
-               }
+               } */}
             </div>
 
             <div className={styles.listFooter}>
@@ -125,7 +125,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                   toLastPage={toLastPage}
                   doesScroll
                />
-            </div> */}
+            </div>
          </Box>
       </div>
    )
