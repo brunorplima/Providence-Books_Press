@@ -60,55 +60,55 @@ const ProductsOverview: React.FC<ListWithState> = ({
                {
                   splitListInPages<Product>(listToRender, pagination, listPageMax)
                      .map((prod, idx) => {
-                        return <div></div>
-                        // const product = (prod as Book | EBook | AudioBook);
-                        // return (
-                        //    <ListItem
-                        //       key={product._id}
-                        //       itemId={product._id}
-                        //       firestorePath='products/'
-                        //       itemType='product'
-                        //       isFirstItem={!idx}
-                        //    >
-                        //       <div className='LI-id'>
-                        //          {product._id}
-                        //       </div>
+                        const product = (prod as Book | EBook | AudioBook);
+                        // return <div></div>
+                        return (
+                           <ListItem
+                              key={product._id}
+                              itemId={product._id}
+                              firestorePath='products/'
+                              itemType='product'
+                              isFirstItem={!idx}
+                           >
+                              <div className='LI-id'>
+                                 {product._id}
+                              </div>
 
-                        //       <div className='LI-image'>
-                        //          <Link href={`/product/${product._id}`}><a>
-                        //             <img src={product.images[0]} />
-                        //          </a></Link>
-                        //       </div>
+                              <div className='LI-image'>
+                                 <Link href={`/product/${product._id}`}><a>
+                                    <img src={product.images[0]} />
+                                 </a></Link>
+                              </div>
 
-                        //       <div className='LI-flex3'>
-                        //          <Link href={`/product/${product._id}`}><a className='LI-link'>
-                        //             <div>{product.name}</div>
-                        //             {product.subtitle && <div style={{ fontSize: '11pt', marginTop: '.25rem' }}>{product.subtitle}</div>}
-                        //          </a></Link>
-                        //       </div>
+                              <div className='LI-flex3'>
+                                 <Link href={`/product/${product._id}`}><a className='LI-link'>
+                                    <div>{product.name}</div>
+                                    {product.subtitle && <div style={{ fontSize: '11pt', marginTop: '.25rem' }}>{product.subtitle}</div>}
+                                 </a></Link>
+                              </div>
 
-                        //       <div className='LI-flex3'>
-                        //          <div>{product.authors}</div>
-                        //          <div>{product.category}</div>
-                        //          <div>{product.publisher}</div>
-                        //          {'readBy' in product && <div>{product.readBy}</div>}
-                        //       </div>
+                              <div className='LI-flex3'>
+                                 <div>{product.authors}</div>
+                                 <div>{product.category}</div>
+                                 <div>{product.publisher}</div>
+                                 {'readBy' in product && <div>{product.readBy}</div>}
+                              </div>
 
-                        //       <div className='LI-flex2'>
-                        //          <div>{product.type}</div>
-                        //          {'weight' in product && <div>{product.weight.toFixed(3)} Kg</div>}
-                        //          {'numberPages' in product && <div>{product.numberPages} Pages</div>}
-                        //          {'fileExtensions' in product && <div>{product.fileExtensions.join(', ')}</div>}
-                        //          {'duration' in product && <div>{product.duration}</div>}
-                        //          {'stock' in product && <div>{product.stock} in stock</div>}
-                        //       </div>
+                              <div className='LI-flex2'>
+                                 <div>{product.type}</div>
+                                 {'weight' in product && <div>{product.weight.toFixed(3)} Kg</div>}
+                                 {'numberPages' in product && <div>{product.numberPages} Pages</div>}
+                                 {'fileExtensions' in product && <div>{product.fileExtensions.join(', ')}</div>}
+                                 {'duration' in product && <div>{product.duration}</div>}
+                                 {'stock' in product && <div>{product.stock} in stock</div>}
+                              </div>
 
-                        //       <div className='LI-flex2'>
-                        //          {'coverType' in product && <div>{product.coverType}</div>}
-                        //          <div>{product.isbn}</div>
-                        //       </div>
-                        //    </ListItem>
-                        // )
+                              <div className='LI-flex2'>
+                                 {'coverType' in product && <div>{product.coverType}</div>}
+                                 <div>{product.isbn}</div>
+                              </div>
+                           </ListItem>
+                        )
                      })
                }
             </div>
