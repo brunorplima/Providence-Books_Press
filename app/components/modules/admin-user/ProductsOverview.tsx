@@ -57,7 +57,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
             </div>
 
             <div className={styles.list}>
-               {/* {
+               {
                   splitListInPages<Product>(listToRender, pagination, listPageMax)
                      .map((prod, idx) => {
                         const product = (prod as Book | EBook | AudioBook);
@@ -69,7 +69,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                               itemType='product'
                               isFirstItem={!idx}
                            >
-                              <div className='LI-id'>
+                              {/* <div className='LI-id'>
                                  {product._id}
                               </div>
 
@@ -105,11 +105,11 @@ const ProductsOverview: React.FC<ListWithState> = ({
                               <div className='LI-flex2'>
                                  {'coverType' in product && <div>{product.coverType}</div>}
                                  <div>{product.isbn}</div>
-                              </div>
+                              </div> */}
                            </ListItem>
                         )
                      })
-               } */}
+               }
             </div>
 
             <div className={styles.listFooter}>
