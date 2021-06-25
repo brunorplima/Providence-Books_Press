@@ -118,10 +118,10 @@ export class AdminPage extends Component<{}, State> {
             {
                currentSection === sections[2] &&
                <Section title={currentSection} tabs>
-                  {/* <AdminArticles
+                  <AdminArticles
                      list={articles}
                      tabs={['Overview', 'Add', 'Update']}
-                  /> */}
+                  />
                </Section>
             }
 
