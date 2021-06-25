@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product from '../../../interfaces-objects/Product';
-import styles from '../../../styles/admin-user/AdminProducts.module.css';
+import Loading from '../loading/Loading';
 import ProductsOverview from './ProductsOverview';
+import Tabs from './Tabs';
+import withTabState from './withTabState';
 
 interface Props {
    readonly list: Product[];
    readonly tabs: string[];
+   readonly currentTab?: string;
+   readonly setCurrentTab?: (tab: string) => void;
    readonly listSearch?: Product[];
    readonly setListSearch?: (list: Product[]) => void;
    readonly search?: string;
@@ -21,40 +25,34 @@ interface Props {
 
 const AdminProducts: React.FC<Props> = ({
    list,
-   tabs
+   tabs,
+   currentTab,
+   setCurrentTab
 }) => {
-   const [currentTab, setCurrentTab] = useState(tabs[0]);
+   
+   useEffect(() => {
+      setCurrentTab(tabs[0]);
+   }, []);
 
    return (
       <>
-         <div className={styles.tabs}>
-            {
-               tabs.map(tab => {
-                  return (
-                     <div
-                        key={tab}
-                        className={styles.tab}
-                        style={tab === currentTab ? { borderBottom: '3px solid var(--darkYellow)', color: 'var(--darkYellow)' } : {}}
-                        onClick={() => {
-                           if (tab !== currentTab) setCurrentTab(tab);
-                        }}
-                     >
-                        {tab}
-                     </div>
-                  )
-               })
-            }
-         </div>
-
+         <Tabs
+            tabs={tabs}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
+         />
 
          {
-            currentTab === tabs[0] &&
-            <ProductsOverview
-               list={list}
-            />
+            currentTab === tabs[0] ?
+               list.length ?
+                  <ProductsOverview
+                     list={list}
+                  />
+                  : <Loading />
+               : null
          }
       </>
    )
 }
 
-export default AdminProducts;
+export default withTabState<Props>(AdminProducts);
