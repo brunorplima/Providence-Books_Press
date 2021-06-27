@@ -27,7 +27,6 @@ const cors = Cors({
 export default async (req: NextApiRequest, res: NextApiResponse<Product[]>) => {
    // const products = productsJSON as Product[]
    // res.status(200).json(products)
-   await runMiddleware(req, res, cors);
    const products: Product[] = [];
    const prodRef = await firestore.collection('products').get();
    prodRef.forEach(doc => products.push(doc.data() as Product))

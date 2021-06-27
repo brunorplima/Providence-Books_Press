@@ -74,9 +74,13 @@ export class AdminPage extends Component<{}, State> {
       // }, error => {
       //    window.alert(`${error.name} error occurred: ${error.message}`);
       // })
-      const fetchProducts = await fetch('https://providence-books-press-hliphdbb2-brunorplima.vercel.app/api/products');
+      try {
+      const fetchProducts = await fetch('https://providencebp.vercel.app/api/products');
       const products = await fetchProducts.json();
       this.setProducts(products);
+      } catch (error) {
+         console.log(error)
+      }
    }
 
    async listenForArticles() {
