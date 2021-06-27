@@ -7,7 +7,7 @@ const ClosedStoreMessage = () => {
    const date = new Date(Date.now());
    const excludedRoutes = ['/articles', '/articles/[_id]'];
 
-   if (date.getDay() !== 0 || excludedRoutes.includes(router.pathname)) return null;
+   if (date.getDay() !== 3 || excludedRoutes.includes(router.pathname)) return null;
 
    return (
       <div className={styles.container}>

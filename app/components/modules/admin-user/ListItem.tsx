@@ -1,6 +1,6 @@
 import React from 'react';
 import { RiDeleteBinFill, RiFileEditFill } from 'react-icons/ri';
-import { deleteAny } from '../../../firebase/delete';
+// import { deleteAny } from '../../../firebase/delete';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import Dialog from '../dialog/Dialog';
 import { CgDetailsMore } from 'react-icons/cg';
@@ -40,7 +40,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, firestorePat
                {
                   label: 'Delete',
                   secondaryStyle: true,
-                  clickHandler: () => deleteAny(firestorePath, itemId)
+                  clickHandler: () => {}//deleteAny(firestorePath, itemId)
                },
                {
                   label: 'Cancel',
