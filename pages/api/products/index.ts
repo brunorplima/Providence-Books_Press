@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Product from '../../../app/interfaces-objects/Product';
+import { firestore } from '../../../app/firebase/firebase';
 import productsJSON from './products.json'
 // import products from './dataCreator'
 
