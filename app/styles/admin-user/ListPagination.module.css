@@ -1,0 +1,27 @@
+.paginationControllers {
+   display: flex;
+   user-select: none;
+   color: var(--mainGray);
+}
+
+.paginationControllers > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.paginationControllers > div:not(:nth-child(3)) {
+   width: 20px;
+   height: 20px;
+   transition: .3s;
+   cursor: pointer;
+   font-size: 13pt;
+}
+
+.paginationControllers > div:not(:nth-child(3)):hover {
+   color: var(--mainYellow);
+}
+
+.paginationControllers > div:nth-child(3) {
+   min-width: 70px;
+}

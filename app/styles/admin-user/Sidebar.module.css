@@ -1,0 +1,23 @@
+.container {
+   background-color: var(--darkYellow);
+   flex: 1;
+}
+
+.h2 {
+   font-family: Nikkyou;
+   color: white;
+   text-align: center;
+   padding: .8rem;
+   margin-bottom: 2rem;
+}
+
+.section {
+   color: var(--lightGray);
+   padding: .6rem 1rem;
+   cursor: pointer;
+}
+
+.section:hover {
+   background-color: var(--mainYellow);
+   color: white;
+}
