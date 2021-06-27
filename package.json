@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "faker": "^5.4.0",
     "firebase": "^8.6.5",
     "next": "10.0.7",
