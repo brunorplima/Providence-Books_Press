@@ -7,36 +7,45 @@ import articles from './articles.json'
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-   const { limit, sorted } = req.query;
-   // let finalArticles: Article[] = [];
-   let articles: Article[] = [];
-   let articlesRef: 
-      firebase.firestore.CollectionReference<firebase.firestore.DocumentData>
-      | firebase.firestore.Query<firebase.firestore.DocumentData>
-      | firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
-      | null = null;
+   // const { limit, sorted } = req.query;
+   // let articles: Article[] = [];
+   // let articlesRef: 
+   //    firebase.firestore.CollectionReference<firebase.firestore.DocumentData>
+   //    | firebase.firestore.Query<firebase.firestore.DocumentData>
+   //    | firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+   //    | null = null;
    
-   articlesRef = firestore.collection('articles');
-   if (sorted === 'y') {
-      // const comp = new ArticlesPage({articles: [], categories: []}); 
-      // finalArticles = comp.getSortedArticles(finalArticles)
-      articlesRef = articlesRef.orderBy('title');
-   }
-   if (limit) {
-      // res.status(200).json(finalArticles.filter((a, i) => i < parseInt(limit as string)));
-      articlesRef = articlesRef.limit(Number(limit));
-   }
-   // else {
-   //    res.status(200).json(finalArticles);
+   // articlesRef = firestore.collection('articles');
+   // if (sorted === 'y') {
+   //    articlesRef = articlesRef.orderBy('title');
    // }
-   articlesRef = await articlesRef.get();
-   articlesRef.forEach(doc => {
-      const article: Article = {
-         ...doc.data() as Article,
-         datePosted: new Date(doc.data().datePosted)
+   // if (limit) {
+   //    articlesRef = articlesRef.limit(Number(limit));
+   // }
+   // articlesRef = await articlesRef.get();
+   // articlesRef.forEach(doc => {
+   //    const article: Article = {
+   //       ...doc.data() as Article,
+   //       datePosted: new Date(doc.data().datePosted)
+   //    }
+   //    articles.push(article);
+   // })
+
+   // const articles: Article[] = [];
+   // const artsRef = await firestore.collection('articles').orderBy('title').get();
+   // artsRef.forEach(doc => articles.push(doc.data() as Article))
+   const articlesWithDate: Article[] = articles.map(article => {
+      const date = new Date(article.datePosted);
+      return {
+         ...article,
+         datePosted: date
       }
-      articles.push(article);
+   })
+   const sortedArticles = articlesWithDate.sort((a, b) => {
+      if (a.title > b.title) return 1
+      if (a.title < b.title) return -1
+      return 0;
    })
 
-   res.status(200).json(articles);
+   res.status(200).json(sortedArticles);
 }
