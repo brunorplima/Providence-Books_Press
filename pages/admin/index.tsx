@@ -74,8 +74,9 @@ export class AdminPage extends Component<{}, State> {
       // }, error => {
       //    window.alert(`${error.name} error occurred: ${error.message}`);
       // })
-      const fetchProducts = await fetch('/api/products?sorted=y');
-      const products = await fetchProducts.json();
+      
+      const fetchProducts = await fetch('/api/products');
+      const products: Product[] = await fetchProducts.json();
       this.setState({ products });
    }
 
@@ -89,8 +90,9 @@ export class AdminPage extends Component<{}, State> {
       // }, error => {
       //    window.alert(`${error.name} error occurred: ${error.message}`);
       // })
-      const fetchArticles = await fetch('/api/articles?sorted=y');
-      const articles = await fetchArticles.json();
+
+      const fetched = await fetch('/api/articles');
+      const articles: Article[] = await fetched.json();
       this.setState({ articles });
    }
 
