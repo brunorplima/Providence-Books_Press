@@ -65,27 +65,33 @@ export class AdminPage extends Component<{}, State> {
    }
 
    async listenForProducts() {
-      this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
-         const prods: Product[] = [];
-         snapshot.forEach(doc => {
-            prods.push(doc.data() as Product);
-         })
-         this.setProducts(prods);
-      }, error => {
-         window.alert(`${error.name} error occurred: ${error.message}`);
-      })
+      // this.productsUnsubscriber = firestore.collection('products').orderBy('name').onSnapshot(snapshot => {
+      //    const prods: Product[] = [];
+      //    snapshot.forEach(doc => {
+      //       prods.push(doc.data() as Product);
+      //    })
+      //    this.setProducts(prods);
+      // }, error => {
+      //    window.alert(`${error.name} error occurred: ${error.message}`);
+      // })
+      const fetchProducts = await fetch('http://localhost:3000/api/products?sorted=y');
+      const products = await fetchProducts.json();
+      this.setState({ products });
    }
 
    async listenForArticles() {
-      this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
-         const arts: Article[] = [];
-         snapshot.forEach(doc => {
-            arts.push(doc.data() as Article);
-         })
-         this.setArticles(arts);
-      }, error => {
-         window.alert(`${error.name} error occurred: ${error.message}`);
-      })
+      // this.articlesUnsubscriber = firestore.collection('articles').orderBy('title').onSnapshot(snapshot => {
+      //    const arts: Article[] = [];
+      //    snapshot.forEach(doc => {
+      //       arts.push(doc.data() as Article);
+      //    })
+      //    this.setArticles(arts);
+      // }, error => {
+      //    window.alert(`${error.name} error occurred: ${error.message}`);
+      // })
+      const fetchArticles = await fetch('http://localhost:3000/api/articles?sorted=y');
+      const articles = await fetchArticles.json();
+      this.setState({ articles });
    }
 
    render() {
