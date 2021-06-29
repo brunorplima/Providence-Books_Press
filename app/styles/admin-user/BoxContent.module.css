@@ -1,0 +1,29 @@
+.listHeader, .listFooter {
+   display: flex;
+   justify-content: space-between;
+   padding: 0 1rem;
+}
+
+.listHeader > div:first-child {
+   font-weight: 600;
+}
+
+.listHeader {
+   padding-top: 1rem;
+   padding-bottom: 1rem;
+}
+
+.listFooter {
+   color: var(--mainGray);
+}
+
+.upperPagination {
+   display: flex;
+   justify-content: flex-end;
+   padding: 0 1rem;
+}
+
+.list {
+   color: var(--mainGray);
+   margin: 2rem 0;
+}
