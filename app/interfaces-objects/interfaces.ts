@@ -40,6 +40,7 @@ export interface User {
 }
 
 export interface Order {
+   _id: string,
    _userId: string,
    dateTime: Date,
    customerName: string,
