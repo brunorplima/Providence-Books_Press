@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface ListWithState {
+   readonly setItemToUpdate: Function;
    readonly list: any[];
    readonly processedList?: any[];
    readonly search?: string;
@@ -20,6 +21,7 @@ interface State {
 }
 
 interface Props {
+   readonly setItemToUpdate: Function;
    readonly list: any[];
 }
 

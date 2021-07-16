@@ -13,8 +13,8 @@ import ListPagination from './ListPagination';
 import ListSearch from './ListSearch';
 import splitListInPages from '../../../util/splitListInPages';
 
-
 const ProductsOverview: React.FC<ListWithState> = ({
+   setItemToUpdate,
    list,
    search,
    setSearch,
@@ -65,9 +65,11 @@ const ProductsOverview: React.FC<ListWithState> = ({
                            <ListItem
                               key={product._id}
                               itemId={product._id}
+                              item={product}
                               firestorePath='products/'
                               itemType='product'
                               isFirstItem={!idx}
+                              setItemToUpdate={setItemToUpdate}
                            >
                               <div className='LI-id'>
                                  {product._id}
@@ -105,6 +107,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                               <div className='LI-flex2'>
                                  {'coverType' in product && <div>{product.coverType}</div>}
                                  <div>{product.isbn}</div>
+                                 <div>CAD ${product.price.toFixed(2)}</div>
                               </div>
                            </ListItem>
                         )
