@@ -20,12 +20,13 @@ const Box: React.FC<Props> = ({
    const titleStyle: CSSProperties = {};
    if (!paddingAll) titleStyle.paddingLeft = '1rem'
    return (
-      <div 
+      <div
          className={styles.container}
-         style={containerStyle}
       >
          {title && <h3 style={titleStyle}>{title}</h3>}
-         {children}
+         <div style={containerStyle}>
+            {children}
+         </div>
       </div>
    )
 }
