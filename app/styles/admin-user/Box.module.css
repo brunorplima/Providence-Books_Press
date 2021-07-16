@@ -6,10 +6,9 @@
 
 .container h3 {
    margin-top: 0;
-   padding: 1rem 0;
-   /* background-color: var(--darkYellow); */
+   padding: 1rem;
+   padding-right: 0;
    background-color: var(--mainYellow);
    color: white;
    border-left: 10px solid var(--darkYellow);
-   /* border-left: 10px solid var(--mainYellow); */
 }
