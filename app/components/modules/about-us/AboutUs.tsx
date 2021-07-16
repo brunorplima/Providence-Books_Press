@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AboutUs: React.FC<Props> = ({ mainText, biblicalText }) => {
-   console.log(mainText.length)
+   
    return (
       <div className={styles.aboutusContainer}>
          <h1>About us</h1>
