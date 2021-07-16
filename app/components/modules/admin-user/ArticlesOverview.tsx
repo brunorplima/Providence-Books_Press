@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { shortMonths } from '../../../util/months';
 
 const ArticlesOverview: React.FC<ListWithState> = ({
+   setItemToUpdate,
    list,
    search,
    setSearch,
@@ -23,15 +24,6 @@ const ArticlesOverview: React.FC<ListWithState> = ({
 }) => {
 
    const container = createRef<HTMLDivElement>();
-
-   function paginate(action: '+' | '-' | 'first' | 'last') {
-      let pageWasChanged: boolean;
-      if (action === '+') pageWasChanged = increasePage(Math.ceil(listToRender.length / listPageMax));
-      if (action === '-') pageWasChanged = decreasePage();
-      if (action === 'first') pageWasChanged = toFirstPage();
-      if (action === 'last') pageWasChanged = toLastPage(Math.ceil(listToRender.length / listPageMax));
-      if (pageWasChanged) container.current.scrollIntoView();
-   }
 
    let listToRender: Article[] = list;
    if (search) {
@@ -65,8 +57,10 @@ const ArticlesOverview: React.FC<ListWithState> = ({
                      .map((article, idx) => {
                         const datePosted = new Date(article.datePosted);
                         return (
-                           <ListItem 
+                           <ListItem
                               key={article._id}
+                              item={article}
+                              setItemToUpdate={setItemToUpdate}
                               itemId={article._id}
                               firestorePath='articles'
                               itemType='article'

@@ -1,18 +1,21 @@
 import React from 'react';
 import { RiDeleteBinFill, RiFileEditFill } from 'react-icons/ri';
-import { deleteAny } from '../../../firebase/delete';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import Dialog from '../dialog/Dialog';
 import { CgDetailsMore } from 'react-icons/cg';
+import { Article } from '../../../interfaces-objects/interfaces';
+import Product from '../../../interfaces-objects/Product';
 
 interface Props {
    readonly itemId: string;
+   readonly item: Product | Article;
    readonly firestorePath: string;
    readonly itemType: 'product' | 'article' | 'order';
    readonly isFirstItem: boolean;
+   readonly setItemToUpdate: Function;
 }
 
-const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, firestorePath, itemType }) => {
+const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, firestorePath, itemType }) => {
 
    let className = 'LI-item';
 
@@ -26,7 +29,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, firestorePat
             {children}
             <div className='LI-actions'>
                <div><CgDetailsMore /></div>
-               <div><RiFileEditFill /></div>
+               <div onClick={() => setItemToUpdate(item)}><RiFileEditFill /></div>
                <div onClick={() => openDialog(dialogName)}>
                   <RiDeleteBinFill />
                </div>

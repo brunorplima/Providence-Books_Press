@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Product from '../../../interfaces-objects/Product';
 import Loading from '../loading/Loading';
+import ProductsForm from './ProductsForm';
 import ProductsOverview from './ProductsOverview';
 import Tabs from './Tabs';
 import withTabState from './withTabState';
@@ -29,10 +30,15 @@ const AdminProducts: React.FC<Props> = ({
    currentTab,
    setCurrentTab
 }) => {
+   const [productSelected, setProductSelected] = useState<Product>(null);
    
    useEffect(() => {
       setCurrentTab(tabs[0]);
    }, []);
+
+   useEffect(() => {
+      if (productSelected) setCurrentTab(tabs[2]);
+   }, [productSelected])
 
    return (
       <>
@@ -46,10 +52,26 @@ const AdminProducts: React.FC<Props> = ({
             currentTab === tabs[0] ?
                list.length ?
                   <ProductsOverview
+                     setItemToUpdate={setProductSelected}
                      list={list}
                   />
                   : <Loading />
                : null
+         }
+
+         {
+            currentTab === tabs[1] &&
+               <ProductsForm />
+         }
+
+         {
+            currentTab === tabs[2] &&
+               <ProductsForm
+                  currentTab={currentTab}
+                  tabs={tabs}
+                  product={productSelected}
+                  setProductSelected={setProductSelected}
+               />
          }
       </>
    )

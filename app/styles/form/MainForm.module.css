@@ -1,0 +1,45 @@
+/* MISCELLANEOUS */
+.inputContainer, .textareaContainer, .selectContainer {
+   display: flex;
+   flex-flow: column;
+   margin-bottom: 1rem;
+   margin-right: 1rem;
+}
+
+.inputField, .textareaField, .selectField {
+   padding: .5rem .3rem;
+   background-color: var(--almostWhite);
+   border: 1px solid var(--lightGray);
+   border-radius: .25rem;
+   margin-top: .2rem;
+}
+/* ------------------------------------ */
+
+
+
+/* INPUT ELEMENT */
+
+/* ------------------------------------ */
+
+
+
+/* TEXTAREA ELEMENT */
+.textareaContainer {
+   width: 100%;
+}
+
+.textareaField {
+   width: 100%;
+   min-width: 100%;
+   max-width: 100%;
+   resize: vertical;
+   min-height: 6rem;
+   font-family: Arial, Helvetica, sans-serif;
+}
+/* ------------------------------------ */
+
+
+
+/* SELECT ELEMENT */
+
+/* ------------------------------------ */

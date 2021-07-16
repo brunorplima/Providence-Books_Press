@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Article } from '../../../interfaces-objects/interfaces';
 import Loading from '../loading/Loading';
 import Tabs from './Tabs';
@@ -13,10 +13,15 @@ interface Props {
 }
 
 const AdminArticles: React.FC<Props> = ({ list, tabs, currentTab, setCurrentTab }) => {
+   const [articleSelected, setArticleSelected] = useState<Article>(null)
 
    useEffect(() => {
       setCurrentTab(tabs[0])
    }, []);
+
+   useEffect(() => {
+      if (articleSelected) setCurrentTab(tabs[2])
+   }, [articleSelected])
 
    return (
       <>
@@ -30,6 +35,7 @@ const AdminArticles: React.FC<Props> = ({ list, tabs, currentTab, setCurrentTab 
             currentTab === tabs[0] ?
                list.length ?
                   <ArticlesOverview
+                     setItemToUpdate={setArticleSelected}
                      list={list}
                   />
                   : <Loading />

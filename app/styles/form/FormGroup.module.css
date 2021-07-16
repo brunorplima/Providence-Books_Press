@@ -1,0 +1,10 @@
+.container {
+   padding: 1rem;
+   padding-bottom: 0;
+   padding-right: 0;
+   border: 2px solid var(--lightGray);
+   display: grid;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-evenly;
+}
