@@ -4,6 +4,7 @@
    height: min-content;
    min-height: 4rem;
    padding: .4rem 1rem;
+   border-bottom: 1px solid var(--lightGray);
 }
 
 .LI-item > div {
