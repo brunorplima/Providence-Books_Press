@@ -61,7 +61,10 @@ const AdminProducts: React.FC<Props> = ({
 
          {
             currentTab === tabs[1] &&
-               <ProductsForm />
+               <ProductsForm 
+                  currentTab={currentTab}
+                  tabs={tabs}
+               />
          }
 
          {

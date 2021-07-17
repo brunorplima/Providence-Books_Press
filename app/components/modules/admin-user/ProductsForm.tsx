@@ -22,8 +22,8 @@ const EBOOK = 'E-book';
 const AUDIOBOOK = 'Audio book';
 
 interface Props {
-   readonly currentTab?: string;
-   readonly tabs?: string[];
+   readonly currentTab: string;
+   readonly tabs: string[];
    readonly product?: Product;
    readonly setProductSelected?: Function
 }
@@ -33,7 +33,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
    const bookProduct = product as Book
    const eBookProduct = product as EBook
    const audioBookProduct = product as AudioBook
-   console.log(product?.category)
 
    const [type, setType] = useState(product ? product.type : '');
    const [name, setName] = useState(product ? typedProduct.name : '');
@@ -60,23 +59,19 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
    useEffect(() => {
       return () => {
-         if (currentTab && tabs) {
-            if (currentTab === tabs[2]) setProductSelected(null);
-         }
+         if (currentTab === tabs[2]) setProductSelected(null);
       }
    }, [])
 
-   if (currentTab && tabs) {
-      if (currentTab === tabs[2] && !product) {
-         return (
-            <EmptyUpdateFormMessage messageType='product' />
-         )
-      }
+   if (currentTab === tabs[2] && !product) {
+      return (
+         <EmptyUpdateFormMessage messageType='product' />
+      )
    }
 
    return (
       <div>
-         <Box paddingAll title='ADD BOOKS, E-BOOKS AND AUDIOBOOKS TO THE DATABASE'>
+         <Box paddingAll title={`${currentTab === tabs[1] ? 'ADD' : 'UPDATE'} BOOKS, E-BOOKS AND AUDIOBOOKS TO THE DATABASE`}>
             <FormSelect
                options={types}
                value={type}
@@ -86,6 +81,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                isRequired
                containerClassName={mainFormStyles.selectContainer}
                size={MEDIUM}
+               disabled={currentTab && tabs ? currentTab === tabs[2] : false}
             />
             {
                type &&
