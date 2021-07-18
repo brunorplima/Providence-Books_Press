@@ -7,13 +7,13 @@ import 'firebase/storage';
 
 if (!firebase.apps.length) {
    firebase.initializeApp({
-      apiKey: process.env.FIREBASE_API_KEY,
-     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-     projectId: process.env.FIREBASE_PROJECT_ID,
-     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-     appId: process.env.FIREBASE_APP_ID,
-     measurementId: process.env.FIREBASE_MEASUREMENT_ID
+      apiKey: 'AIzaSyBjMVXghLWWIGxxaQe30U9ZoNxTJwaQxwM',
+     authDomain: 'providencebookspress.firebaseapp.com',
+     projectId: 'providencebookspress',
+     storageBucket: 'providencebookspress.appspot.com',
+     messagingSenderId: '4804954635',
+     appId: '1:4804954635:web:fbc6d6bccc4a44af20d50e',
+     measurementId: 'G-Z09M598Q6M',
    });
 }
 else {
