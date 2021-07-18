@@ -89,8 +89,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                   <FormGroup>
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={name}
                         setValue={setName}
                         size={LARGE}
@@ -100,8 +98,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={subtitle}
                         size={X_LARGE}
                         setValue={setSubtitle}
@@ -110,8 +106,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={isbn}
                         setValue={setIsbn}
                         label='ISBN'
@@ -123,8 +117,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                         <>
                            <FormInput
                               type='text'
-                              inputClassName={mainFormStyles.inputField}
-                              containerClassName={mainFormStyles.inputContainer}
                               value={weight}
                               setValue={setWeight}
                               size={X_SMALL}
@@ -134,8 +126,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                            <FormInput
                               type='number'
-                              inputClassName={mainFormStyles.inputField}
-                              containerClassName={mainFormStyles.inputContainer}
                               value={stock}
                               setValue={setStock}
                               size={X_SMALL}
@@ -147,8 +137,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={price}
                         setValue={setPrice}
                         size={X_SMALL}
@@ -191,8 +179,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={authors}
                         setValue={setAuthors}
                         size={MEDIUM}
@@ -202,8 +188,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={publisher}
                         setValue={setPublisher}
                         label='Publisher'
@@ -212,8 +196,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={subject}
                         setValue={setSubject}
                         size={MEDIUM}
@@ -237,8 +219,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                         type !== AUDIOBOOK &&
                         <FormInput
                            type='number'
-                           inputClassName={mainFormStyles.inputField}
-                           containerClassName={mainFormStyles.inputContainer}
                            value={numberPages}
                            setValue={setNumberPages}
                            size={X_SMALL}
@@ -262,8 +242,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                         type !== BOOK &&
                         <FormInput
                            type='text'
-                           inputClassName={mainFormStyles.inputField}
-                           containerClassName={mainFormStyles.inputContainer}
                            value={fileExtensions}
                            setValue={setFileExtensions}
                            label='File extension (s)'
@@ -276,8 +254,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                         <>
                            <FormInput
                               type='text'
-                              inputClassName={mainFormStyles.inputField}
-                              containerClassName={mainFormStyles.inputContainer}
                               value={readBy}
                               setValue={setReadBy}
                               label='Read by'
@@ -286,8 +262,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                            <FormInput
                               type='text'
-                              inputClassName={mainFormStyles.inputField}
-                              containerClassName={mainFormStyles.inputContainer}
                               value={duration}
                               setValue={setDuration}
                               label='Duration'
@@ -297,8 +271,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={age}
                         setValue={setAge}
                         size={X_SMALL}
@@ -307,8 +279,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={flag}
                         setValue={setFlag}
                         size={MEDIUM}
@@ -317,8 +287,6 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                      <FormInput
                         type='text'
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
                         value={tags.split('g').join(', ').split('f').join('d')}
                         setValue={setTags}
                         size={MEDIUM}
