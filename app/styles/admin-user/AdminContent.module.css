@@ -1,0 +1,42 @@
+.contentContainer {
+   display: flex;
+}
+
+.contentLabel {
+   margin-right: 1rem;
+   width: 7rem;
+}
+
+.content {
+   flex: 1;
+   background-color: var(--almostWhite);
+   padding: .8rem;
+}
+
+.content pre {
+   margin: 0;
+   white-space: pre-wrap;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.controllers {
+   margin-top: 1rem;
+   display: flex;
+   justify-content: flex-end;
+}
+
+.textarea {
+   width: 100%;
+   resize: vertical;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.textTextarea {
+   min-height: 200px;
+   max-height: 600px;
+}
+
+.passageTextarea {
+   min-height: 80px;
+   max-height: 140px;
+}
