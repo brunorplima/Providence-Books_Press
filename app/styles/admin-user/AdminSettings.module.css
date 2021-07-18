@@ -1,0 +1,19 @@
+.settingsContainer {
+   margin-left: 1.5rem;
+}
+
+.settingDescription {
+   font-size: 14pt;
+   margin-bottom: .6rem;
+   font-weight: bold;
+}
+
+.setting {
+   width: fit-content;
+}
+
+.saveButton {
+   margin: 2rem 0;
+   display: flex;
+   justify-content: center;
+}

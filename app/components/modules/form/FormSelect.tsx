@@ -10,6 +10,7 @@ interface Props {
    readonly isRequired?: boolean;
    readonly containerClassName?: string;
    readonly label?: string;
+   readonly disabled?: boolean;
 }
 
 const FormSelect: React.FC<Props> = ({
@@ -20,7 +21,8 @@ const FormSelect: React.FC<Props> = ({
    size,
    isRequired,
    containerClassName,
-   label
+   label,
+   disabled
 }) => {
    const style: CSSProperties = {
       width: size ? size : SMALL
@@ -36,6 +38,7 @@ const FormSelect: React.FC<Props> = ({
             value={value}
             onChange={e => setValue(e.currentTarget.value)}
             style={style}
+            disabled={disabled}
          >
             <option></option>
             {

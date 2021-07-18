@@ -55,13 +55,16 @@ const AdminProducts: React.FC<Props> = ({
                      setItemToUpdate={setProductSelected}
                      list={list}
                   />
-                  : <Loading />
+                  : <Loading localIsLoading/>
                : null
          }
 
          {
             currentTab === tabs[1] &&
-               <ProductsForm />
+               <ProductsForm 
+                  currentTab={currentTab}
+                  tabs={tabs}
+               />
          }
 
          {

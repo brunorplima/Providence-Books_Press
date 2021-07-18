@@ -6,14 +6,25 @@ export interface ButtonProps {
    readonly clickHandler?: () => void;
    readonly style?: CSSProperties;
    readonly secondaryStyle?: boolean;
+   readonly disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle }) => {
+const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle, disabled }) => {
+
+   const disabledStyle: CSSProperties = {};
+   if (disabled) {
+      disabledStyle.backgroundColor = 'gray';
+      disabledStyle.cursor = 'not-allowed';
+      disabledStyle.color = 'white';
+      disabledStyle.borderColor = 'gray';
+   }
+
    return (
       <button
          className={`${styles.container} ${secondaryStyle && styles.secondaryStyle}`}
          onClick={clickHandler && clickHandler}
-         style={{ ...style }}
+         style={{ ...style, ...disabledStyle }}
+         disabled={disabled}
       >
          {label}
       </button>
