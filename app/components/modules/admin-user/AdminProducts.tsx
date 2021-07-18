@@ -55,7 +55,7 @@ const AdminProducts: React.FC<Props> = ({
                      setItemToUpdate={setProductSelected}
                      list={list}
                   />
-                  : <Loading />
+                  : <Loading localIsLoading/>
                : null
          }
 
