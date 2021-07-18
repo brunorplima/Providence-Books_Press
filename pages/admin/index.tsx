@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import AdminArticles from '../../app/components/modules/admin-user/AdminArticles';
+import AdminContent from '../../app/components/modules/admin-user/AdminContent';
 import AdminDashboard from '../../app/components/modules/admin-user/AdminDashboard';
 import AdminProducts from '../../app/components/modules/admin-user/AdminProducts';
+import AdminSettings from '../../app/components/modules/admin-user/AdminSettings';
 import Section from '../../app/components/modules/admin-user/Section';
 import Sidebar from '../../app/components/modules/admin-user/Sidebar';
 import { firestore } from '../../app/firebase/firebase';
@@ -130,7 +132,7 @@ export class AdminPage extends Component<{}, State> {
             {
                currentSection === sections[5] &&
                <Section title={currentSection}>
-
+                  <AdminContent />
                </Section>
             }
 
@@ -144,7 +146,7 @@ export class AdminPage extends Component<{}, State> {
             {
                currentSection === sections[7] &&
                <Section title={currentSection}>
-
+                  <AdminSettings />
                </Section>
             }
          </div>
