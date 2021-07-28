@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { Article } from '../../../interfaces-objects/interfaces'
 import EmptyUpdateFormMessage from './EmptyUpdateFormMessage'
 import styles from '../../../styles/admin-user/ProductsForm.module.css';
@@ -72,7 +72,7 @@ const ArticlesForm: React.FC<Props> = ({
                <ImageFormInput
                   inputClassName={mainFormStyles.inputField}
                   containerClassName={mainFormStyles.inputContainer}
-                  setValue={setimage}
+                  setFiles={(e) => setimage(e.currentTarget.files)}
                   size={MEDIUM}
                   label='Image'
                   isRequired

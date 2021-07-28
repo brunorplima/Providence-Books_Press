@@ -6,6 +6,8 @@ import styles from '../../../styles/admin-user/AdminContent.module.css'
 import AdminContentControllers from './AdminContentControllers'
 import clsx from 'clsx'
 import { updateContent } from '../../../firebase/update'
+import SlideShowManager from './SlideShowManager'
+import { getAll, ImageStorageData } from '../../../firebase/storage'
 
 const AdminContent = () => {
    const [aboutUsText, setAboutUsText] = useState('')
@@ -15,6 +17,7 @@ const AdminContent = () => {
    const [isTextEditMode, setIsTextEditMode] = useState(false)
    const [isPassageEditMode, setIsPassageEditMode] = useState(false)
    const [isLoading, setIsLoading] = useState(true)
+   const [slideShowImagesData, setSlideShowImagesData] = useState<ImageStorageData[]>([]);
 
    useEffect(() => {
       firestore.doc('content/about-us').get()
@@ -26,6 +29,9 @@ const AdminContent = () => {
          .catch(error => {
             console.error(error)
          })
+
+      const storageImages = getAll('home-slide-show')
+      storageImages.then(imgs => setSlideShowImagesData(imgs))
    }, [])
 
    function openTextEditMode() {
@@ -57,6 +63,9 @@ const AdminContent = () => {
    return (
       <div>
          <Box paddingAll title="MANAGE WEBSITE'S CONTENT">
+            <h2>Home page</h2>
+            <SlideShowManager imagesData={slideShowImagesData} />
+
             <h2>About page</h2>
             <div>
                <div className={styles.contentContainer} style={{ marginBottom: 30 }}>

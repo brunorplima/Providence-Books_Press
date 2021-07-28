@@ -11,7 +11,7 @@ import { Article } from '../../app/interfaces-objects/interfaces';
 import Product from '../../app/interfaces-objects/Product';
 import styles from '../../app/styles/admin-user/Admin.module.css';
 
-const sections = ['Dashboard', 'Products', 'Articles', 'Users', 'Orders', 'Content', 'Data', 'Settings'];
+const sections = ['Dashboard', 'Products', 'Articles', 'Users', 'Orders', 'Content', 'Settings'];
 
 interface State {
    readonly currentSection: string;
@@ -138,13 +138,6 @@ export class AdminPage extends Component<{}, State> {
 
             {
                currentSection === sections[6] &&
-               <Section title={currentSection}>
-
-               </Section>
-            }
-
-            {
-               currentSection === sections[7] &&
                <Section title={currentSection}>
                   <AdminSettings />
                </Section>

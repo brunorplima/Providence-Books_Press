@@ -42,7 +42,8 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
    const [stock, setStock] = useState(product ? bookProduct.stock : '');
    const [price, setPrice] = useState(product ? typedProduct.price.toFixed(2) : '');
    const [providenceReview, setProvidenceReview] = useState('');
-   const [files, setFiles] = useState<string[]>(product ? bookProduct.images : []);
+   const [files, setFiles] = useState<FileList>(null);
+   const [fileUrls, setFileUrls] = useState<string[]>(product ? bookProduct.images : []);
    const [category, setCategory] = useState(product ? product.category : '');
    const [authors, setAuthors] = useState(product ? typedProduct.authors : '');
    const [publisher, setPublisher] = useState(product ? typedProduct.publisher : '');
@@ -159,8 +160,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                      <ImageFormInput
                         inputClassName={mainFormStyles.inputField}
                         containerClassName={mainFormStyles.inputContainer}
-                        // value={files}
-                        setValue={setFiles}
+                        setFiles={e => setFiles(e.currentTarget.files)}
                         size={MEDIUM}
                         label='Images'
                         isRequired

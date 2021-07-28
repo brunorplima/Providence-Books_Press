@@ -3,32 +3,28 @@ import { SMALL } from '../../../util/inputFormSizes';
 
 interface Props {
    readonly inputClassName: string;
-   // readonly value: any;
-   readonly setValue: Function;
+   readonly setFiles: Function;
    readonly size?: string;
    readonly isRequired?: boolean;
    readonly containerClassName?: string;
    readonly name?: string;
    readonly label?: string;
-   readonly placeholder?: string;
-   readonly gridArea?: string;
+   readonly multiple?: boolean;
 }
 
 const ImageFormInput: React.FC<Props> = ({
    inputClassName,
    containerClassName,
-   // value,
-   setValue,
+   setFiles,
    size,
    isRequired,
    name,
    label,
-   placeholder,
-   gridArea
+   multiple
 }) => {
+
    const style: CSSProperties = {
       width: size ? size : SMALL,
-      gridArea: gridArea ? gridArea : ''
    }
 
    return (
@@ -37,11 +33,10 @@ const ImageFormInput: React.FC<Props> = ({
          <input
             type='file'
             className={inputClassName}
-            placeholder={placeholder}
-            value=''//{value}
-            onChange={e => setValue(e.currentTarget.value)}
+            onChange={e => setFiles(e.target.files)}
             required={isRequired}
             style={style}
+            multiple={multiple}
          />
       </div>
    )
