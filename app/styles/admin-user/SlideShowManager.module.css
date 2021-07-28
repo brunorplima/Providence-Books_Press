@@ -1,0 +1,49 @@
+.images {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.image {
+   margin: .5rem;
+   cursor: pointer;
+}
+
+.image:hover .checkIcon {
+   color: white;
+}
+
+.imageHeader {
+   padding: .2rem .3rem;
+   display: flex;
+   justify-content: space-between;
+   font-size: 10pt;
+   background-color: var(--darkYellow);
+   color: white;
+}
+
+.img {
+   height: 100px;
+}
+
+.image img {
+   height: 100%;
+   display: block;
+}
+
+/* .image img:hover ~ .checkIcon {
+   color: var(--mainYellow);
+} */
+
+.checkIcon {
+   color: var(--lightGray);
+}
+
+.controllers {
+   display: flex;
+   margin: 1rem 1rem 2rem;
+   align-items: center;
+}
+
+.controllers > div, .controllers > button {
+   margin-right: 1rem;
+}
