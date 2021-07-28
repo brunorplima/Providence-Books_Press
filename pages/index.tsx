@@ -11,6 +11,7 @@ import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
 import Loading from '../app/components/modules/loading/Loading';
 import { firestore, storage } from '../app/firebase/firebase';
+import { getAll } from '../app/firebase/storage';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
 import createLoadingAction from '../app/redux/actions/loadingAction';
@@ -30,16 +31,14 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    const store = useStore();
 
    useEffect(() => {
-      const urls: string[] = ['https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F1.jpeg?alt=media&token=06d97b35-c4b3-4f64-8755-4e2c682b1212', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F2.jpeg?alt=media&token=928d9ac5-1f54-4b60-b121-79a4c2df28df', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F3.jpg?alt=media&token=d2cf41b9-7290-4ad7-91df-5e80db54b23f', 'https://firebasestorage.googleapis.com/v0/b/providencebookspress.appspot.com/o/home-slide-show%2F4.jpg?alt=media&token=a87018b8-3afd-4064-a429-bb2fc0710df1'];
-      // const storageRef = storage.ref('home-slide-show');
-      // storageRef.listAll().then(async list => {
-      //    for (const item of list.items) {
-      //       urls.push(await item.getDownloadURL())
-      //    }
-      //    setSlideShowUrlPaths(urls);
-      // })
-      setSlideShowUrlPaths(urls);
+      fetchData()
    }, [])
+
+   async function fetchData() {
+      const images = await getAll('home-slide-show')
+      const urls = images.map(img => img.url)
+      setSlideShowUrlPaths(urls)
+   }
 
    useEffect(() => {
       if (slideShowUrlPaths.length) {
@@ -135,8 +134,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    artRef.forEach(doc => articles.push(doc.data() as Article));
 
    const featuredProducts: Product[] = [];
-   const featProdsRef = await firestore.collection('featured-products').get();
-   featProdsRef.forEach(doc => featuredProducts.push(doc.data() as Product));
+   const featProdIdsRef = await firestore.collection('featured-products').doc('ids').get();
+   const featProdIds = featProdIdsRef.data().ids as string[];
+   for (const id of featProdIds) {
+      const prodRef = await firestore.collection('products').where('_id', '==', id).get()
+      prodRef.docs.forEach(doc => {
+         featuredProducts.push(doc.data() as Product)
+      })
+   }
 
    const homeSettingsRef = await firestore.doc('settings/home').get();
    const homeSettings = homeSettingsRef.data();
