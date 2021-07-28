@@ -18,6 +18,9 @@
 
 
 /* INPUT ELEMENT */
+.filesInput {
+   color: var(--mainGray);
+}
 
 /* ------------------------------------ */
 
