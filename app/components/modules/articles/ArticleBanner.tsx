@@ -3,21 +3,29 @@ import { Article } from '../../../interfaces-objects/interfaces';
 import styles from '../../../styles/articles/ArticlesBanner.module.css';
 import NameInitials from '../../elements/name-initials/NameInitials';
 import months from '../../../util/months';
-import { useDispatch } from 'react-redux';
 import LinkLoading from '../../elements/link-loading/LinkLoading';
+import clsx from 'clsx';
 
 interface Props {
-   readonly article: Article;
+   article: Article;
 }
 
 const ArticleBanner: React.FC<Props> = ({ article }) => {
+   if (!article) {
+      return (
+         <div className={clsx(styles.banner, styles.noArticlesBanner)} style={{ background: 'url("/banner/Church.JPG")', backgroundPositionY: 'bottom' }}>
+            <h2>There are no articles at the moment</h2>
+            <h3>Come back later to check if any articles have been added</h3>
+         </div>
+      )
+   }
+
    const { _id, author, category, datePosted, image, subtitle, title } = article;
-   const dispatch = useDispatch();
 
    const date = new Date(datePosted);
    return (
       <LinkLoading href={`articles/${_id}`}>
-         <div className={styles.banner} style={{ background: `url(${image})` }}>
+         <div className={styles.banner} style={{ background: `url(${image})`, backgroundPositionY: 'center' }}>
             <div className={styles.articleTag}>
                Latest article
             </div>
