@@ -15,10 +15,16 @@ import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import { firestore } from '../../app/firebase/firebase';
+import { updateProductsLastSyncAction } from '../../app/redux/actions/lastSyncActions';
+import { hasSyncExpired } from '../../app/util/lastSyncHelper';
+import { fetchDoc, fetchDocs } from '../../app/firebase/fetch';
+import { store } from '../../app/redux/store/store';
+import { productsFetchAction } from '../../app/redux/actions/productsActions';
 
 interface Props {
    readonly products: Product[];
    readonly pagination: number;
+   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -60,11 +66,20 @@ export class Bookstore extends Component<Props, State> {
    componentDidMount() {
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
+      this.fetchData();
    }
 
    componentDidUpdate() {
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
+   }
+
+   async fetchData() {
+      if (hasSyncExpired('productsLastSync', this.props.syncExpireHours)) {
+         const products = await fetchDocs<Product>('products');
+         store.dispatch(productsFetchAction(products));
+         store.dispatch(updateProductsLastSyncAction(Date.now()));
+      }
    }
 
 
@@ -175,7 +190,9 @@ export class Bookstore extends Component<Props, State> {
          this.state.search,
       );
 
-      const { categories, authors, publishers } = getFilters<Product>(products, BOOKS);
+      const { categories, authors, publishers } = Array.isArray(products) ?
+         getFilters<Product>(products, BOOKS) :
+         { categories: [], authors: [], publishers: [] };
 
       return (
          <>
@@ -233,7 +250,7 @@ export class Bookstore extends Component<Props, State> {
                   />
 
                   {
-                     !paginatedSearchedFilteredList.length &&
+                     Array.isArray(paginatedSearchedFilteredList) && !paginatedSearchedFilteredList.length &&
                      <EmptyResult image='empty folder' />
                   }
 
@@ -253,23 +270,19 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const products: Product[] = [];
-   const productsRef = await firestore.collection('products').get();
-   productsRef.forEach((doc) => {
-      products.push(doc.data() as Product);
-   })
+   const docRef = await fetchDoc<{ productsSyncExpireHours: number }>('settings/general');
+   const syncExpireHours = docRef.productsSyncExpireHours
 
    return {
       props: {
-         products
+         syncExpireHours
       }
    }
 }
 
-const mapStateToProps = (state) => {
-   return {
-      pagination: state.listPage
-   }
-}
+const mapStateToProps = ({ listPage, products }) => ({
+   pagination: listPage,
+   products: products
+})
 
 export default connect(mapStateToProps)(Bookstore)
