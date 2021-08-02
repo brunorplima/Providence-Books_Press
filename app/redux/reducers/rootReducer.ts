@@ -6,6 +6,10 @@ import storage from 'redux-persist/lib/storage'
 import isLoadingReducer from './isLoadingReducer'
 import searchReducer from './searchReducer'
 import openedDialogNameReducer from './openedDialogNameReducer'
+import productsLastSyncReducer from './productsLastSyncReducer'
+import productsReducer from './productsReducer'
+import articlesReducer from './articlesReducer'
+import articlesLastSyncReducer from './articlesLastSyncReducer'
 
 const persistConfig = {
    key: 'root',
@@ -16,6 +20,10 @@ const persistConfig = {
       'isLoading',
       'search',
       'openedDialogName',
+      'productsLastSync',
+      'articlesLastSync',
+      'products',
+      'articles'
    ]
 }
 
@@ -25,7 +33,11 @@ const rootReducer = combineReducers({
    searchResultsListPage: searchResultsListPageReducer,
    isLoading: isLoadingReducer,
    search: searchReducer,
-   openedDialogName: openedDialogNameReducer
+   openedDialogName: openedDialogNameReducer,
+   productsLastSync: productsLastSyncReducer,
+   articlesLastSync: articlesLastSyncReducer,
+   products: productsReducer,
+   articles: articlesReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);
