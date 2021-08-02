@@ -1,11 +1,11 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
 import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText';
 import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
 import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
-import { firestore } from '../../app/firebase/firebase';
+import { fetchDocs, fetchRefs, Where } from '../../app/firebase/fetch';
 import { Article, Comment } from '../../app/interfaces-objects/interfaces';
 import styles from '../../app/styles/articles/ArticlePage.module.css';
 
@@ -35,22 +35,20 @@ class ArticlePage extends React.Component<Props> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   // const comments: Comment[] = [];
-   // let article: Article;
+   const where: Where = {
+      field: '_id',
+      condition: '==',
+      value: _id
+   }
 
-   const articleRef = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
-   const article: Article = await articleRef.json();
-
-   const commentsRef = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
-   const comments: Comment[] = await commentsRef.json();
-
-   // const articleRef = await firestore.collection('articles').where('_id', '==', _id).get();
-   // articleRef.forEach(async doc => {
-   //    article = doc.data() as Article;
-   // })
-
-   // const commentsRef = await firestore.collectionGroup('comments').where('_articleId', '==', article._id).get();
-   // commentsRef.forEach(doc => comments.push(doc.data() as Comment));
+   const articleRef = (await fetchRefs('articles', where))[0]
+   if (!articleRef) {
+      return {
+         notFound: true
+      }
+   }
+   const article = articleRef.data()
+   const comments = await fetchDocs<Comment>(`articles/${articleRef.id}/comments`)
    
    return {
       props: {

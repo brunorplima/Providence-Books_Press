@@ -8,10 +8,16 @@ import Button from '../../app/components/elements/button/Button';
 import SearchField from '../../app/components/elements/search-field/SearchField';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
-import { firestore } from '../../app/firebase/firebase';
+import { connect } from 'react-redux';
+import { hasSyncExpired } from '../../app/util/lastSyncHelper';
+import { fetchDoc, fetchDocs } from '../../app/firebase/fetch';
+import { store } from '../../app/redux/store/store';
+import { articlesFetchAction } from '../../app/redux/actions/articlesActions';
+import { updateArticlesLastSyncAction } from '../../app/redux/actions/lastSyncActions';
 
 interface Props {
-   readonly articles: Article[]
+   readonly articles: Article[];
+   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -31,6 +37,18 @@ export class ArticlesPage extends Component<Props, State> {
 
       this.setShowCategories = this.setShowCategories.bind(this);
       this.setSearch = this.setSearch.bind(this);
+   }
+
+   componentDidMount() {
+      this.fetchData()
+   }
+   
+   async fetchData() {
+      if (hasSyncExpired('articlesLastSync', this.props.syncExpireHours)) {
+         const articles = await fetchDocs<Article>('articles')
+         store.dispatch(articlesFetchAction(articles))
+         store.dispatch(updateArticlesLastSyncAction(Date.now()))
+      }
    }
 
    getSortedArticles(articles: Article[]): Article[] {
@@ -154,16 +172,17 @@ export class ArticlesPage extends Component<Props, State> {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-
-   const articles: Article[] = [];
-   const articlesRef = await firestore.collection('articles').get();
-   articlesRef.forEach(doc => articles.push(doc.data() as Article));
-
+   const docRef = await fetchDoc<{ articlesSyncExpireHours: number }>('settings/general')
+   const syncExpireHours = docRef.articlesSyncExpireHours
    return {
       props: {
-         articles
+         syncExpireHours
       }
    }
 }
 
-export default ArticlesPage;
+const mapStateToProps = state => ({
+   articles: state.articles
+})
+
+export default connect(mapStateToProps)(ArticlesPage);
