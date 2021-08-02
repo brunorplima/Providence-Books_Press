@@ -25,7 +25,7 @@ const SearchResultsHeader: React.FC<Props> = ({ view, resultSelectors, search, s
 
          <div className={styles.selectors}>
             {
-               resultSelectors.map(selector => {
+               resultSelectors.filter(selector => selector.name).map(selector => {
                   const isSelected = selector.name === view;
                   return (
                      <div

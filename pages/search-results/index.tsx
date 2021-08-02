@@ -17,7 +17,6 @@ import { createSearchResultsListPageAction } from '../../app/redux/actions/listP
 import ArticleCard from '../../app/components/elements/article-card/ArticleCard';
 import OpenSearchFilterButton from '../../app/components/elements/open-search-filter-button/OpenSearchFilterButton';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
-import { firestore } from '../../app/firebase/firebase';
 
 type ListTypes = typeof BOOKS | typeof ARTICLES
 
@@ -32,9 +31,10 @@ export interface Results {
 }
 
 interface Props {
-   readonly results: Results;
    readonly search: string;
    readonly pagination: number;
+   readonly products: Product[];
+   readonly articles: Article[];
 }
 
 interface State {
@@ -46,6 +46,18 @@ interface State {
    readonly processedArticles: Article[];
    readonly maxPage: number;
    readonly modalOpen: boolean;
+   readonly results: Results;
+}
+
+const initalResults: Results = {
+   products: {
+      name: '',
+      itemList: []
+   },
+   articles: {
+      name: '',
+      itemList: []
+   }
 }
 
 class SearchResultsPage extends Component<Props, State> {
@@ -60,7 +72,8 @@ class SearchResultsPage extends Component<Props, State> {
          processedProducts: [],
          processedArticles: [],
          maxPage: 0,
-         modalOpen: false
+         modalOpen: false,
+         results: initalResults
       }
 
       this.setView = this.setView.bind(this);
@@ -71,12 +84,12 @@ class SearchResultsPage extends Component<Props, State> {
    }
 
 
-
    componentDidMount() {
       this.onRenderPopulateProducts();
       this.onRenderPopulateArticles();
       this.onRenderUpdatesMaxPage();
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createSearchResultsListPageAction);
+      this.setResults();
    }
 
    componentDidUpdate() {
@@ -85,13 +98,40 @@ class SearchResultsPage extends Component<Props, State> {
       if (view === ARTICLES) this.onRenderPopulateArticles();
       this.onRenderUpdatesMaxPage();
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createSearchResultsListPageAction);
+      this.setResults();
    }
 
 
 
+   setResults() {
+      const { search, products, articles } = this.props;
+      const { results } = this.state;
+      const regExp = new RegExp(search as string, 'i');
+      const newResults: Results = {
+         products: {
+            name: BOOKS,
+            itemList: products.filter(prod => {
+               if (prod.name.match(regExp) || prod.subtitle?.match(regExp)) {
+                  return true;
+               }
+               return false;
+            })
+         },
+         articles: {
+            name: ARTICLES,
+            itemList: articles.filter(art => {
+               if (art.title.match(regExp) || art.subtitle?.match(regExp)) {
+                  return true;
+               }
+               return false;
+            })
+         },
+      }
+      if (JSON.stringify(results) !== JSON.stringify(newResults)) this.setState({ results: newResults });
+   }
+
    onRenderPopulateProducts() {
-      const { results } = this.props;
-      const { processedProducts } = this.state;
+      const { processedProducts, results } = this.state;
       const { list } = this.getListAndMaxPage(results.products.itemList);
       if (JSON.stringify(list) !== JSON.stringify(processedProducts)) {
          this.setState({ processedProducts: list as Product[] });
@@ -99,8 +139,7 @@ class SearchResultsPage extends Component<Props, State> {
    }
 
    onRenderPopulateArticles() {
-      const { results } = this.props;
-      const { processedArticles } = this.state;
+      const { processedArticles, results } = this.state;
       const { list } = this.getListAndMaxPage(results.articles.itemList);
       if (JSON.stringify(list) !== JSON.stringify(processedArticles)) {
          this.setState({ processedArticles: list as Article[] });
@@ -211,7 +250,7 @@ class SearchResultsPage extends Component<Props, State> {
 
 
    getTotalResults() {
-      const { results } = this.props;
+      const { results } = this.state;
       const resultTypes: ResultItem<any>[] = Object.values(results);
       const total = resultTypes.reduce((a, b) => {
          return a + b.itemList.length
@@ -238,7 +277,8 @@ class SearchResultsPage extends Component<Props, State> {
    }
 
    render() {
-      const { results, pagination } = this.props;
+      const { pagination } = this.props;
+      const { results } = this.state;
       const { view, processedProducts, processedArticles, maxPage, checkedCategories, checkedAuthors, checkedPublishers, modalOpen } = this.state;
       const { categories, authors, publishers } = view !== ALL && getFilters<Product | Article>(
          view === BOOKS ? results.products.itemList : results.articles.itemList,
@@ -454,48 +494,23 @@ class SearchResultsPage extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { search } = context.query;
-   const products: Product[] = [];
-   const articles: Article[] = [];
-
-   const prodsRef = await firestore.collection('products').get();
-   prodsRef.forEach(doc => products.push(doc.data() as Product));
-   const artsRef = await firestore.collection('articles').get();
-   artsRef.forEach(doc => articles.push(doc.data() as Article));
-
-   const regExp = new RegExp(search as string, 'i');
-   const results: Results = {
-      products: {
-         name: BOOKS,
-         itemList: products.filter(prod => {
-            if (prod.name.match(regExp) || prod.subtitle?.match(regExp)) {
-               return true;
-            }
-            return false;
-         })
-      },
-      articles: {
-         name: ARTICLES,
-         itemList: articles.filter(art => {
-            if (art.title.match(regExp) || art.subtitle?.match(regExp)) {
-               return true;
-            }
-            return false;
-         })
-      },
-   }
-
    return {
       props: {
-         results,
          search
       }
    }
 }
 
-const mapStateToProps = (state) => {
-   return {
-      pagination: state.searchResultsListPage
-   }
+type ReduxState = {
+   readonly searchResultsListPage: number;
+   readonly products: Product[];
+   readonly articles: Article[];
 }
+
+const mapStateToProps = ({ searchResultsListPage, products, articles }: ReduxState) => ({
+   pagination: searchResultsListPage,
+   products,
+   articles
+})
 
 export default connect(mapStateToProps)(SearchResultsPage);
