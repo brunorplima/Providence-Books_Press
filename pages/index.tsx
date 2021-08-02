@@ -2,15 +2,15 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect, useState } from 'react';
-import { useStore } from 'react-redux';
-import { AnyAction, Store } from 'redux';
+import { connect, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import Banner from '../app/components/elements/banner/Banner';
 import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
 import FeaturedProducts from '../app/components/modules/home/FeaturedProducts';
 import LatestArticles from '../app/components/modules/home/LatestArticles';
 import Loading from '../app/components/modules/loading/Loading';
-import { firestore, storage } from '../app/firebase/firebase';
+import { fetchDoc } from '../app/firebase/fetch';
 import { getAll } from '../app/firebase/storage';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
@@ -20,15 +20,17 @@ import useScreenWidth from '../app/util/useScreenWidth';
 
 interface Props {
    readonly articles: Article[];
-   readonly featuredProducts: Product[];
+   readonly products: Product[];
+   readonly featuredProductIds: string[];
    readonly slideShowInterval: number;
    readonly featuredProductsSlideInterval: number;
 }
 
-const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, featuredProductsSlideInterval }) => {
+const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductIds = [], slideShowInterval = 5, featuredProductsSlideInterval = 5 }) => {
    const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
-   const store = useStore();
+   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+   const dispatch = useDispatch()
 
    useEffect(() => {
       fetchData()
@@ -37,6 +39,8 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    async function fetchData() {
       const images = await getAll('home-slide-show')
       const urls = images.map(img => img.url)
+      const featProds = products.filter(product => featuredProductIds.includes(product._id))
+      setFeaturedProducts(featProds)
       setSlideShowUrlPaths(urls)
    }
 
@@ -49,7 +53,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    return (
       <>
          <Head>
-            <title>Providence B&amp;P</title>
+            <title>Providence Books &amp; Providence - Home</title>
             <link rel="icon" href="/favicon.ico" />
             <meta name="google-site-verification" content="IxilHgh9SqGbEK4oEHxkBTW63SP2-aEZZz_WptAoly4" />
          </Head>
@@ -57,7 +61,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
             <div className={styles.banner}>
                <Banner
                   image='/banner/Church.JPG'
-                  content={getBannerContent(store)}
+                  content={getBannerContent(dispatch)}
                />
             </div>
 
@@ -90,7 +94,7 @@ const Home: React.FC<Props> = ({ articles, featuredProducts, slideShowInterval, 
    )
 }
 
-const getBannerContent = (store: Store<any, AnyAction>) => {
+const getBannerContent = (dispatch: Dispatch<any>) => {
    const router = useRouter();
    const screenWidth = useScreenWidth();
    const container: CSSProperties = {
@@ -117,7 +121,7 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
          <Button
             label='ABOUT US'
             clickHandler={() => {
-               store.dispatch(createLoadingAction(true));
+               dispatch(createLoadingAction(true));
                router.push('/about-us');
             }}
             style={button}
@@ -129,32 +133,27 @@ const getBannerContent = (store: Store<any, AnyAction>) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const articles: Article[] = [];
-   const artRef = await firestore.collection('articles').orderBy('datePosted', 'desc').limit(3).get();
-   artRef.forEach(doc => articles.push(doc.data() as Article));
-
-   const featuredProducts: Product[] = [];
-   const featProdIdsRef = await firestore.collection('featured-products').doc('ids').get();
-   const featProdIds = featProdIdsRef.data().ids as string[];
-   for (const id of featProdIds) {
-      const prodRef = await firestore.collection('products').where('_id', '==', id).get()
-      prodRef.docs.forEach(doc => {
-         featuredProducts.push(doc.data() as Product)
-      })
+   type HomeSettings = {
+      slideShowInterval: number
+      featuredProductsSlideInterval: number
    }
-
-   const homeSettingsRef = await firestore.doc('settings/home').get();
-   const homeSettings = homeSettingsRef.data();
-   const slideShowInterval: number = homeSettings.slideShowInterval;
-   const featuredProductsSlideInterval: number = homeSettings.featuredProductsSlideInterval;
+   
+   const featuredProductIds = (await fetchDoc<{ ids: string[]}>('featured-products/ids')).ids;
+   const homeSettingsRef = await fetchDoc<HomeSettings>('settings/home');
+   const slideShowInterval = homeSettingsRef.slideShowInterval;
+   const featuredProductsSlideInterval = homeSettingsRef.featuredProductsSlideInterval;
    return {
       props: {
-         articles,
-         featuredProducts,
+         featuredProductIds,
          slideShowInterval,
          featuredProductsSlideInterval
       }
    }
 }
 
-export default Home;
+const mapStateToProps = (state: { articles: Article[], products: Product[] }) => ({
+   articles: state.articles.slice(0, 3),
+   products: state.products
+})
+
+export default connect(mapStateToProps)(Home);
