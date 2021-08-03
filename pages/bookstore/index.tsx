@@ -14,12 +14,7 @@ import { ensurePaginationIsWithinBounds, getFilters, getMaxPage, populateProcess
 import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
-import { firestore } from '../../app/firebase/firebase';
-import { updateProductsLastSyncAction } from '../../app/redux/actions/lastSyncActions';
-import { hasSyncExpired } from '../../app/util/lastSyncHelper';
-import { fetchDoc, fetchDocs } from '../../app/firebase/fetch';
-import { store } from '../../app/redux/store/store';
-import { productsFetchAction } from '../../app/redux/actions/productsActions';
+import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
    readonly products: Product[];
@@ -66,20 +61,11 @@ export class Bookstore extends Component<Props, State> {
    componentDidMount() {
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
-      this.fetchData();
    }
 
    componentDidUpdate() {
       ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
-   }
-
-   async fetchData() {
-      if (hasSyncExpired('productsLastSync', this.props.syncExpireHours)) {
-         const products = await fetchDocs<Product>('products');
-         store.dispatch(productsFetchAction(products));
-         store.dispatch(updateProductsLastSyncAction(Date.now()));
-      }
    }
 
 

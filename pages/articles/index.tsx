@@ -9,11 +9,7 @@ import SearchField from '../../app/components/elements/search-field/SearchField'
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
 import { connect } from 'react-redux';
-import { hasSyncExpired } from '../../app/util/lastSyncHelper';
-import { fetchDoc, fetchDocs } from '../../app/firebase/fetch';
-import { store } from '../../app/redux/store/store';
-import { articlesFetchAction } from '../../app/redux/actions/articlesActions';
-import { updateArticlesLastSyncAction } from '../../app/redux/actions/lastSyncActions';
+import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
    readonly articles: Article[];
@@ -37,18 +33,6 @@ export class ArticlesPage extends Component<Props, State> {
 
       this.setShowCategories = this.setShowCategories.bind(this);
       this.setSearch = this.setSearch.bind(this);
-   }
-
-   componentDidMount() {
-      this.fetchData()
-   }
-   
-   async fetchData() {
-      if (hasSyncExpired('articlesLastSync', this.props.syncExpireHours)) {
-         const articles = await fetchDocs<Article>('articles')
-         store.dispatch(articlesFetchAction(articles))
-         store.dispatch(updateArticlesLastSyncAction(Date.now()))
-      }
    }
 
    getSortedArticles(articles: Article[]): Article[] {
