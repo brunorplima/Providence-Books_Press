@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -15,16 +15,18 @@ import Book from '../../app/interfaces-objects/Book';
 import EBook from '../../app/interfaces-objects/EBook';
 import AudioBook from '../../app/interfaces-objects/AudioBook';
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
-import { firestore } from '../../app/firebase/firebase';
+import { connect } from 'react-redux';
+import { fetchDocs, fetchRefs, Where } from '../../app/firebase/fetch';
 
 interface Props {
    readonly product: Product;
-   readonly relatedProducts: Product[];
+   readonly products: Product[]
    readonly reviews: Review[];
 }
 
 interface State {
-   selectedImage: number;
+   readonly selectedImage: number;
+   readonly relatedProducts: Product[];
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -32,14 +34,22 @@ class ProductDetails extends Component<Props, State> {
    constructor(props) {
       super(props);
       this.state = {
-         selectedImage: 0
+         selectedImage: 0,
+         relatedProducts: []
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
+   componentDidMount() {
+      const { products, product } = this.props
+      const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id)
+      this.setState({ relatedProducts })
+   }
+
    getSortedRelatedProductsList(): Product[] {
-      const { product, relatedProducts } = this.props;
+      const { product } = this.props;
+      const { relatedProducts } = this.state;
       const sameAuthorList: Product[] = [];
       const differentAuthorList: Product[] = [];
 
@@ -67,8 +77,8 @@ class ProductDetails extends Component<Props, State> {
 
    render() {
 
-      const { product, reviews, relatedProducts } = this.props;
-      const { selectedImage } = this.state;
+      const { product, reviews } = this.props;
+      const { selectedImage, relatedProducts } = this.state;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -113,35 +123,22 @@ class ProductDetails extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-
-   const productsRef = await fetch('https://providencebp.vercel.app/api/products');
-   const products = await productsRef.json() as Product[];
-   const product = products.find(prod => prod._id === _id);
-   const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id);
-   const reviewsRef = await fetch(`https://providencebp.vercel.app/api/reviews`);
-   const reviews: Review[] = (await reviewsRef.json() as Review[]).filter(rev => rev._productId === _id);
-
-   // let product: Product;
-   // const reviews: Review[] = [];
-   // const productRef = await firestore.collection('products').where('_id', '==', _id).get();
-   // productRef.forEach(async doc => {
-   //    product = doc.data() as Product;
-   //    const reviewsRef = await firestore.collection(`products/${doc.id}/reviews`).get();
-   //    reviewsRef.forEach(revDoc => reviews.push(revDoc.data() as Review));
-   // });
-
-   if (!product) return {
-      notFound: true
+   const where: Where = {
+      field: '_id',
+      condition: '==',
+      value: _id
    }
 
-   // const relatedProducts: Product[] = [];
-   // const relRef = await firestore.collection('products').where('category', '==', product.category).where('_id', '!=', product._id).get();
-   // relRef.forEach(doc => relatedProducts.push(doc.data() as Product));
+   const productRef = (await fetchRefs('products', where))[0];
+   if (!productRef || !productRef.exists) return {
+      notFound: true
+   }
+   const product = productRef.data();
+   const reviews = await fetchDocs<Review>(`products/${productRef.id}/reviews`)
 
    return {
       props: {
          product,
-         relatedProducts,
          reviews
       }
    }
@@ -160,4 +157,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 //    }
 // }
 
-export default ProductDetails;
+const mapStateToProps = ({ products }: { products: Product[] }) => ({  products })
+
+export default connect(mapStateToProps)(ProductDetails);

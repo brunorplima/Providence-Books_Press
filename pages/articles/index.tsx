@@ -8,10 +8,12 @@ import Button from '../../app/components/elements/button/Button';
 import SearchField from '../../app/components/elements/search-field/SearchField';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
-import { firestore } from '../../app/firebase/firebase';
+import { connect } from 'react-redux';
+import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
-   readonly articles: Article[]
+   readonly articles: Article[];
+   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -154,16 +156,17 @@ export class ArticlesPage extends Component<Props, State> {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-
-   const articles: Article[] = [];
-   const articlesRef = await firestore.collection('articles').get();
-   articlesRef.forEach(doc => articles.push(doc.data() as Article));
-
+   const docRef = await fetchDoc<{ articlesSyncExpireHours: number }>('settings/general')
+   const syncExpireHours = docRef.articlesSyncExpireHours
    return {
       props: {
-         articles
+         syncExpireHours
       }
    }
 }
 
-export default ArticlesPage;
+const mapStateToProps = state => ({
+   articles: state.articles
+})
+
+export default connect(mapStateToProps)(ArticlesPage);
