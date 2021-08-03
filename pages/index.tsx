@@ -36,11 +36,14 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
       fetchData()
    }, [])
 
+   useEffect(() => {
+      const featProds = products.filter(product => featuredProductIds.includes(product._id))
+      setFeaturedProducts(featProds)
+   }, [products])
+
    async function fetchData() {
       const images = await getAll('home-slide-show')
       const urls = images.map(img => img.url)
-      const featProds = products.filter(product => featuredProductIds.includes(product._id))
-      setFeaturedProducts(featProds)
       setSlideShowUrlPaths(urls)
    }
 
