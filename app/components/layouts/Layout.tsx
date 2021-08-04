@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchDocs } from '../../firebase/fetch'
 import { Article } from '../../interfaces-objects/interfaces'
@@ -15,24 +15,6 @@ import NavbarContainer from '../modules/navbar/NavbarContainer'
 
 const Layout: React.FC = ({ children }) => {
    const router = useRouter();
-   const dispatch = useDispatch();
-
-   useEffect(() => {
-      fetchData();
-   })
-
-   async function fetchData() {
-      if (hasSyncExpired('productsLastSync', 1)) {
-         const products = await fetchDocs<Product>('products');
-         dispatch(productsFetchAction(products));
-         dispatch(updateProductsLastSyncAction(Date.now()));
-      }
-      if (hasSyncExpired('articlesLastSync', 1)) {
-         const articles = await fetchDocs<Article>('articles');
-         dispatch(articlesFetchAction(articles));
-         dispatch(updateArticlesLastSyncAction(Date.now()));
-      }
-   }
 
    return (
       <div>
