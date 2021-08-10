@@ -16,17 +16,18 @@ import EBook from '../../app/interfaces-objects/EBook';
 import AudioBook from '../../app/interfaces-objects/AudioBook';
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
 import { connect } from 'react-redux';
-import { fetchDocs, fetchRefs, Where } from '../../app/firebase/fetch';
+import { fetchDocs } from '../../app/firebase/fetch';
 
 interface Props {
-   readonly product: Product;
-   readonly products: Product[]
+   readonly products: Product[];
    readonly reviews: Review[];
+   readonly id: string;
 }
 
 interface State {
    readonly selectedImage: number;
    readonly relatedProducts: Product[];
+   readonly product: Product;
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -35,20 +36,34 @@ class ProductDetails extends Component<Props, State> {
       super(props);
       this.state = {
          selectedImage: 0,
-         relatedProducts: []
+         relatedProducts: [],
+         product: null
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
    componentDidMount() {
-      const { products, product } = this.props
-      const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id)
-      this.setState({ relatedProducts })
+      this.setProduct()
+   }
+
+   componentDidUpdate() {
+      const { products } = this.props
+      const { product } = this.state
+      const relatedProducts = products.filter(prod => prod.category === product?.category && prod._id !== product?._id)
+      if (JSON.stringify(relatedProducts) !== JSON.stringify(this.state.relatedProducts)) {
+         this.setState({ relatedProducts })
+      }
+   }
+
+   setProduct() {
+      const { products, id } = this.props
+      const product: Product = products.find(product => product._id === id)
+      this.setState({ product })
    }
 
    getSortedRelatedProductsList(): Product[] {
-      const { product } = this.props;
+      const { product } = this.state;
       const { relatedProducts } = this.state;
       const sameAuthorList: Product[] = [];
       const differentAuthorList: Product[] = [];
@@ -77,42 +92,48 @@ class ProductDetails extends Component<Props, State> {
 
    render() {
 
-      const { product, reviews } = this.props;
-      const { selectedImage, relatedProducts } = this.state;
+      const { reviews } = this.props;
+      const { product, selectedImage, relatedProducts } = this.state;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
             <Head>
-               <title>{product.name}{product.subtitle ? ' - ' + product.subtitle : ''} - {product.type}</title>
+               <title>{product?.name}{product?.subtitle ? ' - ' + product?.subtitle : ''} - {product?.type}</title>
             </Head>
 
             <Frame className={styles.container}>
-               <Frame className={styles.backBar}>
-                  <BackButton />
-                  <CirclesUI />
-               </Frame>
-
-               <Frame className={styles.productDetailsMain}>
-                  <ProductDetailsText product={product} />
-                  <ProductDetailsVisual
-                     product={product}
-                     reviews={reviews.length && reviews}
-                     selectedImage={selectedImage}
-                     setSelectedImage={this.setSelectedImage}
-                  />
-               </Frame>
-
-               <Frame className={styles.border} />
-
-               <ProvidenceReview providenceReview={product.providenceReview} />
-
-               <Frame className={styles.border} />
-
-               <UserReviews reviews={reviews} />
-
                {
-                  relatedProducts?.length > 0 &&
-                  <RelatedProducts products={this.getSortedRelatedProductsList()} />
+                  product && (
+                     <>
+                        <Frame className={styles.backBar}>
+                           <BackButton />
+                           <CirclesUI />
+                        </Frame>
+
+                        <Frame className={styles.productDetailsMain}>
+                           <ProductDetailsText product={product} />
+                           <ProductDetailsVisual
+                              product={product}
+                              reviews={reviews.length && reviews}
+                              selectedImage={selectedImage}
+                              setSelectedImage={this.setSelectedImage}
+                           />
+                        </Frame>
+
+                        <Frame className={styles.border} />
+
+                        <ProvidenceReview providenceReview={product.providenceReview} />
+
+                        <Frame className={styles.border} />
+
+                        <UserReviews reviews={reviews} productId={product?._id} />
+
+                        {
+                           relatedProducts?.length > 0 &&
+                           <RelatedProducts products={this.getSortedRelatedProductsList()} />
+                        }
+                     </>
+                  )
                }
             </Frame>
 
@@ -123,22 +144,11 @@ class ProductDetails extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   const where: Where = {
-      field: '_id',
-      condition: '==',
-      value: _id
-   }
-
-   const productRef = (await fetchRefs('products', where))[0];
-   if (!productRef || !productRef.exists) return {
-      notFound: true
-   }
-   const product = productRef.data();
-   const reviews = await fetchDocs<Review>(`products/${productRef.id}/reviews`)
+   const reviews = await fetchDocs<Review>(`products/${_id}/reviews`)
 
    return {
       props: {
-         product,
+         id: _id,
          reviews
       }
    }
@@ -157,6 +167,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 //    }
 // }
 
-const mapStateToProps = ({ products }: { products: Product[] }) => ({  products })
+const mapStateToProps = ({ products }: { products: Product[] }) => ({ products })
 
 export default connect(mapStateToProps)(ProductDetails);
