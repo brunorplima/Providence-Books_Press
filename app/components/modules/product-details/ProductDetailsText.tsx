@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import AudioBook from '../../../interfaces-objects/AudioBook';
 import Book from '../../../interfaces-objects/Book';
@@ -6,6 +7,7 @@ import Product from '../../../interfaces-objects/Product';
 import styles from '../../../styles/product-details/ProductDetailsText.module.css';
 import ProductItemFlag from '../../elements/product-item/ProductItemFlag';
 import ProductType from '../../elements/product-type/ProductType';
+import { TiInfoLarge } from 'react-icons/ti';
 
 interface Props {
    readonly product: Product;
@@ -31,7 +33,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                }
             </div>
 
-            <ProductType type={product.type}  margin={'.3rem 0 1rem 0'}/>
+            <ProductType type={product.type} margin={'.3rem 0 1rem 0'} />
 
             {
                product.type &&
@@ -110,6 +112,25 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
 
                   <div className={styles.tags}>{product.tags.join(', ')}</div>
                </div>
+            }
+
+            {
+               product.links && (
+                  <div className={styles.linksContainer}>
+                     <div className={styles.linksIcon}>
+                        <TiInfoLarge fontSize={24} />
+                     </div>
+                     {product.links.map(link =>
+                        <div className={styles.link} key={link.relProductId}>
+                           <Link href={`/product/${link.relProductId}`}>
+                              <a className={styles.anchorLink}>
+                                 {link.description}
+                              </a>
+                           </Link>
+                        </div>
+                     )}
+                  </div>
+               )
             }
          </div>
       </div>
