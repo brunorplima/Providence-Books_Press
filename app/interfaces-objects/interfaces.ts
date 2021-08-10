@@ -132,3 +132,8 @@ export interface Author {
    coverType?: string
    fileExtensions?: string[],
 }
+
+export interface ProductLinks {
+   description: string,
+   relProductId: string
+}
