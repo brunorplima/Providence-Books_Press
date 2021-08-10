@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import React, { CSSProperties } from 'react';
-
+import mainFormStyles from '../../../styles/form/MainForm.module.css';
 interface Props {
-   readonly textareaClassName: string;
    readonly value: any;
    readonly setValue: Function;
+   readonly textareaClassName?: string;
    readonly containerClassName?: string;
    readonly name?: string;
    readonly label?: string;
@@ -28,12 +29,13 @@ const FormTextArea: React.FC<Props> = ({
    }
 
    return (
-      <div className={containerClassName} style={style}>
+      <div className={clsx(mainFormStyles.textareaContainer, containerClassName)} style={style}>
          {label && <label>{label} {isRequired && '*'}</label>}
          <textarea
-            className={textareaClassName}
+            className={clsx(mainFormStyles.textareaField, textareaClassName)}
             value={value}
             onChange={e => setValue(e.currentTarget.value)}
+            placeholder={placeholder && placeholder}
          >
 
          </textarea>
