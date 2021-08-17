@@ -15,10 +15,10 @@ export const addProduct = async (product: Product) => {
 
 export const addReview = async (review: Review, productId: string) => {
    try {
-      const ref = await firestore.collection('products').where('_id', '==', productId).get()
-      await firestore.doc(`products/${ref.docs[0].id}`).collection('reviews').doc(review._id).set(review)
+      return await firestore.doc(`products/${productId}/reviews/${review._id}`).set(review)
    }
    catch (error) {
-      window.alert('Sorry, the following occurred: ' + error); 
+      window.alert('Sorry, the following occurred: ' + error);
+      return null
    }
 }
