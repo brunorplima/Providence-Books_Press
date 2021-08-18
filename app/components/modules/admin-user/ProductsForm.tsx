@@ -4,7 +4,7 @@ import FormInput from '../form/FormInput';
 import Box from './Box';
 import styles from '../../../styles/admin-user/ProductsForm.module.css';
 import mainFormStyles from '../../../styles/form/MainForm.module.css';
-import { LARGE, MEDIUM, SMALL, X_LARGE, X_SMALL } from '../../../util/inputFormSizes';
+import { MEDIUM } from '../../../util/inputFormSizes';
 import FormTextArea from '../form/FormTextArea';
 import FormSelect from '../form/FormSelect';
 import Product from '../../../interfaces-objects/Product';
@@ -14,6 +14,7 @@ import AudioBook from '../../../interfaces-objects/AudioBook';
 import ImageFormInput from '../form/ImageFormInput';
 import Button from '../../elements/button/Button';
 import EmptyUpdateFormMessage from './EmptyUpdateFormMessage';
+import formStyles from '../../../styles/form/ProductsForm.module.css';
 
 const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
 const types = ['Book', 'E-book', 'Audio book'];
@@ -37,11 +38,11 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
    const [type, setType] = useState(product ? product.type : '');
    const [name, setName] = useState(product ? typedProduct.name : '');
    const [subtitle, setSubtitle] = useState(product ? typedProduct.subtitle : '');
-   const [isbn, setIsbn] = useState(product ? typedProduct.subtitle : '');
+   const [isbn, setIsbn] = useState(product ? typedProduct.isbn : '');
    const [weight, setWeight] = useState(product ? bookProduct.weight : '');
    const [stock, setStock] = useState(product ? bookProduct.stock : '');
    const [price, setPrice] = useState(product ? typedProduct.price.toFixed(2) : '');
-   const [providenceReview, setProvidenceReview] = useState('');
+   const [providenceReview, setProvidenceReview] = useState(product ? product.providenceReview : '');
    const [files, setFiles] = useState<FileList>(null);
    const [fileUrls, setFileUrls] = useState<string[]>(product ? bookProduct.images : []);
    const [category, setCategory] = useState(product ? product.category : '');
@@ -70,6 +71,14 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
       )
    }
 
+   function addProduct() {
+      
+   }
+
+   function updateProduct() {
+      
+   }
+
    return (
       <div>
          <Box paddingAll title={`${currentTab === tabs[1] ? 'ADD' : 'UPDATE'} BOOKS, E-BOOKS AND AUDIOBOOKS TO THE DATABASE`}>
@@ -86,218 +95,226 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
             />
             {
                type &&
-               <>
+               <div className={formStyles.form}>
                   <FormGroup>
-                     <FormInput
-                        type='text'
-                        value={name}
-                        setValue={setName}
-                        size={LARGE}
-                        label='Title'
-                        isRequired
-                     />
-
-                     <FormInput
-                        type='text'
-                        value={subtitle}
-                        size={X_LARGE}
-                        setValue={setSubtitle}
-                        label='Subtitle'
-                     />
-
-                     <FormInput
-                        type='text'
-                        value={isbn}
-                        setValue={setIsbn}
-                        label='ISBN'
-                        isRequired
-                     />
-
-                     {
-                        type === BOOK &&
-                        <>
+                     <div className={formStyles.nonText}>
+                        <div className={formStyles.nonText1}>
                            <FormInput
                               type='text'
-                              value={weight}
-                              setValue={setWeight}
-                              size={X_SMALL}
-                              label='Weight (Kg)'
+                              value={name}
+                              setValue={setName}
+                              size={'100%'}
+                              label='Title'
                               isRequired
                            />
 
                            <FormInput
-                              type='number'
-                              value={stock}
-                              setValue={setStock}
-                              size={X_SMALL}
-                              label='Stock'
+                              type='text'
+                              value={subtitle}
+                              size={'100%'}
+                              setValue={setSubtitle}
+                              label='Subtitle'
+                           />
+
+                           <ImageFormInput
+                              setFiles={e => setFiles(e.currentTarget.files)}
+                              size={'100%'}
+                              label='Images'
                               isRequired
                            />
-                        </>
-                     }
 
-                     <FormInput
-                        type='text'
-                        value={price}
-                        setValue={setPrice}
-                        size={X_SMALL}
-                        label='Price'
-                        isRequired
-                     />
+                           <FormSelect
+                              options={categories}
+                              value={category}
+                              setValue={setCategory}
+                              selectClassName={mainFormStyles.selectField}
+                              label='Category'
+                              isRequired
+                              containerClassName={mainFormStyles.selectContainer}
+                              size={'100%'}
+                           />
 
-                     <FormTextArea
-                        textareaClassName={mainFormStyles.textareaField}
-                        containerClassName={mainFormStyles.textareaContainer}
-                        value={providenceReview}
-                        setValue={setProvidenceReview}
-                        label='Providence Review'
-                     />
-                  </FormGroup>
+                           <FormInput
+                              type='text'
+                              value={authors}
+                              setValue={setAuthors}
+                              size={'100%'}
+                              label='Author(s)'
+                              isRequired
+                           />
 
-                  <div className={styles.space}></div>
+                           <FormInput
+                              type='text'
+                              value={subject}
+                              setValue={setSubject}
+                              size={'100%'}
+                              label='Subject'
+                           />
 
-                  <FormGroup>
-                     <ImageFormInput
-                        inputClassName={mainFormStyles.inputField}
-                        containerClassName={mainFormStyles.inputContainer}
-                        setFiles={e => setFiles(e.currentTarget.files)}
-                        size={MEDIUM}
-                        label='Images'
-                        isRequired
-                     />
+                           <FormInput
+                              type='text'
+                              value={flag}
+                              setValue={setFlag}
+                              size={'100%'}
+                              label='Flag'
+                           />
 
-                     <FormSelect
-                        options={categories}
-                        value={category}
-                        setValue={setCategory}
-                        selectClassName={mainFormStyles.selectField}
-                        label='Category'
-                        isRequired
-                        containerClassName={mainFormStyles.selectContainer}
-                        size={MEDIUM}
-                     />
+                           <FormInput
+                              type='text'
+                              value={tags.split('g').join(', ').split('f').join('d')}
+                              setValue={setTags}
+                              size={'100%'}
+                              label='Tags'
+                           />
+                        </div>
 
-                     <FormInput
-                        type='text'
-                        value={authors}
-                        setValue={setAuthors}
-                        size={MEDIUM}
-                        label='Author(s)'
-                        isRequired
-                     />
+                        <div className={formStyles.nonText2}>
+                           <FormInput
+                              type='text'
+                              value={isbn}
+                              setValue={setIsbn}
+                              label='ISBN'
+                              size={'100%'}
+                              isRequired
+                           />
 
-                     <FormInput
-                        type='text'
-                        value={publisher}
-                        setValue={setPublisher}
-                        label='Publisher'
-                        isRequired
-                     />
+                           {
+                              type === BOOK &&
+                              <>
+                                 <FormInput
+                                    type='text'
+                                    value={weight}
+                                    setValue={setWeight}
+                                    size={'100%'}
+                                    label='Weight (Kg)'
+                                    isRequired
+                                 />
 
-                     <FormInput
-                        type='text'
-                        value={subject}
-                        setValue={setSubject}
-                        size={MEDIUM}
-                        label='Subject'
-                     />
+                                 <FormInput
+                                    type='number'
+                                    value={stock}
+                                    setValue={setStock}
+                                    size={'100%'}
+                                    label='Stock'
+                                    isRequired
+                                 />
+                              </>
+                           }
 
-                     <FormTextArea
-                        textareaClassName={mainFormStyles.textareaField}
-                        containerClassName={mainFormStyles.textareaContainer}
-                        value={description}
-                        setValue={setDescription}
-                        label='Description'
-                        isRequired
-                     />
-                  </FormGroup>
+                           <FormInput
+                              type='text'
+                              value={price}
+                              setValue={setPrice}
+                              size={'100%'}
+                              label='Price'
+                              isRequired
+                           />
 
-                  <div className={styles.space}></div>
+                           <FormInput
+                              type='text'
+                              value={publisher}
+                              setValue={setPublisher}
+                              label='Publisher'
+                              size={'100%'}
+                              isRequired
+                           />
 
-                  <FormGroup>
-                     {
-                        type !== AUDIOBOOK &&
-                        <FormInput
-                           type='number'
-                           value={numberPages}
-                           setValue={setNumberPages}
-                           size={X_SMALL}
-                           label='Number Pages'
+                           {
+                              type !== AUDIOBOOK &&
+                              <FormInput
+                                 type='number'
+                                 value={numberPages}
+                                 setValue={setNumberPages}
+                                 size={'100%'}
+                                 label='Number Pages'
+                              />
+                           }
+
+                           {
+                              type === BOOK &&
+                              <FormSelect
+                                 options={['Hard cover', 'Paperback']}
+                                 value={coverType}
+                                 setValue={setCoverType}
+                                 selectClassName={mainFormStyles.selectField}
+                                 label='Cover type'
+                                 size={'100%'}
+                                 containerClassName={mainFormStyles.selectContainer}
+                              />
+                           }
+
+                           <FormInput
+                              type='text'
+                              value={age}
+                              setValue={setAge}
+                              size={'100%'}
+                              label='Age'
+                           />
+
+                           {
+                              type !== BOOK &&
+                              <FormInput
+                                 type='text'
+                                 value={fileExtensions}
+                                 setValue={setFileExtensions}
+                                 label='File extension (s)'
+                                 size={'100%'}
+                                 isRequired
+                              />
+                           }
+
+                           {
+                              type === AUDIOBOOK &&
+                              <>
+                                 <FormInput
+                                    type='text'
+                                    value={readBy}
+                                    setValue={setReadBy}
+                                    label='Read by'
+                                    size={'100%'}
+                                    isRequired
+                                 />
+
+                                 <FormInput
+                                    type='text'
+                                    value={duration}
+                                    setValue={setDuration}
+                                    label='Duration'
+                                    size={'100%'}
+                                 />
+                              </>
+                           }
+                        </div>
+                     </div>
+
+                     <div className={formStyles.texts}>
+                        <FormTextArea
+                           textareaClassName={mainFormStyles.textareaField}
+                           containerClassName={mainFormStyles.textareaContainer}
+                           value={providenceReview}
+                           setValue={setProvidenceReview}
+                           label='Providence Review'
                         />
-                     }
 
-                     {
-                        type === BOOK &&
-                        <FormSelect
-                           options={['Hard cover', 'Paperback']}
-                           value={coverType}
-                           setValue={setCoverType}
-                           selectClassName={mainFormStyles.selectField}
-                           label='Cover type'
-                           containerClassName={mainFormStyles.selectContainer}
-                        />
-                     }
-
-                     {
-                        type !== BOOK &&
-                        <FormInput
-                           type='text'
-                           value={fileExtensions}
-                           setValue={setFileExtensions}
-                           label='File extension (s)'
+                        <FormTextArea
+                           textareaClassName={mainFormStyles.textareaField}
+                           containerClassName={mainFormStyles.textareaContainer}
+                           value={description}
+                           setValue={setDescription}
+                           label='Description'
                            isRequired
                         />
-                     }
 
-                     {
-                        type === AUDIOBOOK &&
-                        <>
-                           <FormInput
-                              type='text'
-                              value={readBy}
-                              setValue={setReadBy}
-                              label='Read by'
-                              isRequired
-                           />
-
-                           <FormInput
-                              type='text'
-                              value={duration}
-                              setValue={setDuration}
-                              label='Duration'
-                           />
-                        </>
-                     }
-
-                     <FormInput
-                        type='text'
-                        value={age}
-                        setValue={setAge}
-                        size={X_SMALL}
-                        label='Age'
-                     />
-
-                     <FormInput
-                        type='text'
-                        value={flag}
-                        setValue={setFlag}
-                        size={MEDIUM}
-                        label='Flag'
-                     />
-
-                     <FormInput
-                        type='text'
-                        value={tags.split('g').join(', ').split('f').join('d')}
-                        setValue={setTags}
-                        size={MEDIUM}
-                        label='Tags'
-                     />
+                     </div>
                   </FormGroup>
 
                   <div className={styles.buttonContainer}>
-                     <Button label='Save' clickHandler={() => { }} secondaryStyle />
+                     <Button label='Save' clickHandler={() => {
+                        if (product) updateProduct()
+                        else addProduct()
+                     }} secondaryStyle />
                   </div>
-               </>
+               </div>
             }
          </Box>
       </div>
