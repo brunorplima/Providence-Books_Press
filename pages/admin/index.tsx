@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import AdminArticles from '../../app/components/modules/admin-user/AdminArticles';
 import AdminContent from '../../app/components/modules/admin-user/AdminContent';
 import AdminDashboard from '../../app/components/modules/admin-user/AdminDashboard';
@@ -6,7 +7,6 @@ import AdminProducts from '../../app/components/modules/admin-user/AdminProducts
 import AdminSettings from '../../app/components/modules/admin-user/AdminSettings';
 import Section from '../../app/components/modules/admin-user/Section';
 import Sidebar from '../../app/components/modules/admin-user/Sidebar';
-import { firestore } from '../../app/firebase/firebase';
 import { Article } from '../../app/interfaces-objects/interfaces';
 import Product from '../../app/interfaces-objects/Product';
 import styles from '../../app/styles/admin-user/Admin.module.css';
@@ -15,36 +15,21 @@ const sections = ['Dashboard', 'Products', 'Articles', 'Users', 'Orders', 'Conte
 
 interface State {
    readonly currentSection: string;
+}
+
+interface Props {
    readonly products: Product[];
    readonly articles: Article[];
 }
-
-export class AdminPage extends Component<{}, State> {
-
-   productsUnsubscriber = () => {};
-   articlesUnsubscriber = () => {};
+export class AdminPage extends Component<Props, State> {
 
    constructor(props) {
       super(props);
       this.state = {
-         currentSection: sections[0],
-         products: [],
-         articles: [],
+         currentSection: sections[0]
       }
 
       this.setCurrentSection = this.setCurrentSection.bind(this);
-      this.setProducts = this.setProducts.bind(this);
-   }
-
-   componentDidUpdate() {
-      const { currentSection, products, articles } = this.state;
-      if (currentSection === sections[1] && !products.length) this.fetchProducts();
-      if (currentSection === sections[2] && !articles.length) this.fetchArticles();
-   }
-
-   componentWillUnmount() {
-      this.productsUnsubscriber();
-      this.articlesUnsubscriber();
    }
 
    setCurrentSection(index: number) {
@@ -54,32 +39,9 @@ export class AdminPage extends Component<{}, State> {
       }
    }
 
-   setProducts(products: Product[]) {
-      if (JSON.stringify(this.state.products) !== JSON.stringify(products)) {
-         this.setState({ products });
-      }
-   }
-
-   setArticles(articles: Article[]) {
-      if (JSON.stringify(articles) !== JSON.stringify(this.state.articles)) {
-         this.setState({ articles });
-      }
-   }
-
-   async fetchProducts() {
-      const fetchProducts = await fetch('/api/products');
-      const products: Product[] = await fetchProducts.json();
-      this.setState({ products });
-   }
-
-   async fetchArticles() {
-      const fetched = await fetch('/api/articles');
-      const articles: Article[] = await fetched.json();
-      this.setState({ articles });
-   }
-
    render() {
-      const { currentSection, products, articles } = this.state;
+      const { currentSection } = this.state;
+      const { products, articles } = this.props;
       return (
          <div className={styles.container}>
             <Sidebar
@@ -147,4 +109,6 @@ export class AdminPage extends Component<{}, State> {
    }
 }
 
-export default AdminPage;
+const mapStateToProps = ({ products, articles }) => ({ products, articles })
+
+export default connect(mapStateToProps)(AdminPage);
