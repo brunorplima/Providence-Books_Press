@@ -15,49 +15,56 @@ import ImageFormInput from '../form/ImageFormInput';
 import Button from '../../elements/button/Button';
 import EmptyUpdateFormMessage from './EmptyUpdateFormMessage';
 import formStyles from '../../../styles/form/ProductsForm.module.css';
+import { AUDIO_BOOK_TYPE, BOOK_TYPE, BOOK_TYPES, E_BOOK_TYPE } from '../../../interfaces-objects/constants';
+import { buildProduct } from '../../../util/factory';
+import { putInStorage } from '../../../firebase/storage';
+import { ProductLinks } from '../../../interfaces-objects/interfaces';
+import { addProductToFirestore } from '../../../firebase/add';
+import { generateProductID, generateUid } from '../../../util/generateUid';
+import { AiOutlineWarning } from 'react-icons/ai';
+import runLoadingPeriod from '../../../util/runLoadingPeriod';
 
-const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
-const types = ['Book', 'E-book', 'Audio book'];
-const BOOK = 'Book';
-const EBOOK = 'E-book';
-const AUDIOBOOK = 'Audio book';
+const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'Commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
 
 interface Props {
    readonly currentTab: string;
    readonly tabs: string[];
-   readonly product?: Product;
+   readonly currentProduct?: Book | EBook | AudioBook;
    readonly setProductSelected?: Function
 }
 
-const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSelected }) => {
-   const typedProduct = product as Book | EBook | AudioBook
-   const bookProduct = product as Book
-   const eBookProduct = product as EBook
-   const audioBookProduct = product as AudioBook
+const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setProductSelected }) => {
+   const typedProduct = currentProduct as Book | EBook | AudioBook
+   const bookProduct = currentProduct as Book
+   const eBookProduct = currentProduct as EBook
+   const audioBookProduct = currentProduct as AudioBook
 
-   const [type, setType] = useState(product ? product.type : '');
-   const [name, setName] = useState(product ? typedProduct.name : '');
-   const [subtitle, setSubtitle] = useState(product ? typedProduct.subtitle : '');
-   const [isbn, setIsbn] = useState(product ? typedProduct.isbn : '');
-   const [weight, setWeight] = useState(product ? bookProduct.weight : '');
-   const [stock, setStock] = useState(product ? bookProduct.stock : '');
-   const [price, setPrice] = useState(product ? typedProduct.price.toFixed(2) : '');
-   const [providenceReview, setProvidenceReview] = useState(product ? product.providenceReview : '');
+   const [type, setType] = useState(currentProduct ? currentProduct.type : '');
+   const [name, setName] = useState(currentProduct ? typedProduct.name : '');
+   const [subtitle, setSubtitle] = useState(typedProduct?.subtitle ? typedProduct.subtitle : '');
+   const [isbn, setIsbn] = useState(typedProduct?.isbn ? typedProduct.isbn : '');
+   const [weight, setWeight] = useState(currentProduct ? bookProduct.weight : '');
+   const [stock, setStock] = useState(currentProduct ? bookProduct.stock : '');
+   const [price, setPrice] = useState(currentProduct ? typedProduct.price.toFixed(2) : '');
+   const [providenceReview, setProvidenceReview] = useState(currentProduct?.providenceReview ? currentProduct.providenceReview : '');
    const [files, setFiles] = useState<FileList>(null);
-   const [fileUrls, setFileUrls] = useState<string[]>(product ? bookProduct.images : []);
-   const [category, setCategory] = useState(product ? product.category : '');
-   const [authors, setAuthors] = useState(product ? typedProduct.authors : '');
-   const [publisher, setPublisher] = useState(product ? typedProduct.publisher : '');
-   const [subject, setSubject] = useState(product ? typedProduct.subject : '');
-   const [description, setDescription] = useState(product ? bookProduct.description : '');
-   const [numberPages, setNumberPages] = useState(product ? bookProduct.numberPages : '');
-   const [age, setAge] = useState(product ? typedProduct.age : '');
-   const [coverType, setCoverType] = useState(product ? bookProduct.coverType : '');
-   const [flag, setFlag] = useState(product ? typedProduct.flag : '');
-   const [tags, setTags] = useState(product ? typedProduct.tags?.join(', ') : '');
-   const [fileExtensions, setFileExtensions] = useState(product ? eBookProduct.fileExtensions?.join(', ') : '');
-   const [readBy, setReadBy] = useState(product ? audioBookProduct.readBy : '');
-   const [duration, setDuration] = useState(product ? audioBookProduct.duration : '');
+   const [category, setCategory] = useState(currentProduct ? currentProduct.category : '');
+   const [authors, setAuthors] = useState(currentProduct ? typedProduct.authors : '');
+   const [publisher, setPublisher] = useState(currentProduct ? typedProduct.publisher : '');
+   const [subject, setSubject] = useState(typedProduct?.subject ? typedProduct.subject : '');
+   const [description, setDescription] = useState(bookProduct?.description ? bookProduct.description : '');
+   const [numberPages, setNumberPages] = useState(bookProduct?.numberPages ? bookProduct.numberPages : '');
+   const [age, setAge] = useState(currentProduct ? typedProduct.age : '');
+   const [coverType, setCoverType] = useState(currentProduct ? bookProduct.coverType : '');
+   const [flag, setFlag] = useState(currentProduct ? typedProduct.flag : '');
+   const [tags, setTags] = useState(currentProduct ? typedProduct.tags?.join(',') ? typedProduct.tags?.join(',') : '' : '');
+   const [fileExtensions, setFileExtensions] = useState(currentProduct ? eBookProduct.fileExtensions?.join(', ') : '');
+   const [readBy, setReadBy] = useState(currentProduct ? audioBookProduct.readBy : '');
+   const [duration, setDuration] = useState(currentProduct ? audioBookProduct.duration : '');
+   // const [links, setlinks] = useState<ProductLinks[]>(product ? product.links : []);
+   const [links, setlinks] = useState<ProductLinks[]>(null);
+
+   const [errors, setErrors] = useState<string[]>([])
 
    useEffect(() => {
       return () => {
@@ -65,25 +72,101 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
       }
    }, [])
 
-   if (currentTab === tabs[2] && !product) {
+   if (currentTab === tabs[2] && !currentProduct) {
       return (
          <EmptyUpdateFormMessage messageType='product' />
       )
    }
 
-   function addProduct() {
+   async function addProduct() {
+      const isValidData = validateInput()
+      if (!isValidData) return
       
+      const loadingPeriod = runLoadingPeriod()
+      loadingPeriod.next()
+      let images: string[]
+      if (files?.length) {
+         images = []
+         for (let idx = 0; idx < files.length; idx++) {
+            const file = files.item(idx)
+            const { url } = await putInStorage(`products/${file.name}`, file)
+            images.push(url)
+         }
+      }
+      const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id: currentProduct ? currentProduct._id : generateProductID(), _categoryId: generateUid(), _authorIds:[generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
+      const ref = await addProductToFirestore(product)
+      loadingPeriod.next()
+      if (ref) {
+         window.alert(`Product with ID: ${ref.id} was succesfully ${currentProduct ? 'updated' : 'added'}!`)
+         resetValues()
+      } else {
+         window.alert(`An unknown error occurred. Please try refreshing the page, otherwise try again later!`)
+      }
    }
 
-   function updateProduct() {
-      
+   function validateInput() {
+      const errorList: string[] = []
+      if (!name) errorList.push('Title is required')
+      if (!description) errorList.push('Description is required')
+      if (!price) errorList.push('Price is required')
+      if (!files?.length && !currentProduct) errorList.push('Image is required')
+      if (!category) errorList.push('Category is required')
+      if (!authors) errorList.push('Author is required')
+      if (!publisher) errorList.push('Publisher is required')
+      if (!isbn) errorList.push('ISBN is required')
+      if (type === BOOK_TYPE) {
+         if (!weight) errorList.push('Weight is required')
+         if (!stock) errorList.push('Stock is required')
+      }
+      if (type === E_BOOK_TYPE) {
+         if (!fileExtensions) errorList.push('File extension is required')
+      }
+      if (type === AUDIO_BOOK_TYPE) {
+         if (!readBy) errorList.push('Ready by is required')
+      }
+      if (errorList.length) {
+         setErrors(errorList)
+         return false
+      }
+      setErrors([])
+      return true
+   }
+
+   function getSplitValue(str: string, div: string = ',') {
+      if (!str) return null
+      return str.split(div)
+   }
+
+   function resetValues() {
+      setType('')
+      setName('')
+      setSubtitle('')
+      setIsbn('')
+      setWeight('')
+      setStock('')
+      setPrice('')
+      setProvidenceReview('')
+      setFiles(null)
+      setCategory('')
+      setAuthors('')
+      setPublisher('')
+      setSubject('')
+      setDescription('')
+      setNumberPages('')
+      setAge('')
+      setCoverType('')
+      setFlag('')
+      setTags('')
+      setFileExtensions('')
+      setReadBy('')
+      setDuration('')
    }
 
    return (
       <div>
          <Box paddingAll title={`${currentTab === tabs[1] ? 'ADD' : 'UPDATE'} BOOKS, E-BOOKS AND AUDIOBOOKS TO THE DATABASE`}>
             <FormSelect
-               options={types}
+               options={BOOK_TYPES}
                value={type}
                setValue={setType}
                selectClassName={mainFormStyles.selectField}
@@ -93,6 +176,20 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                size={MEDIUM}
                disabled={currentTab && tabs ? currentTab === tabs[2] : false}
             />
+
+            {
+               errors.length ? (
+                  <div className={styles.errorsContainer}>
+                     <div className={styles.errors}>
+                        {
+                           errors.map(err => <div key={err}><span><AiOutlineWarning /></span> {err}</div>)
+                        }
+                     </div>
+                  </div>
+               ) :
+               null
+            }
+
             {
                type &&
                <div className={formStyles.form}>
@@ -117,10 +214,11 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            />
 
                            <ImageFormInput
-                              setFiles={e => setFiles(e.currentTarget.files)}
+                              setFiles={setFiles}
                               size={'100%'}
                               label='Images'
-                              isRequired
+                              isRequired={currentProduct?.images ? false : true}
+                              multiple
                            />
 
                            <FormSelect
@@ -161,7 +259,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
 
                            <FormInput
                               type='text'
-                              value={tags.split('g').join(', ').split('f').join('d')}
+                              value={tags}
                               setValue={setTags}
                               size={'100%'}
                               label='Tags'
@@ -179,7 +277,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            />
 
                            {
-                              type === BOOK &&
+                              type === BOOK_TYPE &&
                               <>
                                  <FormInput
                                     type='text'
@@ -220,7 +318,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            />
 
                            {
-                              type !== AUDIOBOOK &&
+                              type !== AUDIO_BOOK_TYPE &&
                               <FormInput
                                  type='number'
                                  value={numberPages}
@@ -231,7 +329,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            }
 
                            {
-                              type === BOOK &&
+                              type === BOOK_TYPE &&
                               <FormSelect
                                  options={['Hard cover', 'Paperback']}
                                  value={coverType}
@@ -252,7 +350,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            />
 
                            {
-                              type !== BOOK &&
+                              type !== BOOK_TYPE &&
                               <FormInput
                                  type='text'
                                  value={fileExtensions}
@@ -264,7 +362,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                            }
 
                            {
-                              type === AUDIOBOOK &&
+                              type === AUDIO_BOOK_TYPE &&
                               <>
                                  <FormInput
                                     type='text'
@@ -309,10 +407,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, product, setProductSe
                   </FormGroup>
 
                   <div className={styles.buttonContainer}>
-                     <Button label='Save' clickHandler={() => {
-                        if (product) updateProduct()
-                        else addProduct()
-                     }} secondaryStyle />
+                     <Button label='Save' clickHandler={() => addProduct()} secondaryStyle />
                   </div>
                </div>
             }
