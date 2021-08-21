@@ -112,6 +112,7 @@ export interface Author {
    introduction: string,
 }
 
+export type BookType = 'Book' | 'E-book' | 'Audio book'
 
 
 

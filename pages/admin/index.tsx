@@ -7,7 +7,6 @@ import AdminProducts from '../../app/components/modules/admin-user/AdminProducts
 import AdminSettings from '../../app/components/modules/admin-user/AdminSettings';
 import Section from '../../app/components/modules/admin-user/Section';
 import Sidebar from '../../app/components/modules/admin-user/Sidebar';
-import { firestore } from '../../app/firebase/firebase';
 import { Article } from '../../app/interfaces-objects/interfaces';
 import Product from '../../app/interfaces-objects/Product';
 import styles from '../../app/styles/admin-user/Admin.module.css';
@@ -19,10 +18,9 @@ interface State {
 }
 
 interface Props {
-   readonly products: Product[]
-   readonly articles: Article[]
+   readonly products: Product[];
+   readonly articles: Article[];
 }
-
 export class AdminPage extends Component<Props, State> {
 
    constructor(props) {
@@ -111,9 +109,6 @@ export class AdminPage extends Component<Props, State> {
    }
 }
 
-const mapStateToProps = ({ products, articles }) => ({
-   products,
-   articles
-})
+const mapStateToProps = ({ products, articles }) => ({ products, articles })
 
 export default connect(mapStateToProps)(AdminPage);

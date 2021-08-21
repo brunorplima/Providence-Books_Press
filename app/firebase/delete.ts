@@ -15,10 +15,7 @@ export const deleteAny = async (path: string, id: string) => {
 
 export const deleteProduct = async (id: string) => {
    try {
-      const docRef = await firestore.collection('products').where('_id', '==', id).get();
-      let firestoreId: string;
-      docRef.forEach(doc => firestoreId = doc.id);
-      return await firestore.doc(`products/${firestoreId}`).delete();
+      await firestore.doc(`products/${id}`).delete();
    }
    catch(error) {
       alert('Sorry, the following occurred: ' + error);

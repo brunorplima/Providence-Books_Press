@@ -30,7 +30,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
 
 
 
-   let listToRender: Product[] = list;
+   let listToRender: Product[] = list.sort((a, b) => a.name < b.name ? -1 : 1);
    if (search) {
       const regexp = new RegExp(search, 'i');
       listToRender = listToRender.filter(item => item.name.match(regexp))
