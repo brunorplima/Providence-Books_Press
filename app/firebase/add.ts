@@ -2,15 +2,15 @@ import { Review } from "../interfaces-objects/interfaces";
 import Product from "../interfaces-objects/Product";
 import { firestore } from "./firebase";
 
-export const addProduct = async (product: Product) => {
-   let docRef = null;
+export const addProductToFirestore = async (product: Product) => {
    try {
-      docRef = await firestore.collection('products').add(product);
+      await firestore.doc(`products/${product._id}`).set(product);
+      return firestore.doc(`products/${product._id}`)
    }
    catch (error) {
       window.alert('Sorry, the following error occurred: ' + error + '\nPlease try refreshing the page');
+      return null;
    }
-   return docRef;
 }
 
 export const addReview = async (review: Review, productId: string) => {
