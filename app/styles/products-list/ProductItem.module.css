@@ -65,8 +65,12 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   width: 60px;
    color: white;
+   width: fit-content;
+}
+
+.flag > div:first-child {
+   padding: 0 .3rem;
 }
 
 .defaultFlag {
