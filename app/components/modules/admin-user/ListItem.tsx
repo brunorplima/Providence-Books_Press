@@ -5,6 +5,7 @@ import Dialog from '../dialog/Dialog';
 import { CgDetailsMore } from 'react-icons/cg';
 import { Article } from '../../../interfaces-objects/interfaces';
 import Product from '../../../interfaces-objects/Product';
+import { deleteProduct } from '../../../firebase/delete';
 
 interface Props {
    readonly itemId: string;
@@ -44,7 +45,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
                   label: 'Delete',
                   secondaryStyle: true,
                   clickHandler: async () => {
-                     
+                     deleteProduct(itemId)
                      closeDialog();
                   }
                },
