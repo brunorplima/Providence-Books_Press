@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import AudioBook from '../../../interfaces-objects/AudioBook';
+import Book from '../../../interfaces-objects/Book';
+import EBook from '../../../interfaces-objects/EBook';
 import Product from '../../../interfaces-objects/Product';
 import Loading from '../loading/Loading';
 import ProductsForm from './ProductsForm';
@@ -72,7 +75,7 @@ const AdminProducts: React.FC<Props> = ({
                <ProductsForm
                   currentTab={currentTab}
                   tabs={tabs}
-                  product={productSelected}
+                  currentProduct={(productSelected as Book | EBook | AudioBook)}
                   setProductSelected={setProductSelected}
                />
          }
