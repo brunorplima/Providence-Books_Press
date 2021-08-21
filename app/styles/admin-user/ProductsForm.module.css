@@ -1,5 +1,28 @@
-.space {
-   height: 2rem;
+.errorsContainer {
+   margin-bottom: 1rem;
+}
+
+.errors {
+   max-width: 600px;
+   width: fit-content;
+   padding: .8rem;
+   background-color: rgba(255, 0, 0, 0.17);
+   color: rgb(120, 0, 0);
+   border: 1px solid rgb(120, 0, 0);
+   margin: 0 auto;
+}
+
+.errors > div {
+   display: flex;
+   align-items: center;
+}
+
+.errors > div:not(:last-child) {
+   margin-bottom: .4rem;
+}
+
+.errors > div > span {
+   margin-right: .6rem;
 }
 
 .buttonContainer {
