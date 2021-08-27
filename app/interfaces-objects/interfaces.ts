@@ -43,13 +43,15 @@ export interface Order {
    _id: string,
    _userId: string,
    dateTime: Date,
-   customerName: string,
+   dueDate?: Date,
+   customerName: { firstName: string, lastName: string },
    productsList: ProductItem[],
    shipping: number,
    orderSubtotal: number,
    gst: number,
    orderTotal: number,
-   paymentStatus: PaymentStatus
+   paymentStatus: PaymentStatus,
+   shippingAddress: Address
 }
 
 export interface Review {

@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React from 'react'
 import styles from '../../../styles/bookshelf/OrderSummary.module.css'
 
@@ -32,7 +33,7 @@ const OrderSummary: React.FC<Props> = ({ subtotal, shippingFee, gst }) => {
                <div>$ {gst.toFixed(2)}</div>
             </div>
 
-            <div className={`${styles.summaryBetween} ${styles.summaryTotal}`}>
+            <div className={clsx(styles.summaryBetween, styles.summaryTotal)}>
                <div>TOTAL</div>
                <div>$ {(subtotal + shippingFee + gst).toFixed(2)}</div>
             </div>
