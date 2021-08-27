@@ -99,7 +99,7 @@ const PayPalCheckout: React.FC<Props> = ({
          payee: { email_address: 'providencebooksales@outlook.com' },
          soft_descriptor: 'Books purchase',
          // Implement Item later on
-         items: getItems()
+         // items: getItems()
       }]
       return units
    }
