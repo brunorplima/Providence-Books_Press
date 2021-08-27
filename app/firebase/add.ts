@@ -1,4 +1,4 @@
-import { Review } from "../interfaces-objects/interfaces";
+import { Order, Review } from "../interfaces-objects/interfaces";
 import Product from "../interfaces-objects/Product";
 import { firestore } from "./firebase";
 
@@ -18,7 +18,17 @@ export const addReview = async (review: Review, productId: string) => {
       return await firestore.doc(`products/${productId}/reviews/${review._id}`).set(review)
    }
    catch (error) {
-      window.alert('Sorry, the following occurred: ' + error);
+      window.alert('Sorry, the following error occurred: ' + error);
       return null
+   }
+}
+
+export const createOrder = async (order: Order) => {
+   try {
+      await firestore.doc(`orders/${order._id}`).set(order)
+      return firestore.doc(`orders/${order._id}`)
+   }
+   catch (error) {
+      window.alert('Sorry, the following error occurred: ' + error)
    }
 }
