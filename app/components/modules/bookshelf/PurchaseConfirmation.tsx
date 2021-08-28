@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import { Order } from '../../../interfaces-objects/interfaces'
-import styles from '../../../styles/bookshelf/Bookshelf.module.css'
+import styles from '../../../styles/bookshelf/PurchaseConfirmation.module.css'
 
 interface Props {
    readonly order: Order
@@ -25,50 +25,50 @@ const PurchaseConfirmation: React.FC<Props> = ({ order }) => {
                <p>Your order was received! We are going to prepare it and ship it to you as soon as possible.</p>
             </div>
 
-            <table className={styles.confirmPurchaseDetails}>
-               <thead>
-                  <tr className={styles.headerRow}>
+            <div className={styles.confirmPurchaseDetails}>
+               <div>
+                  <div className={styles.headerRow}>
                      <div className={styles.headerData}><b>Qty</b></div>
                      <div className={clsx(styles.headerData, styles.headerDataMiddle)}><b>Title</b></div>
                      <div className={styles.headerData}><b>Subtotal</b></div>
-                  </tr>
-               </thead>
+                  </div>
+               </div>
 
-               <tbody>
+               <div>
                   {
                      getSortedProducts('asc').map((item, idx) => (
-                        <tr key={`${idx}-${item.name}`} className={styles.bodyRow}>
-                           <td className={styles.bodyData}>{item.quantity}</td>
-                           <td className={clsx(styles.bodyData, styles.bodyDataMiddle)}>{item.name}</td>
-                           <td className={styles.bodyData}>$ {item.subtotal.toFixed(2)}</td>
-                        </tr>
+                        <div key={`${idx}-${item.name}`} className={styles.bodyRow}>
+                           <div className={styles.bodyData}>{item.quantity}</div>
+                           <div className={clsx(styles.bodyData, styles.bodyDataMiddle)}>{item.name}</div>
+                           <div className={styles.bodyData}>$ {item.subtotal.toFixed(2)}</div>
+                        </div>
                      ))
                   }
-                  <tr className={styles.bodyRow}>
-                     <td className={styles.bodyData}></td>
-                     <td className={clsx(styles.bodyData, styles.bodyDataMiddle)}></td>
-                     <td className={styles.bodyData}><b>$ {order.orderSubtotal.toFixed(2)}</b></td>
-                  </tr>
-               </tbody>
+                  <div className={styles.bodyRow}>
+                     <div className={styles.bodyData}></div>
+                     <div className={clsx(styles.bodyData, styles.bodyDataMiddle)}></div>
+                     <div className={styles.bodyData}><b>$ {order.orderSubtotal.toFixed(2)}</b></div>
+                  </div>
+               </div>
 
-               <tfoot>
-                  <tr className={clsx(styles.headerRow, styles.footerRow)}>
-                     <td></td>
-                     <td>Shipping fee:</td>
-                     <td>$ {order.shipping.toFixed(2)}</td>
-                  </tr>
-                  <tr className={clsx(styles.headerRow, styles.footerRow)}>
-                     <td></td>
-                     <td>GST:</td>
-                     <td>$ {order.gst}</td>
-                  </tr>
-                  <tr className={clsx(styles.headerRow, styles.footerRow)}>
-                     <td></td>
-                     <td>Total:</td>
-                     <td>$ {order.orderTotal.toFixed(2)}</td>
-                  </tr>
-               </tfoot>
-            </table>
+               <div>
+                  <div className={clsx(styles.headerRow, styles.footerRow)}>
+                     <div></div>
+                     <div>Shipping fee:</div>
+                     <div>$ {order.shipping.toFixed(2)}</div>
+                  </div>
+                  <div className={clsx(styles.headerRow, styles.footerRow)}>
+                     <div></div>
+                     <div>GST:</div>
+                     <div>$ {order.gst}</div>
+                  </div>
+                  <div className={clsx(styles.headerRow, styles.footerRow)}>
+                     <div></div>
+                     <div>Total:</div>
+                     <div>$ {order.orderTotal.toFixed(2)}</div>
+                  </div>
+               </div>
+            </div>
          </div>
       </>
    )
