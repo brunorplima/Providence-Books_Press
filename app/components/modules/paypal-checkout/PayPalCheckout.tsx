@@ -72,7 +72,7 @@ const PayPalCheckout: React.FC<Props> = ({
                }
             }).render('#paypal-button-container')
             setTimer(null)
-         }, 2300);
+         }, 3200);
       }
       catch (error) {
          window.alert('Is the PayPal checkout button not showing? If so refresh the page.')
