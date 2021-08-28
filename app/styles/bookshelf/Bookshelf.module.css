@@ -26,12 +26,145 @@
    font-family: 'Nikkyou';
 }
 
+.checkoutSection {
+   margin-top: 2rem;
+   margin-left: 0;
+}
 
 
+
+.confirmPurchaseContainer {
+   max-width: 750px;
+}
+
+.confirmPurchaseMessage {
+   padding: 2rem;
+   background-color: var(--almostWhite);
+   color: var(--mainYellow);
+}
+
+.confirmPurchaseMessage p {
+   color: var(--mainGray);
+}
+
+.confirmPurchaseDetails {
+   margin: 0 auto;
+   margin-top: 2rem;
+}
+
+.confirmPurchaseDetails tbody {
+   transform: translateY(-3px);
+   display: block;
+   margin-bottom: 0.6rem;
+}
+
+.headerRow, .bodyRow {
+   display: grid;
+   grid-template-columns: 1fr 6fr 2fr;
+}
+
+.headerRow {
+   background-color: var(--mainYellow);
+}
+
+.bodyRow {
+   padding: .3rem 0;
+   color: var(--mainGray);
+   border-left: 2px solid var(--mainYellow);
+   border-right: 2px solid var(--mainYellow);
+}
+
+.bodyRow:last-child {
+   border-bottom: 2px solid var(--mainYellow);
+}
+
+.bodyRow:nth-child(even) {
+   background-color: var(--almostWhite);
+}
+
+.headerData, .bodyData {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   margin-left: .8rem;
+}
+
+.headerData {
+   font-size: 11pt;
+   color: white;
+   height: 60px;
+}
+
+.bodyData {
+   justify-content: flex-start;
+   margin-left: .8rem;
+}
+
+.bodyData:first-child {
+   justify-content: center;
+}
+
+.headerData:nth-child(1) {
+   border-top-left-radius: .3rem;
+   justify-content: center;
+}
+
+.headerData:nth-child(3) {
+   border-top-right-radius: .3rem;
+}
+
+.headerDataMiddle, .bodyDataMiddle {
+   justify-content: flex-start;
+   padding-left: .6rem;
+}
+
+.confirmPurchaseDetails tfoot > tr:last-child {
+   font-size: 14pt;
+   padding: .5rem 0;
+}
+
+.footerRow {
+   margin-top: .4rem;
+   padding: .3rem 0;
+   color: var(--almostWhite);
+   font-weight: bolder;
+}
+
+.footerRow td {
+   display: flex;
+}
+
+.footerRow td:nth-child(2) {
+   justify-content: flex-end;
+}
+
+.footerRow td:nth-child(3) {
+   justify-content: flex-start;
+   margin-left: .8rem;
+}
+
+
+
+@media screen and (min-width: 410px) {
+   .headerData {
+      font-size: 12pt;
+   }
+}
+
+@media screen and (min-width: 520px) {
+   .headerData {
+      font-size: 15pt;
+   }
+}
 
 @media screen and (min-width: 900px) {
    
    .listOutterContainer {
       flex-flow: row;
+   }
+
+   .checkoutSection {
+      margin-top: 0;
+      margin-left: 2rem;
    }
 }

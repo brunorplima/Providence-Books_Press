@@ -48,8 +48,9 @@ class ProductDetails extends Component<Props, State> {
    }
 
    componentDidUpdate() {
-      const { products } = this.props
+      const { products, id } = this.props
       const { product } = this.state
+      if (product._id !== id) this.setProduct()
       const relatedProducts = products.filter(prod => prod.category === product?.category && prod._id !== product?._id)
       if (JSON.stringify(relatedProducts) !== JSON.stringify(this.state.relatedProducts)) {
          this.setState({ relatedProducts })
