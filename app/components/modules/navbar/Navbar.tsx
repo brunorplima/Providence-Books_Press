@@ -69,7 +69,7 @@ const Navbar: React.FC<Props> = ({
       { label: 'BOOKSTORE', href: '/bookstore' },
       { label: 'ARTICLES', href: '/articles' },
       { label: 'ABOUT US', href: '/about-us' },
-      { label: 'OTHER PRODUCTS', href: '/other-products' },
+      // { label: 'OTHER PRODUCTS', href: '/other-products' },
    ]
 
    const hiddenStyle: CSSProperties = { left: '120%' }
