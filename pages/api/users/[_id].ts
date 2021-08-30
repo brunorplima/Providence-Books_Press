@@ -4,7 +4,7 @@ import usersJSON from './users.json';
 
 export default function (req:NextApiRequest, res: NextApiResponse) {
    const { _id } = req.query;
-   const users: User[] = usersJSON.map(u => {
+   const users: any[] = usersJSON.map(u => {
       return {
          ...u,
          dateOfBirth: new Date(u.dateOfBirth),
