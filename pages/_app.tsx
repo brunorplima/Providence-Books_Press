@@ -11,6 +11,7 @@ import Product from '../app/interfaces-objects/Product';
 import { productsFetchAction } from '../app/redux/actions/productsActions';
 import { Article } from '../app/interfaces-objects/interfaces';
 import { articlesFetchAction } from '../app/redux/actions/articlesActions';
+import AuthProvider from '../app/components/contexts/AuthProvider';
 
 function MyApp({ Component, pageProps }) {
 
@@ -53,11 +54,13 @@ function MyApp({ Component, pageProps }) {
 
    return (
       <Provider store={store}>
-         <PersistGate persistor={persistor}>
-            <Layout>
-               <Component {...pageProps} />
-            </Layout>
-         </PersistGate>
+         <AuthProvider>
+            <PersistGate persistor={persistor}>
+               <Layout>
+                  <Component {...pageProps} />
+               </Layout>
+            </PersistGate>
+         </AuthProvider>
       </Provider>
    )
 }
