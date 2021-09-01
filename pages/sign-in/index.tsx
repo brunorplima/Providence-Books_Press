@@ -1,37 +1,66 @@
+import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
+import { useAuth } from '../../app/components/contexts/AuthProvider';
 import SignIn from '../../app/components/modules/sign-in/SignIn';
-import createLoadingAction from '../../app/redux/actions/loadingAction';
-import { store } from '../../app/redux/store/store';
+import firebase from '../../app/firebase/firebase'
+import { User } from '../../app/interfaces-objects/interfaces';
 
 interface State {
    isSignIn: boolean;
-   username: string;
+   email: string;
    password: string;
    passwordConfirm: string;
+   firstName: string;
+   lastName: string;
 }
 
-export class index extends Component<any, State> {
+interface Props {
+   readonly router: NextRouter,
+   readonly currentUser: User
+}
+
+const SigninPageContainer: React.FC = () => {
+   const router = useRouter()
+   const { providenceUser: currentUser } = useAuth()
+
+   return <SigninPage {...{ router, currentUser }} />
+}
+
+export class SigninPage extends Component<Props, State> {
 
    constructor(props) {
       super(props);
 
       this.state = {
          isSignIn: true,
-         username: '',
+         email: '',
          password: '',
-         passwordConfirm: ''
+         passwordConfirm: '',
+         firstName: '',
+         lastName: '',
       }
 
-      this.setUsername = this.setUsername.bind(this);
+      this.setEmail = this.setEmail.bind(this);
       this.setPassword = this.setPassword.bind(this);
       this.setPasswordConfirm = this.setPasswordConfirm.bind(this);
+      this.setFirstName = this.setFirstName.bind(this);
+      this.setLastName = this.setLastName.bind(this);
       this.signIn = this.signIn.bind(this);
       this.signUp = this.signUp.bind(this);
    }
 
+   componentDidMount() {
+      const { router, currentUser } = this.props
+      if (currentUser) currentUser.role === 'user' ? router.replace('/account') : router.replace('/admin')
+   }
 
-   setUsername(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ username: e.target.value });
+   async componentDidUpdate() {
+      const { router, currentUser } = this.props
+      if (currentUser) currentUser.role === 'user' ? router.replace('/account') : router.replace('/admin')
+   }
+
+   setEmail(e: React.ChangeEvent<HTMLInputElement>) {
+      this.setState({ email: e.target.value });
    }
 
    setPassword(e: React.ChangeEvent<HTMLInputElement>) {
@@ -40,6 +69,14 @@ export class index extends Component<any, State> {
 
    setPasswordConfirm(e: React.ChangeEvent<HTMLInputElement>) {
       this.setState({ passwordConfirm: e.target.value });
+   }
+
+   setFirstName(e: React.ChangeEvent<HTMLInputElement>) {
+      this.setState({ firstName: e.target.value });
+   }
+
+   setLastName(e: React.ChangeEvent<HTMLInputElement>) {
+      this.setState({ lastName: e.target.value });
    }
 
    signIn(e: React.SyntheticEvent) {
@@ -62,21 +99,14 @@ export class index extends Component<any, State> {
 
 
    render() {
-      const {
-         isSignIn,
-         username,
-         password,
-         passwordConfirm
-      } = this.state;
       return (
          <SignIn
-            isSignIn={isSignIn}
-            username={username}
-            setUsername={this.setUsername}
-            password={password}
+            {...this.state}
+            setEmail={this.setEmail}
             setPassword={this.setPassword}
-            passwordConfirm={passwordConfirm}
             setPasswordConfirm={this.setPasswordConfirm}
+            setFirstName={this.setFirstName}
+            setLastName={this.setLastName}
             signIn={this.signIn}
             signUp={this.signUp}
          />
@@ -84,4 +114,4 @@ export class index extends Component<any, State> {
    }
 }
 
-export default index
+export default SigninPageContainer
