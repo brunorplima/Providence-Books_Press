@@ -1,3 +1,5 @@
+import { IconType } from "react-icons"
+
 /** Types */
 type Address = {
    main: string,
@@ -34,9 +36,11 @@ export interface User {
    primaryContactNumber?: string,
    secondaryContactNumber?: string,
    gender?: Gender,
-   dateOfBirth: Date,
+   dateOfBirth?: Date,
    since: Date,
-   isCustomer: boolean
+   isCustomer: boolean,
+   photoURL?: string,
+   role: 'master admin' | 'admin' | 'user'
 }
 
 export interface Order {
@@ -139,4 +143,9 @@ export type BookType = 'Book' | 'E-book' | 'Audio book'
 export interface ProductLinks {
    description: string,
    relProductId: string
+}
+
+export interface SectionType {
+   name: string
+   Icon: IconType
 }
