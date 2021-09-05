@@ -133,7 +133,7 @@ const Navbar: React.FC<Props> = ({
                />
 
                <NavbarItem
-                  label={firebaseUser ? 'ACCOUNT' : 'SIGN IN'}
+                  label={!firebaseUser ? 'SIGN IN' : firebaseUser.emailVerified ? 'ACCOUNT' : 'SIGN IN'}
                   href='/sign-in'
                   primary={primary}
                   menuHidden={menuHidden}
