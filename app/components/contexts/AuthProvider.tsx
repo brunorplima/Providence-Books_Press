@@ -6,9 +6,12 @@ import { User } from '../../interfaces-objects/interfaces'
 interface AuthContextType {
    readonly firebaseUser: firebase.User
    readonly providenceUser: User
-   readonly signup: (email: string, password: string) => Promise<firebase.auth.UserCredential>
+   readonly signup: (email: string, password: string, actionCodeSettings?: firebase.auth.ActionCodeSettings) => Promise<firebase.User>
    readonly signin: (email: string, password: string) => Promise<firebase.auth.UserCredential>
    readonly signout: () => Promise<void>
+   readonly resetPassword: (email: string) => Promise<void>
+   readonly updateEmail: (email: string) => Promise<void>
+   readonly updatePassword: (password: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,7 +19,10 @@ const AuthContext = createContext<AuthContextType>({
    providenceUser: null,
    signup: null,
    signin: null,
-   signout: null
+   signout: null,
+   resetPassword: null,
+   updateEmail: null,
+   updatePassword: null,
 })
 
 export const useAuth = () => {
@@ -43,8 +49,16 @@ const AuthProvider = ({ children }) => {
    }, [])
 
 
-   function signup(email: string, password: string) {
-      return auth.createUserWithEmailAndPassword(email, password)
+   async function signup(email: string, password: string, actionCodeSettings?: firebase.auth.ActionCodeSettings) {
+      try {
+         const { user } = await auth.createUserWithEmailAndPassword(email, password)
+         if (actionCodeSettings) await user.sendEmailVerification(actionCodeSettings)
+         else await user.sendEmailVerification()
+         return user
+      } catch (error) {
+         console.error(error)
+         return null
+      }
    }
 
    function signin(email: string, password: string) {
@@ -55,13 +69,27 @@ const AuthProvider = ({ children }) => {
       return auth.signOut()
    }
 
+   function resetPassword(email: string) {
+      return auth.sendPasswordResetEmail(email)
+   }
+
+   function updateEmail(email: string) {
+      return firebaseUser.updateEmail(email)
+   }
+
+   function updatePassword(password: string) {
+      return firebaseUser.updatePassword(password)
+   }
 
    const initialValue: AuthContextType = {
       firebaseUser,
       providenceUser,
       signup,
       signin,
-      signout
+      signout,
+      resetPassword,
+      updateEmail,
+      updatePassword,
    }
 
    return <AuthContext.Provider value={initialValue}>{children}</AuthContext.Provider>
