@@ -15,15 +15,25 @@ interface State {
 }
 
 interface Props {
-   readonly router: NextRouter,
-   readonly currentUser: User
+   readonly router: NextRouter
+   readonly firebaseUser: firebase.User
+   readonly providenceUser: User
 }
 
 const SigninPageContainer: React.FC = () => {
    const router = useRouter()
-   const { providenceUser: currentUser } = useAuth()
+   const { providenceUser, firebaseUser } = useAuth()
 
-   return <SigninPage {...{ router, currentUser }} />
+   return <SigninPage {...{ router, providenceUser, firebaseUser }} />
+}
+
+const initialStateValue = {
+   isSignIn: true,
+   email: '',
+   password: '',
+   passwordConfirm: '',
+   firstName: '',
+   lastName: '',
 }
 
 export class SigninPage extends Component<Props, State> {
@@ -31,70 +41,50 @@ export class SigninPage extends Component<Props, State> {
    constructor(props) {
       super(props);
 
-      this.state = {
-         isSignIn: true,
-         email: '',
-         password: '',
-         passwordConfirm: '',
-         firstName: '',
-         lastName: '',
-      }
+      this.state = initialStateValue
 
       this.setEmail = this.setEmail.bind(this);
       this.setPassword = this.setPassword.bind(this);
       this.setPasswordConfirm = this.setPasswordConfirm.bind(this);
       this.setFirstName = this.setFirstName.bind(this);
       this.setLastName = this.setLastName.bind(this);
+      this.resetValues = this.resetValues.bind(this);
       this.signIn = this.signIn.bind(this);
       this.signUp = this.signUp.bind(this);
    }
 
-   componentDidMount() {
-      const { router, currentUser } = this.props
-      if (currentUser) currentUser.role === 'user' ? router.replace('/account') : router.replace('/admin')
+   setEmail(email: string) {
+      this.setState({ email });
    }
 
-   async componentDidUpdate() {
-      const { router, currentUser } = this.props
-      if (currentUser) currentUser.role === 'user' ? router.replace('/account') : router.replace('/admin')
+   setPassword(password: string) {
+      this.setState({ password });
    }
 
-   setEmail(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ email: e.target.value });
+   setPasswordConfirm(passwordConfirm: string) {
+      this.setState({ passwordConfirm });
    }
 
-   setPassword(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ password: e.target.value });
+   setFirstName(firstName: string) {
+      this.setState({ firstName });
    }
 
-   setPasswordConfirm(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ passwordConfirm: e.target.value });
+   setLastName(lastName) {
+      this.setState({ lastName });
    }
 
-   setFirstName(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ firstName: e.target.value });
+   resetValues() {
+      this.setState(initialStateValue)
    }
 
-   setLastName(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ lastName: e.target.value });
-   }
-
-   signIn(e: React.SyntheticEvent) {
-      e.preventDefault();
+   signIn() {
       const { isSignIn } = this.state;
-      if (!isSignIn) {
-         this.setState({ isSignIn: true })
-         return;
-      }
+      if (!isSignIn) this.setState({ isSignIn: true })
    }
 
-   signUp(e: React.SyntheticEvent) {
-      e.preventDefault();
+   signUp() {
       const { isSignIn } = this.state;
-      if (isSignIn) {
-         this.setState({ isSignIn: false })
-         return;
-      }
+      if (isSignIn) this.setState({ isSignIn: false })
    }
 
 
@@ -107,6 +97,7 @@ export class SigninPage extends Component<Props, State> {
             setPasswordConfirm={this.setPasswordConfirm}
             setFirstName={this.setFirstName}
             setLastName={this.setLastName}
+            resetFormValues={this.resetValues}
             signIn={this.signIn}
             signUp={this.signUp}
          />
