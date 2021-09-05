@@ -114,6 +114,7 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
             showModal={showReviewsModal}
             backgroundCloseModal={backgroundCloseModal}
             closeModal={() => setShowReviewsModal(false)}
+            addYourVoice={addYourVoice}
          />
 
          <AddReviewModal

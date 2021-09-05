@@ -12,9 +12,10 @@ interface Props {
    readonly showModal: boolean;
    readonly backgroundCloseModal: (e?: React.SyntheticEvent<HTMLDivElement>) => void;
    readonly closeModal: () => void;
+   readonly addYourVoice: () => void;
 }
 
-const ReviewsModal: React.FC<Props> = ({ reviews, showModal, backgroundCloseModal, closeModal }) => {
+const ReviewsModal: React.FC<Props> = ({ reviews, showModal, backgroundCloseModal, closeModal, addYourVoice }) => {
    if (!showModal) return null;
 
    function getAverageScore() {
@@ -60,7 +61,7 @@ const ReviewsModal: React.FC<Props> = ({ reviews, showModal, backgroundCloseModa
             <div className={styles.buttons}>
                <Button
                   label='ADD YOUR VOICE'
-                  clickHandler={() => { }}
+                  clickHandler={addYourVoice}
                />
                <Button
                   label='CLOSE REVIEWS'
@@ -70,7 +71,6 @@ const ReviewsModal: React.FC<Props> = ({ reviews, showModal, backgroundCloseModa
          </div>
       </div>,
       document.getElementById('dialog-modal')
-
    )
 }
 
