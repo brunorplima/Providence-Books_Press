@@ -17,6 +17,7 @@ import AudioBook from '../../app/interfaces-objects/AudioBook';
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
 import { connect } from 'react-redux';
 import { fetchDocs } from '../../app/firebase/fetch';
+import firebase, { firestore } from '../../app/firebase/firebase';
 
 interface Props {
    readonly products: Product[];
@@ -28,6 +29,7 @@ interface State {
    readonly selectedImage: number;
    readonly relatedProducts: Product[];
    readonly product: Product;
+   readonly parsedReviews: Review[]
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -37,7 +39,8 @@ class ProductDetails extends Component<Props, State> {
       this.state = {
          selectedImage: 0,
          relatedProducts: [],
-         product: null
+         product: null,
+         parsedReviews: []
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
@@ -45,6 +48,7 @@ class ProductDetails extends Component<Props, State> {
 
    componentDidMount() {
       this.setProduct()
+      this.parseReviews()
    }
 
    componentDidUpdate() {
@@ -61,6 +65,12 @@ class ProductDetails extends Component<Props, State> {
       const { products, id } = this.props
       const product: Product = products.find(product => product._id === id)
       this.setState({ product })
+   }
+
+   parseReviews() {
+      const { reviews } = this.props;
+      const parsedReviews = reviews.map(review => ({ ...review, dateTime: new Date(review.dateTime) }));
+      this.setState({ parsedReviews });
    }
 
    getSortedRelatedProductsList(): Product[] {
@@ -92,9 +102,7 @@ class ProductDetails extends Component<Props, State> {
    }
 
    render() {
-
-      const { reviews } = this.props;
-      const { product, selectedImage, relatedProducts } = this.state;
+      const { product, selectedImage, relatedProducts, parsedReviews } = this.state;
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -115,7 +123,7 @@ class ProductDetails extends Component<Props, State> {
                            <ProductDetailsText product={product} />
                            <ProductDetailsVisual
                               product={product}
-                              reviews={reviews.length && reviews}
+                              reviews={parsedReviews.length && parsedReviews}
                               selectedImage={selectedImage}
                               setSelectedImage={this.setSelectedImage}
                            />
@@ -127,7 +135,7 @@ class ProductDetails extends Component<Props, State> {
 
                         <Frame className={styles.border} />
 
-                        <UserReviews reviews={reviews} productId={product?._id} />
+                        <UserReviews reviews={parsedReviews} productId={product?._id} />
 
                         {
                            relatedProducts?.length > 0 &&
@@ -145,12 +153,19 @@ class ProductDetails extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   const reviews = await fetchDocs<Review>(`products/${_id}/reviews`)
+   const reviews = await fetchDocs<Review & { dateTime: firebase.firestore.Timestamp }>(`products/${_id}/reviews`)
+   const doc = await firestore.collection('products').doc(_id as string).get()
+
+   if (!doc.exists) {
+      return {
+         notFound: true
+      }
+   }
 
    return {
       props: {
          id: _id,
-         reviews
+         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toDate().toString() })) || []
       }
    }
 }

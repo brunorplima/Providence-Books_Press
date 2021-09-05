@@ -7,6 +7,11 @@ import Button from '../../elements/button/Button';
 import ReviewsModal from './ReviewsModal';
 import AddReviewModal from './AddReviewModal';
 import { addReview } from '../../../firebase/add';
+import { useAuth } from '../../contexts/AuthProvider';
+import Dialog from '../dialog/Dialog';
+import { ADD_REVIEW_COMMENT_UNLOGGED, ADD_REVIEW_REPEATED } from '../dialog/dialogNames';
+import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
+import { useRouter } from 'next/router';
 
 interface Props {
    readonly reviews: Review[];
@@ -19,6 +24,8 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
    const [score, setScore] = useState(0);
    const [heading, setHeading] = useState('');
    const [textBody, setTextBody] = useState('');
+   const { providenceUser } = useAuth();
+   const router = useRouter();
    const shortReviewsList = reviews.slice(0, 3);
 
    function backgroundCloseModal(e?: React.SyntheticEvent<HTMLDivElement>) {
@@ -28,18 +35,35 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
       }
    }
 
-   function postReview() {
+   async function postReview() {
       const review: Review = {
-         _id: '98142',
-         _userId: '742834',
-         dateTime: new Date(Date.now()).toString(),
+         _id: Date.now().toString(),
+         _userId: providenceUser._id,
+         dateTime: new Date(Date.now()),
          text: textBody,
-         userName: 'Mark Junsten',
+         userName: `${providenceUser.firstName} ${providenceUser.lastName}`,
          _productId: productId,
-         score,
-         heading
+         score
       }
-      addReview(review, productId)
+      if (heading) review.heading = heading;
+      const reviewRef = await addReview(review, productId)
+      if (reviewRef) {
+         router.reload()
+      }
+   }
+
+   function addYourVoice() {
+      if (!providenceUser) {
+         openDialog(ADD_REVIEW_COMMENT_UNLOGGED)
+         return
+      }
+      for (const review of reviews) {
+         if (review._userId === providenceUser._id) {
+            openDialog(ADD_REVIEW_REPEATED)
+            return
+         }
+      }
+      setShowAddReviewModal(true)
    }
 
    return (
@@ -70,14 +94,14 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
                   <Button
                      label='SEE ALL REVIEWS'
                      clickHandler={() => setShowReviewsModal(true)}
-                     style={{width: 145}}
+                     style={{ width: 145 }}
                   />
                </div>
             }
             <Button
                label='ADD YOUR VOICE'
-               clickHandler={() => setShowAddReviewModal(true)}
-               style={{width: 145}}
+               clickHandler={() => addYourVoice()}
+               style={{ width: 145 }}
             />
          </div>
 
@@ -103,6 +127,34 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
             setHeading={setHeading}
             textBody={textBody}
             setTextBody={setTextBody}
+         />
+
+         <Dialog
+            name={ADD_REVIEW_COMMENT_UNLOGGED}
+            message='You must have a Providence account and be logged in to post reviews!'
+            buttonsOptions={[
+               {
+                  label: 'CLOSE',
+                  clickHandler: closeDialog,
+                  secondaryStyle: true
+               }
+            ]}
+         />
+
+         <Dialog
+            name={ADD_REVIEW_REPEATED}
+            message='You have already left a review for this product. You can only edit or delete your current review'
+            buttonsOptions={[
+               {
+                  label: 'EDIT IT',
+                  clickHandler: () => router.push('/account'),
+                  secondaryStyle: true
+               },
+               {
+                  label: 'CLOSE',
+                  clickHandler: closeDialog
+               }
+            ]}
          />
       </div>
    )

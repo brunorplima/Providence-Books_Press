@@ -92,7 +92,7 @@ const AddReviewModal: React.FC<Props> = ({
                   placeholder='Review title'
                   value={heading}
                   setValue={setHeading}
-                  size='105%'
+                  size='100%'
                />
 
                <FormTextArea
