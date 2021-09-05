@@ -1,4 +1,4 @@
-import { Order, Review, User } from "../interfaces-objects/interfaces";
+import { Comment, Order, Review, User } from "../interfaces-objects/interfaces";
 import Product from "../interfaces-objects/Product";
 import firebase, { firestore } from "./firebase";
 
@@ -15,7 +15,8 @@ export const addProductToFirestore = async (product: Product) => {
 
 export const addReview = async (review: Review, productId: string) => {
    try {
-      return await firestore.doc(`products/${productId}/reviews/${review._id}`).set(review)
+      await firestore.doc(`products/${productId}/reviews/${review._id}`).set(review)
+      return firestore.doc(`products/${productId}/reviews/${review._id}`)
    }
    catch (error) {
       handleError(error)
@@ -37,6 +38,16 @@ export const createUser = async (user: User) => {
    try {
       await firestore.doc(`users/${user._id}`).set(user)
       return firestore.doc(`users/${user._id}`)
+   }
+   catch (error) {
+      handleError(error)
+   }
+}
+
+export const addComment = async (comment: Comment) => {
+   try {
+      await firestore.doc(`articles/${comment._articleId}/comments/${comment._id}`).set(comment)
+      return firestore.doc(`articles/${comment._articleId}/comments/${comment._id}`)
    }
    catch (error) {
       handleError(error)
