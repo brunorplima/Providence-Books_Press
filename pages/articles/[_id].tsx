@@ -8,29 +8,26 @@ import CommentsContainer from '../../app/components/modules/articles/CommentsCon
 import { fetchDocs, fetchRefs, Where } from '../../app/firebase/fetch';
 import { Article, Comment } from '../../app/interfaces-objects/interfaces';
 import styles from '../../app/styles/articles/ArticlePage.module.css';
+import firebase from '../../app/firebase/firebase';
 
 interface Props {
    readonly article: Article;
    readonly comments: Comment[];
 }
 
-class ArticlePage extends React.Component<Props> {
+const ArticlePage: React.FC<Props> = ({ article, comments }) => {
 
-   render() {
-      const { article, comments } = this.props;
-
-      return (
-         <div className={styles.container}>
-            <div style={{ padding: '.8rem' }}>
-               <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
-            </div>
-            <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
-            <ArticleBodyText body={article.body} />
-            <ArticleAuthorInformation author={article.author} />
-            <CommentsContainer comments={comments}/>
+   return (
+      <div className={styles.container}>
+         <div style={{ padding: '.8rem' }}>
+            <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
          </div>
-      )
-   }
+         <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
+         <ArticleBodyText body={article.body} />
+         <ArticleAuthorInformation author={article.author} />
+         <CommentsContainer comments={comments.map(c => ({ ...c, dateTime: new Date(c.dateTime) }))} articleId={article._id} />
+      </div>
+   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -48,12 +45,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
    }
    const article = articleRef.data()
-   const comments = await fetchDocs<Comment>(`articles/${articleRef.id}/comments`)
-   
+   const comments = await fetchDocs<Comment & { dateTime: firebase.firestore.Timestamp }>(`articles/${articleRef.id}/comments`)
    return {
       props: {
          article,
-         comments
+         comments: comments.map(comm => ({ ...comm, dateTime: comm.dateTime.toDate().toString() }))
       }
    }
 }

@@ -1,36 +1,44 @@
+import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
-import { Comment } from '../../../interfaces-objects/interfaces';
+import { addComment } from '../../../firebase/add';
+import { Comment, User } from '../../../interfaces-objects/interfaces';
+import { openDialog } from '../../../redux/actions/openedDialogNameAction';
 import styles from '../../../styles/articles/Comments.module.css';
 import useScreenWidth from '../../../util/useScreenWidth';
+import { useAuth } from '../../contexts/AuthProvider';
 import CirclesUI from '../../elements/circles-ui/CirclesUI';
+import { ADD_REVIEW_COMMENT_UNLOGGED } from '../dialog/dialogNames';
 import CommentBox from './CommentBox';
 import CommentsForm from './CommentsForm';
 import CommentsHeader from './CommentsHeader';
 
 interface WrapperProps {
    readonly comments: Comment[];
+   readonly articleId: string;
 }
 
-const CommentsContainerWrapper: React.FC<WrapperProps> = ({ comments }) => {
+const CommentsContainerWrapper: React.FC<WrapperProps> = ({ comments, articleId }) => {
    const screenWidth = useScreenWidth();
+   const { providenceUser } = useAuth()
+   const router = useRouter()
    return (
       <CommentsContainer
-         comments={comments}
-         screenWidth={screenWidth}
+         {...{ screenWidth, providenceUser, comments, articleId, router }}
       />
    )
 }
 
 interface Props {
-   readonly comments: Comment[];
-   readonly screenWidth?: number;
+   readonly screenWidth: number;
+   readonly providenceUser: User;
+   readonly router: NextRouter
 }
 
 interface State {
    text: string;
 }
 
-class CommentsContainer extends Component<Props, State> {
+class CommentsContainer extends Component<Props & WrapperProps, State> {
 
    constructor(props) {
       super(props);
@@ -46,8 +54,24 @@ class CommentsContainer extends Component<Props, State> {
       this.setState({ text: e.target.value });
    }
 
-   submit() {
-
+   async submit() {
+      const { providenceUser, articleId, router } = this.props
+      if (!providenceUser) {
+         openDialog(ADD_REVIEW_COMMENT_UNLOGGED)
+         return
+      }
+      const comment: Comment = {
+         _id: Date.now().toString(),
+         _userId: providenceUser._id,
+         _articleId: articleId,
+         dateTime: new Date(Date.now()),
+         userName: `${providenceUser.firstName} ${providenceUser.lastName}`,
+         body: this.state.text
+      }
+      const commRef = await addComment(comment)
+      if (commRef) {
+         router.reload()
+      }
    }
 
    sortComments(comments: Comment[]) {
@@ -57,7 +81,7 @@ class CommentsContainer extends Component<Props, State> {
    }
 
    render() {
-      const { comments, screenWidth } = this.props;
+      const { comments, screenWidth, providenceUser } = this.props;
       const { text } = this.state;
       const sortedComments = this.sortComments(comments);
       const isSmallScreen = screenWidth <= 500;
@@ -68,6 +92,7 @@ class CommentsContainer extends Component<Props, State> {
                text={text}
                setText={this.setText}
                submit={this.submit}
+               providenceUser={providenceUser}
             />
             <div style={{
                display: 'grid',
