@@ -74,7 +74,7 @@ export interface Comment {
    _userId: string,
    _articleId: string,
    userName: string,
-   dateTime: Date,
+   dateTime: Date | string,
    body: string
 }
 
