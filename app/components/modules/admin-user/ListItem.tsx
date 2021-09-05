@@ -42,7 +42,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
             message={`Do you want to permanently delete this ${itemType} from the database?`}
             buttonsOptions={[
                {
-                  label: 'Delete',
+                  label: 'DELETE',
                   secondaryStyle: true,
                   clickHandler: async () => {
                      deleteProduct(itemId)
@@ -50,7 +50,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
                   }
                },
                {
-                  label: 'Cancel',
+                  label: 'CANCEL',
                   secondaryStyle: false,
                   clickHandler: () => closeDialog()
                }

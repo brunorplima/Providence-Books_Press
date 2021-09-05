@@ -38,7 +38,7 @@ const CommentsForm: React.FC<Props> = ({ text, setText, submit, providenceUser }
             message='You must have a Providence account and be logged in to post comments!'
             buttonsOptions={[
                {
-                  label: 'Close',
+                  label: 'CLOSE',
                   secondaryStyle: true,
                   clickHandler: closeDialog
                }

@@ -149,7 +149,7 @@ const SignIn: React.FC<Props> = ({
             name={SIGN_UP_VERIFY_EMAIL}
             buttonsOptions={[
                {
-                  label: 'Close',
+                  label: 'CLOSE',
                   clickHandler: () => closeDialog(),
                }
             ]}
@@ -159,7 +159,7 @@ const SignIn: React.FC<Props> = ({
             name={SIGN_IN_EMAIL_NOT_VERIFIED}
             buttonsOptions={[
                {
-                  label: 'Close',
+                  label: 'CLOSE',
                   clickHandler: () => closeDialog(),
                }
             ]}
