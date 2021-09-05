@@ -13,7 +13,6 @@ import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
    readonly articles: Article[];
-   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -152,16 +151,6 @@ export class ArticlesPage extends Component<Props, State> {
 
          </div>
       )
-   }
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-   const docRef = await fetchDoc<{ articlesSyncExpireHours: number }>('settings/general')
-   const syncExpireHours = docRef.articlesSyncExpireHours
-   return {
-      props: {
-         syncExpireHours
-      }
    }
 }
 

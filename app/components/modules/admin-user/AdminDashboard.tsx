@@ -1,11 +1,16 @@
 import React from 'react';
+import { User } from '../../../interfaces-objects/interfaces';
 import Box from './Box';
 import UserGreeting from './UserGreeting';
 
-const AdminDashboard = () => {
+interface Props {
+   readonly admin: User
+}
+
+const AdminDashboard: React.FC<Props> = ({ admin }) => {
    return (
       <>
-         <UserGreeting userName={'Andrew'} />
+         <UserGreeting userName={admin?.firstName} />
 
          <Box
             title={'Stats'}

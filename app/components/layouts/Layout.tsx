@@ -23,7 +23,7 @@ const Layout: React.FC = ({ children }) => {
          {children}
          <ClosedStoreMessage />
          {
-            !['/admin', '/user'].includes(router.pathname) &&
+            !['/admin', '/user', '/account'].includes(router.pathname) &&
             <Footer />
          }
       </div>

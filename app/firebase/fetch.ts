@@ -12,7 +12,7 @@ export type Where = {
    value: any
 }
 
-export const fetchDocs = async <T>(path: string, where?: Where) => {
+export const fetchDocs = async <T>(path: string, where?: Where) : Promise<T[]> => {
    try {
       let ref: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
       if (where) {
@@ -48,7 +48,7 @@ export const fetchRefs = async(path: string, where?: Where) => {
    }
 }
 
-export const fetchDocsOrderByLimit = async <T>(path: string, orderBy: OrderBy, limit: number) => {
+export const fetchDocsOrderByLimit = async <T>(path: string, orderBy: OrderBy, limit: number): Promise<T[]> => {
    const validation = path.split('/').filter(char => char === '/')
    if (validation.length % 2 !== 0) throw new Error(`Expected  number of slashes in the doc path. Received ${validation.length} slashes`)
    try {
@@ -64,7 +64,7 @@ export const fetchDocsOrderByLimit = async <T>(path: string, orderBy: OrderBy, l
    }
 }
 
-export const fetchDoc = async <T = {}>(path: string) => {
+export const fetchDoc = async <T = {}>(path: string): Promise<T> => {
    const validation = path.split('').filter(char => char === '/')
    if (validation.length % 2 === 0) throw new Error(`Expected an odd number of slashes in the doc path. Received ${validation.length} slashes`)
    try {

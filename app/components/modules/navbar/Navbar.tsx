@@ -11,6 +11,7 @@ import { store } from '../../../redux/store/store';
 import createLoadingAction from '../../../redux/actions/loadingAction';
 import useScreenWidth from '../../../util/useScreenWidth';
 import useScreenHeight from '../../../util/useScreenHeight';
+import { useAuth } from '../../contexts/AuthProvider';
 
 interface Props {
    readonly searchField: string;
@@ -36,6 +37,7 @@ const Navbar: React.FC<Props> = ({
    const router = useRouter();
    const screenWidth = useScreenWidth();
    const screenHeight = useScreenHeight();
+   const { firebaseUser } = useAuth()
    const [isLandscape, setIsLandscape] = useState<boolean>(false);
 
    useEffect(() => {
@@ -69,7 +71,7 @@ const Navbar: React.FC<Props> = ({
       { label: 'BOOKSTORE', href: '/bookstore' },
       { label: 'ARTICLES', href: '/articles' },
       { label: 'ABOUT US', href: '/about-us' },
-      { label: 'OTHER PRODUCTS', href: '/other-products' },
+      // { label: 'OTHER PRODUCTS', href: '/other-products' },
    ]
 
    const hiddenStyle: CSSProperties = { left: '120%' }
@@ -131,7 +133,7 @@ const Navbar: React.FC<Props> = ({
                />
 
                <NavbarItem
-                  label='SIGN IN'
+                  label={!firebaseUser ? 'SIGN IN' : firebaseUser.emailVerified ? 'ACCOUNT' : 'SIGN IN'}
                   href='/sign-in'
                   primary={primary}
                   menuHidden={menuHidden}
