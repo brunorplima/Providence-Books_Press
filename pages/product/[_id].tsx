@@ -29,7 +29,6 @@ interface State {
    readonly selectedImage: number;
    readonly relatedProducts: Product[];
    readonly product: Product;
-   readonly parsedReviews: Review[]
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -40,7 +39,6 @@ class ProductDetails extends Component<Props, State> {
          selectedImage: 0,
          relatedProducts: [],
          product: null,
-         parsedReviews: []
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
@@ -48,7 +46,6 @@ class ProductDetails extends Component<Props, State> {
 
    componentDidMount() {
       this.setProduct()
-      this.parseReviews()
    }
 
    componentDidUpdate() {
@@ -65,12 +62,6 @@ class ProductDetails extends Component<Props, State> {
       const { products, id } = this.props
       const product: Product = products.find(product => product._id === id)
       this.setState({ product })
-   }
-
-   parseReviews() {
-      const { reviews } = this.props;
-      const parsedReviews = reviews.map(review => ({ ...review, dateTime: new Date(review.dateTime) }));
-      this.setState({ parsedReviews });
    }
 
    getSortedRelatedProductsList(): Product[] {
@@ -102,7 +93,8 @@ class ProductDetails extends Component<Props, State> {
    }
 
    render() {
-      const { product, selectedImage, relatedProducts, parsedReviews } = this.state;
+      const { product, selectedImage, relatedProducts } = this.state;
+      const { reviews } = this.props
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -123,7 +115,7 @@ class ProductDetails extends Component<Props, State> {
                            <ProductDetailsText product={product} />
                            <ProductDetailsVisual
                               product={product}
-                              reviews={parsedReviews.length && parsedReviews}
+                              reviews={reviews.length && reviews}
                               selectedImage={selectedImage}
                               setSelectedImage={this.setSelectedImage}
                            />
@@ -135,7 +127,7 @@ class ProductDetails extends Component<Props, State> {
 
                         <Frame className={styles.border} />
 
-                        <UserReviews reviews={parsedReviews} productId={product?._id} />
+                        <UserReviews reviews={reviews} productId={product?._id} />
 
                         {
                            relatedProducts?.length > 0 &&
@@ -165,7 +157,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    return {
       props: {
          id: _id,
-         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toDate().toString() })) || []
+         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toString() })) || []
       }
    }
 }
