@@ -20,7 +20,8 @@ const SearchResultsHeader: React.FC<Props> = ({ view, resultSelectors, search, s
       <div className={styles.container}>
          <div className={styles.search}>
             <div><BiSearchAlt/></div>
-            <div>{resultSelectors[0].amount} results found for <strong>"{search}"</strong></div>
+            {/* <div>{resultSelectors[0].amount} results found for <strong>"{search}"</strong></div> */}
+            <div>{resultSelectors.reduce((a, b) => a + b.amount, 0)} results found for <strong>"{search}"</strong></div>
          </div>
 
          <div className={styles.selectors}>
