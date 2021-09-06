@@ -55,7 +55,7 @@ export class Sidebar extends Component<SidebarProps> {
                }
             </Frame>
             {
-               categories?.length ?
+               categories?.length && categories?.length > 1 ?
                <FilterBox
                   idIncrement={isPortal ? 'portal' : 'regular'}
                   boxTitle='CATEGORY'
@@ -66,7 +66,7 @@ export class Sidebar extends Component<SidebarProps> {
             }
 
             {
-               authors?.length ?
+               authors?.length && categories?.length > 1 ?
                <FilterBox
                   idIncrement={isPortal ? 'portal' : 'regular'}
                   boxTitle='AUTHOR'
@@ -77,7 +77,7 @@ export class Sidebar extends Component<SidebarProps> {
             }
 
             {
-               publishers?.length ?
+               publishers?.length && categories?.length > 1 ?
                <FilterBox
                   idIncrement={isPortal ? 'portal' : 'regular'}
                   boxTitle='PUBLISHER'
