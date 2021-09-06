@@ -10,6 +10,8 @@ import productsLastSyncReducer from './productsLastSyncReducer'
 import productsReducer from './productsReducer'
 import articlesReducer from './articlesReducer'
 import articlesLastSyncReducer from './articlesLastSyncReducer'
+import Product from '../../interfaces-objects/Product'
+import { Article, BookshelfItem } from '../../interfaces-objects/interfaces'
 
 const persistConfig = {
    key: 'root',
@@ -27,7 +29,20 @@ const persistConfig = {
    ]
 }
 
-const rootReducer = combineReducers({
+export interface ReduxState {
+   bookshelf: BookshelfItem[];
+   listPage: number;
+   searchResultsListPage: number;
+   isLoading: boolean;
+   search: string;
+   openedDialogName: string;
+   productsLastSync: number;
+   articlesLastSync: number;
+   products: Product[];
+   articles: Article[];
+}
+
+const rootReducer = combineReducers<ReduxState>({
    bookshelf: bookshelfReducer,
    listPage: listPageReducer,
    searchResultsListPage: searchResultsListPageReducer,

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Unsubscribe } from 'redux';
 import createSearchAction from '../../../redux/actions/searchAction';
+import { ReduxState } from '../../../redux/reducers/rootReducer';
 import { store } from '../../../redux/store/store';
 import useScreenWidth from '../../../util/useScreenWidth';
 import useScrollPosition from '../../../util/useScrollPosition';
@@ -141,9 +142,10 @@ class NavbarWrapper extends Component<Props, State> {
    }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: ReduxState) => {
+   const totalBookshelfItems = state.bookshelf.reduce((acc, current) => acc + current.quantity, 0)
    return {
-      totalBookshelfItems: state.bookshelf.length
+      totalBookshelfItems
    }
 }
 

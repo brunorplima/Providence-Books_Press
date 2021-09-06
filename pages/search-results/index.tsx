@@ -65,7 +65,7 @@ class SearchResultsPage extends Component<Props, State> {
    constructor(props) {
       super(props);
       this.state = {
-         view: ALL,
+         view: BOOKS,
          checkedCategories: [],
          checkedAuthors: [],
          checkedPublishers: [],
@@ -262,10 +262,10 @@ class SearchResultsPage extends Component<Props, State> {
       const resultSelectors: ResultSelector[] = [];
       const { total, resultTypes } = this.getTotalResults();
 
-      resultSelectors.push({
-         name: ALL,
-         amount: total
-      });
+      // resultSelectors.push({
+      //    name: ALL,
+      //    amount: total
+      // });
       resultTypes.forEach(type => {
          resultSelectors.push({
             name: type.name,
