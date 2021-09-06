@@ -4,6 +4,7 @@ import { createOrder } from '../../../firebase/add'
 import { BookshelfItem, Order } from '../../../interfaces-objects/interfaces'
 import { createRemoveAllFromBookshelfAction } from '../../../redux/actions/bookshelfActions'
 import styles from '../../../styles/paypal-checkout/PayPalCheckout.module.css'
+import { useAuth } from '../../contexts/AuthProvider'
 import Loading from '../loading/Loading'
 
 interface Props {
@@ -25,6 +26,7 @@ const PayPalCheckout: React.FC<Props> = ({
 }) => {
    const [timer, setTimer] = useState<NodeJS.Timeout>(null)
    const dispatch = useDispatch()
+   const { providenceUser } = useAuth()
    const ref = createRef<HTMLDivElement>()
 
    useEffect(() => {
@@ -120,7 +122,7 @@ const PayPalCheckout: React.FC<Props> = ({
       const address = orderData.purchase_units[0].shipping.address
       const order: Order = {
          _id: orderData.id,
-         _userId: '',
+         _userId: providenceUser ? providenceUser._id : '',
          dateTime: now,
          dueDate: now,
          customerName: {
@@ -156,7 +158,7 @@ const PayPalCheckout: React.FC<Props> = ({
          {
             bookshelf.length ?
                timer ?
-                  <div  id="paypal-button-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 70 }}>
+                  <div id="paypal-button-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 70 }}>
                      <Loading localIsLoading size={4} />
                   </div> :
                   <div ref={ref} id="paypal-button-container" className={styles.paypalButtons} style={{ zIndex: 0 }}></div>
