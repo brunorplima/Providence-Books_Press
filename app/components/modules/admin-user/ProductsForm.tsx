@@ -7,7 +7,6 @@ import mainFormStyles from '../../../styles/form/MainForm.module.css';
 import { MEDIUM } from '../../../util/inputFormSizes';
 import FormTextArea from '../form/FormTextArea';
 import FormSelect from '../form/FormSelect';
-import Product from '../../../interfaces-objects/Product';
 import Book from '../../../interfaces-objects/Book';
 import EBook from '../../../interfaces-objects/EBook';
 import AudioBook from '../../../interfaces-objects/AudioBook';
@@ -23,6 +22,7 @@ import { addProductToFirestore } from '../../../firebase/add';
 import { generateProductID, generateUid } from '../../../util/generateUid';
 import { AiOutlineWarning } from 'react-icons/ai';
 import runLoadingPeriod from '../../../util/runLoadingPeriod';
+import ProductLinkInput from './ProductLinkInput';
 
 const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'Commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
 
@@ -61,8 +61,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [fileExtensions, setFileExtensions] = useState(currentProduct ? eBookProduct.fileExtensions?.join(', ') : '');
    const [readBy, setReadBy] = useState(currentProduct ? audioBookProduct.readBy : '');
    const [duration, setDuration] = useState(currentProduct ? audioBookProduct.duration : '');
-   // const [links, setlinks] = useState<ProductLinks[]>(product ? product.links : []);
-   const [links, setlinks] = useState<ProductLinks[]>(null);
+   const [links, setLinks] = useState<ProductLinks[]>(currentProduct ? currentProduct.links : []);
 
    const [errors, setErrors] = useState<string[]>([])
 
@@ -81,7 +80,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    async function addProduct() {
       const isValidData = validateInput()
       if (!isValidData) return
-      
+
       const loadingPeriod = runLoadingPeriod()
       loadingPeriod.next()
       let images: string[]
@@ -93,7 +92,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
             images.push(url)
          }
       }
-      const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id: currentProduct ? currentProduct._id : generateProductID(), _categoryId: generateUid(), _authorIds:[generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
+      const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id: currentProduct ? currentProduct._id : generateProductID(), _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
       const ref = await addProductToFirestore(product)
       loadingPeriod.next()
       if (ref) {
@@ -123,6 +122,13 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       }
       if (type === AUDIO_BOOK_TYPE) {
          if (!readBy) errorList.push('Ready by is required')
+      }
+      if (links.length) {
+         let anyEmptyDesc = false
+         links.forEach(link => {
+            if (link && (!link?.description || !link?.relProductId)) anyEmptyDesc = true
+         })
+         if (anyEmptyDesc) errorList.push('To add links you must fill description and product')
       }
       if (errorList.length) {
          setErrors(errorList)
@@ -187,7 +193,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                      </div>
                   </div>
                ) :
-               null
+                  null
             }
 
             {
@@ -264,6 +270,27 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                               size={'100%'}
                               label='Tags'
                            />
+
+                           <ProductLinkInput
+                              links={links}
+                              setLinks={setLinks}
+                              indexFrom={0}
+                              hasProduct={Boolean(currentProduct)}
+                           />
+
+                           {
+                              links?.length ?
+                                 links.map((link, idx) => {
+                                    if (idx) return (
+                                       <ProductLinkInput
+                                          {...{ links, setLinks, }}
+                                          hasProduct={Boolean(currentProduct)}
+                                          indexFrom={idx}
+                                       />
+                                    )
+                                 }) : null
+                           }
+
                         </div>
 
                         <div className={formStyles.nonText2}>
