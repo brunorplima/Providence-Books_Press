@@ -4,6 +4,7 @@
 
 .detailsVisual {
    order: 1;
+   min-width: 200px;
 }
 
 .scoreContainer {
