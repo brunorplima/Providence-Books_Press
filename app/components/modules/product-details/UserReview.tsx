@@ -26,7 +26,7 @@ const UserReview: React.FC<Props> = ({ review }) => {
             <div className={styles.reviewUserName}>{review.userName}</div>
          </div>
 
-         <h4>{review.heading.toUpperCase()}</h4>
+         {review.heading && <h4>{review.heading.toUpperCase()}</h4>}
          {
             review.text.split('\n').map((paragraph, idx) => <p className={styles.reviewText} key={paragraph + idx}>{paragraph}</p>)
          }

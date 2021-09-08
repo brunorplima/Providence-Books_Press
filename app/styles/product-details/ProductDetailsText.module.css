@@ -78,6 +78,33 @@
    top: calc(50% - 2px);
 }
 
+.linksContainer {
+   padding: 1rem;
+   border-left: 6px solid var(--mainYellow);
+   background-color: #d7b26316;
+   margin-top: 2rem;
+}
+
+.linksIcon {
+   color: var(--mainYellow);
+   width: fit-content;
+   transform: translate(-.4rem, -.3rem)
+}
+
+.link:not(:last-child) {
+   margin-bottom: .8rem;
+}
+
+.anchorLink {
+   border-bottom: 2px solid var(--mainYellow);
+   color: black;
+   text-decoration: none;
+}
+
+.anchorLink:hover {
+   border-bottom: none;
+}
+
 
 
 .boldFont {

@@ -1,82 +1,103 @@
+import { NextRouter, useRouter } from 'next/router';
 import React, { Component } from 'react';
+import { useAuth } from '../../app/components/contexts/AuthProvider';
 import SignIn from '../../app/components/modules/sign-in/SignIn';
-import createLoadingAction from '../../app/redux/actions/loadingAction';
-import { store } from '../../app/redux/store/store';
+import firebase from '../../app/firebase/firebase'
+import { User } from '../../app/interfaces-objects/interfaces';
 
 interface State {
    isSignIn: boolean;
-   username: string;
+   email: string;
    password: string;
    passwordConfirm: string;
+   firstName: string;
+   lastName: string;
 }
 
-export class index extends Component<any, State> {
+interface Props {
+   readonly router: NextRouter
+   readonly firebaseUser: firebase.User
+   readonly providenceUser: User
+}
+
+const SigninPageContainer: React.FC = () => {
+   const router = useRouter()
+   const { providenceUser, firebaseUser } = useAuth()
+
+   return <SigninPage {...{ router, providenceUser, firebaseUser }} />
+}
+
+const initialStateValue = {
+   isSignIn: true,
+   email: '',
+   password: '',
+   passwordConfirm: '',
+   firstName: '',
+   lastName: '',
+}
+
+export class SigninPage extends Component<Props, State> {
 
    constructor(props) {
       super(props);
 
-      this.state = {
-         isSignIn: true,
-         username: '',
-         password: '',
-         passwordConfirm: ''
-      }
+      this.state = initialStateValue
 
-      this.setUsername = this.setUsername.bind(this);
+      this.setEmail = this.setEmail.bind(this);
       this.setPassword = this.setPassword.bind(this);
       this.setPasswordConfirm = this.setPasswordConfirm.bind(this);
+      this.setFirstName = this.setFirstName.bind(this);
+      this.setLastName = this.setLastName.bind(this);
+      this.resetValues = this.resetValues.bind(this);
       this.signIn = this.signIn.bind(this);
       this.signUp = this.signUp.bind(this);
    }
 
-
-   setUsername(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ username: e.target.value });
+   setEmail(email: string) {
+      this.setState({ email });
    }
 
-   setPassword(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ password: e.target.value });
+   setPassword(password: string) {
+      this.setState({ password });
    }
 
-   setPasswordConfirm(e: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ passwordConfirm: e.target.value });
+   setPasswordConfirm(passwordConfirm: string) {
+      this.setState({ passwordConfirm });
    }
 
-   signIn(e: React.SyntheticEvent) {
-      e.preventDefault();
+   setFirstName(firstName: string) {
+      this.setState({ firstName });
+   }
+
+   setLastName(lastName) {
+      this.setState({ lastName });
+   }
+
+   resetValues() {
+      this.setState(initialStateValue)
+   }
+
+   signIn() {
       const { isSignIn } = this.state;
-      if (!isSignIn) {
-         this.setState({ isSignIn: true })
-         return;
-      }
+      if (!isSignIn) this.setState({ isSignIn: true })
    }
 
-   signUp(e: React.SyntheticEvent) {
-      e.preventDefault();
+   signUp() {
       const { isSignIn } = this.state;
-      if (isSignIn) {
-         this.setState({ isSignIn: false })
-         return;
-      }
+      if (isSignIn) this.setState({ isSignIn: false })
    }
 
 
    render() {
-      const {
-         isSignIn,
-         username,
-         password,
-         passwordConfirm
-      } = this.state;
       return (
          <SignIn
-            isSignIn={isSignIn}
-            username={username}
-            setUsername={this.setUsername}
-            password={password}
+            {...this.state}
+            setEmail={this.setEmail}
             setPassword={this.setPassword}
-            passwordConfirm={passwordConfirm}
             setPasswordConfirm={this.setPasswordConfirm}
+            setFirstName={this.setFirstName}
+            setLastName={this.setLastName}
+            resetFormValues={this.resetValues}
             signIn={this.signIn}
             signUp={this.signUp}
          />
@@ -84,4 +105,4 @@ export class index extends Component<any, State> {
    }
 }
 
-export default index
+export default SigninPageContainer

@@ -3,11 +3,11 @@
    display: flex;
    flex-flow: column;
    margin-bottom: 1rem;
-   margin-right: 1rem;
 }
 
 .inputField, .textareaField, .selectField {
    padding: .5rem .3rem;
+   max-height: 34px;
    background-color: var(--almostWhite);
    border: 1px solid var(--lightGray);
    border-radius: .25rem;

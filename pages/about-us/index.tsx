@@ -6,7 +6,7 @@ import useScreenWidth from '../../app/util/useScreenWidth';
 import AboutUs from '../../app/components/modules/about-us/AboutUs';
 import AboutUsFooter from '../../app/components/modules/about-us/AboutUsFooter';
 import { GetServerSideProps } from 'next';
-import { firestore } from '../../app/firebase/firebase';
+import { fetchDoc } from '../../app/firebase/fetch';
 
 export type Error = {
    emptyField: boolean;
@@ -308,10 +308,9 @@ class Index extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const pageContentRef = await firestore.doc('content/about-us').get();
-   const pageContent = pageContentRef.data();
+   const pageContent: { mainText: string, biblicalText: string } = await fetchDoc('content/about-us');
    const mainTextString: string = pageContent.mainText;
-   const mainText = mainTextString.split('\\n');
+   const mainText = mainTextString.split('\n');
    const biblicalText: string = pageContent.biblicalText;
 
    return {

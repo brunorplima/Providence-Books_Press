@@ -1,3 +1,4 @@
+import { ProductLinks } from './interfaces';
 import Product from './Product'
 
 class Book extends Product {
@@ -24,12 +25,13 @@ class Book extends Product {
       public numberPages?: number,
       public subject?: string,
       public age?: string,
-      public coverType?: string
+      public coverType?: string,
+      links?: ProductLinks[]
    ) {
       super(
          _id, name, description, price,
          'Book', images, _categoryId, category,
-         subtitle, tags, flag, providenceReview
+         subtitle, tags, flag, providenceReview, links
       );
    }
 }

@@ -2,9 +2,9 @@ import faker from 'faker';
 import { User } from '../../../app/interfaces-objects/interfaces';
 
 export default function () {
-   const users: User[] = [];
+   const users: any[] = [];
    for (let i = 1; i <= 630; i++) {
-      const user: User = {
+      const user: any = {
          _id: faker.random.number({ min: 100000, max: 999999}).toString(),
          firstName: faker.name.firstName(),
          lastName: faker.name.lastName(),

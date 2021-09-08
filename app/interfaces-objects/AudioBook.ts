@@ -1,3 +1,4 @@
+import { ProductLinks } from './interfaces';
 import Product from './Product'
 
 class AudioBook extends Product {
@@ -22,13 +23,14 @@ class AudioBook extends Product {
       public fileExtensions?: string[],
       public duration?: string,
       public subject?: string,
-      public age?: string
+      public age?: string,
+      links?: ProductLinks[]
 
    ) {
       super(
          _id, name, description, price,
          'Audio book', images, _categoryId, category,
-         subtitle, tags, flag, providenceReview
+         subtitle, tags, flag, providenceReview, links
       )
    }
 }

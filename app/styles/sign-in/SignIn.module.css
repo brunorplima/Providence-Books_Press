@@ -1,6 +1,6 @@
 .container {
    width: 100vw;
-   height: calc(100vh - var(--navbarHeight));
+   min-height: calc(100vh - var(--navbarHeight));
    display: flex;
    flex-direction: column;
 }
@@ -42,6 +42,7 @@
 
 .providenceLogo > img {
    max-width: 300px;
+   padding: 2rem 0;
 }
 
 .form {
@@ -51,51 +52,136 @@
    max-width: 300px;
 }
 
-.form > div:not(:last-child) {
-   display: flex;
-   flex-direction: column;
+.form > div:not(.submitContainer) {
    margin-bottom: 1rem;
 }
 
-.form > div:last-child {
+.formGroup {
    display: flex;
-   justify-content: center;
+   flex-direction: column;
+   margin-bottom: 1rem;
 }
 
 .input {
    background-color: transparent;
    border: none;
    border-bottom: .1px solid rgba(255, 255, 255, .5);
+   margin-top: .15rem;
+   padding: .3rem;
+   font-size: 11pt;
 }
 
-.signInButton, .signUpButton {
+.input:focus {
+   background-color: rgba(255, 255, 255, .4);
+}
+
+.signinSignup {
+   display: flex;
+   justify-content: flex-start;
+   user-select: none;
+}
+
+.signinSignup > div:first-child {
+   border-top-left-radius: .7rem;
+   border-bottom-left-radius: .7rem;
+}
+
+.signinSignup > div:last-child {
+   border-top-right-radius: .7rem;
+   border-bottom-right-radius: .7rem;
+}
+
+.activeButton, .inactiveButton {
    border: 1px solid transparent;
    padding: .4rem 1rem;
    border-radius: .1rem;
-   cursor: pointer;
+   font-weight: bold;
 }
 
-.signInButton {
+.activeButton {
    background-color: #ECDCB8;
    color: var(--mainYellow);
-   margin-right: .4rem;
 }
 
-.signInButton:hover {
-   background-color: #DCCCA8;
-}
-
-.signUpButton {
+.inactiveButton {
    background-color: transparent;
    border: 1px solid #F9DB9D;
    color: white;
+   cursor: pointer;
 }
 
-.signUpButton:hover {
+.inactiveButton:hover {
    background-color: rgba(255, 255, 255, .2);
 }
 
+.submitContainer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 60px;
+   margin-bottom: .2rem;
+}
 
+.submit {
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+   width: 70%;
+}
+
+.submit:hover {
+   background-color: #DCCCA8;
+}
+
+.forgotPassword {
+   display: flex;
+   justify-content: flex-end;
+   margin-bottom: 0 !important;
+}
+
+.forgotPassword > div {
+   transition: .2s;
+   cursor: pointer;
+   width: fit-content;
+}
+
+.forgotPassword > div:hover {
+   color: var(--almostWhite);
+   text-decoration: underline;
+}
+
+.resetEmailSentMessage {
+   font-size: 13pt;
+}
+
+.errors {
+   background-color: rgba(255, 82, 82, 0.463);
+   border: 2px solid rgb(123, 0, 0);
+   color: rgb(123, 0, 0);
+   padding: .3rem;
+}
+
+.errors > .error:not(:last-child) {
+   margin-bottom: .3rem;
+}
+
+.error {
+   display: flex;
+   align-items: center;
+}
+
+.error > div:first-child {
+   margin-right: .6rem;
+   transform: translateY(.1rem);
+}
+
+
+
+@media screen and (max-width: 460px) {
+   .form {
+      margin: 2rem 0;
+   }
+}
 
 
 @media screen and (min-width: 800px) {
@@ -121,14 +207,6 @@
 
    .providenceLogo > img {
       max-width: 360px;
-   }
-
-   .form > div:not(:last-child) {
-      margin-bottom: 2.4rem;
-   }
-
-   .form > div:last-child {
-      margin-top: 3rem;
    }
 }
 

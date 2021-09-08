@@ -1,9 +1,10 @@
 import React, { CSSProperties } from 'react';
 import { SMALL } from '../../../util/inputFormSizes';
+import mainFormStyles from '../../../styles/form/MainForm.module.css';
 
 interface Props {
-   readonly inputClassName: string;
    readonly setFiles: Function;
+   readonly inputClassName?: string;
    readonly size?: string;
    readonly isRequired?: boolean;
    readonly containerClassName?: string;
@@ -28,11 +29,11 @@ const ImageFormInput: React.FC<Props> = ({
    }
 
    return (
-      <div className={containerClassName ? containerClassName : ''}>
+      <div className={containerClassName ? containerClassName : mainFormStyles.inputContainer}>
          <label htmlFor={name}>{label} {isRequired && '*'}</label>
          <input
             type='file'
-            className={inputClassName}
+            className={inputClassName ? inputClassName : mainFormStyles.inputField}
             onChange={e => setFiles(e.target.files)}
             required={isRequired}
             style={style}

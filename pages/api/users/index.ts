@@ -4,7 +4,7 @@ import { Gender, User } from "../../../app/interfaces-objects/interfaces";
 import usersJSON from './users.json'
 
 export default function (req: NextApiRequest, res: NextApiResponse) {
-   const users: User[] = usersJSON.map((user) => {
+   const users: any[] = usersJSON.map((user) => {
       return {
          ...user,
          dateOfBirth: new Date(user.dateOfBirth),

@@ -11,22 +11,22 @@ type Action = {
 }
 
 export const createAddToBookshelfAction = (product: Product): Action => {
+   const bookshelfItem: BookshelfItem = {
+      id: product._id,
+      image: product.images[0],
+      isChecked: false,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      type: product.type,
+   }
+   if (product.type === 'Book') bookshelfItem.weight = (product as Book).weight
+   if ((product as Book | EBook | AudioBook).authors) bookshelfItem.authors = (product as Book | EBook | AudioBook).authors
+   if ((product as Book).coverType) bookshelfItem.coverType = (product as Book).coverType
+   if ((product as EBook | AudioBook).fileExtensions) bookshelfItem.fileExtensions = (product as EBook | AudioBook).fileExtensions
    return {
       type: ADD_PRODUCT_TO_BOOKSHELF,
-      payload: {
-         id: product._id,
-         image: product.images[0],
-         isChecked: false,
-         name: product.name,
-         price: product.price,
-         quantity: 1,
-         type: product.type,
-         authors: (product as Book | EBook | AudioBook).authors,
-         coverType: (product as Book).coverType ? (product as Book).coverType : undefined,
-         fileExtensions: (product as EBook | AudioBook).fileExtensions ? (product as EBook | AudioBook).fileExtensions : undefined,
-         subtitle: product.subtitle,
-         weight: product instanceof Book ? (product as Book).weight : undefined
-      }
+      payload: bookshelfItem
    }
 }
 

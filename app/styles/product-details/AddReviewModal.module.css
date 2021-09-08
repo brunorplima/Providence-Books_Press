@@ -1,0 +1,90 @@
+.AddReviewModalContainer {
+   background-color: rgba(0, 0, 0, .6);
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   display: grid;
+   place-items: center;
+   z-index: 8;
+}
+
+.AddReviewModal {
+   background-color: white;
+   width: 30%;
+   height: 60%;
+   min-width: 260px;
+   min-height: 34 0px;
+   padding: .8rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.closeIcon {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+.closeIcon > div {
+   font-size: 15pt;
+   font-weight: bold;
+   color: var(--mainYellow);
+}
+.closeIcon > svg {
+   color: white;
+   cursor: pointer;
+   background-color: var(--mainYellow);
+   transition: .25s;
+}
+.closeIcon > svg:hover {
+   background-color: white;
+   color: var(--mainYellow);
+}
+
+.form {
+   margin: 1rem 0;
+}
+
+.score {
+   display: flex;
+   color: var(--mainYellow);
+   margin-bottom: 1rem;
+}
+
+.star {
+   cursor: pointer;
+}
+
+.textarea {
+   max-height: 200px;
+}
+
+.errorMessages {
+   padding: 5px;
+   border: 1px solid red;
+   background-color: rgb(255, 217, 217);
+   color: rgb(125, 0, 0);
+}
+
+.errorMessages > div {
+   display: flex;
+   align-items: center;
+   margin-right: .5rem
+}
+
+.errorMessages > div:not(:last-child) {
+   margin-bottom: .4rem;
+}
+
+.errorMessages > div > span {
+   transform: translateY(.05rem);
+   margin-left: .5rem;
+}
+
+.buttons {
+   display: flex;
+   justify-content: center;
+}
+
+.buttons > button:first-child {
+   margin-right: 1rem;
+}

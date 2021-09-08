@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import AdminArticles from '../../app/components/modules/admin-user/AdminArticles';
 import AdminContent from '../../app/components/modules/admin-user/AdminContent';
 import AdminDashboard from '../../app/components/modules/admin-user/AdminDashboard';
@@ -6,145 +7,134 @@ import AdminProducts from '../../app/components/modules/admin-user/AdminProducts
 import AdminSettings from '../../app/components/modules/admin-user/AdminSettings';
 import Section from '../../app/components/modules/admin-user/Section';
 import Sidebar from '../../app/components/modules/admin-user/Sidebar';
-import { firestore } from '../../app/firebase/firebase';
-import { Article } from '../../app/interfaces-objects/interfaces';
+import { Article, SectionType } from '../../app/interfaces-objects/interfaces';
 import Product from '../../app/interfaces-objects/Product';
 import styles from '../../app/styles/admin-user/Admin.module.css';
+import { useAuth } from '../../app/components/contexts/AuthProvider';
+import { RiArticleLine, RiCurrencyLine, RiDashboardLine, RiSettings3Line } from 'react-icons/ri';
+import { GiBlackBook } from 'react-icons/gi';
+import { FiUsers } from 'react-icons/fi';
+import { BsLayoutTextWindowReverse } from 'react-icons/bs';
+import { redirectUnauthorizedAdmin } from '../../app/util/authRouting';
 
-const sections = ['Dashboard', 'Products', 'Articles', 'Users', 'Orders', 'Content', 'Settings'];
+const sections: SectionType[] = [
+   {
+      name: 'Dashboard',
+      Icon: RiDashboardLine
+   },
+   {
+      name: 'Products',
+      Icon: GiBlackBook
+   },
+   {
+      name: 'Articles',
+      Icon: RiArticleLine
+   },
+   {
+      name: 'Users',
+      Icon: FiUsers
+   },
+   {
+      name: 'Orders',
+      Icon: RiCurrencyLine
+   },
+   {
+      name: 'Content',
+      Icon: BsLayoutTextWindowReverse
+   },
+   {
+      name: 'Settings',
+      Icon: RiSettings3Line
+   }
+];
 
-interface State {
-   readonly currentSection: string;
+interface Props {
    readonly products: Product[];
    readonly articles: Article[];
 }
 
-export class AdminPage extends Component<{}, State> {
+const AdminPage: React.FC<Props> = ({ products, articles }) => {
+   const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
+   const { firebaseUser, providenceUser } = useAuth()
 
-   productsUnsubscriber = () => {};
-   articlesUnsubscriber = () => {};
-
-   constructor(props) {
-      super(props);
-      this.state = {
-         currentSection: sections[0],
-         products: [],
-         articles: [],
-      }
-
-      this.setCurrentSection = this.setCurrentSection.bind(this);
-      this.setProducts = this.setProducts.bind(this);
-   }
-
-   componentDidUpdate() {
-      const { currentSection, products, articles } = this.state;
-      if (currentSection === sections[1] && !products.length) this.fetchProducts();
-      if (currentSection === sections[2] && !articles.length) this.fetchArticles();
-   }
-
-   componentWillUnmount() {
-      this.productsUnsubscriber();
-      this.articlesUnsubscriber();
-   }
-
-   setCurrentSection(index: number) {
-      const { currentSection } = this.state;
-      if (currentSection !== sections[index]) {
-         this.setState({ currentSection: sections[index] });
+   function setSection(index: number) {
+      if (currentSection !== sections[index].name) {
+         setCurrentSection(sections[index].name);
       }
    }
 
-   setProducts(products: Product[]) {
-      if (JSON.stringify(this.state.products) !== JSON.stringify(products)) {
-         this.setState({ products });
-      }
-   }
+   if (redirectUnauthorizedAdmin(firebaseUser)) return null
+   return (
+      <>
+         {
+            providenceUser?.role === 'admin' || providenceUser?.role === 'master admin' &&
+            <div className={styles.container}>
+               <Sidebar
+                  sections={sections}
+                  currentSection={currentSection}
+                  setCurrentSection={setSection}
+               />
 
-   setArticles(articles: Article[]) {
-      if (JSON.stringify(articles) !== JSON.stringify(this.state.articles)) {
-         this.setState({ articles });
-      }
-   }
+               {
+                  currentSection === sections[0].name &&
+                  <Section title={currentSection}>
+                     <AdminDashboard admin={providenceUser} />
+                  </Section>
+               }
 
-   async fetchProducts() {
-      const fetchProducts = await fetch('/api/products');
-      const products: Product[] = await fetchProducts.json();
-      this.setState({ products });
-   }
+               {
+                  currentSection === sections[1].name &&
+                  <Section title={currentSection} tabs>
+                     <AdminProducts
+                        list={products}
+                        tabs={['Overview', 'Add', 'Update']}
+                     />
+                  </Section>
+               }
 
-   async fetchArticles() {
-      const fetched = await fetch('/api/articles');
-      const articles: Article[] = await fetched.json();
-      this.setState({ articles });
-   }
+               {
+                  currentSection === sections[2].name &&
+                  <Section title={currentSection} tabs>
+                     <AdminArticles
+                        list={articles}
+                        tabs={['Overview', 'Add', 'Update']}
+                     />
+                  </Section>
+               }
 
-   render() {
-      const { currentSection, products, articles } = this.state;
-      return (
-         <div className={styles.container}>
-            <Sidebar
-               sections={sections}
-               currentSection={currentSection}
-               setCurrentSection={this.setCurrentSection}
-            />
+               {
+                  currentSection === sections[3].name &&
+                  <Section title={currentSection}>
 
-            {
-               currentSection === sections[0] &&
-               <Section title={currentSection}>
-                  <AdminDashboard />
-               </Section>
-            }
+                  </Section>
+               }
 
-            {
-               currentSection === sections[1] &&
-               <Section title={currentSection} tabs>
-                  <AdminProducts
-                     list={products}
-                     tabs={['Overview', 'Add', 'Update']}
-                  />
-               </Section>
-            }
+               {
+                  currentSection === sections[4].name &&
+                  <Section title={currentSection}>
 
-            {
-               currentSection === sections[2] &&
-               <Section title={currentSection} tabs>
-                  <AdminArticles
-                     list={articles}
-                     tabs={['Overview', 'Add', 'Update']}
-                  />
-               </Section>
-            }
+                  </Section>
+               }
 
-            {
-               currentSection === sections[3] &&
-               <Section title={currentSection}>
+               {
+                  currentSection === sections[5].name &&
+                  <Section title={currentSection}>
+                     <AdminContent />
+                  </Section>
+               }
 
-               </Section>
-            }
-
-            {
-               currentSection === sections[4] &&
-               <Section title={currentSection}>
-
-               </Section>
-            }
-
-            {
-               currentSection === sections[5] &&
-               <Section title={currentSection}>
-                  <AdminContent />
-               </Section>
-            }
-
-            {
-               currentSection === sections[6] &&
-               <Section title={currentSection}>
-                  <AdminSettings />
-               </Section>
-            }
-         </div>
-      )
-   }
+               {
+                  currentSection === sections[6].name &&
+                  <Section title={currentSection}>
+                     <AdminSettings />
+                  </Section>
+               }
+            </div>
+         }
+      </>
+   )
 }
 
-export default AdminPage;
+const mapStateToProps = ({ products, articles }) => ({ products, articles })
+
+export default connect(mapStateToProps)(AdminPage);

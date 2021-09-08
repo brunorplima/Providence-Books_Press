@@ -81,7 +81,6 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
          let images: ImageStorageWithCheck[] = []
          for (let i = 0; i < 5; i++) {
             if (files[i]) {
-               console.log('running because file exists: ', files[i].name)
                const { ref, url } = await putInStorage(`home-slide-show/${files[i].name}`, files[i])
                const image: ImageStorageWithCheck = {
                   url,

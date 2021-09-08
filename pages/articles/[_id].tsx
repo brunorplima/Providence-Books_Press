@@ -1,61 +1,55 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
 import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
 import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText';
 import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
 import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
-import { firestore } from '../../app/firebase/firebase';
+import { fetchDocs, fetchRefs, Where } from '../../app/firebase/fetch';
 import { Article, Comment } from '../../app/interfaces-objects/interfaces';
 import styles from '../../app/styles/articles/ArticlePage.module.css';
+import firebase from '../../app/firebase/firebase';
 
 interface Props {
    readonly article: Article;
    readonly comments: Comment[];
 }
 
-class ArticlePage extends React.Component<Props> {
+const ArticlePage: React.FC<Props> = ({ article, comments }) => {
 
-   render() {
-      const { article, comments } = this.props;
-
-      return (
-         <div className={styles.container}>
-            <div style={{ padding: '.8rem' }}>
-               <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
-            </div>
-            <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
-            <ArticleBodyText body={article.body} />
-            <ArticleAuthorInformation author={article.author} />
-            <CommentsContainer comments={comments}/>
+   return (
+      <div className={styles.container}>
+         <div style={{ padding: '.8rem' }}>
+            <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
          </div>
-      )
-   }
+         <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
+         <ArticleBodyText body={article.body} />
+         <ArticleAuthorInformation author={article.author} />
+         <CommentsContainer comments={comments.map(c => ({ ...c, dateTime: new Date(c.dateTime) }))} articleId={article._id} />
+      </div>
+   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
-   // const comments: Comment[] = [];
-   // let article: Article;
+   const where: Where = {
+      field: '_id',
+      condition: '==',
+      value: _id
+   }
 
-   const articleRef = await fetch(`https://providencebp.vercel.app/api/articles/${_id}`);
-   const article: Article = await articleRef.json();
-
-   const commentsRef = await fetch(`https://providencebp.vercel.app/api/comments/${article._id}`);
-   const comments: Comment[] = await commentsRef.json();
-
-   // const articleRef = await firestore.collection('articles').where('_id', '==', _id).get();
-   // articleRef.forEach(async doc => {
-   //    article = doc.data() as Article;
-   // })
-
-   // const commentsRef = await firestore.collectionGroup('comments').where('_articleId', '==', article._id).get();
-   // commentsRef.forEach(doc => comments.push(doc.data() as Comment));
-   
+   const articleRef = (await fetchRefs('articles', where))[0]
+   if (!articleRef) {
+      return {
+         notFound: true
+      }
+   }
+   const article = articleRef.data()
+   const comments = await fetchDocs<Comment & { dateTime: firebase.firestore.Timestamp }>(`articles/${articleRef.id}/comments`)
    return {
       props: {
          article,
-         comments
+         comments: comments.map(comm => ({ ...comm, dateTime: comm.dateTime.toDate().toString() }))
       }
    }
 }

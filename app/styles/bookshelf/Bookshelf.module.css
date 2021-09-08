@@ -26,6 +26,11 @@
    font-family: 'Nikkyou';
 }
 
+.checkoutSection {
+   margin-top: 2rem;
+   margin-left: 0;
+}
+
 
 
 
@@ -33,5 +38,10 @@
    
    .listOutterContainer {
       flex-flow: row;
+   }
+
+   .checkoutSection {
+      margin-top: 0;
+      margin-left: 2rem;
    }
 }

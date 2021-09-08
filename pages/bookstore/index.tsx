@@ -14,11 +14,12 @@ import { ensurePaginationIsWithinBounds, getFilters, getMaxPage, populateProcess
 import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
-import { firestore } from '../../app/firebase/firebase';
+import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
    readonly products: Product[];
    readonly pagination: number;
+   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -175,7 +176,9 @@ export class Bookstore extends Component<Props, State> {
          this.state.search,
       );
 
-      const { categories, authors, publishers } = getFilters<Product>(products, BOOKS);
+      const { categories, authors, publishers } = Array.isArray(products) ?
+         getFilters<Product>(products, BOOKS) :
+         { categories: [], authors: [], publishers: [] };
 
       return (
          <>
@@ -233,7 +236,7 @@ export class Bookstore extends Component<Props, State> {
                   />
 
                   {
-                     !paginatedSearchedFilteredList.length &&
+                     Array.isArray(paginatedSearchedFilteredList) && !paginatedSearchedFilteredList.length &&
                      <EmptyResult image='empty folder' />
                   }
 
@@ -253,23 +256,19 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const products: Product[] = [];
-   const productsRef = await firestore.collection('products').get();
-   productsRef.forEach((doc) => {
-      products.push(doc.data() as Product);
-   })
+   const docRef = await fetchDoc<{ productsSyncExpireHours: number }>('settings/general');
+   const syncExpireHours = docRef.productsSyncExpireHours
 
    return {
       props: {
-         products
+         syncExpireHours
       }
    }
 }
 
-const mapStateToProps = (state) => {
-   return {
-      pagination: state.listPage
-   }
-}
+const mapStateToProps = ({ listPage, products }) => ({
+   pagination: listPage,
+   products: products
+})
 
 export default connect(mapStateToProps)(Bookstore)

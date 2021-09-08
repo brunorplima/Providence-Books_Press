@@ -1,5 +1,13 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchDocs } from '../../firebase/fetch'
+import { Article } from '../../interfaces-objects/interfaces'
+import Product from '../../interfaces-objects/Product'
+import { articlesFetchAction } from '../../redux/actions/articlesActions'
+import { updateArticlesLastSyncAction, updateProductsLastSyncAction } from '../../redux/actions/lastSyncActions'
+import { productsFetchAction } from '../../redux/actions/productsActions'
+import { hasSyncExpired } from '../../util/lastSyncHelper'
 import ClosedStoreMessage from '../elements/closed-store/ClosedStoreMessage'
 import Footer from '../elements/footer/Footer'
 import Loading from '../modules/loading/Loading'
@@ -15,7 +23,7 @@ const Layout: React.FC = ({ children }) => {
          {children}
          <ClosedStoreMessage />
          {
-            !['/admin', '/user'].includes(router.pathname) &&
+            !['/admin', '/user', '/account'].includes(router.pathname) &&
             <Footer />
          }
       </div>

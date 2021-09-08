@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -15,16 +15,20 @@ import Book from '../../app/interfaces-objects/Book';
 import EBook from '../../app/interfaces-objects/EBook';
 import AudioBook from '../../app/interfaces-objects/AudioBook';
 import RelatedProducts from '../../app/components/modules/product-details/RelatedProducts';
-import { firestore } from '../../app/firebase/firebase';
+import { connect } from 'react-redux';
+import { fetchDocs } from '../../app/firebase/fetch';
+import firebase, { firestore } from '../../app/firebase/firebase';
 
 interface Props {
-   readonly product: Product;
-   readonly relatedProducts: Product[];
+   readonly products: Product[];
    readonly reviews: Review[];
+   readonly id: string;
 }
 
 interface State {
-   selectedImage: number;
+   readonly selectedImage: number;
+   readonly relatedProducts: Product[];
+   readonly product: Product;
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -32,14 +36,37 @@ class ProductDetails extends Component<Props, State> {
    constructor(props) {
       super(props);
       this.state = {
-         selectedImage: 0
+         selectedImage: 0,
+         relatedProducts: [],
+         product: null,
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
+   componentDidMount() {
+      this.setProduct()
+   }
+
+   componentDidUpdate() {
+      const { products, id } = this.props
+      const { product } = this.state
+      if (product._id !== id) this.setProduct()
+      const relatedProducts = products.filter(prod => prod.category === product?.category && prod._id !== product?._id)
+      if (JSON.stringify(relatedProducts) !== JSON.stringify(this.state.relatedProducts)) {
+         this.setState({ relatedProducts })
+      }
+   }
+
+   setProduct() {
+      const { products, id } = this.props
+      const product: Product = products.find(product => product._id === id)
+      this.setState({ product })
+   }
+
    getSortedRelatedProductsList(): Product[] {
-      const { product, relatedProducts } = this.props;
+      const { product } = this.state;
+      const { relatedProducts } = this.state;
       const sameAuthorList: Product[] = [];
       const differentAuthorList: Product[] = [];
 
@@ -66,43 +93,48 @@ class ProductDetails extends Component<Props, State> {
    }
 
    render() {
-
-      const { product, reviews, relatedProducts } = this.props;
-      const { selectedImage } = this.state;
+      const { product, selectedImage, relatedProducts } = this.state;
+      const { reviews } = this.props
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
             <Head>
-               <title>{product.name}{product.subtitle ? ' - ' + product.subtitle : ''} - {product.type}</title>
+               <title>{product?.name}{product?.subtitle ? ' - ' + product?.subtitle : ''} - {product?.type}</title>
             </Head>
 
             <Frame className={styles.container}>
-               <Frame className={styles.backBar}>
-                  <BackButton />
-                  <CirclesUI />
-               </Frame>
-
-               <Frame className={styles.productDetailsMain}>
-                  <ProductDetailsText product={product} />
-                  <ProductDetailsVisual
-                     product={product}
-                     reviews={reviews.length && reviews}
-                     selectedImage={selectedImage}
-                     setSelectedImage={this.setSelectedImage}
-                  />
-               </Frame>
-
-               <Frame className={styles.border} />
-
-               <ProvidenceReview providenceReview={product.providenceReview} />
-
-               <Frame className={styles.border} />
-
-               <UserReviews reviews={reviews} />
-
                {
-                  relatedProducts?.length > 0 &&
-                  <RelatedProducts products={this.getSortedRelatedProductsList()} />
+                  product && (
+                     <>
+                        <Frame className={styles.backBar}>
+                           <BackButton />
+                           <CirclesUI />
+                        </Frame>
+
+                        <Frame className={styles.productDetailsMain}>
+                           <ProductDetailsText product={product} />
+                           <ProductDetailsVisual
+                              product={product}
+                              reviews={reviews.length && reviews}
+                              selectedImage={selectedImage}
+                              setSelectedImage={this.setSelectedImage}
+                           />
+                        </Frame>
+
+                        <Frame className={styles.border} />
+
+                        <ProvidenceReview providenceReview={product.providenceReview} />
+
+                        <Frame className={styles.border} />
+
+                        <UserReviews reviews={reviews} productId={product?._id} />
+
+                        {
+                           relatedProducts?.length > 0 &&
+                           <RelatedProducts products={this.getSortedRelatedProductsList()} />
+                        }
+                     </>
+                  )
                }
             </Frame>
 
@@ -113,36 +145,19 @@ class ProductDetails extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const { _id } = context.params;
+   const reviews = await fetchDocs<Review & { dateTime: firebase.firestore.Timestamp }>(`products/${_id}/reviews`)
+   const doc = await firestore.collection('products').doc(_id as string).get()
 
-   const productsRef = await fetch('https://providencebp.vercel.app/api/products');
-   const products = await productsRef.json() as Product[];
-   const product = products.find(prod => prod._id === _id);
-   const relatedProducts = products.filter(prod => prod.category === product.category && prod._id !== product._id);
-   const reviewsRef = await fetch(`https://providencebp.vercel.app/api/reviews`);
-   const reviews: Review[] = (await reviewsRef.json() as Review[]).filter(rev => rev._productId === _id);
-
-   // let product: Product;
-   // const reviews: Review[] = [];
-   // const productRef = await firestore.collection('products').where('_id', '==', _id).get();
-   // productRef.forEach(async doc => {
-   //    product = doc.data() as Product;
-   //    const reviewsRef = await firestore.collection(`products/${doc.id}/reviews`).get();
-   //    reviewsRef.forEach(revDoc => reviews.push(revDoc.data() as Review));
-   // });
-
-   if (!product) return {
-      notFound: true
+   if (!doc.exists) {
+      return {
+         notFound: true
+      }
    }
-
-   // const relatedProducts: Product[] = [];
-   // const relRef = await firestore.collection('products').where('category', '==', product.category).where('_id', '!=', product._id).get();
-   // relRef.forEach(doc => relatedProducts.push(doc.data() as Product));
 
    return {
       props: {
-         product,
-         relatedProducts,
-         reviews
+         id: _id,
+         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toString() })) || []
       }
    }
 }
@@ -160,4 +175,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 //    }
 // }
 
-export default ProductDetails;
+const mapStateToProps = ({ products }: { products: Product[] }) => ({ products })
+
+export default connect(mapStateToProps)(ProductDetails);
