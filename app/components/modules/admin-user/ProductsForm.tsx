@@ -17,7 +17,7 @@ import formStyles from '../../../styles/form/ProductsForm.module.css';
 import { AUDIO_BOOK_TYPE, BOOK_TYPE, BOOK_TYPES, E_BOOK_TYPE } from '../../../interfaces-objects/constants';
 import { buildProduct } from '../../../util/factory';
 import { putInStorage } from '../../../firebase/storage';
-import { ProductLinks } from '../../../interfaces-objects/interfaces';
+import { ProductLink } from '../../../interfaces-objects/interfaces';
 import { addProductToFirestore } from '../../../firebase/add';
 import { generateProductID, generateUid } from '../../../util/generateUid';
 import { AiOutlineWarning } from 'react-icons/ai';
@@ -61,7 +61,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [fileExtensions, setFileExtensions] = useState(currentProduct ? eBookProduct.fileExtensions?.join(', ') : '');
    const [readBy, setReadBy] = useState(currentProduct ? audioBookProduct.readBy : '');
    const [duration, setDuration] = useState(currentProduct ? audioBookProduct.duration : '');
-   const [links, setLinks] = useState<ProductLinks[]>(currentProduct ? currentProduct.links : []);
+   const [links, setLinks] = useState<ProductLink[]>(currentProduct ? currentProduct.links : []);
 
    const [errors, setErrors] = useState<string[]>([])
 

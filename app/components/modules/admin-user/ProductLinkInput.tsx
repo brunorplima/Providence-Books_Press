@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ProductLinks } from '../../../interfaces-objects/interfaces'
+import { ProductLink } from '../../../interfaces-objects/interfaces'
 import FormInput from '../form/FormInput'
 import styles from '../../../styles/form/ProductLinkInput.module.css'
 import Product from '../../../interfaces-objects/Product'
@@ -9,8 +9,8 @@ import { connect } from 'react-redux'
 import clsx from 'clsx'
 
 interface Props {
-   readonly setLinks: React.Dispatch<React.SetStateAction<ProductLinks[]>>
-   readonly links: ProductLinks[]
+   readonly setLinks: React.Dispatch<React.SetStateAction<ProductLink[]>>
+   readonly links: ProductLink[]
    readonly indexFrom: number
    readonly hasProduct: boolean
    readonly products?: Product[]
@@ -45,11 +45,11 @@ const ProductLinkInput: React.FC<Props> = ({ setLinks, links, indexFrom, hasProd
 
    function handleDescriptionChange(description: string) {
       setDescription(description)
-      const newLink: ProductLinks = { ...link, description }
+      const newLink: ProductLink = { ...link, description }
       if (links)
          setLinks(links.map((link, idx) => idx === indexFrom ? newLink : link))
       else {
-         const newLinks: ProductLinks[] = []
+         const newLinks: ProductLink[] = []
          for (let i = 0; i <= indexFrom; i++) {
             if (i === indexFrom) newLinks.push(newLink)
             else newLinks.push(null)
@@ -61,7 +61,7 @@ const ProductLinkInput: React.FC<Props> = ({ setLinks, links, indexFrom, hasProd
       setChoseProduct(true)
       setSearch(product.name)
       setSelectedProduct(product)
-      const newLinks: ProductLinks[] = links ? links : []
+      const newLinks: ProductLink[] = links ? links : []
       newLinks[indexFrom] = {
          description,
          relProductId: product._id
@@ -78,7 +78,7 @@ const ProductLinkInput: React.FC<Props> = ({ setLinks, links, indexFrom, hasProd
    }
 
    function addLinkInput() {
-      const newLink: ProductLinks = {
+      const newLink: ProductLink = {
          description: '',
          relProductId: ''
       }

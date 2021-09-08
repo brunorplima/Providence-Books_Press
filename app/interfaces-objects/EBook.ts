@@ -1,4 +1,4 @@
-import { ProductLinks } from './interfaces';
+import { ProductLink } from './interfaces';
 import Product from './Product'
 
 class EBook extends Product {
@@ -23,7 +23,7 @@ class EBook extends Product {
       public numberPages?: number,
       public subject?: string,
       public age?: string,
-      links?: ProductLinks[]
+      links?: ProductLink[]
    ) {
       super(_id, name, description, price, 'E-book', 
          images, _categoryId, category, subtitle, tags, flag, providenceReview, links  
