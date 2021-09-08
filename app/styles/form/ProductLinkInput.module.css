@@ -1,0 +1,113 @@
+.container {
+   position: relative;
+}
+
+.controllers {
+   display: flex;
+   position: absolute;
+   top: 0;
+   right: 0;
+   color: var(--mainGray);
+}
+
+.controllers > div {
+   cursor: pointer;
+}
+
+.searchContainer {
+   position: relative;
+}
+
+.resultsContainer {
+   border: 2px solid var(--mainGray);
+   border-radius: .25rem;
+   position: absolute;
+   left: 0;
+   top: 108%;
+   z-index: 3;
+   background-color: white;
+   width: 100%;
+}
+.resultsContainer > .resultItem:not(:last-child) {
+   border-bottom: 1px solid var(--lightGray);
+}
+.resultsContainer h5 {
+   margin: 0;
+}
+
+.resultsContainerFixed {
+   border: 2px solid var(--mainGray);
+   border-radius: .25rem;
+   width: 100%;
+   margin-bottom: 1rem;
+}
+
+.resultItem {
+   height: 50px;
+   display: grid;
+   grid-template-columns: 1fr 4fr 1fr;
+   cursor: pointer;
+}
+
+.resultItem:hover {
+   background-color: var(--almostWhite);
+}
+
+.resultItem > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.resultItemEmpty {
+   margin-bottom: 1rem;
+   cursor: default;
+}
+
+.resultItemEmpty span {
+   display: none;
+   font-size: 11pt;
+}
+
+.resultItemFixed {
+   position: relative;
+   background-color: var(--almostWhite);
+   cursor: default;
+   height: auto;
+}
+
+.resultItemFixed > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.resultItemEmpty:hover span {
+   display: inline;
+}
+
+.resultItemCheck {
+   position: absolute;
+   right: -8px;
+   top: -8px;
+   color: var(--mainGray);
+   cursor: pointer;
+}
+.resultItemCheck path {
+   background-color: white;
+}
+
+.img > img {
+   height: 40px;
+   width: auto;
+}
+
+.name {
+   flex-direction: column;
+   justify-content: flex-start;
+}
+
+.type {
+   text-align: center;
+   font-size: 10pt;
+}

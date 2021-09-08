@@ -1,4 +1,4 @@
-import { ProductLinks } from './interfaces';
+import { ProductLink } from './interfaces';
 import Product from './Product'
 
 class AudioBook extends Product {
@@ -24,7 +24,7 @@ class AudioBook extends Product {
       public duration?: string,
       public subject?: string,
       public age?: string,
-      links?: ProductLinks[]
+      links?: ProductLink[]
 
    ) {
       super(

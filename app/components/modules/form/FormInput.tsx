@@ -27,7 +27,7 @@ const FormInput: React.FC<Props> = ({
    placeholder,
    isInline,
    containerStyle = {},
-   inputStyle = { width: size ? size : SMALL, }
+   inputStyle = { width: size ? size : '100%', }
 }) => {
    if (isInline) {
       containerStyle.flexDirection = 'row'

@@ -140,7 +140,7 @@ export type BookType = 'Book' | 'E-book' | 'Audio book'
    fileExtensions?: string[],
 }
 
-export interface ProductLinks {
+export interface ProductLink {
    description: string,
    relProductId: string
 }
