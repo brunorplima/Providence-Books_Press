@@ -115,7 +115,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
             }
 
             {
-               product.links && (
+               product.links && product.links?.length && (
                   <div className={styles.linksContainer}>
                      <div className={styles.linksIcon}>
                         <TiInfoLarge fontSize={24} />
