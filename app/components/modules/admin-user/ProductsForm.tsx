@@ -10,7 +10,7 @@ import FormSelect from '../form/FormSelect';
 import Book from '../../../interfaces-objects/Book';
 import EBook from '../../../interfaces-objects/EBook';
 import AudioBook from '../../../interfaces-objects/AudioBook';
-import ImageFormInput from '../form/ImageFormInput';
+import ImageProductFormInput from '../form/ImageProductFormInput';
 import Button from '../../elements/button/Button';
 import EmptyUpdateFormMessage from './EmptyUpdateFormMessage';
 import formStyles from '../../../styles/form/ProductsForm.module.css';
@@ -23,6 +23,8 @@ import { generateProductID, generateUid } from '../../../util/generateUid';
 import { AiOutlineWarning } from 'react-icons/ai';
 import runLoadingPeriod from '../../../util/runLoadingPeriod';
 import ProductLinkInput from './ProductLinkInput';
+import Dialog from '../dialog/Dialog';
+import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 
 const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'Commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
 
@@ -31,6 +33,11 @@ interface Props {
    readonly tabs: string[];
    readonly currentProduct?: Book | EBook | AudioBook;
    readonly setProductSelected?: Function
+}
+
+export type MainIndex = {
+   idx: number
+   isOld: boolean
 }
 
 const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setProductSelected }) => {
@@ -47,7 +54,8 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [stock, setStock] = useState(currentProduct ? bookProduct.stock : '');
    const [price, setPrice] = useState(currentProduct ? typedProduct.price.toFixed(2) : '');
    const [providenceReview, setProvidenceReview] = useState(currentProduct?.providenceReview ? currentProduct.providenceReview : '');
-   const [files, setFiles] = useState<FileList>(null);
+   const [files, setFiles] = useState<File[]>([]);
+   const [fileURLs, setFileURLs] = useState<string[]>(currentProduct ? currentProduct.images : []);
    const [category, setCategory] = useState(currentProduct ? currentProduct.category : '');
    const [authors, setAuthors] = useState(currentProduct ? typedProduct.authors : '');
    const [publisher, setPublisher] = useState(currentProduct ? typedProduct.publisher : '');
@@ -61,9 +69,12 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [fileExtensions, setFileExtensions] = useState(currentProduct ? eBookProduct.fileExtensions?.join(', ') : '');
    const [readBy, setReadBy] = useState(currentProduct ? audioBookProduct.readBy : '');
    const [duration, setDuration] = useState(currentProduct ? audioBookProduct.duration : '');
-   const [links, setLinks] = useState<ProductLink[]>(currentProduct ? currentProduct.links : []);
+   const [links, setLinks] = useState<ProductLink[]>(currentProduct && currentProduct.links ? currentProduct.links : []);
 
    const [errors, setErrors] = useState<string[]>([])
+   const [serverError, setServerError] = useState('')
+   const [confirmationMessage, setConfirmationMessage] = useState('')
+   const [mainIndex, setMainIndex] = useState<MainIndex | null>(null)
 
    useEffect(() => {
       return () => {
@@ -77,29 +88,55 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       )
    }
 
-   async function addProduct() {
-      const isValidData = validateInput()
-      if (!isValidData) return
-
-      const loadingPeriod = runLoadingPeriod()
-      loadingPeriod.next()
-      let images: string[]
+   async function buildImages() {
+      let images: string[] = []
       if (files?.length) {
-         images = []
          for (let idx = 0; idx < files.length; idx++) {
-            const file = files.item(idx)
-            const { url } = await putInStorage(`products/${file.name}`, file)
+            const { url } = await putInStorage(`products/${files[idx].name}`, files[idx])
+            if (mainIndex?.idx === idx && !mainIndex?.isOld) {
+               images.unshift(url)
+               continue
+            }
             images.push(url)
          }
       }
-      const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id: currentProduct ? currentProduct._id : generateProductID(), _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
-      const ref = await addProductToFirestore(product)
-      loadingPeriod.next()
-      if (ref) {
-         window.alert(`Product with ID: ${ref.id} was succesfully ${currentProduct ? 'updated' : 'added'}!`)
-         resetValues()
-      } else {
-         window.alert(`An unknown error occurred. Please try refreshing the page, otherwise try again later!`)
+      if (fileURLs?.length) {
+         for (let idx = 0; idx < fileURLs.length; idx++) {
+            if (mainIndex?.idx === idx && mainIndex?.isOld) {
+               images.unshift(fileURLs[idx])
+               continue
+            }
+            images.push(fileURLs[idx])
+         }
+      }
+      return images
+   }
+
+   async function addProduct() {
+      try {
+         const isValidData = validateInput()
+         if (!isValidData) return
+
+         const loadingPeriod = runLoadingPeriod()
+         loadingPeriod.next()
+         const _id = currentProduct ? currentProduct._id : generateProductID()
+         let images: string[] = await buildImages()
+         const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id, _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
+         const ref = await addProductToFirestore(product)
+         loadingPeriod.next()
+         if (ref) {
+            setConfirmationMessage(`Product with ID: ${ref.id} was succesfully ${currentProduct ? 'updated' : 'added'}!`)
+            resetValues()
+            openDialog('CONFIRMATION')
+         } else {
+            setConfirmationMessage(`An unknown error occurred. Please try refreshing the page, otherwise try again later!`)
+            openDialog('CONFIRMATION')
+         }
+      }
+      catch (error) {
+         console.error(error)
+         setServerError(error.message)
+         openDialog('ERROR')
       }
    }
 
@@ -123,7 +160,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       if (type === AUDIO_BOOK_TYPE) {
          if (!readBy) errorList.push('Ready by is required')
       }
-      if (links.length) {
+      if (links?.length) {
          let anyEmptyDesc = false
          links.forEach(link => {
             if (link && (!link?.description || !link?.relProductId)) anyEmptyDesc = true
@@ -153,6 +190,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       setPrice('')
       setProvidenceReview('')
       setFiles(null)
+      setFileURLs([])
       setCategory('')
       setAuthors('')
       setPublisher('')
@@ -166,6 +204,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       setFileExtensions('')
       setReadBy('')
       setDuration('')
+      setLinks([])
    }
 
    return (
@@ -219,12 +258,11 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                               label='Subtitle'
                            />
 
-                           <ImageFormInput
-                              setFiles={setFiles}
+                           <ImageProductFormInput
+                              {...{ setFiles, fileURLs, setFileURLs, mainIndex, setMainIndex }}
                               size={'100%'}
                               label='Images'
                               isRequired={currentProduct?.images ? false : true}
-                              multiple
                            />
 
                            <FormSelect
@@ -283,6 +321,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                                  links.map((link, idx) => {
                                     if (idx) return (
                                        <ProductLinkInput
+                                          key={link.relProductId + idx}
                                           {...{ links, setLinks, }}
                                           hasProduct={Boolean(currentProduct)}
                                           indexFrom={idx}
@@ -434,11 +473,31 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                   </FormGroup>
 
                   <div className={styles.buttonContainer}>
-                     <Button label='Save' clickHandler={() => addProduct()} secondaryStyle />
+                     <Button label='Save' clickHandler={addProduct} secondaryStyle isSubmit />
                   </div>
                </div>
             }
          </Box>
+
+         <Dialog
+            name='ERROR'
+            message={serverError}
+            buttonsOptions={[{
+               label: 'CLOSE',
+               clickHandler: closeDialog,
+               secondaryStyle: true
+            }]}
+         />
+
+         <Dialog
+            name='CONFIRMATION'
+            message={confirmationMessage}
+            buttonsOptions={[{
+               label: 'CLOSE',
+               clickHandler: closeDialog,
+               secondaryStyle: true
+            }]}
+         />
       </div>
    )
 }
