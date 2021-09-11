@@ -473,7 +473,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                   </FormGroup>
 
                   <div className={styles.buttonContainer}>
-                     <Button label='Save' clickHandler={addProduct} secondaryStyle isSubmit />
+                     <Button label='Save' clickHandler={addProduct} secondaryStyle />
                   </div>
                </div>
             }
