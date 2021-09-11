@@ -10,13 +10,13 @@ import { deleteProduct } from '../../../firebase/delete';
 interface Props {
    readonly itemId: string;
    readonly item: Product | Article;
-   readonly firestorePath: string;
+   readonly onDelete: (itemId: string) => any;
    readonly itemType: 'product' | 'article' | 'order';
    readonly isFirstItem: boolean;
    readonly setItemToUpdate: Function;
 }
 
-const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, firestorePath, itemType }) => {
+const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, onDelete, itemType }) => {
 
    let className = 'LI-item';
 
@@ -45,7 +45,7 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
                   label: 'DELETE',
                   secondaryStyle: true,
                   clickHandler: async () => {
-                     deleteProduct(itemId)
+                     onDelete(itemId)
                      closeDialog();
                   }
                },
