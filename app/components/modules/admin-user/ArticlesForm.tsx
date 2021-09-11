@@ -215,7 +215,6 @@ const ArticlesForm: React.FC<Props> = ({
             buttonsOptions={[{
                label: 'CLOSE',
                clickHandler: closeDialog,
-               isSubmit: true,
                secondaryStyle: true
             }]}
          />
@@ -227,7 +226,6 @@ const ArticlesForm: React.FC<Props> = ({
             buttonsOptions={[{
                label: 'CLOSE',
                clickHandler: closeDialog,
-               isSubmit: true,
                secondaryStyle: true
             }]}
          />
