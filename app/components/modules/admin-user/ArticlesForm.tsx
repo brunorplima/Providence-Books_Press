@@ -203,7 +203,7 @@ const ArticlesForm: React.FC<Props> = ({
                </FormGroup>
 
                <div className={styles.buttonContainer}>
-                  <Button label='Save' clickHandler={addArticle} secondaryStyle isSubmit />
+                  <Button label='Save' clickHandler={addArticle} secondaryStyle />
                </div>
             </form>
          </Box>
