@@ -1,4 +1,4 @@
-import { Comment, Order, Review, User } from "../interfaces-objects/interfaces";
+import { Article, Comment, Order, Review, User } from "../interfaces-objects/interfaces";
 import Product from "../interfaces-objects/Product";
 import firebase, { firestore } from "./firebase";
 
@@ -10,6 +10,17 @@ export const addProductToFirestore = async (product: Product) => {
    catch (error) {
       handleError(error)
       return null;
+   }
+}
+
+export const addArticleToFirestore = async (article: Article) => {
+   try {
+      await firestore.doc(`articles/${article._id}`).set(article)
+      return firestore.doc(`articles/${article._id}`)
+   }
+   catch (error) {
+      handleError(error)
+      return null
    }
 }
 

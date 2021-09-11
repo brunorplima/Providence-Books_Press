@@ -21,3 +21,12 @@ export const deleteProduct = async (id: string) => {
       alert('Sorry, the following occurred: ' + error);
    }
 }
+
+export const deleteArticle = async (id: string) => {
+   try {
+      await firestore.doc(`articles/${id}`).delete();
+   }
+   catch(error) {
+      alert('Sorry, the following occurred: ' + error);
+   }
+}
