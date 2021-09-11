@@ -94,7 +94,7 @@ export interface Article {
    author: ArticleAuthor,
    category: string
    body: string,
-   datePosted: Date,
+   datePosted: Date | string,
 }
 
 export interface Category {

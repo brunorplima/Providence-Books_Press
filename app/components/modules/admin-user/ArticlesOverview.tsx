@@ -9,6 +9,7 @@ import splitListInPages from '../../../util/splitListInPages';
 import ListItem from './ListItem';
 import Link from 'next/link';
 import { shortMonths } from '../../../util/months';
+import { deleteArticle } from '../../../firebase/delete';
 
 const ArticlesOverview: React.FC<ListWithState> = ({
    setItemToUpdate,
@@ -62,7 +63,7 @@ const ArticlesOverview: React.FC<ListWithState> = ({
                               item={article}
                               setItemToUpdate={setItemToUpdate}
                               itemId={article._id}
-                              firestorePath='articles'
+                              onDelete={deleteArticle}
                               itemType='article'
                               isFirstItem={!idx}
                            >

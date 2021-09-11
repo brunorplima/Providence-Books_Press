@@ -172,7 +172,7 @@ const ProductLinkInput: React.FC<Props> = ({ setLinks, links, indexFrom, hasProd
                </div> :
                <div className={clsx(styles.resultItem, styles.resultItemEmpty)}>
                   <div></div>
-                  <div><span>No products selected yet</span></div>
+                  <div><span>No product selected yet</span></div>
                   <div></div>
                </div>
          }

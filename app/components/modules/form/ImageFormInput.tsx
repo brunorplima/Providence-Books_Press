@@ -25,7 +25,7 @@ const ImageFormInput: React.FC<Props> = ({
 }) => {
 
    const style: CSSProperties = {
-      width: size ? size : SMALL,
+      width: size ? size : '100%',
    }
 
    return (

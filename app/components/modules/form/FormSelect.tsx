@@ -25,7 +25,7 @@ const FormSelect: React.FC<Props> = ({
    disabled
 }) => {
    const style: CSSProperties = {
-      width: size ? size : SMALL
+      width: size ? size : '100%'
    }
 
    return (

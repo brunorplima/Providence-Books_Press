@@ -46,7 +46,11 @@ function MyApp({ Component, pageProps }) {
    function fetchArticles() {
       const unsubscribe = firestore.collection('articles').onSnapshot(snapshot => {
          const articles: Article[] = []
-         snapshot.forEach(doc => articles.push(doc.data() as Article))
+         snapshot.forEach(doc => {
+            const article = doc.data() as Article
+            article.datePosted = article.datePosted as Date
+            articles.push(doc.data() as Article)
+         })
          dispatch(articlesFetchAction(articles));
       })
       return unsubscribe

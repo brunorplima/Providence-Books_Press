@@ -1,0 +1,68 @@
+.selectNotice {
+   display: flex;
+   justify-content: flex-start;
+   align-content: center;
+   margin: .3rem 0 0 0;
+   color: var(--mainYellow);
+}
+
+.imageListContainer {
+   display: flex;
+}
+
+.image {
+   height: 105px;
+   padding: .3rem .2rem;
+   position: relative;
+   color: var(--mainGray);
+}
+
+.icon {
+   position: absolute;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.crownIcon {
+   height: 20px;
+   width: 20px;
+   top: calc(.3rem + 2px);
+   left: calc(.2rem + 2px);
+   background-color: rgba(255, 255, 255, .6);
+}
+
+.deleteIcon {
+   top: -2px;
+   right: -4px;
+   cursor: pointer;
+}
+.deleteIcon > span {
+   z-index: 3;
+}
+.deleteIcon > div {
+   background-color: white;
+   width: 12px;
+   height: 12px;
+   position: absolute;
+   top: calc(50% - 6px);
+   left: calc(50% - 6px);
+   z-index: 2;
+   border-radius: 100%;
+}
+
+.image img {
+   height: 95px;
+   width: auto;
+   border: 2px solid white;
+   padding: .1rem;
+   cursor: pointer;
+}
+
+.image img:hover {
+   border: 2px solid var(--mainGray);
+}
+
+.selectedImage {
+   border: 2px solid var(--mainGray) !important;
+}

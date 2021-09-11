@@ -116,7 +116,7 @@ const SignIn: React.FC<Props> = ({
          setIsResetPasswordEmailSent(true)
          setIsLoading(false)
       } catch (error) {
-         console.log(error)
+         console.error(error)
          setError(formatError(error))
          setIsLoading(false)
       }

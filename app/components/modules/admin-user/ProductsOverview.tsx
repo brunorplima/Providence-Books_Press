@@ -12,6 +12,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import ListPagination from './ListPagination';
 import ListSearch from './ListSearch';
 import splitListInPages from '../../../util/splitListInPages';
+import { deleteProduct } from '../../../firebase/delete';
 
 const ProductsOverview: React.FC<ListWithState> = ({
    setItemToUpdate,
@@ -66,7 +67,7 @@ const ProductsOverview: React.FC<ListWithState> = ({
                               key={product._id}
                               itemId={product._id}
                               item={product}
-                              firestorePath='products/'
+                              onDelete={deleteProduct}
                               itemType='product'
                               isFirstItem={!idx}
                               setItemToUpdate={setItemToUpdate}
