@@ -88,11 +88,11 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       )
    }
 
-   async function buildImages() {
+   async function buildImages(id: string) {
       let images: string[] = []
       if (files?.length) {
          for (let idx = 0; idx < files.length; idx++) {
-            const { url } = await putInStorage(`products/${files[idx].name}`, files[idx])
+            const { url } = await putInStorage(`products/${id}/${files[idx].name}`, files[idx])
             if (mainIndex?.idx === idx && !mainIndex?.isOld) {
                images.unshift(url)
                continue
@@ -120,7 +120,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
          const loadingPeriod = runLoadingPeriod()
          loadingPeriod.next()
          const _id = currentProduct ? currentProduct._id : generateProductID()
-         let images: string[] = await buildImages()
+         let images: string[] = await buildImages(_id)
          const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id, _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
          const ref = await addProductToFirestore(product)
          loadingPeriod.next()
