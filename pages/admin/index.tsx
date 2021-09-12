@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AdminArticles from '../../app/components/modules/admin-user/AdminArticles';
 import AdminContent from '../../app/components/modules/admin-user/AdminContent';
@@ -7,7 +7,7 @@ import AdminProducts from '../../app/components/modules/admin-user/AdminProducts
 import AdminSettings from '../../app/components/modules/admin-user/AdminSettings';
 import Section from '../../app/components/modules/admin-user/Section';
 import Sidebar from '../../app/components/modules/admin-user/Sidebar';
-import { Article, SectionType } from '../../app/interfaces-objects/interfaces';
+import { Article, Order, SectionType } from '../../app/interfaces-objects/interfaces';
 import Product from '../../app/interfaces-objects/Product';
 import styles from '../../app/styles/admin-user/Admin.module.css';
 import { useAuth } from '../../app/components/contexts/AuthProvider';
@@ -16,6 +16,8 @@ import { GiBlackBook } from 'react-icons/gi';
 import { FiUsers } from 'react-icons/fi';
 import { BsLayoutTextWindowReverse } from 'react-icons/bs';
 import { redirectUnauthorizedAdmin } from '../../app/util/authRouting';
+import AdminOrders from '../../app/components/modules/admin-user/AdminOrders';
+import { fetchDocs } from '../../app/firebase/fetch';
 
 const sections: SectionType[] = [
    {
@@ -56,6 +58,15 @@ interface Props {
 const AdminPage: React.FC<Props> = ({ products, articles }) => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
    const { firebaseUser, providenceUser } = useAuth()
+
+   
+   // To be placed in the context level
+   const [orders, setOrders] = useState<Order[]>([])
+   useEffect(() => {
+      fetchOrders()
+   }, [])
+   const fetchOrders = async () => setOrders(await fetchDocs<Order>('orders'))
+   ///////////
 
    function setSection(index: number) {
       if (currentSection !== sections[index].name) {
@@ -111,8 +122,11 @@ const AdminPage: React.FC<Props> = ({ products, articles }) => {
 
                {
                   currentSection === sections[4].name &&
-                  <Section title={currentSection}>
-
+                  <Section title={currentSection} tabs>
+                     <AdminOrders
+                        list={orders}
+                        tabs={['Overview', 'Create Billing', 'Update Billing']}
+                     />
                   </Section>
                }
 
