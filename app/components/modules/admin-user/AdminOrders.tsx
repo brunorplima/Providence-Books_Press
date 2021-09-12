@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Order } from '../../../interfaces-objects/interfaces'
+import { useAdminContext } from '../../contexts/AdminProvider'
 import Loading from '../loading/Loading'
 import OrdersOverview from './OrdersOverview'
 import Tabs from './Tabs'
@@ -19,9 +20,11 @@ const AdminOrders: React.FC<Props> = ({
    list
 }) => {
    const [orderSelected, setOrderSelected] = useState<Order>(null)
+   const { orders, listenForOrders } = useAdminContext()
 
    useEffect(() => {
       setCurrentTab(tabs[0]);
+      if (!orders) listenForOrders()
    }, [])
 
    return (
@@ -35,7 +38,7 @@ const AdminOrders: React.FC<Props> = ({
                list.length ?
                   <OrdersOverview
                      setItemToUpdate={setOrderSelected}
-                     list={list}
+                     list={orders ? orders : []}
                   />
                   : <Loading localIsLoading />
                : null
@@ -49,12 +52,6 @@ const AdminOrders: React.FC<Props> = ({
          {
             currentTab === tabs[2] &&
             <></>
-            // <ProductsForm
-            //    currentTab={currentTab}
-            //    tabs={tabs}
-            //    currentProduct={(productSelected as Book | EBook | AudioBook)}
-            //    setProductSelected={setProductSelected}
-            // />
          }
       </>
    )

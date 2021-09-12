@@ -12,6 +12,7 @@ import { productsFetchAction } from '../app/redux/actions/productsActions';
 import { Article } from '../app/interfaces-objects/interfaces';
 import { articlesFetchAction } from '../app/redux/actions/articlesActions';
 import AuthProvider from '../app/components/contexts/AuthProvider';
+import AdminProvider from '../app/components/contexts/AdminProvider';
 
 function MyApp({ Component, pageProps }) {
 
@@ -27,7 +28,7 @@ function MyApp({ Component, pageProps }) {
          articlesUnsubscribe()
       }
    }, []);
-   
+
    useEffect(() => {
       if (store.getState().isLoading) {
          store.dispatch(createLoadingAction(false));
@@ -59,11 +60,13 @@ function MyApp({ Component, pageProps }) {
    return (
       <Provider store={store}>
          <AuthProvider>
-            <PersistGate persistor={persistor}>
-               <Layout>
-                  <Component {...pageProps} />
-               </Layout>
-            </PersistGate>
+            <AdminProvider>
+               <PersistGate persistor={persistor}>
+                  <Layout>
+                     <Component {...pageProps} />
+                  </Layout>
+               </PersistGate>
+            </AdminProvider>
          </AuthProvider>
       </Provider>
    )
