@@ -18,7 +18,8 @@ export const deleteProduct = async (id: string) => {
       await firestore.doc(`products/${id}`).delete();
    }
    catch(error) {
-      alert('Sorry, the following occurred: ' + error);
+      console.error(error)
+      alert('Sorry, the following occurred: ' + error.message);
    }
 }
 
@@ -27,6 +28,17 @@ export const deleteArticle = async (id: string) => {
       await firestore.doc(`articles/${id}`).delete();
    }
    catch(error) {
-      alert('Sorry, the following occurred: ' + error);
+      console.error(error)
+      alert('Sorry, the following occurred: ' + error.message);
+   }
+}
+
+export const deleteOrder = async (id: string) => {
+   try {
+      await firestore.doc(`orders/${id}`).delete();
+   }
+   catch(error) {
+      console.error(error)
+      alert('Sorry, the following occurred: ' + error.message);
    }
 }

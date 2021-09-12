@@ -3,13 +3,12 @@ import { RiDeleteBinFill, RiFileEditFill } from 'react-icons/ri';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import Dialog from '../dialog/Dialog';
 import { CgDetailsMore } from 'react-icons/cg';
-import { Article } from '../../../interfaces-objects/interfaces';
+import { Article, Order } from '../../../interfaces-objects/interfaces';
 import Product from '../../../interfaces-objects/Product';
-import { deleteProduct } from '../../../firebase/delete';
 
 interface Props {
    readonly itemId: string;
-   readonly item: Product | Article;
+   readonly item: Product | Article | Order;
    readonly onDelete: (itemId: string) => any;
    readonly itemType: 'product' | 'article' | 'order';
    readonly isFirstItem: boolean;

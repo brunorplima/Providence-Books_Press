@@ -1,0 +1,15 @@
+.sortByOrder, .sortByKey {
+   padding: .4rem 1rem;
+}
+
+.sortByOrder > div:last-child, .sortByKey > div:last-child {
+   display: flex;
+}
+
+.sortByOrder h4, .sortByKey h4 {
+   margin-bottom: .4rem;
+}
+
+.column > div:not(:last-child) {
+   margin-bottom: .3rem;
+}

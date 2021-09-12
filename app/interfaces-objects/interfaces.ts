@@ -46,8 +46,8 @@ export interface User {
 export interface Order {
    _id: string,
    _userId: string,
-   dateTime: Date,
-   dueDate?: Date,
+   dateTime: Date | string,
+   dueDate?: Date | string,
    customerName: { firstName: string, lastName: string },
    productsList: ProductItem[],
    shipping: number,
