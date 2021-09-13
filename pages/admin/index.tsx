@@ -59,15 +59,6 @@ const AdminPage: React.FC<Props> = ({ products, articles }) => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
    const { firebaseUser, providenceUser } = useAuth()
 
-   
-   // To be placed in the context level
-   const [orders, setOrders] = useState<Order[]>([])
-   useEffect(() => {
-      fetchOrders()
-   }, [])
-   const fetchOrders = async () => setOrders(await fetchDocs<Order>('orders'))
-   ///////////
-
    function setSection(index: number) {
       if (currentSection !== sections[index].name) {
          setCurrentSection(sections[index].name);
@@ -124,7 +115,6 @@ const AdminPage: React.FC<Props> = ({ products, articles }) => {
                   currentSection === sections[4].name &&
                   <Section title={currentSection} tabs>
                      <AdminOrders
-                        list={orders}
                         tabs={['Overview', 'Create Billing', 'Update Billing']}
                      />
                   </Section>

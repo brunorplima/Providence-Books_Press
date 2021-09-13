@@ -10,14 +10,12 @@ interface Props {
    readonly currentTab?: string
    readonly setCurrentTab?: (tab: string) => void
    readonly tabs: string[]
-   readonly list: Order[]
 }
 
 const AdminOrders: React.FC<Props> = ({
    currentTab,
    setCurrentTab,
-   tabs,
-   list
+   tabs
 }) => {
    const [orderSelected, setOrderSelected] = useState<Order>(null)
    const { orders, listenForOrders } = useAdminContext()
@@ -35,7 +33,7 @@ const AdminOrders: React.FC<Props> = ({
 
          {
             currentTab === tabs[0] ?
-               list.length ?
+               orders?.length ?
                   <OrdersOverview
                      setItemToUpdate={setOrderSelected}
                      list={orders ? orders : []}
