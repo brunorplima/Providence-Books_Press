@@ -36,11 +36,11 @@ const OrdersOverview: React.FC<ListWithState> = ({
    toFirstPage,
    toLastPage
 }) => {
-   const [sortType, setSortType] = useState<SortType>({ key: 'dateTime', order: 'asc' })
+   const [sortType, setSortType] = useState<SortType>({ key: 'dateTime', order: 'desc' })
 
    const container = createRef<HTMLDivElement>();
-   const orders = list.map((item: Order & TimestampOrder) => {
-      return { ...item, dateTime: item.dateTime.toDate(), dueDate: item.dueDate.toDate() }
+   const orders = list.map((item: Order) => {
+      return { ...item, dateTime: new Date(item.dateTime), dueDate: new Date(item.dueDate) }
    })
 
    function sortedList(list: Order[], orderType: SortOrder, key: string) {

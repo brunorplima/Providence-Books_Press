@@ -12,9 +12,10 @@ type Address = {
 
 export type Gender = 'Male' | 'Female'
 
-type PaymentStatus = 'Paid' | 'Not paid'
+export type PaymentStatus = 'Paid' | 'Not paid'
 
-type ProductItem = {
+export type ProductItem = {
+   id: string,
    name: string,
    quantity: number,
    price: number,
@@ -127,7 +128,7 @@ export type BookType = 'Book' | 'E-book' | 'Audio book'
  */
  export interface BookshelfItem {
    id: string,
-   isChecked: boolean,
+   isChecked?: boolean,
    quantity: number,
    image: string,
    name: string,

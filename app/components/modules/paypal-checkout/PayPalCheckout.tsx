@@ -123,8 +123,8 @@ const PayPalCheckout: React.FC<Props> = ({
       const order: Order = {
          _id: orderData.id,
          _userId: providenceUser ? providenceUser._id : '',
-         dateTime: now,
-         dueDate: now,
+         dateTime: now.toUTCString(),
+         dueDate: now.toUTCString(),
          customerName: {
             firstName: orderData.payer.name.given_name,
             lastName: orderData.payer.name.surname
@@ -143,6 +143,7 @@ const PayPalCheckout: React.FC<Props> = ({
             secondary: address.address_line_2 ? address.address_line_ : null
          },
          productsList: bookshelf.map(item => ({
+            id: item.id,
             name: `${item.name}${item.subtitle ? ` - ${item.subtitle}` : ''}`,
             price: item.price,
             quantity: item.quantity,
