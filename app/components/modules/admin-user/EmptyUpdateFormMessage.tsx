@@ -11,7 +11,7 @@ const EmptyUpdateFormMessage: React.FC<Props> = ({ messageType }) => {
    return (
       <div className={styles.updateMessage}>
          <AiFillInfoCircle size={30} />
-         To update {messageType === 'product' ? 'a' : 'an'} {messageType} select it ({<RiFileEditFill />}) on the "Overview" tab.
+         To update {messageType.match(/^[aieouAIEOU].*/) ? 'an' : 'a'} {messageType} select it ({<RiFileEditFill />}) on the "Overview" tab.
       </div>
    )
 }

@@ -36,15 +36,14 @@ const FormInput: React.FC<Props> = ({
       inputStyle.marginLeft = '1rem'
    }
 
+   const id = Math.ceil(Math.random() * 999999999999).toString()
 
    return (
       <div className={styles.inputContainer} style={containerStyle}>
-         <label htmlFor={name}>{label} {isRequired && '*'}</label>
+         <label htmlFor={id}>{label} {isRequired && '*'}</label>
          <input
-            type={type}
+            {...{ type, placeholder, value, id, name }}
             className={styles.inputField}
-            placeholder={placeholder}
-            value={value}
             onChange={e => setValue(e.currentTarget.value)}
             required={isRequired}
             style={inputStyle}

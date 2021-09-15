@@ -1,0 +1,187 @@
+.form {
+   background-color: var(--almostWhite);
+   margin: 4rem auto;
+   padding: 1.5rem;
+   border-radius: .5rem;
+   -webkit-box-shadow: 0px 5px 10px 0px #777; 
+   box-shadow: 0px 5px 10px 0px #777;
+   max-width: 700px;
+}
+
+.inputs {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
+
+.leftSide {
+   margin-right: .8rem;
+}
+
+.rightSide {
+   margin-left: .8rem;
+}
+
+.submit {
+   display: flex;
+   justify-content: center;
+   margin-top: 3rem;
+}
+
+.formController {
+   position: relative;
+}
+
+.formControllerDoubleInput {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+.inputField {
+   display: flex;
+   flex-direction: column;
+}
+
+.inputField input, .inputField select {
+   border: 2px solid var(--lightGray);
+   padding: .3rem;
+   border-radius: .4rem;
+   height: 34px;
+   width: 100%;
+   font-size: 11pt;
+}
+
+.inputField input:disabled {
+   background-color: rgba(0,0,0,.15);
+}
+
+.errorMessage {
+   margin-top: .1rem;
+   color: #c00;
+}
+
+
+
+
+
+
+
+
+
+.resultsContainerFixed {
+   border: 2px solid var(--mainGray);
+   border-radius: .25rem;
+   width: 100%;
+   margin-bottom: 1rem;
+}
+
+.resultItem {
+   height: 50px;
+   display: grid;
+   grid-template-columns: 1fr 4fr 1fr;
+   cursor: pointer;
+}
+
+.resultItem:hover {
+   background-color: var(--almostWhite);
+}
+
+.resultItem > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.resultItemEmpty {
+   margin-bottom: 1rem;
+   cursor: default;
+}
+
+.resultItemEmpty span {
+   display: none;
+   font-size: 11pt;
+}
+
+.resultItemFixed {
+   position: relative;
+   background-color: var(--almostWhite);
+   cursor: default;
+   height: auto;
+}
+
+.hr {
+   margin: 0;
+}
+
+.resultItemCheck {
+   position: absolute;
+   right: -8px;
+   top: -8px;
+   color: var(--mainGray);
+   cursor: pointer;
+}
+.resultItemCheck path {
+   background-color: white;
+}
+
+.img > img {
+   height: 40px;
+   width: auto;
+}
+
+.name {
+   flex-direction: column;
+   justify-content: flex-start;
+}
+
+.type {
+   text-align: center;
+   font-size: 10pt;
+}
+
+.resultItemFixed > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+/* .qtyPrices > div {
+} */
+
+.qtyPrices > div:not(:first-child) {
+   padding: .3rem .15rem;
+   display: grid;
+   place-items: center;
+}
+
+.qtyButtons {
+   display: flex;
+}
+
+.qtyButtons > div {
+   display: grid;
+   place-items: center;
+   padding: .3rem .15rem;
+   transition: .3s;
+   color: var(--mainGray);
+   width: 100%;
+   cursor: pointer;
+}
+
+.qtyButtons > div:hover {
+   background-color: var(--lightGray);
+}
+
+.qtyPrices {
+   display: grid;
+   grid-template-columns: 3fr 2fr 3fr 3fr;
+}

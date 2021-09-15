@@ -1,0 +1,48 @@
+.resultsContainer {
+   border: 2px solid var(--mainGray);
+   border-radius: .25rem;
+   position: absolute;
+   left: 0;
+   top: 108%;
+   z-index: 3;
+   background-color: white;
+   width: 100%;
+}
+.resultsContainer > .resultItem:not(:last-child) {
+   border-bottom: 1px solid var(--lightGray);
+}
+.resultsContainer h5 {
+   margin: 0;
+}
+
+.resultItem {
+   height: 50px;
+   display: grid;
+   grid-template-columns: 1fr 4fr 1fr;
+   cursor: pointer;
+}
+
+.resultItem:hover {
+   background-color: var(--almostWhite);
+}
+
+.resultItem > div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.img > img {
+   height: 40px;
+   width: auto;
+}
+
+.name {
+   flex-direction: column;
+   justify-content: flex-start;
+}
+
+.type {
+   text-align: center;
+   font-size: 10pt;
+}

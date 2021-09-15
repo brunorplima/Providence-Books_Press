@@ -115,19 +115,19 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
             }
 
             {
-               product.links && product.links?.length && (
+               product.links && product.links.length && (
                   <div className={styles.linksContainer}>
                      <div className={styles.linksIcon}>
                         <TiInfoLarge fontSize={24} />
                      </div>
-                     {product.links.map(link =>
-                        <div className={styles.link} key={link.relProductId}>
+                     {product.links.map((link, idx) => link?.description && link?.relProductId ?
+                        <div className={styles.link} key={link.relProductId ? link.relProductId : idx}>
                            <Link href={`/product/${link.relProductId}`}>
                               <a className={styles.anchorLink}>
                                  {link.description}
                               </a>
                            </Link>
-                        </div>
+                        </div> : null
                      )}
                   </div>
                )

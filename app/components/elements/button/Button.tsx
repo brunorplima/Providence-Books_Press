@@ -7,9 +7,10 @@ export interface ButtonProps {
    readonly style?: CSSProperties;
    readonly secondaryStyle?: boolean;
    readonly disabled?: boolean;
+   readonly type?: 'button' | 'reset' | 'submit';
 }
 
-const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle, disabled }) => {
+const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle, disabled, type }) => {
 
    const disabledStyle: CSSProperties = {};
    if (disabled) {
@@ -25,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondarySt
          onClick={clickHandler && clickHandler}
          style={{ ...style, ...disabledStyle }}
          disabled={disabled}
+         type={type}
       >
          {label}
       </button>
