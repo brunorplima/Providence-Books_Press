@@ -1,6 +1,7 @@
 import AudioBook from "../interfaces-objects/AudioBook"
 import Book from "../interfaces-objects/Book"
 import EBook from "../interfaces-objects/EBook"
+import { User } from "../interfaces-objects/interfaces"
 import { firestore } from "./firebase"
 
 export const updateContent = async (option: 'SET_MAIN_TEXT' | 'SET_PASSAGE', value: string) => {
@@ -46,6 +47,15 @@ export const updateProduct = async (id: string, props: Partial<Book | EBook | Au
    try {
       await firestore.collection('products').doc(id).update(props)
       return firestore.collection('products').doc(id)
+   } catch (error) {
+      console.error(error)
+   }
+}
+
+export const updateUser = async (id: string, props: Partial<User>) => {
+   try {
+      await firestore.collection('users').doc(id).update(props)
+      return firestore.collection('users').doc(id)
    } catch (error) {
       console.error(error)
    }
