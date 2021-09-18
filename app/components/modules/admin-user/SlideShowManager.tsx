@@ -126,6 +126,7 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
                size={MEDIUM}
                multiple
             />
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <Button
                label='Add'
                secondaryStyle
