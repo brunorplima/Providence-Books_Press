@@ -1,9 +1,12 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createOrder } from '../../../firebase/add'
+import { updateProduct, updateUser } from '../../../firebase/update'
+import Book from '../../../interfaces-objects/Book'
 import { BookshelfItem, Order } from '../../../interfaces-objects/interfaces'
 import { createRemoveAllFromBookshelfAction } from '../../../redux/actions/bookshelfActions'
 import styles from '../../../styles/paypal-checkout/PayPalCheckout.module.css'
+import { getFromProducts } from '../../../util/productModelHelper'
 import { useAuth } from '../../contexts/AuthProvider'
 import Loading from '../loading/Loading'
 
@@ -70,6 +73,8 @@ const PayPalCheckout: React.FC<Props> = ({
                   const order = buildOrder(orderData)
                   createOrder(order)
                   setOrder(order)
+                  updateStocks()
+                  makeUserCustomer()
                   dispatch(createRemoveAllFromBookshelfAction())
                }
             }).render('#paypal-button-container')
@@ -79,6 +84,21 @@ const PayPalCheckout: React.FC<Props> = ({
       catch (error) {
          window.alert('Is the PayPal checkout button not showing? If so refresh the page.')
          return null
+      }
+   }
+
+   async function updateStocks() {
+      for (const item of bookshelf) {
+         if (item.type !== 'E-book' && item.type !== 'Audio book') {
+            const product = getFromProducts(item.id) as Book
+            await updateProduct(item.id, { stock: product.stock - item.quantity })
+         }
+      }
+   }
+
+   async function makeUserCustomer() {
+      if (providenceUser && !providenceUser.isCustomer) {
+         await updateUser(providenceUser._id, { isCustomer: true })
       }
    }
 

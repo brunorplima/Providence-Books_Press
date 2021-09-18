@@ -117,3 +117,20 @@
    border-bottom: 18px solid rgba(255, 0, 0, .5);
    border-right: 18px solid transparent;
 }
+
+
+.fewStock, .outOfStock {
+   display: flex;
+   justify-content: flex-start;
+   width: 100%;
+   text-decoration: underline;
+   padding: 0 .8rem;
+}
+
+.fewStock {
+   color: rgb(189, 0, 0);
+}
+
+.outOfStock {
+   color: var(--mainGray);
+}

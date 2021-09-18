@@ -9,6 +9,7 @@ import AudioBook from '../../../interfaces-objects/AudioBook';
 import Book from '../../../interfaces-objects/Book';
 import { useDispatch } from 'react-redux';
 import LinkLoading from '../link-loading/LinkLoading';
+import { isPhysicalProduct } from '../../../util/productModelHelper';
 
 interface Props {
    readonly product: Product;
@@ -26,7 +27,6 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       type,
       subtitle
    } = (product as Book | EBook | AudioBook);
-   const dispatch = useDispatch();
 
    return (
       <div className={styles.container}>
@@ -41,6 +41,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
                   <div className={styles.author}>{authors.toUpperCase()}</div>
                   <ProductType type={type} fontSize={'9pt'} padding={'.0 .2rem'} margin={'.1rem 0 0 0'} />
                </div>
+
                <h2>{name.toUpperCase()}</h2>
 
                {
@@ -54,6 +55,15 @@ const ProductItem: React.FC<Props> = ({ product }) => {
          </div>
 
          <div>
+            {
+               isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
+               <strong className={styles.fewStock}>Only {(product as Book).stock} left!</strong>
+            }
+
+            {
+               isPhysicalProduct(product) && (product as Book).stock <= 0 &&
+               <strong className={styles.outOfStock}>Out of stock!</strong>
+            }
             <AddToBookshelfButton product={product} />
          </div>
       </div>

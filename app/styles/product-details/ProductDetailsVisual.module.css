@@ -62,6 +62,27 @@
 }
 
 
+.stockMessage {
+   margin-top: .4rem;
+   font-size: 15pt;
+}
+
+.fewStock, .outOfStock {
+   display: flex;
+   justify-content: flex-start;
+   width: 100%;
+   text-decoration: underline;
+}
+
+.fewStock {
+   color: rgb(189, 0, 0);
+}
+
+.outOfStock {
+   color: var(--mainGray);
+}
+
+
 
 
 

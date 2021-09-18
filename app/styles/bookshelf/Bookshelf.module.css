@@ -31,6 +31,43 @@
    margin-left: 0;
 }
 
+.overstockMessage {
+   position: relative;
+   padding: 1.2rem;
+   padding-right: 2rem;
+   border: 2px solid var(--mainGray);
+   background-color: var(--almostWhite);
+   color: var(--mainGray);
+   margin-bottom: 1rem;
+}
+
+.overstockMessage > div:first-child {
+   position: absolute;
+   top: 5px;
+   right: 5px;
+   cursor: pointer;
+}
+
+.message {
+   display: flex;
+}
+
+.message > div:first-child {
+   max-width: 100px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.message > div:last-child {
+   display: flex;
+   align-items: center;
+}
+
+.message > div:last-child a {
+   text-decoration: underline;
+}
+
 
 
 

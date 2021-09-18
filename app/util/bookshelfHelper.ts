@@ -1,23 +1,23 @@
 import { BookshelfItem } from "../interfaces-objects/interfaces";
 
 
-export const getItemsSubtotal = (bookshelf: BookshelfItem[]) => {
+export const getItemsSubtotal = (bookshelf: BookshelfItem[] = []) => {
    const subtotal = bookshelf.reduce((a, b) => a + (b.price * b.quantity), 0);
    return subtotal;
 }
 
-export const getShippingFee = (bookshelf: BookshelfItem[]) => {
+export const getShippingFee = (bookshelf: BookshelfItem[] = []) => {
    const totalWeight = sumWeight(bookshelf)
    return bookshelf.length ? calculateShippingFee(totalWeight, getPhysicalProductsSubtotal(bookshelf)) : 0;
 }
 
-export const getGST = (bookshelf: BookshelfItem[]) => {
+export const getGST = (bookshelf: BookshelfItem[] = []) => {
    const subtotal = getItemsSubtotal(bookshelf) + getShippingFee(bookshelf);
    const gst = subtotal * 0.05;
    return gst;
 }
 
-export const getTotal = (bookshelf: BookshelfItem[]) => {
+export const getTotal = (bookshelf: BookshelfItem[] = []) => {
    return getItemsSubtotal(bookshelf) + getShippingFee(bookshelf) + getGST(bookshelf)
 }
 

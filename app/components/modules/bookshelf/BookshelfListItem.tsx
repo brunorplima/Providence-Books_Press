@@ -1,20 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BookshelfItem } from '../../../interfaces-objects/interfaces'
 import BookshelfItemQuantity from '../../elements/bookshelf-item-qty/BookshelfItemQuantity'
 import ProductType from '../../elements/product-type/ProductType'
 import styles from '../../../styles/bookshelf/BookshelfListItem.module.css'
-import Link from 'next/link'
 import LinkLoading from '../../elements/link-loading/LinkLoading'
+import Dialog from '../dialog/Dialog'
+import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction'
+import { getFromProducts, isPhysicalProduct } from '../../../util/productModelHelper'
+import Book from '../../../interfaces-objects/Book'
+import { bookshelfContext } from './context/BookshelfProvider'
 
 interface Props {
-   item: BookshelfItem,
-   setItemCheck: (id: string) => void,
-   increaseQuantity: (id: string) => void,
-   decreaseQuantity: (id: string) => void,
-   evenItem?: boolean
+   readonly item: BookshelfItem,
+   readonly setItemCheck: (id: string) => void,
+   readonly increaseQuantity: (id: string) => void,
+   readonly decreaseQuantity: (id: string) => void,
+   readonly evenItem?: boolean
 }
 
 const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuantity, decreaseQuantity, evenItem }) => {
+   const { setOverstockMessage } = useContext(bookshelfContext)
+
+   function validateIncrease() {
+      const product = getFromProducts(item.id)
+      if (isPhysicalProduct(product) && (product as Book).stock <= item.quantity) {
+         openDialog('OVER_STOCK')
+         setOverstockMessage(true)
+         return
+      }
+      increaseQuantity(item.id)
+   }
+
    return (
       <div className={`${styles.container} ${evenItem && styles.colouredBackground}`}>
          <div className={styles.productInfo}>
@@ -59,7 +75,7 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
                <BookshelfItemQuantity
                   itemId={item.id}
                   quantity={item.quantity}
-                  increaseQuantity={increaseQuantity}
+                  increaseQuantity={validateIncrease}
                   decreaseQuantity={decreaseQuantity}
                   evenItem={evenItem}
                />
@@ -69,6 +85,16 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
                $ {(item.quantity * item.price).toFixed(2)}
             </div>
          </div>
+
+         <Dialog
+            name='OVER_STOCK'
+            message='There is not enough of this product in stock for the quantity requested.'
+            buttonsOptions={[{
+               label: 'CLOSE',
+               secondaryStyle: true,
+               clickHandler: closeDialog
+            }]}
+         />
       </div>
    )
 }
