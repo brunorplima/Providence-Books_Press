@@ -10,7 +10,7 @@ interface Props {
 
 const ProductSelectDropdownMenu: React.FC<Props> = ({ products, selectProduct, search }) => {
 
-   const filteredResults = products.filter(product => product.name.match(new RegExp(search, 'i'))).slice(0, 5)
+   const filteredResults = products.filter(product => product.name.match(new RegExp(search, 'i'))).slice(0, 20)
 
    return (
       <>
