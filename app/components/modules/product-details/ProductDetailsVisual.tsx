@@ -4,6 +4,8 @@ import AddToBookshelfButton from '../add-to-bookshelf-button/AddToBookshelfButto
 import styles from '../../../styles/product-details/ProductDetailsVisual.module.css'
 import { Review } from '../../../interfaces-objects/interfaces'
 import { AiFillStar } from 'react-icons/ai'
+import { isPhysicalProduct } from '../../../util/productModelHelper'
+import Book from '../../../interfaces-objects/Book'
 
 interface Props {
    readonly product: Product;
@@ -54,6 +56,18 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews, selectedImage
                <div>({reviews.length} reviews)</div>
             </div>
          }
+
+         <div className={styles.stockMessage}>
+            {
+               isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
+               <strong className={styles.fewStock}>Only {(product as Book).stock} left!</strong>
+            }
+            {
+               isPhysicalProduct(product) && (product as Book).stock <= 0 &&
+               <strong className={styles.outOfStock}>Out of stock!</strong>
+            }
+         </div>
+
          <div className={styles.detailsVisualPrice}>PRICE: ${price.toFixed(2)}</div>
          <AddToBookshelfButton product={product} style={{ width: '100%', height: '37px' }} />
       </div>

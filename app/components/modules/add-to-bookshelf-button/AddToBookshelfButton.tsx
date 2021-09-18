@@ -8,6 +8,8 @@ import styles from '../../../styles/add-to-bookshelf/AddToBookshelf.module.css';
 import { GiCheckMark } from 'react-icons/gi';
 import { BookshelfItem } from '../../../interfaces-objects/interfaces';
 import LinkLoading from '../../elements/link-loading/LinkLoading';
+import { isPhysicalProduct } from '../../../util/productModelHelper';
+import Book from '../../../interfaces-objects/Book';
 
 interface Props {
    readonly product: Product;
@@ -40,6 +42,9 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
 
    addToBookshelf() {
       const { product } = this.props
+      if (isPhysicalProduct(product) && (product as Book).stock <= 0) {
+         return
+      }
       store.dispatch(createAddToBookshelfAction(product))
       this.setState({ wasAdded: true });
    }
@@ -52,9 +57,11 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
          justifyContent: 'center'
       }
 
-      const { style } = this.props;
+      const { style, product } = this.props;
 
       const { wasAdded } = this.state;
+
+      const disabled = isPhysicalProduct(product) && (product as Book).stock <= 0
 
       return (
          <Frame style={frameStyle}>
@@ -68,7 +75,7 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
                      <div><GiCheckMark /></div>
                      <div>OPEN BOOKSHELF</div>
                   </LinkLoading> :
-                  <Button label='ADD TO BOOKSHELF' clickHandler={this.addToBookshelf} style={style} />
+                  <Button label='ADD TO BOOKSHELF' clickHandler={this.addToBookshelf} style={style} disabled={disabled} />
             }
          </Frame>
       )
