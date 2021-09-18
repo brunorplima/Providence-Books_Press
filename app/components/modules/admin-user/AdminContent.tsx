@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import { updateContent } from '../../../firebase/update'
 import SlideShowManager from './SlideShowManager'
 import { getAll, ImageStorageData } from '../../../firebase/storage'
+import FeaturedProductsManager from './FeaturedProductsManager'
 
 const AdminContent = () => {
    const [aboutUsText, setAboutUsText] = useState('')
@@ -65,6 +66,10 @@ const AdminContent = () => {
          <Box paddingAll title="MANAGE WEBSITE'S CONTENT">
             <h2>Home page</h2>
             <SlideShowManager imagesData={slideShowImagesData} />
+            
+            &nbsp;&nbsp;&nbsp;
+
+            <FeaturedProductsManager />
 
             <h2>About page</h2>
             <div>

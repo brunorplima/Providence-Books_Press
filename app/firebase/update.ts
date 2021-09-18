@@ -60,3 +60,12 @@ export const updateUser = async (id: string, props: Partial<User>) => {
       console.error(error)
    }
 }
+
+export const updateFeaturedProductIds = async (ids: string[]) => {
+   try {
+      await firestore.collection('featured-products').doc('ids').set({ ids })
+      return firestore.collection('featured-products').doc('ids')
+   } catch (error) {
+      console.error(error)
+   }
+}
