@@ -14,7 +14,6 @@ interface Props {
 }
 
 const BookshelfList: React.FC<Props> = ({ items, setItemCheck, increaseQuantity, decreaseQuantity }) => {
-   const dispatch = useDispatch();
 
    return (
       <div className={styles.container}>
