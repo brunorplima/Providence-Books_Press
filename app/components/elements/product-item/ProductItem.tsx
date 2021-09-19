@@ -56,12 +56,12 @@ const ProductItem: React.FC<Props> = ({ product }) => {
 
          <div>
             {
-               isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
+               product && isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
                <strong className={styles.fewStock}>Only {(product as Book).stock} left!</strong>
             }
 
             {
-               isPhysicalProduct(product) && (product as Book).stock <= 0 &&
+               product && isPhysicalProduct(product) && (product as Book).stock <= 0 &&
                <strong className={styles.outOfStock}>Out of stock!</strong>
             }
             <AddToBookshelfButton product={product} />

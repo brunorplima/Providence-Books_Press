@@ -23,7 +23,7 @@ const BookshelfListItem: React.FC<Props> = ({ item, setItemCheck, increaseQuanti
 
    function validateIncrease() {
       const product = getFromProducts(item.id)
-      if (isPhysicalProduct(product) && (product as Book).stock <= item.quantity) {
+      if (product && isPhysicalProduct(product) && (product as Book).stock <= item.quantity) {
          openDialog('OVER_STOCK')
          setOverstockMessage(true)
          return

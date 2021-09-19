@@ -142,7 +142,7 @@ export class ArticlesPage extends Component<Props, State> {
                }
 
                {
-                  !articlesWithSearch.length ?
+                  !articlesWithSearch.length && search ?
                      <div style={{ marginTop: '3rem' }}><EmptyResult image='search field' /></div>
                      : null
                }
