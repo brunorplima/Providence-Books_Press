@@ -7,7 +7,7 @@ import AboutUs from '../../app/components/modules/about-us/AboutUs';
 import AboutUsFooter from '../../app/components/modules/about-us/AboutUsFooter';
 import { GetServerSideProps } from 'next';
 import { fetchDoc } from '../../app/firebase/fetch';
-import { auBiblicalText, auMainText } from './defaultContent';
+import { auBiblicalText, auMainText } from '../../app/util/aboutUsPageDefaultContent';
 
 export type Error = {
    emptyField: boolean;
