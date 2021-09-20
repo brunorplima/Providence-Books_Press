@@ -51,7 +51,7 @@ const SignIn: React.FC<Props> = ({
    const [isLoading, setIsLoading] = useState(false)
    const [isForgotPassword, setIsForgotPassword] = useState(false)
    const [isResetPasswordEmailSent, setIsResetPasswordEmailSent] = useState(false)
-   const { signup, signin, firebaseUser, resetPassword, signout } = useAuth()
+   const { signup, signin, firebaseUser, resetPassword, signout, isUserAdmin } = useAuth()
    const router = useRouter()
 
    if (redirectLoggedUser(firebaseUser)) return null
@@ -72,14 +72,15 @@ const SignIn: React.FC<Props> = ({
       setError('')
       try {
          setIsLoading(true)
-         const user = await signup(email, password, { url: 'https://providencebp.vercel.app/sign-in' })
+         const user = await signup(email, password, { url: 'https://providence-store.vercel.app/sign-in' })
          const providenceUser = buildUser(user, firstName, lastName)
-         await createUser(providenceUser)
+         const ref = await createUser(providenceUser)
          resetFormValues()
          openDialog(SIGN_UP_VERIFY_EMAIL)
          setIsLoading(false)
          await signout()
       } catch (err) {
+         console.error(err)
          setError(formatError(err))
          setIsLoading(false)
       }
@@ -90,7 +91,7 @@ const SignIn: React.FC<Props> = ({
       try {
          setIsLoading(true)
          const { user } = await signin(email, password)
-         if (user.uid === process.env.NEXT_PUBLIC_ADMIN_UID) {
+         if (isUserAdmin()) {
             router.push('/admin')
          } else {
             if (!user.emailVerified) {
@@ -130,7 +131,7 @@ const SignIn: React.FC<Props> = ({
          case 'auth/network-request-failed':
             const msg = error.message
             return msg.substring(0, 16) + msg.substring(77) + ' Check your internet connection.'
-         default: return 'Something went wrong. Please try again later. '
+         default: return error.message
       }
    }
 
@@ -161,9 +162,17 @@ const SignIn: React.FC<Props> = ({
                {
                   label: 'CLOSE',
                   clickHandler: () => closeDialog(),
+               },
+               {
+                  label: 'RESEND EMAIL',
+                  clickHandler: () => {
+                     
+                  },
+                  style: { width: 'fit-content' },
+                  secondaryStyle: true
                }
             ]}
-            message='You must verify your email to be able to access your account.'
+            message={`You must verify your email to be able to access your account.\nHaven't received our email to verify your email address? Ask to send another one!`}
          />
          <div className={styles.left}>
             <div className={styles.backButtonLeft}>

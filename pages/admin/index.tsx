@@ -58,6 +58,7 @@ interface Props {
 const AdminPage: React.FC<Props> = ({ products, articles }) => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
    const { firebaseUser, providenceUser } = useAuth()
+   if (redirectUnauthorizedAdmin(firebaseUser)) return null
 
    function setSection(index: number) {
       if (currentSection !== sections[index].name) {
@@ -65,7 +66,6 @@ const AdminPage: React.FC<Props> = ({ products, articles }) => {
       }
    }
 
-   if (redirectUnauthorizedAdmin(firebaseUser)) return null
    return (
       <>
          {

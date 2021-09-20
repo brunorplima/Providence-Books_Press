@@ -29,7 +29,7 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
          isChecked: false
       }))
       setImagesWithCheck(withCheck)
-      if (imagesData.length && isLoading) setIsLoading(false)
+      if (isLoading) setIsLoading(false)
    }, [imagesData])
 
    useEffect(() => {
