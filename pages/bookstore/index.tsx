@@ -19,7 +19,6 @@ import { fetchDoc } from '../../app/firebase/fetch';
 interface Props {
    readonly products: Product[];
    readonly pagination: number;
-   readonly syncExpireHours: number;
 }
 
 interface State {
@@ -236,7 +235,7 @@ export class Bookstore extends Component<Props, State> {
                   />
 
                   {
-                     Array.isArray(paginatedSearchedFilteredList) && !paginatedSearchedFilteredList.length &&
+                     Array.isArray(paginatedSearchedFilteredList) && !paginatedSearchedFilteredList.length && search &&
                      <EmptyResult image='empty folder' />
                   }
 
@@ -256,12 +255,9 @@ export class Bookstore extends Component<Props, State> {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-   const docRef = await fetchDoc<{ productsSyncExpireHours: number }>('settings/general');
-   const syncExpireHours = docRef.productsSyncExpireHours
 
    return {
       props: {
-         syncExpireHours
       }
    }
 }

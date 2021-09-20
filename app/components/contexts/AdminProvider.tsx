@@ -46,7 +46,8 @@ const AdminProvider: React.FC = ({ children }) => {
    function listenForFPIds() {
       if (!fpUnsubscribe.current) {
          fpUnsubscribe.current = firestore.collection('featured-products').doc('ids').onSnapshot(snapshot => {
-            setFeaturedProductIds(snapshot.data().ids as string[])
+            const prodList = snapshot.data()
+            if (prodList) setFeaturedProductIds(prodList.ids as string[])
          })
       }
    }

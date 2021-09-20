@@ -12,6 +12,7 @@ interface AuthContextType {
    readonly resetPassword: (email: string) => Promise<void>
    readonly updateEmail: (email: string) => Promise<void>
    readonly updatePassword: (password: string) => Promise<void>
+   readonly isUserAdmin: () => boolean
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -23,11 +24,17 @@ const AuthContext = createContext<AuthContextType>({
    resetPassword: null,
    updateEmail: null,
    updatePassword: null,
+   isUserAdmin: null
 })
 
 export const useAuth = () => {
    return useContext(AuthContext)
 }
+
+export const adminIds = [
+   process.env.NEXT_PUBLIC_ADMIN_UID,
+   process.env.NEXT_PUBLIC_ADMIN_UID2
+]
 
 const AuthProvider = ({ children }) => {
    const [firebaseUser, setFirebaseUser] = useState<firebase.User>(null)
@@ -81,6 +88,13 @@ const AuthProvider = ({ children }) => {
       return firebaseUser.updatePassword(password)
    }
 
+   function isUserAdmin() {
+      if (firebaseUser && adminIds.includes(firebaseUser?.uid)) {
+         return true
+      }
+      return false
+   }
+   
    const initialValue: AuthContextType = {
       firebaseUser,
       providenceUser,
@@ -90,6 +104,7 @@ const AuthProvider = ({ children }) => {
       resetPassword,
       updateEmail,
       updatePassword,
+      isUserAdmin
    }
 
    return <AuthContext.Provider value={initialValue}>{children}</AuthContext.Provider>

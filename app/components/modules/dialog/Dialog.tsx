@@ -34,20 +34,20 @@ const Dialog: React.FC<Props> = ({
       <div className={styles.container} onClick={backgroundCloseDialog}>
          <div className={styles.dialog}>
             <div className={styles.closeIcon}>
-               <IoMdClose fontSize={28} onClick={closeDialog}/>
+               <IoMdClose fontSize={28} onClick={closeDialog} />
             </div>
 
             <div className={styles.body}>
                {
                   dialogType === 'warning' ?
-                  <div className={styles.dialogType}>
-                     <AiFillWarning fontSize={28}/>
-                  </div> :
-                  dialogType === 'info' ?
-                  <div className={styles.dialogType}>
-                  <  AiFillInfoCircle fontSize={28}/>
-                  </div> :
-                  null
+                     <div className={styles.dialogType}>
+                        <AiFillWarning fontSize={28} />
+                     </div> :
+                     dialogType === 'info' ?
+                        <div className={styles.dialogType}>
+                           <  AiFillInfoCircle fontSize={28} />
+                        </div> :
+                        null
                }
                {
                   typeof message === 'string' ?
@@ -65,7 +65,7 @@ const Dialog: React.FC<Props> = ({
                            label={button.label}
                            clickHandler={button.clickHandler}
                            secondaryStyle={button.secondaryStyle}
-                           style={{width: 90}}
+                           style={button.style ? button.style : { width: 90 }}
                         />
                      )
                   })

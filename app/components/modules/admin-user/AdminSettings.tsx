@@ -18,8 +18,9 @@ const AdminSettings = () => {
    useEffect(() => {
       firestore.doc('settings/home').get()
       .then(doc => {
-         const imageSlide = doc.data().slideShowInterval / 1000
-         const featSlide = doc.data().featuredProductsSlideInterval / 1000
+         const data = doc.data()
+         const imageSlide = data?.slideShowInterval ? data.slideShowInterval / 1000 : 7
+         const featSlide = data?.featuredProductsSlideInterval ? data.featuredProductsSlideInterval / 1000 : 7
          previousImageSlideDelay.current = imageSlide
          previousFeatProdsDelay.current = featSlide
          setImageSlideDelay(imageSlide)

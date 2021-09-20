@@ -42,7 +42,7 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
 
    addToBookshelf() {
       const { product } = this.props
-      if (isPhysicalProduct(product) && (product as Book).stock <= 0) {
+      if (product && isPhysicalProduct(product) && (product as Book).stock <= 0) {
          return
       }
       store.dispatch(createAddToBookshelfAction(product))
@@ -61,7 +61,7 @@ class AddToBookshelfButton extends React.Component<Props, State>  {
 
       const { wasAdded } = this.state;
 
-      const disabled = isPhysicalProduct(product) && (product as Book).stock <= 0
+      const disabled = product && isPhysicalProduct(product) && (product as Book).stock <= 0
 
       return (
          <Frame style={frameStyle}>

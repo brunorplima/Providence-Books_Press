@@ -7,6 +7,7 @@ import AboutUs from '../../app/components/modules/about-us/AboutUs';
 import AboutUsFooter from '../../app/components/modules/about-us/AboutUsFooter';
 import { GetServerSideProps } from 'next';
 import { fetchDoc } from '../../app/firebase/fetch';
+import { auBiblicalText, auMainText } from '../../app/util/aboutUsPageDefaultContent';
 
 export type Error = {
    emptyField: boolean;
@@ -309,9 +310,9 @@ class Index extends Component<Props, State> {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
    const pageContent: { mainText: string, biblicalText: string } = await fetchDoc('content/about-us');
-   const mainTextString: string = pageContent.mainText;
+   const mainTextString: string = pageContent && pageContent.mainText ? pageContent.mainText : auMainText;
    const mainText = mainTextString.split('\n');
-   const biblicalText: string = pageContent.biblicalText;
+   const biblicalText: string = pageContent ? pageContent.biblicalText : auBiblicalText;
 
    return {
       props: {

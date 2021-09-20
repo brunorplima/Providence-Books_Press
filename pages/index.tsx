@@ -141,10 +141,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       featuredProductsSlideInterval: number
    }
    
-   const featuredProductIds = (await fetchDoc<{ ids: string[]}>('featured-products/ids')).ids;
+   const fpIdsRef = await fetchDoc<{ ids: string[]}>('featured-products/ids')
+   const featuredProductIds = fpIdsRef ? fpIdsRef.ids : [];
    const homeSettingsRef = await fetchDoc<HomeSettings>('settings/home');
-   const slideShowInterval = homeSettingsRef.slideShowInterval;
-   const featuredProductsSlideInterval = homeSettingsRef.featuredProductsSlideInterval;
+   const slideShowInterval = homeSettingsRef ? homeSettingsRef.slideShowInterval : 6000;
+   const featuredProductsSlideInterval = homeSettingsRef ? homeSettingsRef.featuredProductsSlideInterval : 7000;
    return {
       props: {
          featuredProductIds,
