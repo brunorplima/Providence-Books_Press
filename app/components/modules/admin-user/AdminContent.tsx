@@ -23,8 +23,11 @@ const AdminContent = () => {
    useEffect(() => {
       firestore.doc('content/about-us').get()
          .then(doc => {
-            setAboutUsText(doc.data().mainText)
-            setBiblePassage(doc.data().biblicalText)
+            const data = doc.data()
+            if (data) {
+               setAboutUsText(data.mainText)
+               setBiblePassage(data.biblicalText)
+            }
             setIsLoading(false)
          })
          .catch(error => {
