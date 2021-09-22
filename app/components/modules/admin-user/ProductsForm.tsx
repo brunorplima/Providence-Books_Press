@@ -25,8 +25,7 @@ import runLoadingPeriod from '../../../util/runLoadingPeriod';
 import ProductLinkInput from './ProductLinkInput';
 import Dialog from '../dialog/Dialog';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
-
-const categories = ['Doctrine', 'Church & Culture', 'Sermons', 'Commentaries', 'Bibles', 'Theology', 'Kids Books', 'Civil Government', 'World View'];
+import { useAdminContext } from '../../contexts/AdminProvider';
 
 interface Props {
    readonly currentTab: string;
@@ -57,7 +56,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [files, setFiles] = useState<File[]>([]);
    const [fileURLs, setFileURLs] = useState<string[]>(currentProduct ? currentProduct.images : []);
    const [category, setCategory] = useState(currentProduct ? currentProduct.category : '');
-   const [authors, setAuthors] = useState(currentProduct ? typedProduct.authors : '');
+   const [authors, setAuthors] = useState<string[]>(currentProduct?.authors ? typedProduct.authors.split(' & ') : []);
    const [publisher, setPublisher] = useState(currentProduct ? typedProduct.publisher : '');
    const [subject, setSubject] = useState(typedProduct?.subject ? typedProduct.subject : '');
    const [description, setDescription] = useState(bookProduct?.description ? bookProduct.description : '');
@@ -76,7 +75,11 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [confirmationMessage, setConfirmationMessage] = useState('')
    const [mainIndex, setMainIndex] = useState<MainIndex | null>(null)
 
+   const { categories, listenForCategories, authors: allAuthors, listenForAuthors } = useAdminContext()
+
    useEffect(() => {
+      listenForCategories()
+      listenForAuthors()
       return () => {
          if (currentTab === tabs[2]) setProductSelected(null);
       }
@@ -121,7 +124,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
          loadingPeriod.next()
          const _id = currentProduct ? currentProduct._id : generateProductID()
          let images: string[] = await buildImages(_id)
-         const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors, publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id, _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
+         const product = buildProduct({ type, name, subtitle, isbn, weight: Number(weight), stock: Number(stock), price: Number(price), providenceReview, category, authors: authors.join(' & '), publisher, subject, description, numberPages: Number(numberPages), age, coverType, flag, tags: getSplitValue(tags), fileExtensions: getSplitValue(fileExtensions), readBy, duration, _id, _categoryId: generateUid(), _authorIds: [generateUid()], _publisherId: generateUid(), images: images ? images : currentProduct.images, links })
          const ref = await addProductToFirestore(product)
          loadingPeriod.next()
          if (ref) {
@@ -192,7 +195,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       setFiles(null)
       setFileURLs([])
       setCategory('')
-      setAuthors('')
+      setAuthors([])
       setPublisher('')
       setSubject('')
       setDescription('')
@@ -205,6 +208,22 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
       setReadBy('')
       setDuration('')
       setLinks([])
+   }
+
+   function getAuthorOptions() {
+      const options: string[] = []
+      allAuthors.forEach(auth => !authors.includes(auth) && options.push(auth))
+      return options
+   }
+
+   function changeAuthors(newAuthor: string) {
+      if (newAuthor) {
+         setAuthors([...authors, newAuthor])
+      }
+   }
+
+   function removeAuthor(authorToRemove: string) {
+      setAuthors(authors.filter(auth => auth !== authorToRemove))
    }
 
    return (
@@ -276,14 +295,35 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                               size={'100%'}
                            />
 
-                           <FormInput
-                              type='text'
-                              value={authors}
-                              setValue={setAuthors}
+                           <FormSelect
+                              options={getAuthorOptions()}
+                              value={''}
+                              setValue={changeAuthors}
                               size={'100%'}
                               label='Author(s)'
+                              selectClassName={mainFormStyles.selectField}
                               isRequired
                            />
+                           <div style={{display: 'flex', flexWrap: 'wrap', gap: 6, margin: '.3rem 0 1rem'}}>
+                              {
+                                 authors.map(value => (
+                                    <div
+                                       key={value}
+                                       onClick={() => removeAuthor(value)}
+                                       style={{
+                                       color:'white',
+                                       padding: 4,
+                                       borderRadius: '.3rem',
+                                       backgroundColor: 'var(--mainYellow)',
+                                       cursor: 'pointer',
+                                       fontSize: '10pt'
+                                    }}
+                                    >
+                                       {value}
+                                    </div>
+                                 ))
+                              }
+                           </div>
 
                            <FormInput
                               type='text'

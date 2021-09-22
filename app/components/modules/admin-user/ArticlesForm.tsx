@@ -17,8 +17,7 @@ import runLoadingPeriod from '../../../util/runLoadingPeriod';
 import Dialog from '../dialog/Dialog';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import { addArticleToFirestore } from '../../../firebase/add';
-
-const categories = ['Soteorology', 'Creeds and confessions', 'Worship service', 'Lord\'s Day', 'Christology', 'Predestination', 'Sola Scriptura', 'Christian life', 'Education', 'Eschatology', 'Sermons']
+import { useAdminContext } from '../../contexts/AdminProvider';
 
 interface Props {
    readonly currentTab: string;
@@ -45,7 +44,10 @@ const ArticlesForm: React.FC<Props> = ({
    const imageUrl = currentArticle ? currentArticle.image : ''
    const [error, setError] = useState('')
 
+   const { categories, listenForCategories } = useAdminContext()
+
    useEffect(() => {
+      if (!categories.length) listenForCategories()
       return () => {
          if (currentTab === tabs[2]) setSelectedArticle(null);
       }
