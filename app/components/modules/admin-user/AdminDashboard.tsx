@@ -16,7 +16,7 @@ const AdminDashboard: React.FC<Props> = ({ admin }) => {
             title={'Stats'}
             paddingAll
          >
-            <p>Marveo jest ino tarbunam manito dae ti covan danebias</p>
+            
          </Box>
 
          <Box
