@@ -23,12 +23,12 @@ interface Props {
    readonly products: Product[];
    readonly reviews: Review[];
    readonly id: string;
+   readonly product: Product
 }
 
 interface State {
    readonly selectedImage: number;
    readonly relatedProducts: Product[];
-   readonly product: Product;
 }
 
 class ProductDetails extends Component<Props, State> {
@@ -37,35 +37,22 @@ class ProductDetails extends Component<Props, State> {
       super(props);
       this.state = {
          selectedImage: 0,
-         relatedProducts: [],
-         product: null,
+         relatedProducts: []
       }
 
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
-   componentDidMount() {
-      this.setProduct()
-   }
-
    componentDidUpdate() {
-      const { products, id } = this.props
-      const { product } = this.state
-      if (product._id !== id) this.setProduct()
+      const { products, product } = this.props
       const relatedProducts = products.filter(prod => prod.category === product?.category && prod._id !== product?._id)
       if (JSON.stringify(relatedProducts) !== JSON.stringify(this.state.relatedProducts)) {
          this.setState({ relatedProducts })
       }
    }
 
-   setProduct() {
-      const { products, id } = this.props
-      const product: Product = products.find(product => product._id === id)
-      this.setState({ product })
-   }
-
    getSortedRelatedProductsList(): Product[] {
-      const { product } = this.state;
+      const { product } = this.props;
       const { relatedProducts } = this.state;
       const sameAuthorList: Product[] = [];
       const differentAuthorList: Product[] = [];
@@ -93,8 +80,8 @@ class ProductDetails extends Component<Props, State> {
    }
 
    render() {
-      const { product, selectedImage, relatedProducts } = this.state;
-      const { reviews } = this.props
+      const { selectedImage, relatedProducts } = this.state;
+      const { reviews, product } = this.props
 
       return (
          <Frame style={{ display: 'flex', justifyContent: 'center' }}>
@@ -154,10 +141,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
    }
 
+   const product  = doc.data()
+
    return {
       props: {
          id: _id,
-         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toString() })) || []
+         reviews: reviews.map(review => ({ ...review, dateTime: review.dateTime.toString() })) || [],
+         product
       }
    }
 }

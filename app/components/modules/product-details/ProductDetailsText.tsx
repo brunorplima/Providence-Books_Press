@@ -50,11 +50,6 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                <div><span className={styles.boldFont}>READY BY:</span> {(product as AudioBook).readBy.toUpperCase()}</div>
             }
 
-
-
-
-            {/* <div>More info <RiArrowDropDownLine /></div> */}
-
             <div className={styles.moreInfoContent}>
 
                {
@@ -96,12 +91,12 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
 
             <div className={styles.productDescription}>
                {
-                  product.description.split('\n').map((paragraph => <p key={paragraph}>{paragraph}</p>))
+                  product.description.split('\n').map(((paragraph, idx) => <p key={paragraph + idx}>{paragraph}</p>))
                }
             </div>
 
             {
-               product.tags?.length &&
+               product.tags?.length ?
                <div className={styles.tagsContainer}>
                   <div className={styles.tag}>
                      TAGS
@@ -111,11 +106,11 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                   </div>
 
                   <div className={styles.tags}>{product.tags.join(', ')}</div>
-               </div>
+               </div> : null
             }
 
             {
-               product.links && product.links.length && (
+               product.links && product.links.length ? (
                   <div className={styles.linksContainer}>
                      <div className={styles.linksIcon}>
                         <TiInfoLarge fontSize={24} />
@@ -130,7 +125,7 @@ const ProductDetailsText: React.FC<Props> = ({ product }) => {
                         </div> : null
                      )}
                   </div>
-               )
+               ) : null
             }
          </div>
       </div>

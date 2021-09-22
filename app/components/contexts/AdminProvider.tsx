@@ -8,13 +8,21 @@ interface AdminContext {
    readonly listenForOrders: () => void
    readonly featuredProductIds: string[]
    readonly listenForFPIds: () => void
+   readonly categories: string[]
+   readonly listenForCategories: () => void
+   readonly authors: string[]
+   readonly listenForAuthors: () => void
 }
 
 export const adminContext = createContext<AdminContext>({
    orders: [],
    listenForOrders: () => { },
    featuredProductIds: [],
-   listenForFPIds: () => { }
+   listenForFPIds: () => { },
+   categories: [],
+   listenForCategories: () => { },
+   authors: [],
+   listenForAuthors: () => { }
 })
 
 export const useAdminContext = () => useContext(adminContext)
@@ -22,14 +30,20 @@ export const useAdminContext = () => useContext(adminContext)
 const AdminProvider: React.FC = ({ children }) => {
    const [orders, setOrders] = useState<Order[]>(null)
    const [featuredProductIds, setFeaturedProductIds] = useState<string[]>([])
+   const [categories, setCategories] = useState<string[]>([])
+   const [authors, setAuthors] = useState<string[]>([])
    const { providenceUser } = useAuth()
    const ordersUnsubscribe = useRef<() => void>()
    const fpUnsubscribe = useRef<() => void>()
+   const categoriesUnsubscribe = useRef<() => void>()
+   const authorsUnsubscribe = useRef<() => void>()
 
    useEffect(() => {
       return () => {
          if (ordersUnsubscribe.current) ordersUnsubscribe.current()
          if (fpUnsubscribe.current) fpUnsubscribe.current()
+         if (categoriesUnsubscribe.current) categoriesUnsubscribe.current()
+         if (authorsUnsubscribe.current) authorsUnsubscribe.current()
       }
    }, [])
 
@@ -52,11 +66,35 @@ const AdminProvider: React.FC = ({ children }) => {
       }
    }
 
+   function listenForCategories() {
+      if (!categoriesUnsubscribe.current) {
+         categoriesUnsubscribe.current = firestore.collection('content').doc('categories').onSnapshot(snapshot => {
+            const data = snapshot.data()
+            const categs = data ? data.list as string[] : null
+            if (categs) setCategories(categs)
+         })
+      }
+   }
+
+   function listenForAuthors() {
+      if (!authorsUnsubscribe.current) {
+         authorsUnsubscribe.current = firestore.collection('content').doc('authors').onSnapshot(snapshot => {
+            const data = snapshot.data()
+            const auths = data ? data.list as string[] : null
+            if (auths) setAuthors(auths)
+         })
+      }
+   }
+
    const initialValue: AdminContext = {
       orders,
       listenForOrders,
       featuredProductIds,
-      listenForFPIds
+      listenForFPIds,
+      categories,
+      listenForCategories,
+      authors,
+      listenForAuthors
    }
 
    if (!providenceUser || providenceUser.role === 'user') return <>{children}</>

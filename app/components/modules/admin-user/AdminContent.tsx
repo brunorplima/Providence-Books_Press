@@ -9,6 +9,8 @@ import { updateContent } from '../../../firebase/update'
 import SlideShowManager from './SlideShowManager'
 import { getAll, ImageStorageData } from '../../../firebase/storage'
 import FeaturedProductsManager from './FeaturedProductsManager'
+import ProductInfoCollectionsManager from './ProductInfoCollectionsManager'
+import { useAdminContext } from '../../contexts/AdminProvider'
 
 const AdminContent = () => {
    const [aboutUsText, setAboutUsText] = useState('')
@@ -19,6 +21,12 @@ const AdminContent = () => {
    const [isPassageEditMode, setIsPassageEditMode] = useState(false)
    const [isLoading, setIsLoading] = useState(true)
    const [slideShowImagesData, setSlideShowImagesData] = useState<ImageStorageData[]>([]);
+   const { categories, listenForCategories, authors, listenForAuthors } = useAdminContext()
+
+   useEffect(() => {
+      listenForCategories()
+      listenForAuthors()
+   }, [])
 
    useEffect(() => {
       firestore.doc('content/about-us').get()
@@ -70,7 +78,7 @@ const AdminContent = () => {
             <h2>Home page</h2>
             <SlideShowManager imagesData={slideShowImagesData} />
             
-            &nbsp;&nbsp;&nbsp;
+            &nbsp;
 
             <FeaturedProductsManager />
 
@@ -129,9 +137,17 @@ const AdminContent = () => {
                   </div>
                </div>
             </div>
+
+            <br/><br/><br/>
+
+            <h2>Product Info Collections</h2>
+            <ProductInfoCollectionsManager {...{ categories, authors }}/>
+
+            <br/><br/><br/><br/><br/>
          </Box>
       </div>
    )
 }
 
 export default AdminContent
+

@@ -1,0 +1,46 @@
+.categoriesContainer {
+   display: flex;
+}
+
+.form {
+   flex: 1;
+}
+
+.errorMessage {
+   color: rgb(181, 0, 0);
+}
+
+.categories {
+   background-color: var(--almostWhite);
+   flex: 5;
+   padding: 1rem;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 18px;
+   max-height: 250px;
+   max-width: 100%;
+   overflow: scroll;
+}
+
+.category {
+   padding: .5rem .8rem;
+   height: fit-content;
+   color: white;
+   background-color: var(--mainYellow);
+   border-radius: .5rem;
+   position: relative;
+}
+
+.deleteIcon {
+   position: absolute;
+   top: -7px;
+   right: -6px;
+   background-color: var(--mainGray);
+   height: fit-content;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
+   border-radius: 100%;
+   cursor: pointer;
+}

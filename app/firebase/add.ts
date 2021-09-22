@@ -65,5 +65,15 @@ export const addComment = async (comment: Comment) => {
    }
 }
 
+export const addCollection = async (path: string, value: string[]) => {
+   try {
+      await firestore.doc(path).set({ list: value })
+      return firestore.doc(path)
+   }
+   catch (error) {
+      handleError(error)
+   }
+}
+
 
 const handleError = (error: any) => window.alert('Sorry, the following error occurred: ' + error.message)
