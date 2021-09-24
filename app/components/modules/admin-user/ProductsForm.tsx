@@ -32,6 +32,7 @@ interface Props {
    readonly tabs: string[];
    readonly currentProduct?: Book | EBook | AudioBook;
    readonly setProductSelected?: Function
+   readonly setCurrentTab?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export type MainIndex = {
@@ -39,7 +40,7 @@ export type MainIndex = {
    isOld: boolean
 }
 
-const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setProductSelected }) => {
+const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setProductSelected, setCurrentTab }) => {
    const typedProduct = currentProduct as Book | EBook | AudioBook
    const bookProduct = currentProduct as Book
    const eBookProduct = currentProduct as EBook
@@ -132,8 +133,7 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
             resetValues()
             openDialog('CONFIRMATION')
          } else {
-            setConfirmationMessage(`An unknown error occurred. Please try refreshing the page, otherwise try again later!`)
-            openDialog('CONFIRMATION')
+            openDialog('UNKNOWN_ERROR')
          }
       }
       catch (error) {
@@ -304,20 +304,20 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                               selectClassName={mainFormStyles.selectField}
                               isRequired
                            />
-                           <div style={{display: 'flex', flexWrap: 'wrap', gap: 6, margin: '.3rem 0 1rem'}}>
+                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '.3rem 0 1rem' }}>
                               {
                                  authors.map(value => (
                                     <div
                                        key={value}
                                        onClick={() => removeAuthor(value)}
                                        style={{
-                                       color:'white',
-                                       padding: 4,
-                                       borderRadius: '.3rem',
-                                       backgroundColor: 'var(--mainYellow)',
-                                       cursor: 'pointer',
-                                       fontSize: '10pt'
-                                    }}
+                                          color: 'white',
+                                          padding: 4,
+                                          borderRadius: '.3rem',
+                                          backgroundColor: 'var(--mainYellow)',
+                                          cursor: 'pointer',
+                                          fontSize: '10pt'
+                                       }}
                                     >
                                        {value}
                                     </div>
@@ -530,11 +530,27 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
          />
 
          <Dialog
+            name='UNKNOWN_ERROR'
+            message={'An unknown error occurred. Please try refreshing the page, otherwise try again later!'}
+            buttonsOptions={[{
+               label: 'CLOSE',
+               clickHandler: closeDialog,
+               secondaryStyle: true
+            }]}
+         />
+
+         <Dialog
             name='CONFIRMATION'
             message={confirmationMessage}
             buttonsOptions={[{
                label: 'CLOSE',
-               clickHandler: closeDialog,
+               clickHandler: () => {
+                  closeDialog()
+                  if (currentProduct) {
+                     setCurrentTab(tabs[0])
+                     setProductSelected(null)
+                  }
+               },
                secondaryStyle: true
             }]}
          />

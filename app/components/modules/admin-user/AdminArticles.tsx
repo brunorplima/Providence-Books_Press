@@ -44,20 +44,14 @@ const AdminArticles: React.FC<Props> = ({ list, tabs, currentTab, setCurrentTab 
          }
 
          {
-            currentTab === tabs[1] &&
-            <ArticlesForm
-               currentTab={currentTab}
-               tabs={tabs}
-            />
+            currentTab === tabs[1] && <ArticlesForm {...{ currentTab, tabs }} />
          }
 
          {
             currentTab === tabs[2] &&
             <ArticlesForm
-               currentTab={currentTab}
-               tabs={tabs}
+               {...{ currentTab, tabs, setCurrentTab, setSelectedArticle }}
                article={selectedArticle}
-               setSelectedArticle={setSelectedArticle}
             />
          }
       </>

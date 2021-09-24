@@ -35,7 +35,6 @@ const ImageFormInput: React.FC<Props> = ({
             type='file'
             className={inputClassName ? inputClassName : mainFormStyles.inputField}
             onChange={e => setFiles(e.target.files)}
-            required={isRequired}
             style={style}
             multiple={multiple}
          />

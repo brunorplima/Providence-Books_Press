@@ -34,7 +34,7 @@ const AdminProducts: React.FC<Props> = ({
    setCurrentTab
 }) => {
    const [productSelected, setProductSelected] = useState<Product>(null);
-   
+
    useEffect(() => {
       setCurrentTab(tabs[0]);
    }, []);
@@ -58,26 +58,21 @@ const AdminProducts: React.FC<Props> = ({
                      setItemToUpdate={setProductSelected}
                      list={list}
                   />
-                  : <Loading localIsLoading/>
+                  : <Loading localIsLoading />
                : null
          }
 
          {
             currentTab === tabs[1] &&
-               <ProductsForm 
-                  currentTab={currentTab}
-                  tabs={tabs}
-               />
+            <ProductsForm {...{ currentTab, tabs }} />
          }
 
          {
             currentTab === tabs[2] &&
-               <ProductsForm
-                  currentTab={currentTab}
-                  tabs={tabs}
-                  currentProduct={(productSelected as Book | EBook | AudioBook)}
-                  setProductSelected={setProductSelected}
-               />
+            <ProductsForm
+               {...{ currentTab, tabs, setProductSelected, setCurrentTab }}
+               currentProduct={(productSelected as Book | EBook | AudioBook)}
+            />
          }
       </>
    )
