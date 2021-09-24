@@ -215,8 +215,10 @@ const ArticlesForm: React.FC<Props> = ({
                label: 'CLOSE',
                clickHandler: () => {
                   closeDialog()
-                  setCurrentTab(tabs[0])
-                  setSelectedArticle(null)
+                  if (currentArticle) {
+                     setCurrentTab(tabs[0])
+                     setSelectedArticle(null)
+                  }
                },
                secondaryStyle: true
             }]}
