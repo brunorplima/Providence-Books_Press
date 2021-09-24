@@ -12,7 +12,7 @@ const ArticleBodyText: React.FC<Props> = ({ body }) => {
    return (
       <div className={styles.container}>
          {
-            text.map(t => <p key={t.substring(0, 100)} className={styles.p}>{t}</p>)
+            text.map((t, i) => <p key={t + i} className={styles.p}>{t}</p>)
          }
       </div>
    )

@@ -23,24 +23,26 @@ interface Props {
    readonly currentTab: string;
    readonly tabs: string[];
    readonly article?: Article;
-   readonly setSelectedArticle?: Function
+   readonly setSelectedArticle?: Function;
+   readonly setCurrentTab?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ArticlesForm: React.FC<Props> = ({
    currentTab,
    tabs,
    article: currentArticle,
-   setSelectedArticle
+   setSelectedArticle,
+   setCurrentTab
 }) => {
-   const [title, setTitle] = useState(currentArticle ? currentArticle.title : '')
-   const [subtitle, setSubtitle] = useState(currentArticle ? currentArticle.subtitle : '')
-   const [category, setCategory] = useState(currentArticle ? currentArticle.category : '')
-   const [body, setBody] = useState(currentArticle ? currentArticle.body : '')
+   const [title, setTitle] = useState(currentArticle?.title ? currentArticle.title : '')
+   const [subtitle, setSubtitle] = useState(currentArticle?.subtitle ? currentArticle.subtitle : '')
+   const [category, setCategory] = useState(currentArticle?.category ? currentArticle.category : '')
+   const [body, setBody] = useState(currentArticle?.body ? currentArticle.body : '')
    const [images, setImages] = useState<FileList>(null)
-   const [authorName, setAuthorName] = useState(currentArticle ? currentArticle.author.name : '')
-   const [authorCredential, setAuthorCredential] = useState(currentArticle ? currentArticle.author.credential : '')
-   const [authorAbout, setAuthorAbout] = useState(currentArticle ? currentArticle.author.about : '')
-   
+   const [authorName, setAuthorName] = useState(currentArticle?.author ? currentArticle.author.name : '')
+   const [authorCredential, setAuthorCredential] = useState(currentArticle?.author ? currentArticle.author.credential : '')
+   const [authorAbout, setAuthorAbout] = useState(currentArticle?.author && currentArticle.author.about ? currentArticle.author.about : '')
+
    const imageUrl = currentArticle ? currentArticle.image : ''
    const [error, setError] = useState('')
 
@@ -155,7 +157,6 @@ const ArticlesForm: React.FC<Props> = ({
                            setValue={setCategory}
                            selectClassName={mainFormStyles.selectField}
                            label='Category'
-                           isRequired
                            containerClassName={mainFormStyles.selectContainer}
                         />
                      </div>
@@ -166,7 +167,6 @@ const ArticlesForm: React.FC<Props> = ({
                         <ImageFormInput
                            setFiles={setImages}
                            label='Image'
-                           isRequired
                         />
 
                         <FormInput
@@ -174,7 +174,6 @@ const ArticlesForm: React.FC<Props> = ({
                            value={authorName}
                            setValue={setAuthorName}
                            label='Author name'
-                           isRequired
                         />
 
                         <FormInput
@@ -183,7 +182,6 @@ const ArticlesForm: React.FC<Props> = ({
                            setValue={setAuthorCredential}
                            size={X_SMALL}
                            label='Author honorific'
-                           isRequired
                         />
                      </div>
                   </div>
@@ -193,7 +191,6 @@ const ArticlesForm: React.FC<Props> = ({
                         value={body}
                         setValue={setBody}
                         label='Text body'
-                        isRequired
                      />
 
                      <FormTextArea
@@ -216,7 +213,11 @@ const ArticlesForm: React.FC<Props> = ({
             dialogType='info'
             buttonsOptions={[{
                label: 'CLOSE',
-               clickHandler: closeDialog,
+               clickHandler: () => {
+                  closeDialog()
+                  setCurrentTab(tabs[0])
+                  setSelectedArticle(null)
+               },
                secondaryStyle: true
             }]}
          />
