@@ -45,7 +45,6 @@ const FormInput: React.FC<Props> = ({
             {...{ type, placeholder, value, id, name }}
             className={styles.inputField}
             onChange={e => setValue(e.currentTarget.value)}
-            required={isRequired}
             style={inputStyle}
          />
       </div>

@@ -158,6 +158,7 @@ const ArticlesForm: React.FC<Props> = ({
                            selectClassName={mainFormStyles.selectField}
                            label='Category'
                            containerClassName={mainFormStyles.selectContainer}
+                           isRequired
                         />
                      </div>
 
@@ -167,6 +168,7 @@ const ArticlesForm: React.FC<Props> = ({
                         <ImageFormInput
                            setFiles={setImages}
                            label='Image'
+                           isRequired
                         />
 
                         <FormInput
@@ -174,6 +176,7 @@ const ArticlesForm: React.FC<Props> = ({
                            value={authorName}
                            setValue={setAuthorName}
                            label='Author name'
+                           isRequired
                         />
 
                         <FormInput
@@ -182,6 +185,7 @@ const ArticlesForm: React.FC<Props> = ({
                            setValue={setAuthorCredential}
                            size={X_SMALL}
                            label='Author honorific'
+                           isRequired
                         />
                      </div>
                   </div>
@@ -191,6 +195,7 @@ const ArticlesForm: React.FC<Props> = ({
                         value={body}
                         setValue={setBody}
                         label='Text body'
+                        isRequired
                      />
 
                      <FormTextArea
