@@ -52,7 +52,7 @@ const PayPalCheckout: React.FC<Props> = ({
 
    function appendScript() {
       const script = document.createElement('script')
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=CAD`
+      script.src = `https://www.paypal.com/sdk/js?client-id=AdVsTLevf1gG4quWFZ-BVqJfvjFBM69tZZz7vfRTMfX_Rx135DEBb5WSq5Q0GL7AwFz94kOrFjyFXOUu&currency=CAD`
       document.body.append(script)
    }
 
