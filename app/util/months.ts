@@ -40,3 +40,13 @@ export const week = [
    'Friday',
    'Saturday'
 ]
+
+export const shortWeek = [
+   'Sun',
+   'Mon',
+   'Tue',
+   'Wed',
+   'Thu',
+   'Fri',
+   'Sat'
+]
