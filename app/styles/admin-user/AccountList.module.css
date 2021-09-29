@@ -1,0 +1,98 @@
+.rowContainer:not(:last-child) {
+   margin-bottom: 8px;
+}
+
+.rowContainer:nth-child(odd) {
+   background-color: var(--almostWhite);
+}
+
+.row {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 18px;
+   padding: .5rem;
+}
+
+.row > div {
+   flex: 1;
+}
+
+.data, .text {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.text {
+   min-width: 240px;
+}
+
+.div {
+   flex: 1;
+   display: none;
+}
+
+.controllers1 {
+   flex: 0 !important;
+   display: none;
+   user-select: none;
+}
+
+.controllers1 > div {
+   display: flex;
+   gap: 10px;
+   justify-content: center;
+   align-items: center;
+   padding: .4rem;
+   align-self: center;
+   color: white;
+   background-color: var(--mainGray);
+   border-radius: .2rem;
+   cursor: pointer;
+   transition: .25s;
+}
+
+.controllers1 > div:hover {
+   background-color: #999;
+}
+
+.controllers2 {
+   flex: 1;
+   display: flex;
+   justify-content: flex-end;
+   margin-top: .8rem;
+   padding: .5rem;
+   user-select: none;
+}
+
+.controllers2 > div {
+   display: flex;
+   gap: 10px;
+   justify-content: center;
+   align-items: center;
+   padding: .4rem;
+   color: white;
+   background-color: var(--mainGray);
+   border-radius: .2rem;
+   cursor: pointer;
+   transition: .25s;
+}
+
+.controllers2 > div:hover {
+   background-color: #999;
+}
+
+@media screen and (min-width: 900px) {
+   .div {
+      display: block;
+   }
+
+   .controllers1 {
+      display: flex;
+      justify-content: flex-end;
+   }
+
+   .controllers2 {
+      display: none;
+   }
+}
