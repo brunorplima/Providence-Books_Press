@@ -1,0 +1,44 @@
+.container {
+   display: flex;
+   height: calc(100vh - var(--navbarHeight));
+   position: relative;
+}
+
+.sidebarIcon {
+   position: absolute;
+   font-size: 14pt;
+   color: white;
+   background-color: var(--darkYellow);
+   padding: .3rem .6rem;
+   border-top-right-radius: .7rem;
+   border-bottom-right-radius: .7rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+}
+
+#sidebarOpen {
+   top: 55px;
+}
+
+#sidebarClose {
+   right: -35px;
+   top: 55px;
+}
+
+.sidebar {
+   position: absolute;
+   top: 0;
+   height: 100%;
+   transition: .4s;
+   max-width: 240px;
+}
+
+.shownSidebar {
+   left: 0;
+}
+
+.hidSidebar {
+   left: -275px;
+}

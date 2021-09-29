@@ -75,6 +75,30 @@
    background-color: rgba(255, 255, 255, .4);
 }
 
+.passwordInput {
+   position: relative;
+}
+
+.passwordInput > input {
+   width: 100%;
+   padding-right: 25px;
+}
+
+.passwordInput > div {
+   position: absolute;
+   top: 4px;
+   right: 2px;
+   font-size: 16pt;
+   max-width: 22px;
+   max-height: 22px;
+   cursor: pointer;
+   user-select: none;
+}
+
+.passwordInput > div:hover {
+   color: #ddd;
+}
+
 .signinSignup {
    display: flex;
    justify-content: flex-start;

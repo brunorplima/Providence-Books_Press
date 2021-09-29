@@ -13,7 +13,13 @@ import firebase from '../../../firebase/firebase'
 import Dialog from '../dialog/Dialog';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import { SIGN_IN_EMAIL_NOT_VERIFIED, SIGN_UP_VERIFY_EMAIL } from '../dialog/dialogNames';
+import { BiHide, BiShowAlt } from 'react-icons/bi';
 
+
+interface ShowPassword {
+   readonly main: boolean
+   readonly confirm: boolean
+}
 interface Props {
    readonly isSignIn: boolean;
    readonly email: string;
@@ -30,6 +36,8 @@ interface Props {
    readonly signIn: () => void;
    readonly signUp: () => void;
 }
+
+const defaultActionCodeSettings: firebase.auth.ActionCodeSettings = { url: 'https://providence-store.vercel.app/sign-in' }
 
 const SignIn: React.FC<Props> = ({
    isSignIn,
@@ -51,6 +59,10 @@ const SignIn: React.FC<Props> = ({
    const [isLoading, setIsLoading] = useState(false)
    const [isForgotPassword, setIsForgotPassword] = useState(false)
    const [isResetPasswordEmailSent, setIsResetPasswordEmailSent] = useState(false)
+   const [showPassword, setShowPassword] = useState<ShowPassword>({
+      main: false,
+      confirm: false
+   })
    const { signup, signin, firebaseUser, resetPassword, signout, isUserAdmin } = useAuth()
    const router = useRouter()
 
@@ -72,7 +84,7 @@ const SignIn: React.FC<Props> = ({
       setError('')
       try {
          setIsLoading(true)
-         const user = await signup(email, password, { url: 'https://providence-store.vercel.app/sign-in' })
+         const user = await signup(email, password, defaultActionCodeSettings)
          const providenceUser = buildUser(user, firstName, lastName)
          const ref = await createUser(providenceUser)
          resetFormValues()
@@ -95,7 +107,6 @@ const SignIn: React.FC<Props> = ({
             router.push('/admin')
          } else {
             if (!user.emailVerified) {
-               signout()
                openDialog(SIGN_IN_EMAIL_NOT_VERIFIED)
                setIsLoading(false)
                return
@@ -166,13 +177,17 @@ const SignIn: React.FC<Props> = ({
                {
                   label: 'RESEND EMAIL',
                   clickHandler: () => {
-                     
+                     firebaseUser.sendEmailVerification(defaultActionCodeSettings)
+                     signout()
+                     resetFormValues()
+                     closeDialog()
                   },
                   style: { width: 'fit-content' },
                   secondaryStyle: true
                }
             ]}
-            message={`You must verify your email to be able to access your account.\nHaven't received our email to verify your email address? Ask to send another one!`}
+            message={`You must verify your email to be able to access your account.
+            Haven't received our email to verify your email address? Ask to send another one!`}
          />
          <div className={styles.left}>
             <div className={styles.backButtonLeft}>
@@ -268,26 +283,35 @@ const SignIn: React.FC<Props> = ({
 
                      <div className={styles.formGroup}>
                         <label htmlFor='password'>PASSWORD:</label>
-                        <input
-                           id='password'
-                           className={styles.input}
-                           type='password'
-                           value={password}
-                           onChange={e => setPassword(e.target.value)}
-                        />
+                        <div className={styles.passwordInput}>
+                           <input
+                              className={styles.input}
+                              type={showPassword.main ? 'text' : 'password'}
+                              value={password}
+                              onChange={e => setPassword(e.target.value)}
+                           />
+                           <div onClick={() => setShowPassword({ ...showPassword, main: !showPassword.main })}>
+                              {showPassword.main ? <BiHide /> : <BiShowAlt />}
+                           </div>
+                        </div>
                      </div>
 
                      {
                         !isSignIn &&
                         <div className={styles.formGroup}>
                            <label htmlFor='password-confirm'>CONFIRM PASSWORD:</label>
-                           <input
-                              id='password-confirm'
-                              className={styles.input}
-                              type='password'
-                              value={passwordConfirm}
-                              onChange={e => setPasswordConfirm(e.target.value)}
-                           />
+                           <div className={styles.passwordInput}>
+                              <input
+                                 id='password-confirm'
+                                 className={styles.input}
+                                 type={showPassword.confirm ? 'text' : 'password'}
+                                 value={passwordConfirm}
+                                 onChange={e => setPasswordConfirm(e.target.value)}
+                              />
+                              <div onClick={() => setShowPassword({ ...showPassword, confirm: !showPassword.confirm })}>
+                                 {showPassword.confirm ? <BiHide /> : <BiShowAlt />}
+                              </div>
+                           </div>
                         </div>
                      }
                      <div className={styles.submitContainer} style={isLoading ? { justifyContent: 'normal' } : {}}>

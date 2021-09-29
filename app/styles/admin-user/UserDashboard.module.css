@@ -1,0 +1,35 @@
+.openIcon {
+   width: 100%;
+   border-bottom: 1px solid var(--lightGray);
+   padding: .2rem .3rem;
+   cursor: pointer;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+
+.productImage {
+   max-width: 40px;
+}
+
+.articleImage {
+   max-width: 65px;
+}
+
+.title {
+   transition: .3s;
+}
+
+.title:hover {
+   color: var(--darkYellow);
+}
+
+.seeMore {
+   font-size: 11pt;
+   color: var(--mainGray);
+   cursor: pointer;
+}
+
+.seeMore:hover {
+   text-decoration: underline;
+}

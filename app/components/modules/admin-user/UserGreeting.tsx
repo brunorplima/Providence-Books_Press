@@ -1,5 +1,5 @@
 import React from 'react';
-import months, { week } from '../../../util/months';
+import months, { shortMonths, shortWeek } from '../../../util/months';
 
 interface Props {
    readonly userName: string;
@@ -17,7 +17,7 @@ const UserGreeting: React.FC<Props> = ({ userName }) => {
          </div>
 
          <div style={{ fontSize: '14pt' }}>
-            {week[today.getDay()]}, {months[today.getMonth()]} {today.getDate()} {today.getFullYear()}
+            {shortWeek[today.getDay()]}, {shortMonths[today.getMonth()]} {today.getDate()} {today.getFullYear()}
          </div>
       </div>
    )
