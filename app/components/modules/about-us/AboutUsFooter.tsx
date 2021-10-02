@@ -47,9 +47,9 @@ const AboutUsFooter: React.FC<Props> = ({
          </div>
 
          <div className={styles.formContainer}>
-            <h3>Message Us</h3>
+            {/* <h3>Message Us</h3> */}
 
-            <form className={styles.form}>
+            {/* <form className={styles.form}>
 
                {
                   showConfirmation &&
@@ -96,7 +96,7 @@ const AboutUsFooter: React.FC<Props> = ({
                >
                   SEND
                </button>
-            </form>
+            </form> */}
          </div>
       </div>
    )
