@@ -1,0 +1,19 @@
+.productImage {
+   max-width: 40px;
+}
+
+.showOrderDetails {
+   cursor: pointer;
+   max-width: fit-content;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.showOrderDetails > div:last-child {
+   transform: translateY(2px);
+}
+
+.showOrderDetails:hover {
+   border-bottom: 1px solid var(--mainGray);
+}
