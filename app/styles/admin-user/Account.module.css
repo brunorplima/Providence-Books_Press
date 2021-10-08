@@ -20,11 +20,13 @@
 
 #sidebarOpen {
    top: 55px;
+   z-index: 4;
 }
 
 #sidebarClose {
    right: -35px;
    top: 55px;
+   z-index: 4;
 }
 
 .sidebar {
@@ -33,6 +35,7 @@
    height: 100%;
    transition: .4s;
    max-width: 240px;
+   z-index: 5;
 }
 
 .shownSidebar {
@@ -42,3 +45,24 @@
 .hidSidebar {
    left: -275px;
 }
+
+.menuBackground {
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, .4);
+   top: 0;
+   left: 0;
+   z-index: 3;
+   transition: opacity .4s;
+}
+
+.fadeOut{
+   opacity: 0;
+   z-index: -2;
+}
+.fadeIn{
+   opacity: 1;
+}
+
+

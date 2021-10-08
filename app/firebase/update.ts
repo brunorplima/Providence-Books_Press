@@ -69,3 +69,23 @@ export const updateFeaturedProductIds = async (ids: string[]) => {
       console.error(error)
    }
 }
+
+export const updateReview = async (productId: string, id: string, props: { heading?: string, text?: string }) => {
+   try {
+      const path = `products/${productId}/reviews/${id}`
+      await firestore.doc(path).update(props)
+      return firestore.doc(path).get()
+   } catch (error) {
+      console.error(error)
+   }
+}
+
+export const updateComment = async (articleId: string, id: string, props: { body: string }) => {
+   try {
+      const path = `articles/${articleId}/comments/${id}`
+      await firestore.doc(path).update(props)
+      return firestore.doc(path).get()
+   } catch (error) {
+      console.error(error)
+   }
+}
