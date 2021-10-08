@@ -76,7 +76,7 @@ const AccountProvider: React.FC = ({ children }) => {
 
    function listenForOrders() {
       if (providenceUser && !ordersRef.current) {
-         ordersRef.current = firestore.collectionGroup('orders').where('_userId', '==', providenceUser._id)
+         ordersRef.current = firestore.collection('orders').where('_userId', '==', providenceUser._id)
             .orderBy('dateTime', 'desc').limit(15).onSnapshot(snapshot => {
                const orders: Order[] = []
                snapshot.forEach(doc => orders.push(doc.data() as Order))
