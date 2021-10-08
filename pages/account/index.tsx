@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React, { useState, useEffect } from 'react'
+import { MdFavoriteBorder } from 'react-icons/md'
 import { RiDashboardLine, RiDatabase2Line, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri'
 import { useAuth } from '../../app/components/contexts/AuthProvider'
 import Section from '../../app/components/modules/admin-user/Section'
@@ -15,6 +16,14 @@ const sections: SectionType[] = [
    {
       name: 'Dashboard',
       Icon: RiDashboardLine
+   },
+   {
+      name: 'Wish List',
+      Icon: MdFavoriteBorder
+   },
+   {
+      name: 'Favourite Articles',
+      Icon: MdFavoriteBorder
    },
    {
       name: 'Account Data',
@@ -69,6 +78,11 @@ const Account = () => {
                            setCurrentSection={setSection}
                         />
                      </div>
+
+                     <div
+                        className={clsx(styles.menuBackground, isMenuHidden ? styles.fadeOut : styles.fadiIn)}
+                        onClick={() => setIsMenuHidden(true)}
+                     ></div>
                   </>
                }
 
@@ -90,6 +104,20 @@ const Account = () => {
 
                {
                   currentSection === sections[1].name &&
+                  <Section title={currentSection}>
+
+                  </Section>
+               }
+
+               {
+                  currentSection === sections[2].name &&
+                  <Section title={currentSection}>
+
+                  </Section>
+               }
+
+               {
+                  currentSection === sections[3].name &&
                   <Section title={currentSection}>
 
                   </Section>
