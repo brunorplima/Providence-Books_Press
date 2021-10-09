@@ -537,7 +537,7 @@ const FormikParent: React.FC<FormikWrapper> = ({ products, currentOrder, setCurr
       if (currentOrder) {
          const shelf: BookshelfItem[] = []
          for (const item of currentOrder.productsList) {
-            const { name, price, type, images } = products.find(p => p._id === item.id)
+            const { name, price, type, images } = products.find(p => p?._id === item.id)
             const shelfItem: BookshelfItem = {
                name, price, type,
                id: item.id,

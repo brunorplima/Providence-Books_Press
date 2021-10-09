@@ -31,7 +31,6 @@ interface Props {
 
 const UserInformation: React.FC<Props> = ({ currentUser }) => {
 
-   console.log(currentUser.address?.city)
    const initialValues: FormikData = {
       firstName: currentUser.firstName ? currentUser.firstName : '',
       lastName: currentUser.lastName ? currentUser.lastName : '',
@@ -78,15 +77,14 @@ const UserInformation: React.FC<Props> = ({ currentUser }) => {
          country,
          zipCode
       }
-      const user: Partial<User> = {
-         address,
-         firstName,
-         lastName,
-         primaryContactNumber,
-         secondaryContactNumber,
-         dateOfBirth,
-         gender: gender as Gender,
-      }
+      const user: Partial<User> = {}
+      if (address) user.address = address
+      if (firstName) user.firstName = firstName
+      if (lastName) user.lastName = lastName
+      if (primaryContactNumber) user.primaryContactNumber = primaryContactNumber
+      if (secondaryContactNumber) user.secondaryContactNumber = secondaryContactNumber
+      if (dateOfBirth) user.dateOfBirth = dateOfBirth
+      if (gender) user.gender = gender as Gender
       const result = await updateUser(currentUser._id, user)
    }
 
