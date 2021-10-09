@@ -1,7 +1,7 @@
 import { IconType } from "react-icons"
 
 /** Types */
-type Address = {
+export type Address = {
    main: string,
    secondary?: string,
    city: string,
@@ -37,8 +37,8 @@ export interface User {
    primaryContactNumber?: string,
    secondaryContactNumber?: string,
    gender?: Gender,
-   dateOfBirth?: Date,
-   since: Date,
+   dateOfBirth?: Date | string,
+   since: Date | string,
    isCustomer: boolean,
    photoURL?: string,
    role: 'master admin' | 'admin' | 'user'
