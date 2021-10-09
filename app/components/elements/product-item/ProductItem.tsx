@@ -55,10 +55,10 @@ const ProductItem: React.FC<Props> = ({ product }) => {
          </div>
 
          <div>
-            {
+            {/* {
                product && isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
                <strong className={styles.fewStock}>Only {(product as Book).stock} left!</strong>
-            }
+            } */}
 
             {
                product && isPhysicalProduct(product) && (product as Book).stock <= 0 &&
