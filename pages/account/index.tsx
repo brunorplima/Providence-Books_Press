@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { RiDashboardLine, RiFileUserLine, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri'
 import { useAuth } from '../../app/components/contexts/AuthProvider'
@@ -38,13 +38,16 @@ const Account = () => {
    const [isMenuHidden, setIsMenuHidden] = useState(true)
    const { firebaseUser, providenceUser } = useAuth()
    const screenWidth = useScreenWidth()
+   const unsubscribeRef = useRef(null)
 
    useEffect(() => {
-      const unsubscribe = firestore.doc(`users/${providenceUser._id}`).onSnapshot(snapshot => {
-         setCurrentUser(snapshot.data() as User)
-      })
-      return unsubscribe
-   }, [])
+      if (!unsubscribeRef.current && providenceUser) {
+         unsubscribeRef.current = firestore.doc(`users/${providenceUser._id}`).onSnapshot(snapshot => {
+            setCurrentUser(snapshot.data() as User)
+         })
+      }
+      return unsubscribeRef.current
+   }, [providenceUser])
 
    useEffect(() => {
       if (!isMenuHidden) setIsMenuHidden(true)
