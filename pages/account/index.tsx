@@ -1,12 +1,14 @@
 import clsx from 'clsx'
 import React, { useState, useEffect } from 'react'
 import { MdFavoriteBorder } from 'react-icons/md'
-import { RiDashboardLine, RiDatabase2Line, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri'
+import { RiDashboardLine, RiFileUserLine, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri'
 import { useAuth } from '../../app/components/contexts/AuthProvider'
 import Section from '../../app/components/modules/admin-user/Section'
 import Sidebar from '../../app/components/modules/admin-user/Sidebar'
 import UserDashboard from '../../app/components/modules/admin-user/UserDashboard'
-import { SectionType } from '../../app/interfaces-objects/interfaces'
+import UserInformation from '../../app/components/modules/admin-user/UserInformation'
+import { firestore } from '../../app/firebase/firebase'
+import { SectionType, User } from '../../app/interfaces-objects/interfaces'
 import styles from '../../app/styles/admin-user/Account.module.css'
 import { redirectUnauthorizedUser } from '../../app/util/authRouting'
 import useScreenWidth from '../../app/util/useScreenWidth'
@@ -16,25 +18,33 @@ const sections: SectionType[] = [
       name: 'Dashboard',
       Icon: RiDashboardLine
    },
+   // {
+   //    name: 'Wish List',
+   //    Icon: MdFavoriteBorder
+   // },
+   // {
+   //    name: 'Favourite Articles',
+   //    Icon: MdFavoriteBorder
+   // },
    {
-      name: 'Wish List',
-      Icon: MdFavoriteBorder
-   },
-   {
-      name: 'Favourite Articles',
-      Icon: MdFavoriteBorder
-   },
-   {
-      name: 'Account Data',
-      Icon: RiDatabase2Line
+      name: 'User Information',
+      Icon: RiFileUserLine
    }
 ]
 
 const Account = () => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
+   const [currentUser, setCurrentUser] = useState<User>(null)
    const [isMenuHidden, setIsMenuHidden] = useState(true)
    const { firebaseUser, providenceUser } = useAuth()
    const screenWidth = useScreenWidth()
+
+   useEffect(() => {
+      const unsubscribe = firestore.doc(`users/${providenceUser._id}`).onSnapshot(snapshot => {
+         setCurrentUser(snapshot.data() as User)
+      })
+      return unsubscribe
+   }, [])
 
    useEffect(() => {
       if (!isMenuHidden) setIsMenuHidden(true)
@@ -101,7 +111,7 @@ const Account = () => {
                   </Section>
                }
 
-               {
+               {/* {
                   currentSection === sections[1].name &&
                   <Section title={currentSection}>
 
@@ -113,12 +123,12 @@ const Account = () => {
                   <Section title={currentSection}>
 
                   </Section>
-               }
+               } */}
 
                {
-                  currentSection === sections[3].name &&
+                  currentSection === sections[1].name &&
                   <Section title={currentSection}>
-
+                     <UserInformation {...{ currentUser }} />
                   </Section>
                }
             </div>

@@ -334,7 +334,7 @@ const OrdersForm: React.FC<Props & { props: FormikProps<FormikOrder> }> = ({
                      <input
                         id='dateTime'
                         name='dateTime'
-                        type='datetime-local'
+                        type='date'
                         value={props.values.dateTime}
                         onChange={props.handleChange}
                         style={errorStyle(props.errors.dateTime, props.touched.dateTime)}
