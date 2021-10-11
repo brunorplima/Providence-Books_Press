@@ -22,16 +22,22 @@ export const getAll = async (path: string): Promise<ImageStorageData[]> => {
    return images
 }
 
-export const putInStorageAsync = (path: string, file: any) => {
+export const deleteAll = async (path: string) => {
+   const storageRef = storage.ref(path)
+   const all = await storageRef.listAll()
+   all.items.forEach(async item => await item.delete())
+}
+
+export const putInStorageAsync = (path: string, file: any): firebase.storage.UploadTask => {
    const ref = storage.ref(path);
    const uploadTask = ref.put(file)
    return uploadTask
 }
 
-export const putInStorage = async (path: string, file: any) => {
-   const ref = (await storage.ref(path).put(file)).ref
-   const url = await ref.getDownloadURL()
-   return { ref, url }
+export const putInStorage = async (path: string, file: any): Promise<ImageStorageData> => {
+   const storageRef = (await storage.ref(path).put(file)).ref
+   const url = await storageRef.getDownloadURL()
+   return { storageRef, url }
 }
 
 export const deleteFromStorage = async (path: string, fileName = '') => {

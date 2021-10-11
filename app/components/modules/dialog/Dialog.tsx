@@ -61,7 +61,7 @@ const Dialog: React.FC<Props> = ({
                   buttonsOptions.map((button, idx) => {
                      return (
                         <Button
-                           key={idx + button.label}
+                           key={idx}
                            label={button.label}
                            clickHandler={button.clickHandler}
                            secondaryStyle={button.secondaryStyle}
