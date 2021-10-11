@@ -1,0 +1,18 @@
+.yellowButton {
+   padding: 7px 10px;
+   background-color: var(--mainYellow);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 6px;
+   color: white;
+   transition: .3s;
+   cursor: pointer;
+   min-width: 100px;
+   border: none;
+   user-select: none;
+}
+
+.yellowButton:hover {
+   background-color: var(--darkYellow);
+}

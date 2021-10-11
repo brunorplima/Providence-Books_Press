@@ -6,7 +6,7 @@ import { useAuth } from '../../app/components/contexts/AuthProvider'
 import Section from '../../app/components/modules/admin-user/Section'
 import Sidebar from '../../app/components/modules/admin-user/Sidebar'
 import UserDashboard from '../../app/components/modules/admin-user/UserDashboard'
-import UserInformation from '../../app/components/modules/admin-user/UserInformation'
+import UserInformationContainer from '../../app/components/modules/admin-user/UserInformationContainer'
 import { firestore } from '../../app/firebase/firebase'
 import { SectionType, User } from '../../app/interfaces-objects/interfaces'
 import styles from '../../app/styles/admin-user/Account.module.css'
@@ -131,7 +131,7 @@ const Account = () => {
                {
                   currentSection === sections[1].name &&
                   <Section title={currentSection}>
-                     <UserInformation {...{ currentUser }} />
+                     <UserInformationContainer {...{ currentUser }} />
                   </Section>
                }
             </div>

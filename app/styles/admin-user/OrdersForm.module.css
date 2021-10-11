@@ -23,6 +23,7 @@
 
 .submit {
    display: flex;
+   gap: 13px;
    justify-content: center;
    margin-top: 3rem;
 }

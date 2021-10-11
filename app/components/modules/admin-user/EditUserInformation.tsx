@@ -1,12 +1,14 @@
 import { Formik, FormikErrors, FormikProps, FormikTouched, useFormikContext } from 'formik'
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useState } from 'react'
 import Box from './Box'
 import styles from '../../../styles/admin-user/OrdersForm.module.css'
+import sharedStyles from '../../../styles/admin-user/shared.module.css'
 import Button from '../../elements/button/Button'
 import { canadianProvinces, countryList, usaStates } from '../../../util/addressHelper'
 import * as Yup from 'yup'
 import { updateUser } from '../../../firebase/update'
 import { User, Address, Gender } from '../../../interfaces-objects/interfaces'
+import Loading from '../loading/Loading'
 
 interface FormikData {
    readonly firstName: string
@@ -22,14 +24,15 @@ interface FormikData {
    readonly zipCode: string
    readonly gender: string
    readonly dateOfBirth: string
-   readonly photoURL: string
 }
 
 interface Props {
    readonly currentUser: User
+   readonly setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const UserInformation: React.FC<Props> = ({ currentUser }) => {
+const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
+   const [isLoading, setIsLoading] = useState(false)
 
    const initialValues: FormikData = {
       firstName: currentUser.firstName ? currentUser.firstName : '',
@@ -44,8 +47,7 @@ const UserInformation: React.FC<Props> = ({ currentUser }) => {
       country: currentUser.address?.country ? currentUser.address.country : '',
       zipCode: currentUser.address?.zipCode ? currentUser.address.zipCode : '',
       gender: currentUser.gender ? currentUser.gender : '',
-      dateOfBirth: currentUser.dateOfBirth ? (currentUser.dateOfBirth as string) : '',
-      photoURL: currentUser.photoURL ? currentUser.photoURL : ''
+      dateOfBirth: currentUser.dateOfBirth ? (currentUser.dateOfBirth as string) : ''
    }
 
    const validationSchema = Yup.object({
@@ -66,8 +68,9 @@ const UserInformation: React.FC<Props> = ({ currentUser }) => {
    })
 
    async function onSubmit(values: FormikData) {
+      setIsLoading(true)
       const { city, country, dateOfBirth, firstName, gender,
-         lastName, photoURL, primaryContactNumber,
+         lastName, primaryContactNumber,
          secondaryContactNumber, stateProvince, zipCode } = values
       const address: Address = {
          main: values.mainAddress,
@@ -85,18 +88,25 @@ const UserInformation: React.FC<Props> = ({ currentUser }) => {
       if (secondaryContactNumber) user.secondaryContactNumber = secondaryContactNumber
       if (dateOfBirth) user.dateOfBirth = dateOfBirth
       if (gender) user.gender = gender as Gender
-      const result = await updateUser(currentUser._id, user)
+      try {
+         await updateUser(currentUser._id, user)
+         setIsEdit(false)
+         setIsLoading(false)
+      }
+      catch (error) {
+         console.error(error.message)
+      }
    }
 
    return (
       <div>
-         <Box title='YOUR PERSONAL INFORMATION' paddingVertical>
+         <Box title='EDIT YOUR PERSONAL INFORMATION' paddingVertical>
             <Formik
                {...{ initialValues, validationSchema }}
-               onSubmit={props => onSubmit(props)}
+               onSubmit={async props => await onSubmit(props)}
             >
                {
-                  props => <UserInformationForm {...{ props, initialValues }} />
+                  props => <UserInformationForm {...{ props, initialValues, setIsEdit, isLoading }} />
                }
             </Formik>
          </Box>
@@ -106,12 +116,14 @@ const UserInformation: React.FC<Props> = ({ currentUser }) => {
 
 
 interface FormProps {
-   readonly initialValues: FormikData
+   readonly setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
+   readonly isLoading: boolean
 }
 
 const UserInformationForm: React.FC<FormProps & { props: FormikProps<FormikData> }> = ({
    props,
-   initialValues
+   setIsEdit,
+   isLoading
 }) => {
    const provStates = [...canadianProvinces, ...usaStates]
 
@@ -432,13 +444,29 @@ const UserInformationForm: React.FC<FormProps & { props: FormikProps<FormikData>
          <br />
 
          <div className={styles.submit}>
-            <Button
-               label='SAVE'
-               type='submit'
-               clickHandler={props.handleSubmit}
-               secondaryStyle
-               disabled={props.values === initialValues}
-            />
+            {
+               isLoading ?
+               <div><Loading localIsLoading size={4}/></div> :
+               <>
+                  <button
+                     className={sharedStyles.yellowButton}
+                     onClick={() => setIsEdit(false)}
+                     style={{ minWidth: '150px' }}
+                     type='button'
+                  >
+                     CANCEL
+                  </button>
+
+                  <button
+                     className={sharedStyles.yellowButton}
+                     onClick={e => props.handleSubmit()}
+                     style={{ minWidth: '150px' }}
+                     type='button'
+                  >
+                     SAVE
+                  </button>
+               </>
+            }
          </div>
       </form>
    )

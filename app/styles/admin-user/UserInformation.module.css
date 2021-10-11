@@ -1,0 +1,65 @@
+.mainUserInfo {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+}
+
+.photoInput {
+   margin-bottom: 2rem;
+   margin-top: 10px;
+   display: flex;
+   gap: 10px;
+   max-width: 300px;
+
+}
+
+.muiPhoto {
+   max-height: 170px;
+   overflow: hidden;
+}
+
+.muiPhoto img {
+   max-width: 80px;
+   max-height: auto;
+}
+
+.fileInput {
+   padding: 4px;
+   gap: 8px;
+   max-width: 150px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: var(--mainYellow);
+   color: white;
+   cursor: pointer;
+   transition: .3s;
+}
+
+.fileInput:hover {
+   background-color: var(--darkYellow);
+}
+
+.fileInput > input {
+   display: none;
+}
+
+.muiName {
+   font-size: 18pt;
+}
+
+.muiName h4 {
+   margin: 0;
+   font-family: Nikkyou;
+}
+
+.editButton {
+   display: flex;
+   justify-content: center;
+   margin-top: 3rem;
+}
+
+.label {
+   font-size:11pt;
+   color: var(--mainGray);
+}

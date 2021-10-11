@@ -49,7 +49,7 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
       })
       const updatedSelectedFiles: string[] = []
       updatedList.forEach(item => {
-         if (item.isChecked) updatedSelectedFiles.push(item.storageRef.name)
+         if (item?.isChecked) updatedSelectedFiles.push(item.storageRef.name)
       })
       setImagesWithCheck((updatedList))
       setSelectedFileNames(updatedSelectedFiles)
@@ -67,8 +67,8 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
       const fileNames: string[] = []
       const all = [...imgs, ...imagesWithCheck]
       all.forEach(item => {
-         if (!fileNames.includes(item.storageRef.name)) {
-            fileNames.push(item.storageRef.name)
+         if (!fileNames.includes(item?.storageRef.name)) {
+            fileNames.push(item?.storageRef.name)
             images.push(item)
          }
       })
@@ -81,10 +81,10 @@ const SlideShowManager: React.FC<Props> = ({ imagesData }) => {
          let images: ImageStorageWithCheck[] = []
          for (let i = 0; i < 5; i++) {
             if (files[i]) {
-               const { ref, url } = await putInStorage(`home-slide-show/${files[i].name}`, files[i])
+               const { storageRef, url } = await putInStorage(`home-slide-show/${files[i].name}`, files[i])
                const image: ImageStorageWithCheck = {
                   url,
-                  storageRef: ref,
+                  storageRef: storageRef,
                   isChecked: false
                }
                images.push(image)

@@ -1,8 +1,9 @@
 import React, { CSSProperties } from 'react';
+import { IconType } from 'react-icons';
 import styles from '../../../styles/elements/Button.module.css';
 
 export interface ButtonProps {
-   readonly label: string;
+   readonly label: string | IconType;
    readonly clickHandler?: () => void;
    readonly style?: CSSProperties;
    readonly secondaryStyle?: boolean;
@@ -10,7 +11,7 @@ export interface ButtonProps {
    readonly type?: 'button' | 'reset' | 'submit';
 }
 
-const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondaryStyle, disabled, type }) => {
+const Button: React.FC<ButtonProps> = ({ label: Label, clickHandler, style, secondaryStyle, disabled, type }) => {
 
    const disabledStyle: CSSProperties = {};
    if (disabled) {
@@ -28,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({ label, clickHandler, style, secondarySt
          disabled={disabled}
          type={type}
       >
-         {label}
+         {typeof Label === 'string' ? Label : <Label />}
       </button>
    )
 }
