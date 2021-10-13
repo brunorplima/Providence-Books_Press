@@ -147,11 +147,6 @@ const UserReviews: React.FC<Props> = ({ reviews, productId }) => {
             message='You have already left a review for this product. You can only edit or delete your current review'
             buttonsOptions={[
                {
-                  label: 'EDIT IT',
-                  clickHandler: () => router.push('/account'),
-                  secondaryStyle: true
-               },
-               {
                   label: 'CLOSE',
                   clickHandler: closeDialog
                }
