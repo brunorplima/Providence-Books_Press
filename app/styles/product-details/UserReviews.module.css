@@ -45,3 +45,15 @@
    padding: 3rem 0 1rem;
 }
 
+.editText {
+   width: 100%;
+   min-height: 100px;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.editTextControllers {
+   display: flex;
+   gap: 15px;
+   justify-content: flex-end;
+   margin-top: 15px;
+}
