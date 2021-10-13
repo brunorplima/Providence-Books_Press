@@ -25,7 +25,7 @@ const FilterBox: React.FC<Props> = ({ idIncrement, boxTitle, optionsList, option
          <h4 className={styles.boxTitle}>{boxTitle}</h4>
          <div ref={optionsBox} className={styles.options} style={needsScroll ? { overflowY: 'scroll' } : {}}>
             {
-               optionsList.map(((option, idx) => {
+               optionsList.sort().map(((option, idx) => {
                   return (
                      <div className={styles.option} key={option} style={{ paddingLeft: '1rem' }}>
                         <CheckboxInput

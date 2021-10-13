@@ -60,7 +60,7 @@ const PurchaseConfirmation: React.FC<Props> = ({ order }) => {
                   <div className={clsx(styles.headerRow, styles.footerRow)}>
                      <div></div>
                      <div>GST:</div>
-                     <div>$ {order.gst}</div>
+                     <div>$ {order.gst.toFixed(2)}</div>
                   </div>
                   <div className={clsx(styles.headerRow, styles.footerRow)}>
                      <div></div>
