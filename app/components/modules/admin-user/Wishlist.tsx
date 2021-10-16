@@ -14,14 +14,14 @@ interface Props {
 }
 
 const Wishlist: React.FC<Props> = ({ wishtlist, userId }) => {
-   const products: Product[] = wishtlist.map(id => getFromProducts(id))
+   const products: Product[] = wishtlist.map(id => getFromProducts(id)) || []
    const screenWisth = useScreenWidth()
 
    return (
       <Box title='WISHLIST' paddingVertical>
          <div className={styles.table}>
             {
-               products.length > 0 &&
+               wishtlist && products.length > 0 &&
                products.map((product, idx) => (
                   <div key={product._id}>
                      <div className={styles.row} style={idx % 2 == 0 ? { backgroundColor: 'var(--almostWhite' } : {}}>
