@@ -1,0 +1,78 @@
+.table .row:not(:last-child) {
+   margin-top: .5rem !important;
+}
+
+.row {
+   display: flex;
+   margin-bottom: .5rem;
+   padding: 10px 10px 10px 10px;
+   gap: 10px;
+}
+
+.cell1, .cell2, .controller {
+   display: flex;
+   align-items: center;
+}
+
+.cell1 {
+   flex: 1;
+}
+
+.cell1 img {
+   width: 45px;
+   height: auto;
+}
+
+.cell2 {
+   flex: 5;
+   color: var(--darkYellow);
+   align-items: flex-start;
+   justify-content: center;
+   display: flex;
+   flex-direction: column;
+}
+
+.cell2 a:hover {
+   text-decoration: underline;
+   color: rgb(74, 57, 0);
+}
+
+.cell2 div:first-child {
+   font-size: 14pt;
+}
+
+.price {
+   font-style: italic;
+   color: var(--mainGray);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-width: max-content;
+   width: 15%;
+   font-size: 11pt;
+}
+
+.controller {
+   width: 30px;
+}
+
+.controller > div {
+   width: 29px;
+   height: 29px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: var(--mainGray);
+   color: white;
+   border-radius: .2rem;
+   transition: .3s;
+   cursor: pointer;
+}
+
+.controller > div:hover {
+   background-color: #999;
+}
+
+.emptyList {
+   padding: 10px 30px;
+}
