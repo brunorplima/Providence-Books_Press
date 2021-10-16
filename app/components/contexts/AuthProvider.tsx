@@ -62,7 +62,12 @@ const AuthProvider = ({ children }) => {
       let unsubscribe = () => {};
       if (providenceUser && !userWishlist) {
          unsubscribe = firestore.doc(`users/${providenceUser._id}/wishlist/products`).onSnapshot(snapshot => {
-            setUserWishlist(snapshot.data().ids as string[])
+            try {
+               setUserWishlist(snapshot.data().ids as string[])
+            }
+            catch(error) {
+               setUserWishlist([])
+            }
          })
       }
       return unsubscribe
