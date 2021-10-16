@@ -7,16 +7,15 @@ import Product from '../../../interfaces-objects/Product';
 import EBook from '../../../interfaces-objects/EBook';
 import AudioBook from '../../../interfaces-objects/AudioBook';
 import Book from '../../../interfaces-objects/Book';
-import { useDispatch } from 'react-redux';
 import LinkLoading from '../link-loading/LinkLoading';
 import { isPhysicalProduct } from '../../../util/productModelHelper';
+import WishlistButton from '../wishlist-button/WishlistButton';
 
 interface Props {
    readonly product: Product;
 }
 
 const ProductItem: React.FC<Props> = ({ product }) => {
-
    const {
       _id,
       images,
@@ -30,6 +29,16 @@ const ProductItem: React.FC<Props> = ({ product }) => {
 
    return (
       <div className={styles.container}>
+         <WishlistButton
+            productId={_id}
+            style={
+               {
+                  bottom: 60,
+                  right: 16
+               }
+            }
+         />
+         
          <div className={styles.linkContainer}>
             <LinkLoading href={'/product/' + _id} className={styles.infoContainer}>
                <ProductItemFlag flag={flag.toUpperCase()} />

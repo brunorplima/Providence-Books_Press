@@ -6,6 +6,7 @@ import { Review } from '../../../interfaces-objects/interfaces'
 import { AiFillStar } from 'react-icons/ai'
 import { isPhysicalProduct } from '../../../util/productModelHelper'
 import Book from '../../../interfaces-objects/Book'
+import WishlistButton from '../../elements/wishlist-button/WishlistButton'
 
 interface Props {
    readonly product: Product;
@@ -26,8 +27,13 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews, selectedImage
 
    return (
       <div className={styles.detailsVisual}>
-         <div>
-            <img className={styles.image} src={images[selectedImage]} alt={name + subtitle ? ' - ' + subtitle : ''} />
+         <div className={styles.image}>
+            <img src={images[selectedImage]} alt={name + subtitle ? ' - ' + subtitle : ''} />
+
+            <WishlistButton
+               productId={product._id}
+               style={{ right: -16, bottom: -16, width: 44, height: 44, fontSize: '22pt' }}
+            />
          </div>
          {
             images.length > 1 &&

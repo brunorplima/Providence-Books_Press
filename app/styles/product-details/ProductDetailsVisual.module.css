@@ -1,4 +1,8 @@
 .image {
+   position: relative;
+}
+
+.image > img {
    max-width: 250px;
 }
 
