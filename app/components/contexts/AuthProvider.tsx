@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { fetchDoc } from '../../firebase/fetch'
-import firebase, { auth } from '../../firebase/firebase'
+import firebase, { auth, firestore } from '../../firebase/firebase'
 import { User } from '../../interfaces-objects/interfaces'
 
 interface AuthContextType {
@@ -13,6 +13,7 @@ interface AuthContextType {
    readonly updateEmail: (email: string) => Promise<void>
    readonly updatePassword: (password: string) => Promise<void>
    readonly isUserAdmin: () => boolean
+   readonly userWishlist: string[]
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -24,7 +25,8 @@ const AuthContext = createContext<AuthContextType>({
    resetPassword: null,
    updateEmail: null,
    updatePassword: null,
-   isUserAdmin: null
+   isUserAdmin: null,
+   userWishlist: null
 })
 
 export const useAuth = () => {
@@ -39,6 +41,7 @@ export const adminIds = [
 const AuthProvider = ({ children }) => {
    const [firebaseUser, setFirebaseUser] = useState<firebase.User>(null)
    const [providenceUser, setProvidenceUser] = useState<User>(null)
+   const [userWishlist, setUserWishlist] = useState<string[]>(null)
 
 
    useEffect(() => {
@@ -54,6 +57,16 @@ const AuthProvider = ({ children }) => {
       })
       return unsubscribe
    }, [])
+
+   useEffect(() => {
+      let unsubscribe = () => {};
+      if (providenceUser && !userWishlist) {
+         unsubscribe = firestore.doc(`users/${providenceUser._id}/wishlist/products`).onSnapshot(snapshot => {
+            setUserWishlist(snapshot.data().ids as string[])
+         })
+      }
+      return unsubscribe
+   }, [providenceUser])
 
 
    async function signup(email: string, password: string, actionCodeSettings?: firebase.auth.ActionCodeSettings) {
@@ -104,7 +117,8 @@ const AuthProvider = ({ children }) => {
       resetPassword,
       updateEmail,
       updatePassword,
-      isUserAdmin
+      isUserAdmin,
+      userWishlist
    }
 
    return <AuthContext.Provider value={initialValue}>{children}</AuthContext.Provider>
