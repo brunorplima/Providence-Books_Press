@@ -78,9 +78,15 @@ export const addCollection = async (path: string, value: string[]) => {
 export const addToWishlist = async (userId: string, productId: string) => {
    try {
       const path = `users/${userId}/wishlist/products`
-      const ids = (await firestore.doc(path).get()).data().ids as string[]
-      ids.push(productId)
-      await firestore.doc(path).set({ ids })
+      const idsRef = (await firestore.doc(path).get())
+      if (idsRef.data()) {
+         const ids = idsRef.data().ids as string[]
+         ids.push(productId)
+         await firestore.doc(path).set({ ids })
+      }
+      else {
+         await firestore.doc(path).set({ ids: [productId] })
+      }
       return true
    }
    catch (error) {
