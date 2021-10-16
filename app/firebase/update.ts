@@ -89,3 +89,20 @@ export const updateComment = async (articleId: string, id: string, props: { body
       console.error(error)
    }
 }
+
+export const updateWishlist = async (productId: string, userId: string) => {
+   try {
+      const path = `users/${userId}/wishlist/products`
+      const allIds = (await firestore.doc(path).get()).data().ids as string[]
+      if (allIds.includes(productId)) {
+         const ids = allIds.filter(id => id !== productId)
+         await firestore.doc(path).update({ ids })
+         return true
+      }
+      return false
+   }
+   catch (error) {
+      console.error(error)
+      return false
+   }
+}

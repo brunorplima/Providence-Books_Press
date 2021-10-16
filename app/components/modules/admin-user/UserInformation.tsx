@@ -217,7 +217,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                            <div className={formStyles.formController}>
                               <div className={formStyles.inputField}>
                                  <label className={styles.label}>Address Complement</label>
-                                 <div>{currentUser.address.secondary}</div>
+                                 <div>{currentUser?.address.secondary}</div>
                               </div>
                            </div>
                         </>
