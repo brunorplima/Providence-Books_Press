@@ -67,7 +67,6 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
    }
 
    const getInfo = value => value ? value : '--'
-   console.log(currentUser)
 
    return (
       <Box title='YOUR PERSONAL INFORMATION' paddingVertical>

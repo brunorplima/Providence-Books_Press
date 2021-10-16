@@ -16,9 +16,9 @@ const WishlistButton: React.FC<Props> = ({ productId, style }) => {
    return (
       <div className={styles.favoriteButton} style={style} onClick={async () => {
          if (userWishlist.includes(productId))
-            console.log(await updateWishlist(productId, firebaseUser.uid))
+            await updateWishlist(productId, firebaseUser.uid)
          else
-            console.log(await addToWishlist(firebaseUser.uid, productId))
+            await addToWishlist(firebaseUser.uid, productId)
       }}>
          {
             // !firebaseUser && <AiOutlineHeart />
