@@ -1,6 +1,6 @@
 import { Article, Comment, Order, Review, User } from "../interfaces-objects/interfaces";
 import Product from "../interfaces-objects/Product";
-import firebase, { firestore } from "./firebase";
+import { firestore } from "./firebase";
 
 export const addProductToFirestore = async (product: Product) => {
    try {
@@ -72,6 +72,20 @@ export const addCollection = async (path: string, value: string[]) => {
    }
    catch (error) {
       handleError(error)
+   }
+}
+
+export const addToWishlist = async (userId: string, productId: string) => {
+   try {
+      const path = `users/${userId}/wishlist/products`
+      const ids = (await firestore.doc(path).get()).data().ids as string[]
+      ids.push(productId)
+      await firestore.doc(path).set({ ids })
+      return true
+   }
+   catch (error) {
+      console.error(error)
+      return false
    }
 }
 
