@@ -67,6 +67,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
    }
 
    const getInfo = value => value ? value : '--'
+   console.log(currentUser)
 
    return (
       <Box title='YOUR PERSONAL INFORMATION' paddingVertical>
@@ -205,19 +206,19 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>Street Address</label>
-                           <div>{getInfo(currentUser?.address.main)}</div>
+                           {currentUser.address ? <div>{getInfo(currentUser.address.main)}</div> : <div>--</div>}
                         </div>
                      </div>
 
                      {
-                        currentUser?.address.secondary &&
+                        currentUser.address && currentUser.address.secondary &&
                         <>
                            <br />
 
                            <div className={formStyles.formController}>
                               <div className={formStyles.inputField}>
                                  <label className={styles.label}>Address Complement</label>
-                                 <div>{currentUser?.address.secondary}</div>
+                                 {currentUser.address ? <div>{currentUser.address.secondary}</div> : <div>--</div>}
                               </div>
                            </div>
                         </>
@@ -228,7 +229,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>City</label>
-                           <div>{getInfo(currentUser?.address.city)}</div>
+                           {currentUser.address ? <div>{getInfo(currentUser.address.city)}</div> : <div>--</div>}
                         </div>
                      </div>
 
@@ -237,7 +238,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>Province / State</label>
-                           <div>{getInfo(currentUser?.address.stateProvince)}</div>
+                           {currentUser.address ? <div>{getInfo(currentUser.address.stateProvince)}</div> : <div>--</div>}
                         </div>
                      </div>
 
@@ -246,7 +247,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>Country</label>
-                           <div>{getInfo(currentUser?.address.country)}</div>
+                           {currentUser.address ? <div>{getInfo(currentUser.address.country)}</div> : <div>--</div>}
                         </div>
                      </div>
 
@@ -255,7 +256,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>Zip Code</label>
-                           <div>{getInfo(currentUser?.address.zipCode)}</div>
+                           {currentUser.address ? <div>{getInfo(currentUser.address.zipCode)}</div> : <div>--</div>}
                         </div>
                      </div>
                   </div>
