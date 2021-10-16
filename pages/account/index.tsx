@@ -7,6 +7,7 @@ import Section from '../../app/components/modules/admin-user/Section'
 import Sidebar from '../../app/components/modules/admin-user/Sidebar'
 import UserDashboard from '../../app/components/modules/admin-user/UserDashboard'
 import UserInformationContainer from '../../app/components/modules/admin-user/UserInformationContainer'
+import Wishlist from '../../app/components/modules/admin-user/Wishlist'
 import { firestore } from '../../app/firebase/firebase'
 import { SectionType, User } from '../../app/interfaces-objects/interfaces'
 import styles from '../../app/styles/admin-user/Account.module.css'
@@ -18,10 +19,10 @@ const sections: SectionType[] = [
       name: 'Dashboard',
       Icon: RiDashboardLine
    },
-   // {
-   //    name: 'Wish List',
-   //    Icon: MdFavoriteBorder
-   // },
+   {
+      name: 'Wish List',
+      Icon: MdFavoriteBorder
+   },
    // {
    //    name: 'Favourite Articles',
    //    Icon: MdFavoriteBorder
@@ -36,7 +37,7 @@ const Account = () => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
    const [currentUser, setCurrentUser] = useState<User>(null)
    const [isMenuHidden, setIsMenuHidden] = useState(true)
-   const { firebaseUser, providenceUser } = useAuth()
+   const { firebaseUser, providenceUser, userWishlist } = useAuth()
    const screenWidth = useScreenWidth()
    const unsubscribeRef = useRef(null)
 
@@ -114,22 +115,22 @@ const Account = () => {
                   </Section>
                }
 
-               {/* {
+               {
                   currentSection === sections[1].name &&
                   <Section title={currentSection}>
-
+                     <Wishlist wishtlist={userWishlist} userId={firebaseUser.uid}/>
                   </Section>
                }
 
                {
-                  currentSection === sections[2].name &&
-                  <Section title={currentSection}>
+                  // currentSection === sections[2].name &&
+                  // <Section title={currentSection}>
 
-                  </Section>
-               } */}
+                  // </Section>
+               }
 
                {
-                  currentSection === sections[1].name &&
+                  currentSection === sections[2].name &&
                   <Section title={currentSection}>
                      <UserInformationContainer {...{ currentUser }} />
                   </Section>
