@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
     "clsx": "^1.1.1",
     "faker": "^5.4.0",
     "firebase": "^8.7.1",
