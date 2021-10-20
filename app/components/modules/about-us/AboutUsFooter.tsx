@@ -49,7 +49,7 @@ const AboutUsFooter: React.FC<Props> = ({
          <div className={styles.formContainer}>
             {/* <h3>Message Us</h3> */}
 
-            {/* <form className={styles.form}>
+            <form className={styles.form}>
 
                {
                   showConfirmation &&
@@ -68,6 +68,11 @@ const AboutUsFooter: React.FC<Props> = ({
                {
                   error.invalidEmail &&
                   <div className={styles.errorMessage}><div><IoIosWarning /></div> Email is not valid</div>
+               }
+
+               {
+                  error.server &&
+                  <div className={styles.errorMessage}><div><IoIosWarning /></div> Sorry, an error occurred. Try again later.</div>
                }
 
                <input
@@ -96,7 +101,7 @@ const AboutUsFooter: React.FC<Props> = ({
                >
                   SEND
                </button>
-            </form> */}
+            </form>
          </div>
       </div>
    )

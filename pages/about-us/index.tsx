@@ -12,6 +12,7 @@ import { auBiblicalText, auMainText } from '../../app/util/aboutUsPageDefaultCon
 export type Error = {
    emptyField: boolean;
    invalidEmail: boolean;
+   server: boolean
 }
 
 interface WrapperProps {
@@ -57,7 +58,8 @@ class Index extends Component<Props, State> {
          showConfirmation: false,
          error: {
             emptyField: false,
-            invalidEmail: false
+            invalidEmail: false,
+            server: false
          },
       }
 
@@ -109,20 +111,35 @@ class Index extends Component<Props, State> {
    }
 
    /* NOT DONE YET - It needs to be refactored using backend service */
-   handleSendMessage(e: React.SyntheticEvent) {
+   async handleSendMessage(e: React.SyntheticEvent) {
       e.preventDefault();
       if (!this.validateForm()) return;
 
+      const { email, name, message } = this.state
+      const results = await fetch('/api/email', {
+         method: 'POST',
+         body: JSON.stringify({ email, name, message }),
+         headers: {
+            'Content-Type': 'application/json'
+         }
+      })
+      if (!results.ok) {
+         const { error } = this.state
+         this.setState({ error: { ...error, server: true } })
+         return
+      }
+
+      this.setShowConfirmation();
       this.setState({
          name: '',
          email: '',
          message: '',
          error: {
             emptyField: false,
-            invalidEmail: false
+            invalidEmail: false,
+            server: false
          }
       })
-      this.setShowConfirmation();
    }
 
    /**
