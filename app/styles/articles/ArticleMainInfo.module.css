@@ -1,8 +1,17 @@
 .container {
    width: 100%;
+}
+
+.subcontainer1 {
    display: flex;
    justify-content: space-between;
    padding: 1rem;
+}
+
+.subcontainer2 {
+   padding: 0 2rem;
+   font-size: 9pt;
+   text-transform: uppercase;
 }
 
 .authorInfo {
@@ -25,7 +34,7 @@
 
 
 @media screen and (min-width: 768px) {
-   .container {
+   .subcontainer1 {
       padding: 1rem 2rem;
    }
 }
