@@ -33,14 +33,14 @@ const NameInitials: React.FC<Props> = ({ name, size, fontSize }) => {
 }
 
 export const getInitials = (name: string) => {
-   const secondInitial = name[0];
-   let firstInitial = '';
+   const firstInitial = name[0];
+   let nextInitials = '';
    for (let i = 0; i < name.length; i++) {
-      if (name[i] === ' ') {
-         firstInitial = name[i + 1];
+      if (name[i] === ' ' && name[i + 1]) {
+         nextInitials += name[i + 1];
       }
    }
-   return firstInitial + secondInitial;
+   return firstInitial + nextInitials;
 }
 
 export default NameInitials

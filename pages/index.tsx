@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import Banner from '../app/components/elements/banner/Banner';
 import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
@@ -14,7 +13,6 @@ import { fetchDoc } from '../app/firebase/fetch';
 import { getAll } from '../app/firebase/storage';
 import { Article } from '../app/interfaces-objects/interfaces';
 import Product from '../app/interfaces-objects/Product';
-import createLoadingAction from '../app/redux/actions/loadingAction';
 import styles from '../app/styles/home/Home.module.css';
 import useScreenWidth from '../app/util/useScreenWidth';
 
@@ -64,7 +62,7 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             <div className={styles.banner}>
                <Banner
                   image='/banner/Church.JPG'
-                  content={getBannerContent(dispatch)}
+                  content={getBannerContent()}
                />
             </div>
 
@@ -97,7 +95,7 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
    )
 }
 
-const getBannerContent = (dispatch: Dispatch<any>) => {
+const getBannerContent = () => {
    const router = useRouter();
    const screenWidth = useScreenWidth();
    const container: CSSProperties = {
@@ -124,7 +122,6 @@ const getBannerContent = (dispatch: Dispatch<any>) => {
          <Button
             label='ABOUT US'
             clickHandler={() => {
-               dispatch(createLoadingAction(true));
                router.push('/about-us');
             }}
             style={button}
