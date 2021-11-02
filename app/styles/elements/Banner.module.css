@@ -1,7 +1,7 @@
 .container {
    max-width: 1200px;
-   height: 500px;
-   background-position: center !important;
+   height: 600px;
+   background-position: bottom !important;
    background-repeat: no-repeat !important;
    background-size: cover !important;
    display: flex;
