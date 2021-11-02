@@ -11,15 +11,24 @@ interface Props {
 
 const ArticleMainInfo: React.FC<Props> = ({ author, datePosted }) => {
    return (
-      <div className={styles.container}>
-         <div className={styles.authorInfo}>
-            <div><NameInitials name={author.name} /></div>
-            <div>ARTICLE BY: {author.credential.toUpperCase()} {author.name.toUpperCase()}</div>
-         </div>
+      <div className={styles.authorContainer}>
+         <div className={styles.subcontainer1}>
+            <div className={styles.authorInfo}>
+               <div><NameInitials name={author.name} /></div>
+               <div>ARTICLE BY: {author.credential.toUpperCase()} {author.name.toUpperCase()}</div>
+            </div>
 
-         <div className={styles.date}>
-            {months[datePosted.getMonth()].toUpperCase()}.{datePosted.getDate()}.{datePosted.getFullYear()}
+            <div className={styles.date}>
+               {months[datePosted.getMonth()].toUpperCase()}.{datePosted.getDate()}.{datePosted.getFullYear()}
+            </div>
          </div>
+         
+         {
+            author.about &&
+            <div className={styles.subcontainer2}>
+               {author.about}
+            </div>
+         }
       </div>
    )
 }

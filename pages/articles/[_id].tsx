@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import Banner from '../../app/components/elements/banner/Banner';
-import ArticleAuthorInformation from '../../app/components/modules/articles/ArticleAuthorInformation';
 import ArticleBodyText from '../../app/components/modules/articles/ArticleBodyText';
 import ArticleMainInfo from '../../app/components/modules/articles/ArticleMainInfo';
 import CommentsContainer from '../../app/components/modules/articles/CommentsContainer';
@@ -24,7 +23,6 @@ const ArticlePage: React.FC<Props> = ({ article, comments }) => {
          </div>
          <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
          <ArticleBodyText body={article.body} />
-         <ArticleAuthorInformation author={article.author} />
          <CommentsContainer comments={comments.map(c => ({ ...c, dateTime: new Date(c.dateTime) }))} articleId={article._id} />
       </div>
    )
