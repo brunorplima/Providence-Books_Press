@@ -58,7 +58,6 @@ export class Bookstore extends Component<Props, State> {
    }
 
    componentDidMount() {
-      ensurePaginationIsWithinBounds(this.props.pagination, this.state.maxPage, createChangeListPageAction);
       this.onRenderChangeState();
    }
 
