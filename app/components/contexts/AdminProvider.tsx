@@ -12,6 +12,8 @@ interface AdminContext {
    readonly listenForCategories: () => void
    readonly authors: string[]
    readonly listenForAuthors: () => void
+   readonly publishers: string[]
+   readonly listenForPublishers: () => void
 }
 
 export const adminContext = createContext<AdminContext>({
@@ -22,7 +24,9 @@ export const adminContext = createContext<AdminContext>({
    categories: [],
    listenForCategories: () => { },
    authors: [],
-   listenForAuthors: () => { }
+   listenForAuthors: () => { },
+   publishers: [],
+   listenForPublishers: () => { }
 })
 
 export const useAdminContext = () => useContext(adminContext)
@@ -32,11 +36,13 @@ const AdminProvider: React.FC = ({ children }) => {
    const [featuredProductIds, setFeaturedProductIds] = useState<string[]>([])
    const [categories, setCategories] = useState<string[]>([])
    const [authors, setAuthors] = useState<string[]>([])
+   const [publishers, setPublishers] = useState<string[]>([])
    const { providenceUser } = useAuth()
    const ordersUnsubscribe = useRef<() => void>()
    const fpUnsubscribe = useRef<() => void>()
    const categoriesUnsubscribe = useRef<() => void>()
    const authorsUnsubscribe = useRef<() => void>()
+   const publishersUnsubscribe = useRef<() => void>()
 
    useEffect(() => {
       return () => {
@@ -86,6 +92,16 @@ const AdminProvider: React.FC = ({ children }) => {
       }
    }
 
+   function listenForPublishers() {
+      if (!publishersUnsubscribe.current) {
+         publishersUnsubscribe.current = firestore.collection('content').doc('publishers').onSnapshot(snapshot => {
+            const data = snapshot.data()
+            const publs = data ? data.list as string[] : null
+            if (publs) setPublishers(publs)
+         })
+      }
+   }
+
    const initialValue: AdminContext = {
       orders,
       listenForOrders,
@@ -94,7 +110,9 @@ const AdminProvider: React.FC = ({ children }) => {
       categories,
       listenForCategories,
       authors,
-      listenForAuthors
+      listenForAuthors,
+      publishers,
+      listenForPublishers
    }
 
    if (!providenceUser || providenceUser.role === 'user') return <>{children}</>
