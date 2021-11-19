@@ -21,11 +21,19 @@ const AdminContent = () => {
    const [isPassageEditMode, setIsPassageEditMode] = useState(false)
    const [isLoading, setIsLoading] = useState(true)
    const [slideShowImagesData, setSlideShowImagesData] = useState<ImageStorageData[]>([]);
-   const { categories, listenForCategories, authors, listenForAuthors } = useAdminContext()
+   const {
+      categories,
+      listenForCategories,
+      authors,
+      listenForAuthors,
+      publishers,
+      listenForPublishers
+   } = useAdminContext()
 
    useEffect(() => {
       listenForCategories()
       listenForAuthors()
+      listenForPublishers()
    }, [])
 
    useEffect(() => {
@@ -141,7 +149,7 @@ const AdminContent = () => {
             <br/><br/><br/>
 
             <h2>Product Info Collections</h2>
-            <ProductInfoCollectionsManager {...{ categories, authors }}/>
+            <ProductInfoCollectionsManager {...{ categories, authors, publishers }}/>
 
             <br/><br/><br/><br/><br/>
          </Box>

@@ -76,11 +76,19 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
    const [confirmationMessage, setConfirmationMessage] = useState('')
    const [mainIndex, setMainIndex] = useState<MainIndex | null>(null)
 
-   const { categories, listenForCategories, authors: allAuthors, listenForAuthors } = useAdminContext()
+   const {
+      categories,
+      listenForCategories,
+      authors: allAuthors,
+      listenForAuthors,
+      publishers,
+      listenForPublishers
+   } = useAdminContext()
 
    useEffect(() => {
       listenForCategories()
       listenForAuthors()
+      listenForPublishers()
       return () => {
          if (currentTab === tabs[2]) setProductSelected(null);
       }
@@ -325,20 +333,23 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
                               }
                            </div>
 
+                           <FormSelect
+                              options={publishers}
+                              value={publisher}
+                              setValue={setPublisher}
+                              selectClassName={mainFormStyles.selectField}
+                              containerClassName={mainFormStyles.selectContainer}
+                              size={'100%'}
+                              label='Publisher'
+                              isRequired
+                           />
+
                            <FormInput
                               type='text'
                               value={subject}
                               setValue={setSubject}
                               size={'100%'}
                               label='Subject'
-                           />
-
-                           <FormInput
-                              type='text'
-                              value={flag}
-                              setValue={setFlag}
-                              size={'100%'}
-                              label='Flag'
                            />
 
                            <FormInput
@@ -416,11 +427,10 @@ const ProductsForm: React.FC<Props> = ({ currentTab, tabs, currentProduct, setPr
 
                            <FormInput
                               type='text'
-                              value={publisher}
-                              setValue={setPublisher}
-                              label='Publisher'
+                              value={flag}
+                              setValue={setFlag}
                               size={'100%'}
-                              isRequired
+                              label='Flag'
                            />
 
                            {

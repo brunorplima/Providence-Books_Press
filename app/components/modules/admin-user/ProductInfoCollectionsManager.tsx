@@ -8,25 +8,33 @@ import FormInput from '../form/FormInput'
 interface Props {
    readonly categories: string[]
    readonly authors: string[]
+   readonly publishers: string[]
 }
 
-const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors }) => {
+const ProductInfoCollectionsManager: React.FC<Props> = ({
+   categories,
+   authors,
+   publishers
+}) => {
    const [categoryValue, setCategoryValue] = useState('')
    const [categoryError, setCategoryError] = useState('')
    const [authorValue, setAuthorValue] = useState('')
    const [authorError, setAuthorError] = useState('')
+   const [publisherValue, setPublisherValue] = useState('')
+   const [publisherError, setPublisherError] = useState('')
 
    async function addCategory() {
       setCategoryError('')
-      if (!categoryValue) {
+      const category = categoryValue.trim()
+      if (!category) {
          setCategoryError('Category cannot be empty')
          return null
       }
-      if (categories.includes(categoryValue)) {
+      if (categories.includes(category)) {
          setCategoryError('This category already exists')
          return null
       }
-      await addCollection('content/categories', [...categories, categoryValue])
+      await addCollection('content/categories', [...categories, category])
       setCategoryValue('')
    }
 
@@ -42,15 +50,16 @@ const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors })
 
    async function addAuthor() {
       setCategoryError('')
-      if (!authorValue) {
+      const author = authorValue.trim()
+      if (!author) {
          setAuthorError('Author cannot be empty')
          return null
       }
-      if (authors.includes(authorValue)) {
+      if (authors.includes(author)) {
          setAuthorError('This author already exists')
          return null
       }
-      await addCollection('content/authors', [...authors, authorValue])
+      await addCollection('content/authors', [...authors, author])
       setAuthorValue('')
    }
 
@@ -62,6 +71,31 @@ const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors })
    function handleAuthorChange(value: string) {
       if (value && authorError) setAuthorError('')
       setAuthorValue(value)
+   }
+
+   async function addPublisher() {
+      setPublisherError('')
+      const publisher = publisherValue.trim()
+      if (!publisher) {
+         setPublisherError('Publisher cannot be empty')
+         return null
+      }
+      if (publishers.includes(publisher)) {
+         setPublisherError('This publisher already exists')
+         return null
+      }
+      await addCollection('content/publishers', [...publishers, publisher])
+      setPublisherValue('')
+   }
+
+   async function removePublisher(publisher: string) {
+      const newPublisher = publishers.filter(publ => publ !== publisher)
+      await addCollection('content/publishers', newPublisher)
+   }
+
+   function handlePublisherChange(value: string) {
+      if (value && publisherError) setPublisherError('')
+      setPublisherValue(value)
    }
 
    return (
@@ -97,7 +131,7 @@ const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors })
 
             <div className={styles.categories}>
                {
-                  categories.map((category, idx) => (
+                  categories.sort().map((category, idx) => (
                      <div key={category + idx} className={styles.category}>
                         <div className={styles.deleteIcon} onClick={() => removeCategory(category)}><IoIosClose fontSize={20} /></div>
                         {category}
@@ -107,7 +141,7 @@ const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors })
             </div>
          </div>
 
-         <br/>
+         <br />
 
          <h4>Authors</h4>
          <div className={styles.categoriesContainer}>
@@ -140,10 +174,53 @@ const ProductInfoCollectionsManager: React.FC<Props> = ({ categories, authors })
 
             <div className={styles.categories}>
                {
-                  authors.map((author, idx) => (
+                  authors.sort().map((author, idx) => (
                      <div key={author + idx} className={styles.category}>
                         <div className={styles.deleteIcon} onClick={() => removeAuthor(author)}><IoIosClose fontSize={20} /></div>
                         {author}
+                     </div>
+                  ))
+               }
+            </div>
+         </div>
+
+         <br />
+
+         <h4>Publishers</h4>
+         <div className={styles.categoriesContainer}>
+            <div className={styles.form}>
+               <FormInput
+                  type='text'
+                  value={publisherValue}
+                  setValue={handlePublisherChange}
+                  label='New Publisher'
+                  containerStyle={{ margin: 0 }}
+                  inputStyle={publisherError ? { borderColor: 'rgb(181, 0, 0)' } : {}}
+               />
+               {
+                  publisherError && <div className={styles.errorMessage}>{publisherError}</div>
+               }
+
+               <br />
+
+               <div className={styles.submit}>
+                  <Button
+                     label='ADD'
+                     clickHandler={addPublisher}
+                     disabled={!publisherValue}
+                     secondaryStyle
+                  />
+               </div>
+            </div>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <div className={styles.categories}>
+               {
+                  publishers.sort().map((publisher, idx) => (
+                     <div key={publisher + idx} className={styles.category}>
+                        <div className={styles.deleteIcon} onClick={() => removePublisher(publisher)}><IoIosClose fontSize={20} /></div>
+                        {publisher}
                      </div>
                   ))
                }

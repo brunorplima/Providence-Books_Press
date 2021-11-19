@@ -34,7 +34,9 @@ const FilterBox: React.FC<Props> = ({ idIncrement, boxTitle, optionsList, option
                            optionsChecked={optionsChecked}
                            setCheckedList={setCheckedList}
                         />
-                        <label className={styles.label} htmlFor={`${boxTitle}-${idx}-${option}-${idIncrement}`}>{option.toUpperCase()}</label>
+                        <label className={styles.label} htmlFor={`${boxTitle}-${idx}-${option}-${idIncrement}`}>
+                           {option ? option.toUpperCase() : `< NO ${boxTitle} >`}
+                        </label>
                      </div>
                   )
                }))
