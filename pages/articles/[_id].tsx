@@ -17,14 +17,14 @@ interface Props {
 const ArticlePage: React.FC<Props> = ({ article, comments }) => {
 
    return (
-      <div className={styles.container}>
-         <div style={{ padding: '.8rem' }}>
-            <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
+      <>
+         <Banner image={article.image} title={article.title} subtitle={article.subtitle ? article.subtitle : null} />
+         <div className={styles.container}>
+            <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
+            <ArticleBodyText body={article.body} />
+            <CommentsContainer comments={comments.map(c => ({ ...c, dateTime: new Date(c.dateTime) }))} articleId={article._id} />
          </div>
-         <ArticleMainInfo author={article.author} datePosted={new Date(article.datePosted)} />
-         <ArticleBodyText body={article.body} />
-         <CommentsContainer comments={comments.map(c => ({ ...c, dateTime: new Date(c.dateTime) }))} articleId={article._id} />
-      </div>
+      </>
    )
 }
 
