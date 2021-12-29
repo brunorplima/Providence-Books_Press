@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React from 'react'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { useDispatch } from 'react-redux'
 import { createOrder } from '../../../firebase/add'
@@ -9,7 +9,6 @@ import { createRemoveAllFromBookshelfAction } from '../../../redux/actions/books
 import styles from '../../../styles/paypal-checkout/PayPalCheckout.module.css'
 import { getFromProducts } from '../../../util/productModelHelper'
 import { useAuth } from '../../contexts/AuthProvider'
-import Loading from '../loading/Loading'
 
 interface Props {
    readonly total: string
@@ -28,65 +27,8 @@ const PayPalCheckout: React.FC<Props> = ({
    bookshelf,
    setOrder
 }) => {
-   // const [timer, setTimer] = useState<NodeJS.Timeout>(null)
    const dispatch = useDispatch()
    const { providenceUser } = useAuth()
-   // const ref = createRef<HTMLDivElement>()
-
-   useEffect(() => {
-      // appendScript()
-   }, [])
-
-   useEffect(() => {
-      // let t: NodeJS.Timeout = null
-      // if (timer) {
-      //    clearTimeout(timer)
-      // }
-      // if (bookshelf.length) {
-      //    t = renderButtons()
-      //    setTimer(t)
-      // }
-      // return () => {
-      //    clearTimeout(t)
-      // }
-   }, [total])
-
-   // function appendScript() {
-   //    const script = document.createElement('script')
-   //    script.src = `https://www.paypal.com/sdk/js?client-id=AdVsTLevf1gG4quWFZ-BVqJfvjFBM69tZZz7vfRTMfX_Rx135DEBb5WSq5Q0GL7AwFz94kOrFjyFXOUu&currency=CAD`
-   //    document.body.append(script)
-   // }
-
-   // function renderButtons() {
-   //    try {
-   //       removeButtons()
-   //       return setTimeout(() => {
-   //          const { paypal }: typeof window & { paypal?: any } = window
-   //          paypal.Buttons({
-   //             createOrder: (data, actions) => {
-   //                return actions.order.create({
-   //                   intent: 'CAPTURE',
-   //                   purchase_units: getPurchaseUnits()
-   //                })
-   //             },
-   //             onApprove: async (data, actions) => {
-   //                const orderData = await actions.order.capture()
-   //                const order = buildOrder(orderData)
-   //                createOrder(order)
-   //                setOrder(order)
-   //                updateStocks()
-   //                makeUserCustomer()
-   //                dispatch(createRemoveAllFromBookshelfAction())
-   //             }
-   //          }).render('#paypal-button-container')
-   //          setTimer(null)
-   //       }, 3200);
-   //    }
-   //    catch (error) {
-   //       window.alert('Is the PayPal checkout button not showing? If so refresh the page.')
-   //       return null
-   //    }
-   // }
 
    async function updateStocks() {
       for (const item of bookshelf) {
@@ -102,10 +44,6 @@ const PayPalCheckout: React.FC<Props> = ({
          await updateUser(providenceUser._id, { isCustomer: true })
       }
    }
-
-   // function removeButtons() {
-   //    if (ref.current) ref.current.innerHTML = ''
-   // }
 
    function getPurchaseUnits() {
       const units = [{
@@ -126,17 +64,6 @@ const PayPalCheckout: React.FC<Props> = ({
       }]
       return units
    }
-
-   // function getItems() {
-   //    const items = bookshelf.map(item => ({
-   //       name: `${item.name}${item.subtitle ? ` - ${item.subtitle}` : ''}`,
-   //       unit_amount: { currency_code: 'CAD', value: item.price.toFixed(2) },
-   //       quantity: item.quantity.toString(),
-   //       sku: item.id,
-   //       category: item.weight ? 'PHYSICAL_GOODS' : 'DIGITAL_GOODS'
-   //    }))
-   //    return items
-   // }
 
    function  buildOrder(orderData: any) {
       const now = new Date(Date.now())
@@ -181,17 +108,13 @@ const PayPalCheckout: React.FC<Props> = ({
             amount={total}
             shippingPreference={Number(shipping) <= 0 ? 'NO_SHIPPING' : 'GET_FROM_FILE'} // default is "GET_FROM_FILE"
             createOrder={(data, actions) => {
-               console.log('createOrder.actions', actions)
                return actions.order.create({
                   intent: 'CAPTURE',
                   purchase_units: getPurchaseUnits()
                })
             }}
             onApprove={(data, actions) => {
-               console.log('onApprove.data', data)
-               console.log('onApprove.actions', actions)
                return actions.order.capture().then(orderData => {
-                  console.log('onCaptureData:', orderData)
                   const order = buildOrder(orderData)
                   createOrder(order)
                   setOrder(order)
@@ -205,15 +128,6 @@ const PayPalCheckout: React.FC<Props> = ({
                currency: 'CAD'
             }}
          />
-         {/* {
-            bookshelf.length ?
-               timer ?
-                  <div id="paypal-button-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 70 }}>
-                     <Loading localIsLoading size={4} />
-                  </div> :
-                  <div ref={ref} id="paypal-button-container" className={styles.paypalButtons} style={{ zIndex: 0 }}></div>
-               : null
-         } */}
       </div>
    )
 }
