@@ -14,15 +14,20 @@ import { articlesFetchAction } from '../app/redux/actions/articlesActions';
 import AuthProvider from '../app/components/contexts/AuthProvider';
 import AdminProvider from '../app/components/contexts/AdminProvider';
 import AccountProvider from '../app/components/contexts/AccountProvider';
+import { lastActiveTimeAction } from '../app/redux/actions/lastActiveTimeActions';
+import { createChangeListPageAction } from '../app/redux/actions/listPageActions';
 
 function MyApp({ Component, pageProps }) {
 
+   const [lastActiveTime, setLastActiveTime] = useState(0)
    const dispatch = store.dispatch;
 
    useEffect(() => {
       window.addEventListener('submit', onSubmit);
       const productsUnsubscribe = fetchProducts()
       const articlesUnsubscribe = fetchArticles()
+      const lat = store.getState().lastActiveTime
+      setLastActiveTime(lat ? lat : 1)
       return () => {
          window.removeEventListener('submit', onsubmit);
          productsUnsubscribe()
@@ -31,9 +36,14 @@ function MyApp({ Component, pageProps }) {
    }, []);
 
    useEffect(() => {
+      if (lastActiveTime && Date.now() - lastActiveTime >= 600000) dispatch(createChangeListPageAction(1))
+   }, [lastActiveTime])
+
+   useEffect(() => {
       if (store.getState().isLoading) {
          store.dispatch(createLoadingAction(false));
       }
+      if (lastActiveTime) dispatch(lastActiveTimeAction())
    });
 
    function fetchProducts() {
