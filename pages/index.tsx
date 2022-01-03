@@ -103,7 +103,8 @@ const getBannerContent = () => {
       alignItems: 'center', transform: 'translateY(2rem)'
    }
    const image: CSSProperties = {
-      width: screenWidth < 500 ? '90%' : screenWidth >= 500 && screenWidth < 1000 ? '70%' : '50%'
+      width: screenWidth < 500 ? '90%' : screenWidth >= 500 && screenWidth < 1000 ? '70%' : '50%',
+      maxWidth: 1200
    }
    const button: CSSProperties = {
       borderColor: 'white',
