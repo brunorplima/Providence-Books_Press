@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import * as R from 'ramda'
 import React, { Component } from 'react';
 import BackButton from '../../app/components/elements/back-button/BackButton';
 import CirclesUI from '../../app/components/elements/circles-ui/CirclesUI';
@@ -43,7 +44,15 @@ class ProductDetails extends Component<Props, State> {
       this.setSelectedImage = this.setSelectedImage.bind(this);
    }
 
+   componentDidMount() {
+      this.setInitialData()
+   }
+
    componentDidUpdate() {
+      this.setInitialData()
+   }
+
+   setInitialData() {
       const { products, product } = this.props
       const relatedProducts = products.filter(prod => prod.category === product?.category && prod._id !== product?._id)
       if (JSON.stringify(relatedProducts) !== JSON.stringify(this.state.relatedProducts)) {
@@ -54,22 +63,17 @@ class ProductDetails extends Component<Props, State> {
    getSortedRelatedProductsList(): Product[] {
       const { product } = this.props;
       const { relatedProducts } = this.state;
-      const sameAuthorList: Product[] = [];
-      const differentAuthorList: Product[] = [];
+      const authors = (product as Book | AudioBook | EBook).authors.split(' & ')
+      type ListGrouped = { sameAuthor: Product[], diffAuthor: Product[] }
+      const listGrouped: ListGrouped = R.groupBy(prod => {
+         const p = (prod as Book | AudioBook | EBook)
+         const isInAuthors = name => authors.includes(name)
+         const isDiffAuthor = R.none(isInAuthors, p.authors.split(' & '))
+         if (isDiffAuthor) return 'diffAuthor'
+         return 'sameAuthor'
+      }, relatedProducts);
 
-      relatedProducts.forEach(prod => {
-         const specProd = (prod as Book | EBook | AudioBook);
-         const bools: Boolean[] = specProd._authorIds.map(id => (product as Book | EBook | AudioBook)._authorIds.includes(id));
-         if (bools.includes(true)) {
-            sameAuthorList.push(specProd);
-            return;
-         } else {
-            differentAuthorList.push(specProd);
-            return;
-         }
-      })
-
-      return [...sameAuthorList, ...differentAuthorList]
+      return [...listGrouped.sameAuthor, ...listGrouped.diffAuthor]
    }
 
    setSelectedImage(index: number) {
