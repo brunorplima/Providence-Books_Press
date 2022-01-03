@@ -12,6 +12,7 @@ import articlesReducer from './articlesReducer'
 import articlesLastSyncReducer from './articlesLastSyncReducer'
 import Product from '../../interfaces-objects/Product'
 import { Article, BookshelfItem } from '../../interfaces-objects/interfaces'
+import lastActiveTimeReducer from './lastActiveTimeReducer'
 
 const persistConfig = {
    key: 'root',
@@ -25,7 +26,8 @@ const persistConfig = {
       'productsLastSync',
       'articlesLastSync',
       'products',
-      'articles'
+      'articles',
+      'lastActiveTime'
    ]
 }
 
@@ -40,6 +42,7 @@ export interface ReduxState {
    articlesLastSync: number;
    products: Product[];
    articles: Article[];
+   lastActiveTime: number;
 }
 
 const rootReducer = combineReducers<ReduxState>({
@@ -52,7 +55,8 @@ const rootReducer = combineReducers<ReduxState>({
    productsLastSync: productsLastSyncReducer,
    articlesLastSync: articlesLastSyncReducer,
    products: productsReducer,
-   articles: articlesReducer
+   articles: articlesReducer,
+   lastActiveTime: lastActiveTimeReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);
