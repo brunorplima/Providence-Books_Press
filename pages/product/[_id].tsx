@@ -72,8 +72,10 @@ class ProductDetails extends Component<Props, State> {
          if (isDiffAuthor) return 'diffAuthor'
          return 'sameAuthor'
       }, relatedProducts);
+      const sameAuthor = R.propOr([], 'sameAuthor')<ListGrouped, Product[]>(listGrouped)
+      const diffAuthor = R.propOr([], 'diffAuthor')<ListGrouped, Product[]>(listGrouped)
 
-      return [...listGrouped.sameAuthor, ...listGrouped.diffAuthor]
+      return [...sameAuthor, ...diffAuthor]
    }
 
    setSelectedImage(index: number) {
