@@ -171,7 +171,10 @@ interface ApplySearchType {
 const applySearchToList = <T extends ApplySearchType>(list: T[], search: string): T[] => {
    const regex = new RegExp(search, 'i');
    let searchAppliedList: T[] = [];
-   if ('name' in list[0]) searchAppliedList = list.filter(product => regex.test(product.name) || regex.test(product.subtitle));
+   if ('name' in list[0]) searchAppliedList = list.filter(product => {
+      const castedProd = (product as unknown as Book | EBook | AudioBook)
+      return regex.test(product.name) || regex.test(product.subtitle) || regex.test(castedProd.authors)
+   });
    if ('title' in list[0]) searchAppliedList = list.filter(article => regex.test(article.title) || regex.test(article.subtitle));
    return searchAppliedList;
 }

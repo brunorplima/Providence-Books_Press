@@ -14,7 +14,6 @@ import { ensurePaginationIsWithinBounds, getFilters, getMaxPage, populateProcess
 import { BOOKS } from '../../app/components/modules/search-results/constants';
 import { createChangeListPageAction } from '../../app/redux/actions/listPageActions';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
-import { fetchDoc } from '../../app/firebase/fetch';
 
 interface Props {
    readonly products: Product[];
