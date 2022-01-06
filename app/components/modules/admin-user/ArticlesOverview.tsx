@@ -96,7 +96,7 @@ const ArticlesOverview: React.FC<ListWithState> = ({
             </div>
 
             <div className={styles.listFooter}>
-               <div>There are {listToRender.length} products</div>
+               <div>There are {listToRender.length} articles</div>
                <ListPagination
                   boxContainer={container}
                   listToRender={listToRender}

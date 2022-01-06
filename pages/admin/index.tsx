@@ -18,6 +18,7 @@ import { BsLayoutTextWindowReverse } from 'react-icons/bs';
 import { redirectUnauthorizedAdmin } from '../../app/util/authRouting';
 import AdminOrders from '../../app/components/modules/admin-user/AdminOrders';
 import { fetchDocs } from '../../app/firebase/fetch';
+import AdminUsers from '../../app/components/modules/admin-user/AdminUsers';
 
 const sections: SectionType[] = [
    {
@@ -107,7 +108,7 @@ const AdminPage: React.FC<Props> = ({ products, articles }) => {
                {
                   currentSection === sections[3].name &&
                   <Section title={currentSection}>
-
+                     <AdminUsers/>
                   </Section>
                }
 

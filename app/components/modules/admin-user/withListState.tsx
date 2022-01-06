@@ -1,8 +1,8 @@
 import React from 'react';
 
 export interface ListWithState {
-   readonly setItemToUpdate: Function;
-   readonly list: any[];
+   readonly setItemToUpdate?: Function;
+   readonly list?: any[];
    readonly processedList?: any[];
    readonly search?: string;
    readonly setSearch?: (search: string) => void;
@@ -20,12 +20,7 @@ interface State {
    readonly listPageMax: number;
 }
 
-interface Props {
-   readonly setItemToUpdate: Function;
-   readonly list: any[];
-}
-
-const withListState = <P extends Props, T>(
+const withListState = <P extends {}, T>(
    Component: React.ComponentType<P>
 ) => class WithState extends React.Component<P, State> {
 
