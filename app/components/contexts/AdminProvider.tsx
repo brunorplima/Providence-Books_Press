@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { firestore } from '../../firebase/firebase'
-import { Order } from '../../interfaces-objects/interfaces'
+import { Order, User } from '../../interfaces-objects/interfaces'
 import { useAuth } from './AuthProvider'
 
 interface AdminContext {
@@ -14,6 +14,8 @@ interface AdminContext {
    readonly listenForAuthors: () => void
    readonly publishers: string[]
    readonly listenForPublishers: () => void
+   readonly users: User[]
+   readonly listenForUsers: <T>() => void
 }
 
 export const adminContext = createContext<AdminContext>({
@@ -26,7 +28,9 @@ export const adminContext = createContext<AdminContext>({
    authors: [],
    listenForAuthors: () => { },
    publishers: [],
-   listenForPublishers: () => { }
+   listenForPublishers: () => { },
+   users: [],
+   listenForUsers: () => { }
 })
 
 export const useAdminContext = () => useContext(adminContext)
@@ -37,12 +41,14 @@ const AdminProvider: React.FC = ({ children }) => {
    const [categories, setCategories] = useState<string[]>([])
    const [authors, setAuthors] = useState<string[]>([])
    const [publishers, setPublishers] = useState<string[]>([])
+   const [users, setUsers] = useState<User[]>([])
    const { providenceUser } = useAuth()
    const ordersUnsubscribe = useRef<() => void>()
    const fpUnsubscribe = useRef<() => void>()
    const categoriesUnsubscribe = useRef<() => void>()
    const authorsUnsubscribe = useRef<() => void>()
    const publishersUnsubscribe = useRef<() => void>()
+   const usersUnsubscribe = useRef<() => void>()
 
    useEffect(() => {
       return () => {
@@ -102,6 +108,20 @@ const AdminProvider: React.FC = ({ children }) => {
       }
    }
 
+   function listenForUsers() {
+      runDataSnapshot<User>('users', setUsers, usersUnsubscribe)
+   }
+
+   function runDataSnapshot<T>(collection: string, setState: Function, unsubscriber: React.MutableRefObject<() => void>) {
+      if (!unsubscriber.current) {
+         unsubscriber.current = firestore.collection(collection).onSnapshot(snapshot => {
+            const data: T[] = []
+            snapshot.forEach(dt => data.push(dt.data() as T))
+            setState(data)
+         })
+      }
+   }
+
    const initialValue: AdminContext = {
       orders,
       listenForOrders,
@@ -112,7 +132,9 @@ const AdminProvider: React.FC = ({ children }) => {
       authors,
       listenForAuthors,
       publishers,
-      listenForPublishers
+      listenForPublishers,
+      users,
+      listenForUsers
    }
 
    if (!providenceUser || providenceUser.role === 'user') return <>{children}</>
