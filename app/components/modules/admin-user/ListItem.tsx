@@ -3,14 +3,14 @@ import { RiDeleteBinFill, RiFileEditFill } from 'react-icons/ri';
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction';
 import Dialog from '../dialog/Dialog';
 import { CgDetailsMore } from 'react-icons/cg';
-import { Article, Order } from '../../../interfaces-objects/interfaces';
+import { Article, Order, User } from '../../../interfaces-objects/interfaces';
 import Product from '../../../interfaces-objects/Product';
 
 interface Props {
    readonly itemId: string;
-   readonly item: Product | Article | Order;
+   readonly item: Product | Article | Order | User;
    readonly onDelete: (itemId: string) => any;
-   readonly itemType: 'product' | 'article' | 'order';
+   readonly itemType: 'product' | 'article' | 'order' | 'user';
    readonly isFirstItem: boolean;
    readonly setItemToUpdate: Function;
 }
