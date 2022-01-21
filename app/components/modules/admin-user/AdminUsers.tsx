@@ -103,7 +103,7 @@ const AdminUsers: React.FC<ListWithState> = ({
                                  }
                                  {
                                     user.gender &&
-                                    <div>Gender: {user.gender}</div>
+                                    <div>Sex: {user.gender}</div>
                                  }
                                  <div>User since {(user.since as Date).toDateString().substring(4)}</div>
                               </div>
