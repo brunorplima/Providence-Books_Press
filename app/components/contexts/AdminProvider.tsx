@@ -109,7 +109,15 @@ const AdminProvider: React.FC = ({ children }) => {
    }
 
    function listenForUsers() {
-      runDataSnapshot<User>('users', setUsers, usersUnsubscribe)
+      const processUserListAndSetState = (users: User[]) => {
+         const processedUsers = users.map(user => {
+            const u = { ...user, since: new Date(user.since) }
+            if (user.dateOfBirth) u.dateOfBirth = new Date(user.dateOfBirth)
+            return u
+         })
+         setUsers(processedUsers)
+      }
+      runDataSnapshot<User>('users', processUserListAndSetState, usersUnsubscribe)
    }
 
    function runDataSnapshot<T>(collection: string, setState: Function, unsubscriber: React.MutableRefObject<() => void>) {
