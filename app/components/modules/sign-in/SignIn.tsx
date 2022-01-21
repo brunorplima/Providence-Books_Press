@@ -399,14 +399,14 @@ const SignIn: React.FC<Props> = ({
    )
 }
 
-const buildUser = (user: firebase.User, firstName: string, lastName: string): User => {
+export const buildUser = (user: firebase.User, firstName: string, lastName: string): User => {
    const newUser: User = {
       _id: user.uid,
       firstName,
       lastName,
       email: user.email,
       isCustomer: false,
-      since: new Date(Date.now()),
+      since: new Date().toString(),
       role: 'user'
    }
    if (user.phoneNumber) newUser.primaryContactNumber = user.phoneNumber

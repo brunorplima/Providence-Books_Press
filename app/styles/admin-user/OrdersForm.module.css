@@ -11,15 +11,16 @@
 .inputs {
    display: grid;
    grid-template-columns: 1fr 1fr;
+   gap: 1rem;
 }
 
-.leftSide {
+/* .leftSide {
    margin-right: .8rem;
 }
 
 .rightSide {
    margin-left: .8rem;
-}
+} */
 
 .submit {
    display: flex;
@@ -35,6 +36,13 @@
 .formControllerDoubleInput {
    display: flex;
    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+   .inputs {
+      display: flex;
+      flex-direction: column;
+   }
 }
 
 

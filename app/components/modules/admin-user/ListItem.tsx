@@ -13,9 +13,10 @@ interface Props {
    readonly itemType: 'product' | 'article' | 'order' | 'user';
    readonly isFirstItem: boolean;
    readonly setItemToUpdate: Function;
+   readonly hasActions?: boolean
 }
 
-const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, onDelete, itemType }) => {
+const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, onDelete, itemType, hasActions = true }) => {
 
    let className = 'LI-item';
 
@@ -27,13 +28,16 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
       <>
          <div className={className}>
             {children}
-            <div className='LI-actions'>
-               <div><CgDetailsMore /></div>
-               <div onClick={() => setItemToUpdate(item)}><RiFileEditFill /></div>
-               <div onClick={() => openDialog(dialogName)}>
-                  <RiDeleteBinFill />
+            {
+               hasActions &&
+               <div className='LI-actions'>
+                  {/* <div><CgDetailsMore /></div> */}
+                  <div onClick={() => setItemToUpdate(item)}><RiFileEditFill /></div>
+                  <div onClick={() => openDialog(dialogName)}>
+                     <RiDeleteBinFill />
+                  </div>
                </div>
-            </div>
+            }
          </div>
 
          <Dialog

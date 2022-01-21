@@ -45,17 +45,25 @@ const AuthProvider = ({ children }) => {
 
 
    useEffect(() => {
+      let provUserUnsubscribe
       const unsubscribe = auth.onAuthStateChanged(async user => {
          if (user) {
-            const provUser = await fetchDoc<User>(`users/${user.uid}`)
+            provUserUnsubscribe = firestore.collection('users').doc(user.uid).onSnapshot(doc => {
+               const provUser = doc.data() as User
+               if (provUser.dateOfBirth) provUser.dateOfBirth = new Date(provUser.dateOfBirth)
+               setProvidenceUser(provUser)
+            })
+
             setFirebaseUser(user)
-            setProvidenceUser(provUser)
             return
          }
          setFirebaseUser(null)
          setProvidenceUser(null)
       })
-      return unsubscribe
+      return () => {
+         unsubscribe()
+         provUserUnsubscribe()
+      }
    }, [])
 
    useEffect(() => {
