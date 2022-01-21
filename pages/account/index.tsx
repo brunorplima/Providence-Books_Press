@@ -23,10 +23,6 @@ const sections: SectionType[] = [
       name: 'Wish List',
       Icon: MdFavoriteBorder
    },
-   // {
-   //    name: 'Favourite Articles',
-   //    Icon: MdFavoriteBorder
-   // },
    {
       name: 'User Information',
       Icon: RiFileUserLine
@@ -35,20 +31,9 @@ const sections: SectionType[] = [
 
 const Account = () => {
    const [currentSection, setCurrentSection] = useState<string>(sections[0].name)
-   const [currentUser, setCurrentUser] = useState<User>(null)
    const [isMenuHidden, setIsMenuHidden] = useState(true)
    const { firebaseUser, providenceUser, userWishlist } = useAuth()
    const screenWidth = useScreenWidth()
-   const unsubscribeRef = useRef(null)
-
-   useEffect(() => {
-      if (!unsubscribeRef.current && providenceUser) {
-         unsubscribeRef.current = firestore.doc(`users/${providenceUser._id}`).onSnapshot(snapshot => {
-            setCurrentUser(snapshot.data() as User)
-         })
-      }
-      return unsubscribeRef.current
-   }, [providenceUser])
 
    useEffect(() => {
       if (!isMenuHidden) setIsMenuHidden(true)
@@ -123,16 +108,9 @@ const Account = () => {
                }
 
                {
-                  // currentSection === sections[2].name &&
-                  // <Section title={currentSection}>
-
-                  // </Section>
-               }
-
-               {
                   currentSection === sections[2].name &&
                   <Section title={currentSection}>
-                     <UserInformationContainer {...{ currentUser }} />
+                     <UserInformationContainer currentUser={providenceUser} />
                   </Section>
                }
             </div>
