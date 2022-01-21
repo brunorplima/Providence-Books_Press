@@ -6,12 +6,12 @@ import styles from '../../../styles/admin-user/UserInformation.module.css'
 import sharedStyles from '../../../styles/admin-user/shared.module.css'
 import NameInitials from '../../elements/name-initials/NameInitials'
 import { RiImageAddFill, RiSave3Fill, RiDeleteBin6Line } from 'react-icons/ri'
-import Button from '../../elements/button/Button'
 import { MdClose } from 'react-icons/md'
 import { deleteAll, putInStorage } from '../../../firebase/storage'
 import { useAuth } from '../../contexts/AuthProvider'
 import { updateUser } from '../../../firebase/update'
 import Loading from '../loading/Loading'
+import useScreenWidth from '../../../util/useScreenWidth'
 
 interface Props {
    readonly currentUser: User
@@ -24,6 +24,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
    const [isLoading, setIsLoading] = useState(false)
    const [error, setError] = useState<string>(null)
    const { providenceUser } = useAuth()
+   const screenWidth = useScreenWidth()
 
    useEffect(() => {
       if (img) setFileName(img.item(0).name.substr(0, 8) + '...')
@@ -85,13 +86,13 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                         {
                            currentUser.photoURL ?
                               <img src={currentUser.photoURL} alt={getFullName()} /> :
-                              <NameInitials name={getFullName()} size={70} fontSize='24pt' />
+                              <NameInitials name={getFullName()} size={screenWidth >= 500 ? 70 : 45} fontSize={screenWidth >= 500 ? '24pt' : '16pt'} />
                         }
                      </div>
                   </div>
 
                   <div className={styles.muiName}>
-                     <h4>{getFullName()}</h4>
+                     <h4 style={screenWidth < 500 ? { fontSize: '14pt' } : {}}>{getFullName()}</h4>
                   </div>
                </div>
 
@@ -196,7 +197,11 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
                      <div className={formStyles.formController}>
                         <div className={formStyles.inputField}>
                            <label className={styles.label}>Date of Birth</label>
-                           <div>{getInfo(currentUser?.dateOfBirth)}</div>
+                           {
+                              currentUser?.dateOfBirth ?
+                              <div>{(currentUser.dateOfBirth as Date).toDateString().substring(4)}</div> :
+                              <div>--</div>
+                           }
                         </div>
                      </div>
                   </div>

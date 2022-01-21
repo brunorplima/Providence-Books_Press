@@ -3,12 +3,12 @@ import React, { CSSProperties, useState } from 'react'
 import Box from './Box'
 import styles from '../../../styles/admin-user/OrdersForm.module.css'
 import sharedStyles from '../../../styles/admin-user/shared.module.css'
-import Button from '../../elements/button/Button'
 import { canadianProvinces, countryList, usaStates } from '../../../util/addressHelper'
 import * as Yup from 'yup'
 import { updateUser } from '../../../firebase/update'
 import { User, Address, Gender } from '../../../interfaces-objects/interfaces'
 import Loading from '../loading/Loading'
+import * as R from 'ramda'
 
 interface FormikData {
    readonly firstName: string
@@ -23,7 +23,7 @@ interface FormikData {
    readonly country: string
    readonly zipCode: string
    readonly gender: string
-   readonly dateOfBirth: string
+   readonly dateOfBirth: string | Date
 }
 
 interface Props {
@@ -33,6 +33,12 @@ interface Props {
 
 const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
    const [isLoading, setIsLoading] = useState(false)
+
+   const getFormattedDate = (date: Date) => {
+      const month = date.getMonth() <= 8 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+      const formatted = `${date.getFullYear()}-${month}-${date.getDate()}`
+      return formatted
+   }
 
    const initialValues: FormikData = {
       firstName: currentUser.firstName ? currentUser.firstName : '',
@@ -47,7 +53,7 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
       country: currentUser.address?.country ? currentUser.address.country : '',
       zipCode: currentUser.address?.zipCode ? currentUser.address.zipCode : '',
       gender: currentUser.gender ? currentUser.gender : '',
-      dateOfBirth: currentUser.dateOfBirth ? (currentUser.dateOfBirth as string) : ''
+      dateOfBirth: currentUser.dateOfBirth ? getFormattedDate(currentUser.dateOfBirth as Date) : ''
    }
 
    const validationSchema = Yup.object({
@@ -86,7 +92,11 @@ const UserInformation: React.FC<Props> = ({ currentUser, setIsEdit }) => {
       if (lastName) user.lastName = lastName
       if (primaryContactNumber) user.primaryContactNumber = primaryContactNumber
       if (secondaryContactNumber) user.secondaryContactNumber = secondaryContactNumber
-      if (dateOfBirth) user.dateOfBirth = dateOfBirth
+      if (dateOfBirth) {
+         const info: string[] = R.split('-')(dateOfBirth as string)
+         const infoInt = info.map(inf => parseInt(inf))
+         user.dateOfBirth = new Date(infoInt[0], infoInt[1] - 1, infoInt[2]).toString()
+      }
       if (gender) user.gender = gender as Gender
       try {
          await updateUser(currentUser._id, user)
@@ -286,7 +296,7 @@ const UserInformationForm: React.FC<FormProps & { props: FormikProps<FormikData>
                         id='dateOfBirth'
                         name='dateOfBirth'
                         type='date'
-                        value={props.values.dateOfBirth}
+                        value={props.values.dateOfBirth as string}
                         onChange={props.handleChange}
                         style={errorStyle(props.errors.dateOfBirth, props.touched.dateOfBirth)}
                      />
@@ -451,7 +461,7 @@ const UserInformationForm: React.FC<FormProps & { props: FormikProps<FormikData>
                   <button
                      className={sharedStyles.yellowButton}
                      onClick={() => setIsEdit(false)}
-                     style={{ minWidth: '150px' }}
+                     style={{ width: '120px' }}
                      type='button'
                   >
                      CANCEL
@@ -460,7 +470,7 @@ const UserInformationForm: React.FC<FormProps & { props: FormikProps<FormikData>
                   <button
                      className={sharedStyles.yellowButton}
                      onClick={e => props.handleSubmit()}
-                     style={{ minWidth: '150px' }}
+                     style={{ width: '120px' }}
                      type='button'
                   >
                      SAVE
