@@ -9,7 +9,7 @@ import withListState, { ListWithState } from './withListState'
 import ListItem from './ListItem'
 import splitListInPages from '../../../util/splitListInPages'
 import NameInitials from '../../elements/name-initials/NameInitials'
-import * as R from 'Ramda'
+import { prop, descend, sort } from 'Ramda'
 
 const AdminUsers: React.FC<ListWithState> = ({
    pagination,
@@ -29,7 +29,7 @@ const AdminUsers: React.FC<ListWithState> = ({
    }, [])
 
    function getFilteredUsers() {
-      const sortedUsers = R.sort(R.descend<User>(R.prop('since')))(users)
+      const sortedUsers = sort(descend<User>(prop('since')))(users)
       if (!search) return sortedUsers
       return sortedUsers.filter(user => {
          return user.firstName.includes(search) ||
@@ -39,7 +39,7 @@ const AdminUsers: React.FC<ListWithState> = ({
    }
 
    function renderAddress(address) {
-      const getProp = prop => R.prop(prop)(address)
+      const getProp = prop => prop(prop)(address)
       const mainString = getProp('main') ? getProp('main') : ''
       const cityString = getProp('city') ? `${mainString && ' - '}${getProp('city')}` : ''
       const stateString = getProp('stateProvince') ? getProp('stateProvince') : ''
