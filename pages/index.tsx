@@ -57,6 +57,19 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             <title>Providence Books &amp; Providence - Home</title>
             <link rel="icon" href="/favicon.ico" />
             <meta name="google-site-verification" content="IxilHgh9SqGbEK4oEHxkBTW63SP2-aEZZz_WptAoly4" />
+            {/* Twitter */}
+            <meta
+               name="twitter:card"
+               content="Providence is a family-owned business which sells Christian books, from kid's stories to theological works."
+               key="twcard"
+            />
+            {/* <meta name="twitter:creator" content={twitterHandle} key="twhandle" /> */}
+
+            {/* Open Graph */}
+            <meta property="og:image" content='/full-logo-min.png' key="ogimage" />
+            <meta property="og:site_name" content='Providence Book Store' key="ogsitename" />
+            <meta property="og:title" content='Home' key="ogtitle" />
+            <meta property="og:description" content="Providence is a family-owned business which sells Christian books, from kid's stories to theological works." key="ogdesc" />
          </Head>
          <div className={styles.container}>
             <div className={styles.banner}>
@@ -138,8 +151,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       slideShowInterval: number
       featuredProductsSlideInterval: number
    }
-   
-   const fpIdsRef = await fetchDoc<{ ids: string[]}>('featured-products/ids')
+
+   const fpIdsRef = await fetchDoc<{ ids: string[] }>('featured-products/ids')
    const featuredProductIds = fpIdsRef ? fpIdsRef.ids : [];
    const homeSettingsRef = await fetchDoc<HomeSettings>('settings/home');
    const slideShowInterval = homeSettingsRef ? homeSettingsRef.slideShowInterval : 6000;
