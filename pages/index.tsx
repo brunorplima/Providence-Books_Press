@@ -66,9 +66,11 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             {/* <meta name="twitter:creator" content={twitterHandle} key="twhandle" /> */}
 
             {/* Open Graph */}
-            <meta property="og:image" content='/full-logo-min.png' key="ogimage" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content='https://firebasestorage.googleapis.com/v0/b/providence-2f91a.appspot.com/o/open-graph-assets%2Ffull-logo-min.png?alt=media&token=c8ef823b-a492-4839-b2f3-5e7a30dde077' key="ogimage" />
             <meta property="og:site_name" content='Providence Book Store' key="ogsitename" />
-            <meta property="og:title" content='Home' key="ogtitle" />
+            <meta property="og:title" content='Providence Book Store - Christian books and content' key="ogtitle" />
+            <meta property="og:url" content="https://providencebp.vercel.app/" />
             <meta property="og:description" content="Providence is a family-owned business which sells Christian books, from kid's stories to theological works." key="ogdesc" />
          </Head>
          <div className={styles.container}>
