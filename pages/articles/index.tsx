@@ -9,7 +9,7 @@ import SearchField from '../../app/components/elements/search-field/SearchField'
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
 import CategoriesIndex from '../../app/components/modules/articles/CategoriesIndex';
 import { connect } from 'react-redux';
-import { fetchDoc } from '../../app/firebase/fetch';
+import Head from 'next/head';
 
 interface Props {
    readonly articles: Article[];
@@ -81,7 +81,27 @@ export class ArticlesPage extends Component<Props, State> {
          : 'There are no matches for your search'
 
       return (
-         <div className={styles.container} style={{scrollBehavior: 'smooth'}}>
+         <div className={styles.container} style={{ scrollBehavior: 'smooth' }}>
+            <Head>
+               <title>Providence Books &amp; Providence - Home</title>
+               <link rel="icon" href="/favicon.ico" />
+               <meta name="google-site-verification" content="IxilHgh9SqGbEK4oEHxkBTW63SP2-aEZZz_WptAoly4" />
+
+               {/* Open Graph */}
+               <meta property="og:title" content='Providence Book Store - Articles' />
+               <meta property="og:type" content="website" />
+               <meta property="og:description" content="Providence is a family-owned business which sells Christian books, from kid's stories to theological works." />
+               <meta
+                  property="og:image"
+                  content='https://firebasestorage.googleapis.com/v0/b/providence-2f91a.appspot.com/o/open-graph-assets%2FHnet.com-image.png?alt=media&token=8c93f376-77e4-421a-bf3d-d71a7e10f808'
+               />
+               <meta property="og:url" content="https://www.providencebookspress.com/" />
+               <meta property="og:site_name" content='Providence Book Store' />
+               <meta
+                  name="twitter:card"
+                  content="summary_large_image"
+               />
+            </Head>
             <div style={{ padding: '.8rem' }}>
                <ArticleBanner article={firstArticle} />
             </div>

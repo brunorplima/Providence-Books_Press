@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import Banner from '../app/components/elements/banner/Banner';
 import Button from '../app/components/elements/button/Button';
 import CarouselContainer from '../app/components/modules/home/CarouselContainer';
@@ -28,7 +28,6 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
    const [slideShowUrlPaths, setSlideShowUrlPaths] = useState<string[]>([]);
    const [isSlideShowLoading, setIsSlideShowLoading] = useState(true);
    const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-   const dispatch = useDispatch()
 
    useEffect(() => {
       fetchData()
@@ -59,14 +58,14 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             <meta name="google-site-verification" content="IxilHgh9SqGbEK4oEHxkBTW63SP2-aEZZz_WptAoly4" />
 
             {/* Open Graph */}
-            <meta property="og:title" content='Providence Book Store - Christian books and content' />
+            <meta property="og:title" content='Providence Book Store' />
             <meta property="og:type" content="website" />
             <meta property="og:description" content="Providence is a family-owned business which sells Christian books, from kid's stories to theological works." />
             <meta
                property="og:image"
-               content='https://firebasestorage.googleapis.com/v0/b/providence-2f91a.appspot.com/o/open-graph-assets%2Ffull-logo-min.png?alt=media&token=c8ef823b-a492-4839-b2f3-5e7a30dde077'
+               content='https://firebasestorage.googleapis.com/v0/b/providence-2f91a.appspot.com/o/open-graph-assets%2FHnet.com-image.png?alt=media&token=8c93f376-77e4-421a-bf3d-d71a7e10f808'
             />
-            <meta property="og:url" content="https://providencebp.vercel.app/" />
+            <meta property="og:url" content="https://www.providencebookspress.com/" />
             <meta property="og:site_name" content='Providence Book Store' />
             <meta
                name="twitter:card"
