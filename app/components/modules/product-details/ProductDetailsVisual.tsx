@@ -63,7 +63,7 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews, selectedImage
             </div>
          }
 
-         <div className={styles.stockMessage}>
+         {/* <div className={styles.stockMessage}>
             {
                product && isPhysicalProduct(product) && (product as Book).stock <= 8 && (product as Book).stock >= 1 &&
                <strong className={styles.fewStock}>Only {(product as Book).stock} left!</strong>
@@ -72,7 +72,7 @@ const ProductDetailsVisual: React.FC<Props> = ({ product, reviews, selectedImage
                product && isPhysicalProduct(product) && (product as Book).stock <= 0 &&
                <strong className={styles.outOfStock}>Out of stock!</strong>
             }
-         </div>
+         </div> */}
 
          <div className={styles.detailsVisualPrice}>PRICE: ${price.toFixed(2)}</div>
          <AddToBookshelfButton product={product} style={{ width: '100%', height: '37px' }} />

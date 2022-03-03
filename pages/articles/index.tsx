@@ -45,6 +45,7 @@ export class ArticlesPage extends Component<Props, State> {
       return articles.filter(art => {
          if (regexp.test(art.title)) return true;
          if (regexp.test(art.subtitle)) return true;
+         if (regexp.test(art.author?.name)) return true;
          return false;
       })
    }
