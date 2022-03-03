@@ -83,10 +83,10 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             {
                slideShowUrlPaths.length > 0 ?
                   <div className={styles.carousel}>
-                     {/* <CarouselContainer
+                     <CarouselContainer
                         paths={slideShowUrlPaths}
                         intervalTime={slideShowInterval}
-                     /> */}
+                     />
                   </div>
                   :
                   <div className={styles.carouselLoading}>
@@ -95,10 +95,10 @@ const Home: React.FC<Props> = ({ articles = [], products = [], featuredProductId
             }
 
             <div className={styles.featuredProducts}>
-               {/* <FeaturedProducts
+               <FeaturedProducts
                   featuredProducts={featuredProducts}
                   slideInterval={featuredProductsSlideInterval}
-               /> */}
+               />
             </div>
 
             <LatestArticles
@@ -147,25 +147,25 @@ const getBannerContent = () => {
 
 
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//    type HomeSettings = {
-//       slideShowInterval: number
-//       featuredProductsSlideInterval: number
-//    }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+   type HomeSettings = {
+      slideShowInterval: number
+      featuredProductsSlideInterval: number
+   }
 
-//    const fpIdsRef = await fetchDoc<{ ids: string[] }>('featured-products/ids')
-//    const featuredProductIds = fpIdsRef ? fpIdsRef.ids : [];
-//    const homeSettingsRef = await fetchDoc<HomeSettings>('settings/home');
-//    const slideShowInterval = homeSettingsRef ? homeSettingsRef.slideShowInterval : 6000;
-//    const featuredProductsSlideInterval = homeSettingsRef ? homeSettingsRef.featuredProductsSlideInterval : 7000;
-//    return {
-//       props: {
-//          featuredProductIds,
-//          slideShowInterval,
-//          featuredProductsSlideInterval
-//       }
-//    }
-// }
+   const fpIdsRef = await fetchDoc<{ ids: string[] }>('featured-products/ids')
+   const featuredProductIds = fpIdsRef ? fpIdsRef.ids : [];
+   const homeSettingsRef = await fetchDoc<HomeSettings>('settings/home');
+   const slideShowInterval = homeSettingsRef ? homeSettingsRef.slideShowInterval : 6000;
+   const featuredProductsSlideInterval = homeSettingsRef ? homeSettingsRef.featuredProductsSlideInterval : 7000;
+   return {
+      props: {
+         featuredProductIds,
+         slideShowInterval,
+         featuredProductsSlideInterval
+      }
+   }
+}
 
 const mapStateToProps = (state: { articles: Article[], products: Product[] }) => ({
    articles: state.articles.slice(0, 3),
