@@ -17,6 +17,9 @@ import { createSearchResultsListPageAction } from '../../app/redux/actions/listP
 import ArticleCard from '../../app/components/elements/article-card/ArticleCard';
 import OpenSearchFilterButton from '../../app/components/elements/open-search-filter-button/OpenSearchFilterButton';
 import EmptyResult from '../../app/components/elements/empty-result/EmptyResult';
+import Book from '../../app/interfaces-objects/Book';
+import EBook from '../../app/interfaces-objects/EBook';
+import AudioBook from '../../app/interfaces-objects/AudioBook';
 
 type ListTypes = typeof BOOKS | typeof ARTICLES
 
@@ -111,7 +114,11 @@ class SearchResultsPage extends Component<Props, State> {
          products: {
             name: BOOKS,
             itemList: products.filter(prod => {
-               if (prod.name.match(regExp) || prod.subtitle?.match(regExp)) {
+               if (
+                  prod.name.match(regExp) ||
+                  prod.subtitle?.match(regExp) ||
+                  (prod as Book | EBook | AudioBook).authors?.match(regExp)
+               ) {
                   return true;
                }
                return false;
@@ -120,7 +127,11 @@ class SearchResultsPage extends Component<Props, State> {
          articles: {
             name: ARTICLES,
             itemList: articles.filter(art => {
-               if (art.title.match(regExp) || art.subtitle?.match(regExp)) {
+               if (
+                  art.title.match(regExp) ||
+                  art.subtitle?.match(regExp) ||
+                  art.author?.name?.match(regExp)
+               ) {
                   return true;
                }
                return false;
