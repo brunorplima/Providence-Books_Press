@@ -1,3 +1,4 @@
+import { AUDIO_BOOK_TYPE, E_BOOK_TYPE, OrderType, ORDER_TYPE_PICKUP } from "../interfaces-objects/constants";
 import { BookshelfItem } from "../interfaces-objects/interfaces";
 
 
@@ -6,19 +7,29 @@ export const getItemsSubtotal = (bookshelf: BookshelfItem[] = []) => {
    return subtotal;
 }
 
-export const getShippingFee = (bookshelf: BookshelfItem[] = []) => {
+export const getShippingFee = (bookshelf: BookshelfItem[] = [], orderType: OrderType) => {
+   if (orderType === ORDER_TYPE_PICKUP) return 0
    const totalWeight = sumWeight(bookshelf)
    return bookshelf.length ? calculateShippingFee(totalWeight, getPhysicalProductsSubtotal(bookshelf)) : 0;
 }
 
-export const getGST = (bookshelf: BookshelfItem[] = []) => {
-   const subtotal = getItemsSubtotal(bookshelf) + getShippingFee(bookshelf);
+export const getGST = (bookshelf: BookshelfItem[] = [], orderType?: OrderType) => {
+   const subtotal = getItemsSubtotal(bookshelf) + getShippingFee(bookshelf, orderType);
    const gst = subtotal * 0.05;
    return gst;
 }
 
-export const getTotal = (bookshelf: BookshelfItem[] = []) => {
-   return getItemsSubtotal(bookshelf) + getShippingFee(bookshelf) + getGST(bookshelf)
+export const getTotal = (bookshelf: BookshelfItem[] = [], orderType: OrderType) => {
+   return getItemsSubtotal(bookshelf) + getShippingFee(bookshelf, orderType) + getGST(bookshelf)
+}
+
+export const checkForMediaOnly = (bookshelf: BookshelfItem[] = []) => {
+   const isMedia = []
+   bookshelf.forEach(item => {
+      if (item.type === E_BOOK_TYPE || item.type === AUDIO_BOOK_TYPE) isMedia.push(true)
+      else isMedia.push(false)
+   })
+   return !isMedia.includes(false)
 }
 
 
@@ -38,10 +49,10 @@ const calculateShippingFee = (weight: number, subtotal: number) => {
       else return 5.47
    } else {
       if (subtotal <= 140) return 14
-      else if (subtotal > 140 && subtotal <= 200) return parseFloat((subtotal * 0.1).toFixed(2))
-      else if (subtotal > 200 && subtotal <= 300) return parseFloat((subtotal * 0.08).toFixed(2))
-      else if (subtotal > 300 && subtotal <= 450) return parseFloat((subtotal * 0.06).toFixed(2))
-      else return 0
+      if (subtotal > 140 && subtotal <= 200) return parseFloat((subtotal * 0.1).toFixed(2))
+      if (subtotal > 200 && subtotal <= 300) return parseFloat((subtotal * 0.08).toFixed(2))
+      if (subtotal > 300 && subtotal <= 450) return parseFloat((subtotal * 0.06).toFixed(2))
+      return 0
    }
 }
 
