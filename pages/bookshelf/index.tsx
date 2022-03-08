@@ -20,7 +20,7 @@ interface Props {
 
 export const Bookshelf: React.FC<Props> = ({ bookshelf }) => {
    const [order, setOrder] = useState<Order>(null)
-   const { overstockMessage, setOverstockMessage } = useContext(bookshelfContext)
+   const { overstockMessage, setOverstockMessage, orderType, setOrderType } = useContext(bookshelfContext)
 
    function setItemCheck(id: string) {
       store.dispatch(createChangeCheckAction(id));
@@ -74,17 +74,19 @@ export const Bookshelf: React.FC<Props> = ({ bookshelf }) => {
                   <div className={styles.checkoutSection}>
                      <OrderSummary
                         subtotal={getItemsSubtotal(bookshelf)}
-                        shippingFee={getShippingFee(bookshelf)}
+                        shippingFee={getShippingFee(bookshelf, orderType)}
                         gst={getGST(bookshelf)}
                      />
 
                      <PayPalCheckout
-                        total={getTotal(bookshelf).toFixed(2)}
-                        shipping={getShippingFee(bookshelf).toFixed(2)}
+                        total={getTotal(bookshelf, orderType).toFixed(2)}
+                        shipping={getShippingFee(bookshelf, orderType).toFixed(2)}
                         tax={getGST(bookshelf).toFixed(2)}
                         subtotal={getItemsSubtotal(bookshelf).toFixed(2)}
                         bookshelf={bookshelf}
                         setOrder={setOrder}
+                        orderType={orderType}
+                        setOrderType={setOrderType}
                      />
                   </div>
                </>
@@ -104,11 +106,7 @@ export const Bookshelf: React.FC<Props> = ({ bookshelf }) => {
 }
 
 const BookshelfWrapper: React.FC<Props> = props => {
-   return (
-      <BookshelfProvider>
-         <Bookshelf {...props} />
-      </BookshelfProvider>
-   )
+   return <Bookshelf {...props} />
 }
 
 const mapStateToProps = ({ bookshelf }: ReduxState) => ({ bookshelf })
