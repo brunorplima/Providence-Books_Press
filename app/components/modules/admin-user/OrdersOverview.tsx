@@ -11,6 +11,7 @@ import withListState, { ListWithState } from './withListState';
 import firebase from '../../../firebase/firebase'
 import clsx from 'clsx';
 import { deleteOrder } from '../../../firebase/delete';
+import { titleCase } from '../../../util/stringHelper';
 
 interface TimestampOrder {
    readonly dateTime: firebase.firestore.Timestamp
@@ -232,6 +233,7 @@ const OrdersOverview: React.FC<ListWithState> = ({
                                  </div>
 
                                  <div className={clsx('LI-flex3', styles.column)}>
+                                    <div>Order Type: {titleCase(order.orderType)}</div>
                                     <div>Status: {order.paymentStatus}</div>
                                     <div>Issue Date: {(order.dateTime as Date).toUTCString()}</div>
                                     <div>

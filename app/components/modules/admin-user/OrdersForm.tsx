@@ -10,13 +10,15 @@ import { connect } from 'react-redux'
 import clsx from 'clsx'
 import { BookshelfItem, Order, PaymentStatus } from '../../../interfaces-objects/interfaces'
 import Book from '../../../interfaces-objects/Book'
-import { getGST, getItemsSubtotal, getShippingFee, getTotal } from '../../../util/bookshelfHelper'
+import { checkForMediaOnly, getGST, getItemsSubtotal, getShippingFee, getTotal } from '../../../util/bookshelfHelper'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { FiMinus, FiPlus } from 'react-icons/fi'
 import { useAuth } from '../../contexts/AuthProvider'
 import Dialog from '../dialog/Dialog'
 import { closeDialog, openDialog } from '../../../redux/actions/openedDialogNameAction'
 import { createOrder } from '../../../firebase/add'
+import { OrderType, ORDER_TYPES, ORDER_TYPE_DELIVERY, ORDER_TYPE_MEDIA_ONLY, ORDER_TYPE_PICKUP } from '../../../interfaces-objects/constants'
+import { titleCase } from '../../../util/stringHelper'
 
 interface FormikOrder {
    firstName: string
@@ -35,6 +37,7 @@ interface FormikOrder {
    total: number,
    search: string,
    payStatus: PaymentStatus | ''
+   orderType: OrderType
 }
 
 const getInitialValues = (order?: Order): FormikOrder => ({
@@ -53,7 +56,8 @@ const getInitialValues = (order?: Order): FormikOrder => ({
    gst: order ? order.gst : 0,
    total: order ? order.orderTotal : 0,
    search: '',
-   payStatus: order ? order.paymentStatus : ''
+   payStatus: order ? order.paymentStatus : '',
+   orderType: order ? order.orderType : ORDER_TYPE_DELIVERY
 })
 
 const validationSchema = Yup.object({
@@ -67,7 +71,8 @@ const validationSchema = Yup.object({
    zipCode: Yup.string().required('Required'),
    dateTime: Yup.string().required('Required'),
    dueDate: Yup.date().nullable(),
-   payStatus: Yup.string().oneOf<PaymentStatus>(['Paid', 'Not paid'], 'Required').required('Required')
+   payStatus: Yup.string().oneOf<PaymentStatus>(['Paid', 'Not paid'], 'Required').required('Required'),
+   orderType: Yup.string().oneOf<OrderType>(ORDER_TYPES as OrderType[], 'Required').required('Required')
 })
 
 interface Props {
@@ -92,11 +97,23 @@ const OrdersForm: React.FC<Props & { props: FormikProps<FormikOrder> }> = ({
    const { setFieldValue } = useFormikContext<FormikOrder>()
 
    useEffect(() => {
+      updateBookshelfAmounts()
+   }, [bookshelf, props.values.orderType])
+
+   function updateBookshelfAmounts() {
       setFieldValue('subtotal', getItemsSubtotal(bookshelf))
-      setFieldValue('shippingFee', getShippingFee(bookshelf))
-      setFieldValue('gst', getGST(bookshelf))
-      setFieldValue('total', getTotal(bookshelf))
-   }, [bookshelf])
+      setFieldValue('shippingFee', getShippingFee(bookshelf, props.values.orderType))
+      setFieldValue('gst', getGST(bookshelf, props.values.orderType))
+      setFieldValue('total', getTotal(bookshelf, props.values.orderType))
+      if (bookshelf.length) {
+         if (checkForMediaOnly(bookshelf)) {
+            if (props.values.orderType !== ORDER_TYPE_MEDIA_ONLY) setFieldValue('orderType', ORDER_TYPE_MEDIA_ONLY)
+         }
+         else {
+            if (props.values.orderType === ORDER_TYPE_MEDIA_ONLY) setFieldValue('orderType', ORDER_TYPE_DELIVERY)
+         }
+      }
+   }
 
    function selectProduct(product: Product) {
       const item: BookshelfItem = {
@@ -392,6 +409,29 @@ const OrdersForm: React.FC<Props & { props: FormikProps<FormikOrder> }> = ({
 
                <div className={styles.formController}>
                   <div className={styles.inputField}>
+                     <label htmlFor='orderType'>Order Type</label>
+                     <select
+                        id='orderType'
+                        name='orderType'
+                        value={props.values.orderType}
+                        onChange={props.handleChange}
+                        style={errorStyle(props.errors.payStatus, props.touched.payStatus)}
+                     >
+                        {ORDER_TYPES.map(type => <option id={type} value={type}>{titleCase(type)}</option>)}
+                     </select>
+                     {
+                        props.errors.orderType && props.touched.orderType &&
+                        <div className={styles.errorMessage}>
+                           <strong>{props.errors.orderType}</strong>
+                        </div>
+                     }
+                  </div>
+               </div>
+
+               <br />
+
+               <div className={styles.formController}>
+                  <div className={styles.inputField}>
                      <label htmlFor='search'>Add Products To Order</label>
                      <input
                         id='search'
@@ -564,7 +604,8 @@ const FormikParent: React.FC<FormikWrapper> = ({ products, currentOrder, setCurr
          subtotal: orderSubtotal,
          shippingFee: shipping,
          gst,
-         total: orderTotal
+         total: orderTotal,
+         orderType
       } = values
       const dateTime = new Date(values.dateTime).toUTCString()
       const dueDate = values.dueDate ? new Date(values.dueDate) : null
@@ -580,6 +621,7 @@ const FormikParent: React.FC<FormikWrapper> = ({ products, currentOrder, setCurr
          shippingAddress: { main, secondary, city, stateProvince, country, zipCode },
          orderSubtotal, shipping, gst, orderTotal,
          dateTime,
+         orderType
       }
       if (dueDate) order.dueDate = dueDate.toUTCString()
       const ordRef = await createOrder(order)
