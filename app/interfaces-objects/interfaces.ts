@@ -1,4 +1,5 @@
 import { IconType } from "react-icons"
+import { OrderType } from "./constants"
 
 /** Types */
 export type Address = {
@@ -56,7 +57,8 @@ export interface Order {
    gst: number,
    orderTotal: number,
    paymentStatus: PaymentStatus,
-   shippingAddress: Address
+   shippingAddress: Address,
+   orderType: OrderType
 }
 
 export interface Review {

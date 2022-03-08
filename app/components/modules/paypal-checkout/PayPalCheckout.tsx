@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { createOrder } from '../../../firebase/add'
 import { updateProduct, updateUser } from '../../../firebase/update'
 import Book from '../../../interfaces-objects/Book'
+import { OrderType, ORDER_TYPE_DELIVERY, ORDER_TYPE_MEDIA_ONLY, ORDER_TYPE_PICKUP } from '../../../interfaces-objects/constants'
 import { BookshelfItem, Order } from '../../../interfaces-objects/interfaces'
 import { createRemoveAllFromBookshelfAction } from '../../../redux/actions/bookshelfActions'
 import styles from '../../../styles/paypal-checkout/PayPalCheckout.module.css'
@@ -17,6 +18,8 @@ interface Props {
    readonly tax: string
    readonly bookshelf: BookshelfItem[]
    readonly setOrder: (order: Order) => void
+   readonly orderType: OrderType,
+   readonly setOrderType: React.Dispatch<React.SetStateAction<OrderType>>
 }
 
 const PayPalCheckout: React.FC<Props> = ({
@@ -25,7 +28,9 @@ const PayPalCheckout: React.FC<Props> = ({
    shipping,
    tax,
    bookshelf,
-   setOrder
+   setOrder,
+   orderType,
+   setOrderType
 }) => {
    const dispatch = useDispatch()
    const { providenceUser } = useAuth()
@@ -97,38 +102,55 @@ const PayPalCheckout: React.FC<Props> = ({
             quantity: item.quantity,
             subtotal: Number((item.quantity * item.price).toFixed(2)),
             type: item.type
-         }))
+         })),
+         orderType
       }
       return order
    }
 
+   function changeHandler(type: OrderType) {
+      setOrderType(type)
+   }
+
    return (
-      <div className={styles.container}>
-         <PayPalButton
-            amount={total}
-            shippingPreference={Number(shipping) <= 0 ? 'NO_SHIPPING' : 'GET_FROM_FILE'} // default is "GET_FROM_FILE"
-            createOrder={(data, actions) => {
-               return actions.order.create({
-                  intent: 'CAPTURE',
-                  purchase_units: getPurchaseUnits()
-               })
-            }}
-            onApprove={(data, actions) => {
-               return actions.order.capture().then(orderData => {
-                  const order = buildOrder(orderData)
-                  createOrder(order)
-                  setOrder(order)
-                  updateStocks()
-                  makeUserCustomer()
-                  dispatch(createRemoveAllFromBookshelfAction())
-               })
-            }}
-            options={{
-               clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-               currency: 'CAD'
-            }}
-         />
-      </div>
+      <>
+         {
+            orderType !== ORDER_TYPE_MEDIA_ONLY && 
+            <div className={styles.orderType}>
+               <label htmlFor='delivery'>Delivery</label>
+               <input type='radio' name='orderType' id='delivery' onChange={() => changeHandler(ORDER_TYPE_DELIVERY)} checked={orderType === ORDER_TYPE_DELIVERY} />
+               &nbsp;&nbsp;&nbsp;&nbsp;
+               <label htmlFor='pickup'>Pickup</label>
+               <input type='radio' name='orderType' id='pickup' onChange={() => changeHandler(ORDER_TYPE_PICKUP)} checked={orderType === ORDER_TYPE_PICKUP} />
+            </div>
+         }
+         <div className={styles.container}>
+            <PayPalButton
+               amount={total}
+               shippingPreference={Number(shipping) <= 0 ? 'NO_SHIPPING' : 'GET_FROM_FILE'} // default is "GET_FROM_FILE"
+               createOrder={(data, actions) => {
+                  return actions.order.create({
+                     intent: 'CAPTURE',
+                     purchase_units: getPurchaseUnits()
+                  })
+               }}
+               onApprove={(data, actions) => {
+                  return actions.order.capture().then(orderData => {
+                     const order = buildOrder(orderData)
+                     createOrder(order)
+                     setOrder(order)
+                     updateStocks()
+                     makeUserCustomer()
+                     dispatch(createRemoveAllFromBookshelfAction())
+                  })
+               }}
+               options={{
+                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                  currency: 'CAD'
+               }}
+            />
+         </div>
+      </>
    )
 }
 
