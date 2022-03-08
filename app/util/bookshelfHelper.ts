@@ -1,4 +1,4 @@
-import { AUDIO_BOOK_TYPE, E_BOOK_TYPE, OrderType, ORDER_TYPE_PICKUP } from "../interfaces-objects/constants";
+import { AUDIO_BOOK_TYPE, E_BOOK_TYPE, OrderType, ORDER_TYPE_DELIVERY } from "../interfaces-objects/constants";
 import { BookshelfItem } from "../interfaces-objects/interfaces";
 
 
@@ -8,19 +8,19 @@ export const getItemsSubtotal = (bookshelf: BookshelfItem[] = []) => {
 }
 
 export const getShippingFee = (bookshelf: BookshelfItem[] = [], orderType: OrderType) => {
-   if (orderType === ORDER_TYPE_PICKUP) return 0
+   if (orderType !== ORDER_TYPE_DELIVERY || checkForMediaOnly(bookshelf)) return 0
    const totalWeight = sumWeight(bookshelf)
    return bookshelf.length ? calculateShippingFee(totalWeight, getPhysicalProductsSubtotal(bookshelf)) : 0;
 }
 
-export const getGST = (bookshelf: BookshelfItem[] = [], orderType?: OrderType) => {
+export const getGST = (bookshelf: BookshelfItem[] = [], orderType: OrderType) => {
    const subtotal = getItemsSubtotal(bookshelf) + getShippingFee(bookshelf, orderType);
    const gst = subtotal * 0.05;
    return gst;
 }
 
 export const getTotal = (bookshelf: BookshelfItem[] = [], orderType: OrderType) => {
-   return getItemsSubtotal(bookshelf) + getShippingFee(bookshelf, orderType) + getGST(bookshelf)
+   return getItemsSubtotal(bookshelf) + getShippingFee(bookshelf, orderType) + getGST(bookshelf, orderType)
 }
 
 export const checkForMediaOnly = (bookshelf: BookshelfItem[] = []) => {

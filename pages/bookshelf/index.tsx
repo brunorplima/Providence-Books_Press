@@ -75,13 +75,13 @@ export const Bookshelf: React.FC<Props> = ({ bookshelf }) => {
                      <OrderSummary
                         subtotal={getItemsSubtotal(bookshelf)}
                         shippingFee={getShippingFee(bookshelf, orderType)}
-                        gst={getGST(bookshelf)}
+                        gst={getGST(bookshelf, orderType)}
                      />
 
                      <PayPalCheckout
                         total={getTotal(bookshelf, orderType).toFixed(2)}
                         shipping={getShippingFee(bookshelf, orderType).toFixed(2)}
-                        tax={getGST(bookshelf).toFixed(2)}
+                        tax={getGST(bookshelf, orderType).toFixed(2)}
                         subtotal={getItemsSubtotal(bookshelf).toFixed(2)}
                         bookshelf={bookshelf}
                         setOrder={setOrder}
