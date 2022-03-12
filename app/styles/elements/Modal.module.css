@@ -1,0 +1,34 @@
+.modalContainer {
+   min-width: 220px;
+   background-color: white;
+}
+
+.modalHeader {
+   display: flex;
+   justify-content: space-between;
+   padding: 20px 30px;
+   border-bottom: 1px solid #ccc;
+}
+
+.modalHeader div {
+   display: flex;
+   align-items: center;
+}
+
+.modalHeader div h3 {
+   margin: 0;
+}
+
+.closeButton {
+   cursor: pointer;
+   transition: .3s;
+}
+
+.closeButton:hover {
+   color: var(--mainYellow);
+}
+
+.modalBody {
+   padding: 20px 30px;
+   border-bottom: 1px solid #ccc;
+}
