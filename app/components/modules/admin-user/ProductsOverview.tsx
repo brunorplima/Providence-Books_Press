@@ -71,6 +71,10 @@ const ProductsOverview: React.FC<ListWithState> = ({
                               itemType='product'
                               isFirstItem={!idx}
                               setItemToUpdate={setItemToUpdate}
+                              allowedActions={{
+                                 hasEdit: true,
+                                 hasDelete: true
+                              }}
                            >
                               <div className='LI-id'>
                                  {product._id}
