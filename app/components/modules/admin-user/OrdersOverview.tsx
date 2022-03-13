@@ -198,6 +198,10 @@ const OrdersOverview: React.FC<ListWithState> = ({
                                  itemType='order'
                                  isFirstItem={!idx}
                                  setItemToUpdate={setItemToUpdate}
+                                 allowedActions={{
+                                    hasEdit: true,
+                                    hasDelete: true
+                                 }}
                               >
 
                                  <div className={clsx('LI-flex2', styles.column)}>

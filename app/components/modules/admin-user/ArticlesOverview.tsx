@@ -66,6 +66,10 @@ const ArticlesOverview: React.FC<ListWithState> = ({
                               onDelete={deleteArticle}
                               itemType='article'
                               isFirstItem={!idx}
+                              allowedActions={{
+                                 hasEdit: true,
+                                 hasDelete: true
+                              }}
                            >
                               <div className='LI-id'>
                                  {article._id}

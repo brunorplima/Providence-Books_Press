@@ -13,10 +13,17 @@ interface Props {
    readonly itemType: 'product' | 'article' | 'order' | 'user';
    readonly isFirstItem: boolean;
    readonly setItemToUpdate: Function;
-   readonly hasActions?: boolean
+   readonly openDetails?: () => void
+   readonly allowedActions?: ItemActions
 }
 
-const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setItemToUpdate, onDelete, itemType, hasActions = true }) => {
+type ItemActions = {
+   readonly hasDetails?: boolean
+   readonly hasEdit?: boolean
+   readonly hasDelete?: boolean
+}
+
+const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, openDetails, setItemToUpdate, onDelete, itemType, allowedActions = defaultItemActions }) => {
 
    let className = 'LI-item';
 
@@ -29,13 +36,16 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
          <div className={className}>
             {children}
             {
-               hasActions &&
+               allowedActions &&
                <div className='LI-actions'>
-                  {/* <div><CgDetailsMore /></div> */}
-                  <div onClick={() => setItemToUpdate(item)}><RiFileEditFill /></div>
-                  <div onClick={() => openDialog(dialogName)}>
-                     <RiDeleteBinFill />
-                  </div>
+                  {allowedActions.hasDetails && <div onClick={openDetails}><CgDetailsMore /></div>}
+                  {allowedActions.hasEdit && <div onClick={() => setItemToUpdate(item)}><RiFileEditFill /></div>}
+                  {
+                     allowedActions.hasDelete &&
+                     <div onClick={() => openDialog(dialogName)}>
+                        <RiDeleteBinFill />
+                     </div>
+                  }
                </div>
             }
          </div>
@@ -62,6 +72,12 @@ const ListItem: React.FC<Props> = ({ children, isFirstItem, itemId, item, setIte
          />
       </>
    )
+}
+
+const defaultItemActions: ItemActions = {
+   hasDetails: true,
+   hasEdit: true,
+   hasDelete: true
 }
 
 export default ListItem;
