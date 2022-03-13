@@ -15,6 +15,7 @@ class MyDocument extends Document {
           <div id='dialog-modal'></div>
           <div id='loading-modal'></div>
           <div id='add-review-modal'></div>
+          <div id='general-modal'></div>
           <Main />
           <NextScript />
         </body>
