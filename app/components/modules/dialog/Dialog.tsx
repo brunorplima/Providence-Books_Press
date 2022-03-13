@@ -31,7 +31,7 @@ const Dialog: React.FC<Props> = ({
    }
 
    return createPortal(
-      <div className={styles.container} onClick={backgroundCloseDialog}>
+      <div className={styles.container} onClick={backgroundCloseDialog} style={{ zIndex: 1000 }}>
          <div className={styles.dialog}>
             <div className={styles.closeIcon}>
                <IoMdClose fontSize={28} onClick={closeDialog} />
