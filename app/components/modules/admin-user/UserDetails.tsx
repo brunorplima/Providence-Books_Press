@@ -1,5 +1,5 @@
 import { filter, find, prop, propEq } from 'ramda'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { firestore } from '../../../firebase/firebase'
 import { Review, User, Comment, Article, Order } from '../../../interfaces-objects/interfaces'
@@ -33,6 +33,10 @@ const UserDetails: React.FC<Props> = ({ selectedUser }) => {
    const [currentComment, setCurrentComment] = useState<Comment>(null)
    const products: Product[] = useSelector<ReduxState>(prop('products')) as Product[]
    const articles: Article[] = useSelector<ReduxState>(prop('articles')) as Article[]
+   const associatedOrders = useMemo(() => {
+      if (!orders || !orders.length) return []
+      return filter(propEq('_userId', selectedUser._id), orders)
+   }, [orders])
    let unsubsReviews;
    let unsubsComments;
 
@@ -98,10 +102,6 @@ const UserDetails: React.FC<Props> = ({ selectedUser }) => {
       return {}
    }
 
-   const getAssociatedOrders = _userId => {
-      return filter(propEq('_userId', _userId), orders)
-   }
-
    return (
       <div className={styles.container}>
          <div className={styles.userInfo}>
@@ -113,19 +113,19 @@ const UserDetails: React.FC<Props> = ({ selectedUser }) => {
                style={getStyle(REVIEWS)}
                onClick={() => setTab(REVIEWS)}
             >
-               {titleCase(REVIEWS)} {reviews ? `(${reviews.length})` : ''}
+               {titleCase(REVIEWS)} {reviews && tab !== REVIEWS ? `(${reviews.length})` : ''}
             </div>
             <div
                style={getStyle(COMMENTS)}
                onClick={() => setTab(COMMENTS)}
             >
-               {titleCase(COMMENTS)} {comments ? `(${comments.length})` : ''}
+               {titleCase(COMMENTS)} {comments && tab !== COMMENTS ? `(${comments.length})` : ''}
             </div>
             <div
                style={getStyle(PURCHASES)}
                onClick={() => setTab(PURCHASES)}
             >
-               {titleCase(PURCHASES)} {orders ? `(${getAssociatedOrders(selectedUser._id).length})` : ''}
+               {titleCase(PURCHASES)} {orders && tab !== PURCHASES ? `(${associatedOrders.length})` : ''}
             </div>
          </div>
 
@@ -199,12 +199,12 @@ const UserDetails: React.FC<Props> = ({ selectedUser }) => {
                {orders.length === 0 && <div>There is no orders</div>}
                {orders.length > 0 &&
                   <div>
-                     {`There ${orders.length > 1 ? 'are' : 'is'} ${orders.length} order${orders.length > 1 ? 's' : ''}`}
+                     {`There ${associatedOrders.length > 1 ? 'are' : 'is'} ${associatedOrders.length} order${associatedOrders.length > 1 ? 's' : ''}`}
                   </div>
                }
                <br />
                {
-                  getAssociatedOrders(selectedUser._id).map(order => {
+                  associatedOrders.map(order => {
                      const address = order.shippingAddress
                      let counter = 0
                      return (
