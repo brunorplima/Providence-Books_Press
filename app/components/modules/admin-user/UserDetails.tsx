@@ -227,7 +227,7 @@ const UserDetails: React.FC<Props> = ({ selectedUser }) => {
                            <div>
                               {order.productsList.map(item => {
                                  counter += item.subtotal
-                                 return <div className={styles.amounts}><div>{item.quantity} x {item.name}</div> <div>$ {item.subtotal.toFixed(2)}</div></div>
+                                 return <div key={item.id} className={styles.amounts}><div>{item.quantity} x {item.name}</div> <div>$ {item.subtotal.toFixed(2)}</div></div>
                               })}
                               <div className={styles.amounts}><strong>Subtotal:</strong> <strong>$ {counter.toFixed(2)}</strong></div>
                            </div>
